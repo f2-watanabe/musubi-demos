@@ -72,7 +72,7 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li class="done"><span class="bx">✓</span><span><strong>Business Profile API（旧 My Business API v4）の利用申請を提出</strong> ← 審査待ち（律速）</span></li>
 <li class="done"><span class="bx">✓</span><span>OAuth 同意画面を構成（Audience=Internal・スコープ <code>business.manage</code>）</span></li>
 <li class="done"><span class="bx">✓</span><span>OAuth クライアントID/シークレット発行（ウェブアプリ型・リダイレクト <code>localhost:5858/oauth2callback</code>）→ <code>.env</code> に設定</span></li>
-<li><span class="bx"></span><span>Anthropic アカウント・APIキー発行（請求上限を設定）</span></li>
+<li class="done"><span class="bx">✓</span><span>Anthropic アカウント・APIキー発行（請求上限を設定）※コスト取得用 Admin APIキーは Phase 7 実装時に別途発行</span></li>
 <li><span class="bx"></span><span>Supabase プロジェクト作成（リージョン: Tokyo）</span></li>
 <li><span class="bx"></span><span>Vercel アカウント・チーム作成（GitHub連携）</span></li>
 <li><span class="bx"></span><span>Cloudflare アカウント作成（Pages・Registrar）</span></li>
@@ -114,6 +114,7 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><span class="bx"></span><span>Auth 設定（運営=管理アプリ、顧客=ポータル。ロール分離）</span></li>
 <li><span class="bx"></span><span>管理アプリ（Next.js）を Vercel に雛形デプロイ（ダッシュボードの枠だけ）</span></li>
 <li><span class="bx"></span><span>Supabase 接続・環境変数を Vercel に設定</span></li>
+<li><span class="bx"></span><span>コストモニタ画面（従量課金サービスの使用量・コストを管理画面に集約表示。詳細は Phase 7）</span></li>
 </ul>
 <p><strong>使用サービス</strong>: Supabase（Postgres/Auth）/ Vercel / Next.js</p>
 <p><strong>受け入れ基準</strong>: 管理アプリからログインでき、DBに1件の店舗レコードをCRUDできる。顧客ロールは他店データが見えない。</p>
@@ -185,6 +186,15 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <ul class="task">
 <li><span class="bx"></span><span>UptimeRobot で公開サイト・主要エンドポイントの死活監視</span></li>
 <li><span class="bx"></span><span>エラー通知（メール/Slack等）</span></li>
+<li><span class="bx"></span><span><strong>従量課金の使用量・コスト監視</strong>を管理アプリに実装（コストモニタ画面）</span></li>
+</ul>
+<ul>
+<li>自動取得（コスト$をAPIで直接）: Anthropic（Admin APIキー <code>usage_report</code>/<code>cost_report</code>）・Vercel（<code>/v1/billing/charges</code>）・Stripe（<code>balance_transactions.fee</code>）</li>
+<li>自前計算（使用量API＋公式料金で算出。コスト$のAPIなし）: Supabase（Management/Metrics）・Resend（送信数ヘッダ/Webhook）</li>
+<li>対象外: GA4（無料・課金概念なし）。Cloudflare は Billing API が Alpha＆従量アカウント限定</li>
+<li>月上限アラート（80%到達でメール通知＝Resend）で暴走課金を遮断。Anthropic は Usage Limits も併用</li>
+</ul>
+<ul class="task">
 <li><span class="bx"></span><span>Supabase の定期バックアップ確認</span></li>
 <li><span class="bx"></span><span>APIキー・トークンの保管と棚卸し（漏洩時の失効手順）</span></li>
 <li><span class="bx"></span><span>簡易ランブック（障害時の一次対応）を <code>構築ログ</code> 隣に用意</span></li>

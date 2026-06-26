@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>顧客管理 | Musubi 管理アプリ</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>コストモニタ | Musubi 管理アプリ</title>
 <style>
 :root{--ink:#1f2430;--sb:#16201c;--acc:#127b66;--accd:#0c5a4a;--gold:#c8893f;--verm:#b5402e;
 --bg:#f4f6f5;--card:#fff;--line:#e7ebe9;--sub:#7b8380;--muted:#8a9088;--green:#1ea86b;--red:#d6453b;}
@@ -97,24 +97,58 @@ tr:last-child td{border-bottom:0}
 </style></head><body><div class="app">
 <aside class="side">
  <div class="brand"><img class="mk" src="../assets/musubi-mark-white.png" alt="Musubi"><span><b>Musubi</b><small>ADMIN CONSOLE</small></span></div>
- <nav class="nav"><a href="dashboard.html" class=""><span class="ic">◧</span>ダッシュボード</a><a href="crm.html" class=""><span class="ic">≡</span>営業リスト</a><a href="customers.html" class="on"><span class="ic">◎</span>顧客管理</a><a href="builder.html" class=""><span class="ic">▤</span>サイト制作</a><a href="reviews.html" class=""><span class="ic">★</span>口コミ返信AI</a><a href="billing.html" class=""><span class="ic">¥</span>請求・サブスク</a><a href="costs.html" class=""><span class="ic">◈</span>コストモニタ</a><a href="report.html" class=""><span class="ic">◔</span>レポート</a><a href="settings.html" class=""><span class="ic">⚙</span>設定</a></nav>
+ <nav class="nav"><a href="dashboard.html" class=""><span class="ic">◧</span>ダッシュボード</a><a href="crm.html" class=""><span class="ic">≡</span>営業リスト</a><a href="customers.html" class=""><span class="ic">◎</span>顧客管理</a><a href="builder.html" class=""><span class="ic">▤</span>サイト制作</a><a href="reviews.html" class=""><span class="ic">★</span>口コミ返信AI</a><a href="billing.html" class=""><span class="ic">¥</span>請求・サブスク</a><a href="costs.html" class="on"><span class="ic">◈</span>コストモニタ</a><a href="report.html" class=""><span class="ic">◔</span>レポート</a><a href="settings.html" class=""><span class="ic">⚙</span>設定</a></nav>
  <div class="foot">渡辺 / オーナー<br>v0.1 demo</div>
 </aside>
 <div class="main">
- <header class="top"><h1>顧客管理</h1><div class="sp"></div>
+ <header class="top"><h1>コストモニタ</h1><div class="sp"></div>
    <div class="search">🔍 顧客・店舗を検索</div><div class="av">渡</div></header>
- <div class="wrap"><div class="crumb">運用 / 顧客一覧</div>
-<div class="card" style="margin-top:0">
- <h3>顧客一覧（契約中）<span class="tag">Supabase</span></h3>
+ <div class="wrap"><div class="crumb">運営 / 従量コスト監視</div>
+<div class="grid4">
+ <div class="kpi"><div class="l">当月の運用コスト</div><div class="v">¥48,200</div><div class="d up">＋6%（前月比）</div></div>
+ <div class="kpi"><div class="l">最大支出</div><div class="v">¥3,750<span class="sm muted"> Supabase</span></div><div class="d flat">Pro固定</div></div>
+ <div class="kpi"><div class="l">AI原価（口コミ返信）</div><div class="v">¥1,230</div><div class="d up">上限¥3,000の41%</div></div>
+ <div class="kpi"><div class="l">決済手数料（控除）</div><div class="v">¥22,680</div><div class="d flat">売上の3.6%</div></div>
+</div>
+<div class="card"><h3>従量課金サービスの利用状況 <span class="tag">自動取得 / 自前計算</span></h3>
  <table>
-  <tr><th>店名</th><th>業種</th><th>プラン</th><th>公開サイト</th><th>契約開始</th><th>次回課金</th><th>状態</th></tr>
-  <tr><td><b>炭火・地酒 さくら亭</b></td><td>居酒屋</td><td>スタンダード</td><td>sakura-tei.com</td><td>2026/03</td><td>7/1</td><td><span class="b ok">契約中</span></td></tr>
-  <tr><td>hair atelier 凪</td><td>美容室</td><td>プレミアム</td><td>nagi-hair.com</td><td>2026/04</td><td>7/3</td><td><span class="b ok">契約中</span></td></tr>
-  <tr><td>浦安スポーツ整体院</td><td>整体</td><td>スタンダード</td><td>urayasu-seitai.com</td><td>2026/05</td><td>7/5</td><td><span class="b ng">要対応</span></td></tr>
-  <tr><td>cafe のんびり堂</td><td>カフェ</td><td>ライト</td><td>nonbirido.com</td><td>2026/05</td><td>7/8</td><td><span class="b ok">契約中</span></td></tr>
-  <tr><td>鮨 まつ本</td><td>寿司</td><td>プレミアム</td><td>sushi-matsumoto.com</td><td>2026/02</td><td>7/2</td><td><span class="b ok">契約中</span></td></tr>
+  <tr><th>サービス</th><th>用途</th><th>当月の使用量</th><th>当月コスト</th><th>月上限</th><th>取得方法</th><th>状態</th></tr>
+  <tr><td><b>Anthropic</b></td><td>口コミ返信AI生成</td><td>1.2M トークン</td><td>¥1,230</td><td>$20</td><td><span class="b ok">自動</span></td><td><span class="b ok">正常</span></td></tr>
+  <tr><td><b>Stripe</b></td><td>決済手数料</td><td>売上 ¥630,000</td><td>¥22,680</td><td>—</td><td><span class="b ok">自動</span></td><td><span class="b ok">正常</span></td></tr>
+  <tr><td><b>Vercel</b></td><td>管理アプリ / Cron実行</td><td>関数 1.8万回</td><td>¥3,000</td><td>—</td><td><span class="b ok">自動</span></td><td><span class="b ok">正常</span></td></tr>
+  <tr><td><b>Supabase</b></td><td>DB / 認証 / 帯域</td><td>egress 12GB</td><td>¥3,750</td><td>—</td><td><span class="b warm">計算</span></td><td><span class="b ok">正常</span></td></tr>
+  <tr><td><b>Resend</b></td><td>通知メール送信</td><td>1,840 通</td><td>¥0</td><td>3,000通/月</td><td><span class="b warm">計算</span></td><td><span class="b ok">無料枠内</span></td></tr>
+  <tr><td><b>Cloudflare</b></td><td>顧客サイト配信 / SSL</td><td>リクエスト 240万</td><td>¥0</td><td>—</td><td><span class="b cold">条件付</span></td><td><span class="b ok">無料枠内</span></td></tr>
+  <tr><td><b>GA4</b></td><td>アクセス計測</td><td>42 プロパティ</td><td>¥0</td><td>—</td><td><span class="b cold">対象外</span></td><td><span class="b ok">無料</span></td></tr>
  </table>
- <div class="sm muted" style="margin-top:12px">稼働顧客 42件 ・ 行をクリックすると顧客詳細（契約・サイト・請求・口コミ）を表示</div>
+ <div class="sm muted" style="margin-top:12px">
+  <b>当月コスト合計 ¥9,980</b>（Stripe手数料 ¥22,680 は売上から自動控除のため別建て）　・　$1≒¥150換算　・　毎日 自動更新（Vercel Cron）
+ </div>
+ <div class="sm muted" style="margin-top:8px;line-height:1.9">
+  <span class="b ok" style="margin-right:4px">自動</span>API で当月コスト($)を直接取得（Anthropic は Admin APIキー、Vercel・Stripe は読取キー）
+  <span class="b warm" style="margin:0 4px">計算</span>使用量を取得し公式料金で自前算出（コスト$のAPIなし）
+  <span class="b cold" style="margin:0 4px">条件付/対象外</span>Cloudflare は Alpha＆従量アカウント限定 / GA4 は無料で課金概念なし
+ </div>
+</div>
+<div class="two">
+ <div class="card" style="margin-top:0"><h3>月上限アラート <span class="tag">Anthropic Usage Limits</span></h3>
+  <div class="list">
+   <div class="it"><span class="dot g"></span><div style="flex:1">Anthropic API<div class="sm muted">$8.2 / 上限 $20.0</div></div><span class="b ok">41%</span></div>
+   <div class="it"><span class="dot g"></span><div style="flex:1">Resend 送信数<div class="sm muted">1,840 / 月3,000通</div></div><span class="b ok">61%</span></div>
+   <div class="it"><span class="dot o"></span><div style="flex:1">Supabase egress<div class="sm muted">12 / 無料枠 5GB 超過</div></div><span class="b warm">Pro移行済</span></div>
+  </div>
+  <div class="sm muted" style="margin-top:10px">上限の80%到達でメール通知（Resend）。暴走課金を遮断。</div>
+ </div>
+ <div class="card" style="margin-top:0"><h3>コスト内訳（当月）</h3>
+  <div class="bar">
+   <div class="c"><i style="height:33%"></i><span>¥3,750</span><em>Supa</em></div>
+   <div class="c"><i style="height:27%"></i><span>¥3,000</span><em>Vercel</em></div>
+   <div class="c"><i style="height:11%"></i><span>¥1,230</span><em>AI</em></div>
+   <div class="c"><i style="height:9%"></i><span>¥950</span><em>WS</em></div>
+   <div class="c"><i style="height:2%"></i><span>¥128</span><em>Dom</em></div>
+   <div class="c"><i style="height:1%"></i><span>¥0</span><em>他</em></div>
+  </div>
+ </div>
 </div>
 </div>
 </div></div></body></html>

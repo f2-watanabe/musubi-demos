@@ -52,6 +52,22 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-27 ・ コストモニタ（従量課金の利用状況可視化）を要件追加</h2>
+<ul>
+<li><strong>What</strong>: 管理アプリに「コストモニタ」画面を追加（NAVに新設）。従量課金サービス7種（Anthropic / Stripe / Vercel / Supabase / Resend / Cloudflare / GA4）の当月使用量・コスト・月上限・前月比を1画面に集約。各行に取得方法バッジ（自動／計算／条件付・対象外）。</li>
+<li><strong>Why</strong>: 運用費は従量で増える。どこにいくらかかっているかをコンソール横断で見るのは手間。管理画面に集約し、暴走課金（特にAI）を上限アラートで早期検知する。</li>
+<li><strong>How</strong>: 各社の使用量・コスト取得APIを調査して実装方針を確定。<strong>コスト$をAPIで直接取れる</strong>=Anthropic（Admin APIキー <code>usage_report</code>/<code>cost_report</code>）・Vercel（<code>/v1/billing/charges</code>）・Stripe（<code>balance_transactions.fee</code>）。<strong>使用量だけ取得し公式料金で自前計算</strong>=Supabase・Resend（コストAPIなし＝コンソール限定）。<strong>対象外</strong>=GA4（無料）。Cloudflareは Billing API が Alpha＆従量アカウント限定。デモ画面（<code>build_admin.py</code>）にモック値で先行実装し、ロードマップ Phase 2（画面）・Phase 7（監視・上限アラート）に手順を反映。</li>
+<li><strong>Result</strong>: 管理アプリデモが9画面に。「自動取得3社／自前計算2社／対象外2社」の切り分けが画面と手順に落ちた。実装はPhase 2/7で（Anthropicのコスト取得には Admin APIキーの別途発行が必要）。</li>
+<li><strong>証跡</strong>: 本コミット。<code>06_スクリプト/build_admin.py</code>、<code>02_デモサイト/admin/costs.html</code>。</li>
+</ul>
+<h2>2026-06-27 ・ Anthropic アカウント・APIキー発行【Phase 0 進捗】</h2>
+<ul>
+<li><strong>What</strong>: <code>admin@musubiweb.com</code> で Anthropic を組織登録。請求設定＋月の使用上限を設定。プロトタイプ用のAPIキーを発行し <code>gbp-review-reply/.env</code> に設定。動作実績（初期検証）でコスト約$5.5。</li>
+<li><strong>Why</strong>: 口コミ自動返信の生成エンジン。Phase 0 のSaaS登録のうち最優先（中核機能が依存）。月上限を設定して暴走課金を防ぐ。</li>
+<li><strong>How</strong>: console.anthropic.com で組織作成 → Billing でクレカ・Usage Limits 設定 → API Keys でキー発行 → <code>.env</code> の <code>ANTHROPIC_API_KEY</code> に設定。※コスト取得用の <strong>Admin APIキー</strong>（<code>sk-ant-admin01-</code>・組織必須）はコストモニタ実装時に別途発行する。</li>
+<li><strong>Result</strong>: キー発行・接続準備完了。<code>GBP_MODE=mock</code> でClaude下書き生成が叩ける状態。実績コスト$5.5（検証分）。Phase 0 のSaaS登録チェックを1つ消化。</li>
+<li><strong>証跡</strong>: 本コミット。APIキーは <code>.env</code>（gitignore済・非追跡）で秘匿。値は記録しない（保管場所のみ）。</li>
+</ul>
 <h2>2026-06-27 ・ 公開ハブを「プロジェクトハブ」に改称・運用コスト掲載</h2>
 <ul>
 <li><strong>What</strong>: 公開ハブ（musubi-demos）を「デモ一覧」→「プロジェクトハブ」に改称。運用（ランニング）コストの月額目安を掲載。</li>
