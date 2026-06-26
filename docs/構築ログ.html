@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>環境構築ログ（証跡） — むすび制作</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22262f;--acc:#127b66;--verm:#b5402e;--gold:#c8893f;--bg:#f6f4ef;--line:#e8e2d6;--sub:#6f6a60;--muted:#8b8578}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.85}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 90px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.top a{font-size:13px;color:var(--acc);text-decoration:none;font-weight:700}
+.brand{display:flex;align-items:center;gap:10px;margin:14px 0 26px}
+.brand .mk{width:38px;height:38px;border-radius:10px;background:var(--acc);display:grid;place-items:center;color:#fff;font-weight:700;font-size:19px}
+.brand b{font-size:16px;letter-spacing:.03em}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:.16em}
+h1{font-size:27px;margin:6px 0 14px;letter-spacing:.01em}
+h2{font-size:20px;margin:34px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 8px;color:var(--acc)}
+p{margin:10px 0;font-size:14.5px}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}
+li{font-size:14.5px;margin:5px 0}
+ul.task{list-style:none;padding-left:2px}
+ul.task li{display:flex;gap:10px;align-items:flex-start}
+ul.task .bx{flex:none;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--muted);margin-top:3px;display:grid;place-items:center;font-size:12px;color:#fff}
+ul.task li.done .bx{background:var(--acc);border-color:var(--acc)}
+ul.task li.done span{color:var(--sub)}
+strong{font-weight:700}
+code{background:#efece4;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+pre{background:#fbfaf7;border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow:auto;margin:14px 0}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.6;white-space:pre}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+th{background:#eef3f0;font-weight:700}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+a{color:var(--acc)}
+blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px;margin:12px 0;color:var(--sub);font-size:13.5px}
+.note{margin-top:46px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+@media print{.top,.brand{display:none}body{background:#fff}.wrap{padding:0}h2{break-after:avoid}}
+</style></head>
+<body><div class="wrap">
+<div class="top"><a href="../index.html">← デモ一覧に戻る</a></div>
+<div class="brand"><span class="mk">結</span><span><b>むすび制作</b><small>環境構築ドキュメント</small></span></div>
+<h1>環境構築ログ（証跡）</h1>
+<p>環境を構築する過程の証跡。後から「なぜこの判断をしたか」「何をしたか」を振り返れるよう、作業ごとに記録する。</p>
+<p>対になる手順は <code>構築手順ロードマップ.md</code>。</p>
+<h2>記録ルール</h2>
+<ul>
+<li>1作業＝1エントリ。新しいものを上に追記する。</li>
+<li>各エントリに <strong>日付 / 何を(What) / なぜ(Why) / どうやって(How) / 結果(Result) / 証跡(コミット・成果物)</strong> を残す。</li>
+<li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
+<li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
+</ul>
+<hr>
+<h2>2026-06-26 ・ 口コミ自動返信プロトタイプのセキュリティ対策</h2>
+<ul>
+<li><strong>What</strong>: <code>gbp-review-reply</code> にインジェクション／CSRF／無人公開投稿の対策を追加。</li>
+<li><strong>Why</strong>: 口コミ本文は第三者が自由に書ける信頼できないデータ。AIが生成した返信がそのまま公開投稿されるため、悪用で不適切な内容が店舗名義で公開されるリスクがある。</li>
+<li><strong>How</strong>:</li>
+<li>口コミを <code>&lt;review&gt;</code> で隔離し「指示に従わない」と明示。</li>
+<li>下書きをURL・金銭訴求・注入痕跡・長さで検証→危険なら強制的に人間レビュー。</li>
+<li><code>AUTO_APPROVE</code> を live モードで実行禁止（無人公開を遮断）。</li>
+<li>OAuth に state（CSRF）検証、loopback限定、<code>token.json</code> を 0600。</li>
+<li><strong>Result</strong>: 悪性下書き（割引・URL・&quot;ignore instructions&quot;）を検証で全て検出、正常文は通過。mockパイプライン健全。</li>
+<li><strong>証跡</strong>: commit <code>5924cdb</code>。</li>
+</ul>
+<h2>2026-06-26 ・ 口コミ自動返信の疎通プロトタイプ実装</h2>
+<ul>
+<li><strong>What</strong>: 取得→Claude下書き→承認→投稿のパイプライン最小実装（<code>gbp-review-reply</code>）。</li>
+<li><strong>Why</strong>: 月額価値の根幹がGBP APIに全依存。API審査前でもパイプラインを検証し、後戻りを防ぐ必要がある（環境構築前の最重要検証）。</li>
+<li><strong>How</strong>: <code>GBP_MODE=mock</code>（fixture）と <code>live</code>（GBP API v4）の二段構え。星&lt;4は自動投稿せず人間レビュー必須の品質ガード。結果を <code>out/run-*.json</code> に記録（月次レポートの素地）。</li>
+<li><strong>Result</strong>: mockで全工程が通過。★2は要人間レビューでskipされることを確認。</li>
+<li><strong>証跡</strong>: commit <code>90e5faf</code>。次アクション=GBP API利用申請（ロードマップ Phase 0）。</li>
+</ul>
+<h2>2026-06-26 ・ 料金プランの再構築</h2>
+<ul>
+<li><strong>What</strong>: 価格表を3頁化（プランカード／機能比較マトリクス／オプション）。提供しない機能を撤去。</li>
+<li><strong>Why</strong>: 「24時間営業マン」の訴求が不明瞭、見通しの立たない機能（プロ写真撮影・SEO対策・Googleビジネス初期最適化）が混在していた。2人体制で実施内容が明確・人手の少ないものに絞る方針。</li>
+<li><strong>How</strong>: 口コミ自動返信＋月次レポートをスタンダード以上に標準化。機能×プランのマトリクスを新設して内訳を明確化。提案資料・READMEも整合。</li>
+<li><strong>Result</strong>: 価格表3頁、マトリクスでどの機能がどのプランかが一目で分かる状態。</li>
+<li><strong>証跡</strong>: commit <code>8556f74</code>。</li>
+</ul>
+<h2>2026-06-(以前) ・ 月額サービスの再定義</h2>
+<ul>
+<li><strong>What</strong>: 月額を「MEO集客代行」から「サイト保守＋口コミ自動返信＋月次レポート」へ再定義。</li>
+<li><strong>Why</strong>: MEO集客代行は人手が重く、成果のコントロールが難しい。継続価値が明確で運用しやすい範囲に絞る。</li>
+<li><strong>How</strong>: 全資料・システム構成図・業務手順書・デモを横断的に更新。</li>
+<li><strong>Result</strong>: サービス範囲が明確化。提供しないこと（MEO集客代行・順位対策・定期投稿/写真更新代行・能動的集客）も明文化。</li>
+<li><strong>証跡</strong>: commit <code>494ce66</code> ほか。</li>
+</ul>
+<hr>
+<h2>テンプレ（コピーして上に追記）</h2>
+<pre><code>## YYYY-MM-DD ・ &lt;作業の見出し&gt;
+
+- **What**:
+- **Why**:
+- **How**:
+- **Result**:
+- **証跡**: commit `xxxxxxx` / 成果物パス</code></pre>
+<p class="note">📋 社内ドキュメント（環境構築の証跡・手順）。むすび制作 / local-web-sales プロジェクト。</p>
+</div></body></html>
