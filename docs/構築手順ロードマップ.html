@@ -70,8 +70,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li class="done"><span class="bx">✓</span><span>Business Profile 系APIを有効化（Account Management / Business Information / Performance）</span></li>
 <li class="done"><span class="bx">✓</span><span>Musubi自社のビジネスプロフィール作成（サービス提供型・住所非公開）← 申請の前提</span></li>
 <li class="done"><span class="bx">✓</span><span><strong>Business Profile API（旧 My Business API v4）の利用申請を提出</strong> ← 審査待ち（律速）</span></li>
-<li><span class="bx"></span><span>OAuth 同意画面を構成（スコープ <code>business.manage</code>、テスト→本番公開）</span></li>
-<li><span class="bx"></span><span>OAuth クライアントID/シークレット発行（リダイレクトURI登録）</span></li>
+<li class="done"><span class="bx">✓</span><span>OAuth 同意画面を構成（Audience=Internal・スコープ <code>business.manage</code>）</span></li>
+<li class="done"><span class="bx">✓</span><span>OAuth クライアントID/シークレット発行（ウェブアプリ型・リダイレクト <code>localhost:5858/oauth2callback</code>）→ <code>.env</code> に設定</span></li>
 <li><span class="bx"></span><span>Anthropic アカウント・APIキー発行（請求上限を設定）</span></li>
 <li><span class="bx"></span><span>Supabase プロジェクト作成（リージョン: Tokyo）</span></li>
 <li><span class="bx"></span><span>Vercel アカウント・チーム作成（GitHub連携）</span></li>

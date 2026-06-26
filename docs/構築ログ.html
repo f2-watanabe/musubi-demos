@@ -52,6 +52,14 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-27 ・ OAuth同意画面・クライアントID発行【Phase 0 完了】</h2>
+<ul>
+<li><strong>What</strong>: OAuth同意画面を Audience=Internal で構成（スコープ <code>business.manage</code>）。ウェブアプリ型のクライアントID/シークレットを発行（リダイレクト <code>http://localhost:5858/oauth2callback</code>）。プロトタイプの <code>.env</code> に設定。</li>
+<li><strong>Why</strong>: GBP API認可の前提。OAuth認可するのは自社 admin@musubiweb.com のみ（店舗はGBPのマネージャー権限でadmin@を招待する本番モデル）。Internal なら機密スコープでもGoogle検証審査が不要で最速。</li>
+<li><strong>How</strong>: APIとサービス→OAuth同意画面→Internal→スコープ追加→認証情報でクライアントID作成→<code>.env</code> 設定。</li>
+<li><strong>Result</strong>: Phase 0 の GBP 認可周りが完了。残るは <strong>API審査の承認待ち</strong>のみ。承認後 <code>npm run auth</code> → <code>GBP_MODE=live</code> で実接続。</li>
+<li><strong>証跡</strong>: 本コミット。client_id/secret は <code>.env</code>（gitignore済・非追跡）で秘匿管理。</li>
+</ul>
 <h2>2026-06-27 ・ GCP整備・Business Profile API 利用申請を提出【Phase 0 進捗】</h2>
 <ul>
 <li><strong>What</strong>: GCPプロジェクト確保（自動生成の My First Project を流用）＋請求先アカウントをリンク。Business Profile系API3種（Account Management / Business Information / Performance）を有効化。Musubi自社のビジネスプロフィール（サービス提供型・住所非公開）を作成。Google My Business API（v4）の利用申請を提出。</li>
