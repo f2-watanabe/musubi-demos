@@ -12,7 +12,7 @@ body{font-family:"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink)
 .top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .top a{font-size:13px;color:var(--acc);text-decoration:none;font-weight:700}
 .brand{display:flex;align-items:center;gap:10px;margin:14px 0 26px}
-.brand .mk{width:38px;height:38px;border-radius:10px;background:var(--acc);display:grid;place-items:center;color:#fff;font-weight:700;font-size:19px}
+.brand .mk{width:40px;height:40px;object-fit:contain;display:block}
 .brand b{font-size:16px;letter-spacing:.03em}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:.16em}
 h1{font-size:27px;margin:6px 0 14px;letter-spacing:.01em}
 h2{font-size:20px;margin:34px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
@@ -40,7 +40,7 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 </style></head>
 <body><div class="wrap">
 <div class="top"><a href="../index.html">← デモ一覧に戻る</a></div>
-<div class="brand"><span class="mk">結</span><span><b>むすび</b><small>環境構築ドキュメント</small></span></div>
+<div class="brand"><img class="mk" src="../assets/musubi-mark.png" alt="Musubi"><span><b>むすび</b><small>環境構築ドキュメント</small></span></div>
 <h1>環境構築ロードマップ（細粒度）</h1>
 <p>プラットフォーム（管理アプリ・顧客サイト量産・口コミ自動返信・月次レポート・課金）を、振り返り可能な手順で構築するための実装ロードマップ。</p>
 <p><code>サイト制作・運用ロードマップ</code> は「1店舗の受注〜公開〜運用」の粒度。本書はその土台となる<strong>環境そのものの構築</strong>を、依存関係・受け入れ基準・残す証跡まで落とした粒度で扱う。</p>
