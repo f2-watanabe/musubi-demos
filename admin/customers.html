@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>顧客管理 | むすび制作 管理アプリ</title>
+<style>
+:root{--ink:#1f2430;--sb:#16201c;--acc:#127b66;--accd:#0c5a4a;--gold:#c8893f;--verm:#b5402e;
+--bg:#f4f6f5;--card:#fff;--line:#e7ebe9;--sub:#7b8380;--muted:#8a9088;--green:#1ea86b;--red:#d6453b;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);font-size:14px;-webkit-font-smoothing:antialiased}
+.app{display:flex;min-height:100vh}
+/* sidebar */
+.side{width:228px;background:var(--sb);color:#cfded7;flex:none;display:flex;flex-direction:column;padding:0 0 18px}
+.brand{display:flex;align-items:center;gap:10px;padding:20px 20px 18px}
+.brand .mk{width:34px;height:34px;border-radius:9px;background:var(--acc);display:grid;place-items:center;color:#fff;font-weight:700;font-size:18px}
+.brand b{font-size:15px;color:#fff;letter-spacing:.04em}
+.brand small{display:block;font-size:9px;letter-spacing:.22em;color:#7e9389}
+.nav{margin-top:6px}
+.nav a{display:flex;align-items:center;gap:11px;padding:10px 20px;color:#aebfb7;font-size:13.5px;text-decoration:none;border-left:3px solid transparent}
+.nav a .ic{width:20px;text-align:center;opacity:.85;font-size:14px}
+.nav a:hover{background:#1d2a25;color:#fff}
+.nav a.on{background:#1d2a25;color:#fff;border-left-color:var(--acc);font-weight:700}
+.side .foot{margin-top:auto;padding:14px 20px;border-top:1px solid #25332d;font-size:11px;color:#7e9389}
+/* main */
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.top{height:60px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:16px;padding:0 26px}
+.top h1{font-size:18px;font-weight:700}
+.top .sp{flex:1}
+.search{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:8px 13px;font-size:13px;color:var(--muted);width:240px}
+.av{width:34px;height:34px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+.wrap{padding:24px 26px;overflow:auto}
+.crumb{font-size:12px;color:var(--muted);margin-bottom:14px}
+/* primitives */
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:18px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 18px}
+.kpi .l{font-size:12px;color:var(--muted)}
+.kpi .v{font-size:28px;font-weight:700;margin-top:4px;letter-spacing:.01em}
+.kpi .d{font-size:12px;font-weight:700;margin-top:4px}
+.up{color:var(--green)}.down{color:var(--red)}.flat{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 20px;margin-top:18px}
+.card h3{font-size:14.5px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card h3 .tag{font-size:11px;font-weight:700;color:var(--acc);background:#e8f3ef;border-radius:20px;padding:3px 10px;margin-left:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;color:var(--muted);font-weight:600;font-size:12px;padding:9px 10px;border-bottom:1px solid var(--line)}
+td{padding:11px 10px;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+.b{display:inline-block;font-size:11px;font-weight:700;border-radius:20px;padding:3px 11px}
+.b.hot{background:#fdeceb;color:var(--verm)}.b.warm{background:#fdf3e4;color:var(--gold)}.b.cold{background:#eef1f0;color:var(--muted)}
+.b.ok{background:#e7f6ee;color:var(--green)}.b.ng{background:#fdeceb;color:var(--red)}.b.draft{background:#eef1f0;color:var(--sub)}
+.b.new{background:#e8f0fb;color:#2f6bd6}
+.btn{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;border-radius:9px;padding:9px 15px;border:0;cursor:pointer}
+.btn.pri{background:var(--acc);color:#fff}.btn.gho{background:#fff;border:1.4px solid var(--line);color:var(--ink)}
+.stars{color:#f0a82e;letter-spacing:1px;font-size:12px}
+.muted{color:var(--muted)}.sm{font-size:12px}
+.list .it{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.list .it:last-child{border-bottom:0}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.dot.g{background:var(--green)}.dot.o{background:var(--gold)}.dot.r{background:var(--red)}
+.bar{display:flex;align-items:flex-end;gap:10px;height:130px;margin-top:6px}
+.bar .c{flex:1;height:100%;background:#e8f3ef;border-radius:6px 6px 0 0;position:relative}
+.bar .c i{position:absolute;bottom:0;left:0;right:0;background:var(--acc);border-radius:6px 6px 0 0;display:block}
+.bar .c span{position:absolute;top:-18px;left:0;right:0;text-align:center;font-size:10px;color:var(--muted)}
+.bar .c em{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:10px;color:var(--muted);font-style:normal}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field{margin-bottom:13px}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}
+.field input,.field textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:13px;font-family:inherit;background:#fcfdfd}
+.field textarea{min-height:74px;resize:none}
+.phone{width:230px;margin:0 auto;border:9px solid #1f2430;border-radius:26px;overflow:hidden;background:#000;aspect-ratio:9/19}
+.phone img{width:100%;display:block}
+.ai{background:#f3f8f6;border:1px solid #d7e8e1;border-radius:10px;padding:14px;font-size:13px;line-height:1.85}
+.ai .h{font-size:11px;font-weight:700;color:var(--acc);margin-bottom:7px;letter-spacing:.08em}
+.pill{font-size:11px;border:1px solid var(--line);border-radius:20px;padding:5px 11px;color:var(--sub);background:#fff}
+.rev{padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.rev.sel{background:#f3f8f6;border-radius:10px;padding:12px 12px;border-bottom:0}
+.rev .t{display:flex;align-items:center;gap:8px;font-size:12px}
+.rev p{font-size:12.5px;color:#54607a;margin-top:5px;line-height:1.6}
+</style></head><body><div class="app">
+<aside class="side">
+ <div class="brand"><span class="mk">結</span><span><b>むすび制作</b><small>ADMIN CONSOLE</small></span></div>
+ <nav class="nav"><a href="dashboard.html" class=""><span class="ic">◧</span>ダッシュボード</a><a href="crm.html" class=""><span class="ic">≡</span>営業リスト</a><a href="customers.html" class="on"><span class="ic">◎</span>顧客管理</a><a href="builder.html" class=""><span class="ic">▤</span>サイト制作</a><a href="reviews.html" class=""><span class="ic">★</span>口コミ返信AI</a><a href="billing.html" class=""><span class="ic">¥</span>請求・サブスク</a><a href="report.html" class=""><span class="ic">◔</span>レポート</a><a href="settings.html" class=""><span class="ic">⚙</span>設定</a></nav>
+ <div class="foot">渡辺 / オーナー<br>v0.1 demo</div>
+</aside>
+<div class="main">
+ <header class="top"><h1>顧客管理</h1><div class="sp"></div>
+   <div class="search">🔍 顧客・店舗を検索</div><div class="av">渡</div></header>
+ <div class="wrap"><div class="crumb">運用 / 顧客一覧</div>
+<div class="card" style="margin-top:0">
+ <h3>顧客一覧（契約中）<span class="tag">Supabase</span></h3>
+ <table>
+  <tr><th>店名</th><th>業種</th><th>プラン</th><th>公開サイト</th><th>契約開始</th><th>次回課金</th><th>状態</th></tr>
+  <tr><td><b>炭火・地酒 さくら亭</b></td><td>居酒屋</td><td>スタンダード</td><td>sakura-tei.com</td><td>2026/03</td><td>7/1</td><td><span class="b ok">契約中</span></td></tr>
+  <tr><td>hair atelier 凪</td><td>美容室</td><td>プレミアム</td><td>nagi-hair.com</td><td>2026/04</td><td>7/3</td><td><span class="b ok">契約中</span></td></tr>
+  <tr><td>浦安スポーツ整体院</td><td>整体</td><td>スタンダード</td><td>urayasu-seitai.com</td><td>2026/05</td><td>7/5</td><td><span class="b ng">要対応</span></td></tr>
+  <tr><td>cafe のんびり堂</td><td>カフェ</td><td>ライト</td><td>nonbirido.com</td><td>2026/05</td><td>7/8</td><td><span class="b ok">契約中</span></td></tr>
+  <tr><td>鮨 まつ本</td><td>寿司</td><td>プレミアム</td><td>sushi-matsumoto.com</td><td>2026/02</td><td>7/2</td><td><span class="b ok">契約中</span></td></tr>
+ </table>
+ <div class="sm muted" style="margin-top:12px">稼働顧客 42件 ・ 行をクリックすると顧客詳細（契約・サイト・請求・口コミ）を表示</div>
+</div>
+</div>
+</div></div></body></html>
