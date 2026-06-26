@@ -30,7 +30,11 @@ h1{font-size:30px;letter-spacing:.02em;margin-bottom:10px}
 .sub2{grid-column:1/-1;display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
 .sub2 a{font-size:12.5px;color:var(--sub);text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:20px;padding:7px 14px}
 .sub2 a:hover{border-color:var(--acc);color:var(--acc)}
+.pdf{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pdf a{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:14px 16px;text-decoration:none;color:var(--ink);font-size:13.5px;font-weight:500}
+.pdf a:hover{border-color:var(--verm);color:var(--verm);box-shadow:0 6px 16px rgba(40,30,20,.08)}
 .note{margin-top:40px;font-size:12px;color:var(--muted);line-height:1.8;border-top:1px solid var(--line);padding-top:20px}
+@media(max-width:760px){.pdf{grid-template-columns:1fr}}
 @media(max-width:760px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -78,7 +82,20 @@ h1{font-size:30px;letter-spacing:.02em;margin-bottom:10px}
       <a href="portal/report.html">月次レポート</a>
     </div>
   </div>
-  <p class="note">※ すべてデモ用のサンプル画面です。実データは含まれません。<br>むすび制作（仮称） / local-web-sales プロジェクト</p>
+  <h2 style="font-size:20px;margin:42px 0 6px">資料（PDF・スマホで閲覧）</h2>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:18px">タップでPDFを開きます。提案・営業・設計の各資料。</p>
+  <div class="pdf">
+    <a href="pdf/サービス価格表.pdf">💴 サービス価格表</a>
+    <a href="pdf/提案資料.pdf">📑 提案資料（クライアント向け）</a>
+    <a href="pdf/営業トークスクリプト.pdf">🗣 営業トークスクリプト</a>
+    <a href="pdf/Web制作販売事業_ロードマップ.pdf">🗺 事業ロードマップ</a>
+    <a href="pdf/サイト制作・運用ロードマップ.pdf">🛠 制作・運用ロードマップ</a>
+    <a href="pdf/システム全体構成図.pdf">🧩 システム全体構成図</a>
+    <a href="pdf/管理アプリ画面デモ.pdf">▤ 管理アプリ 画面デモ</a>
+    <a href="pdf/顧客ポータル画面デモ.pdf">◔ 顧客ポータル 画面デモ</a>
+    <a href="pdf/公開サイト画面デモ.pdf">🍶 公開サイト 画面デモ</a>
+  </div>
+  <p class="note">※ すべてデモ用のサンプル画面・資料です。実データは含まれません。<br>むすび制作（仮称） / local-web-sales プロジェクト</p>
 </div>
 </body>
 </html>
