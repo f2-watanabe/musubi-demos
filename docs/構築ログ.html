@@ -52,6 +52,14 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-27 ・ GCP整備・Business Profile API 利用申請を提出【Phase 0 進捗】</h2>
+<ul>
+<li><strong>What</strong>: GCPプロジェクト確保（自動生成の My First Project を流用）＋請求先アカウントをリンク。Business Profile系API3種（Account Management / Business Information / Performance）を有効化。Musubi自社のビジネスプロフィール（サービス提供型・住所非公開）を作成。Google My Business API（v4）の利用申請を提出。</li>
+<li><strong>Why</strong>: 口コミの取得・返信投稿（v4）は審査制で、申請が全体の律速。最優先で提出した。新規Workspaceは組織レベルの project 作成権限が無く、自動生成プロジェクトを流用して権限の壁を回避。申請フォームが自社ビジネスプロフィール保有を前提とするため、サービス提供型で作成。</li>
+<li><strong>How</strong>: APIライブラリで3種を有効化 → プロジェクト番号を取得 → business.google.com で自社プロフィール作成 → 申請フォーム提出。</li>
+<li><strong>Result</strong>: 申請受付。承認待ち（数日〜数週間）。待ち時間は OAuth同意画面・クライアントID発行、他SaaS登録、Phase 2/3 を並行で進められる。</li>
+<li><strong>証跡</strong>: 本コミット。プロジェクトID・番号は別途秘匿管理（公開リポジトリには記載しない）。</li>
+</ul>
 <h2>2026-06-27 ・ 表記をローマ字「Musubi」に統一</h2>
 <ul>
 <li><strong>What</strong>: ブランド表記を「むすび」→「Musubi」に統一。ロゴ（ワードマーク &quot;Musubi&quot; 入り）を使う面はテキスト名を省き、テキストで名前を出す面は「Musubi」。</li>

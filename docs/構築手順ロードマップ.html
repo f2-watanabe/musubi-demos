@@ -66,8 +66,10 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <ul class="task">
 <li class="done"><span class="bx">✓</span><span>独自ドメイン <code>musubiweb.com</code> 取得</span></li>
 <li class="done"><span class="bx">✓</span><span>Google Workspace 開設・ドメイン認証 → <code>admin@musubiweb.com</code> 発行（以降の各SaaSはこのアカウントで登録）</span></li>
-<li><span class="bx"></span><span>Google Cloud プロジェクト作成（請求先アカウント紐付け）</span></li>
-<li><span class="bx"></span><span><strong>Business Profile API（旧 My Business API）の利用申請を提出</strong> ← 審査に日数がかかるため最初に出す</span></li>
+<li class="done"><span class="bx">✓</span><span>Google Cloud プロジェクト確保（自動生成の My First Project を流用）＋請求先アカウントをリンク ※新規Workspaceは組織レベルのproject作成権限が無く、自動生成プロジェクト流用で回避</span></li>
+<li class="done"><span class="bx">✓</span><span>Business Profile 系APIを有効化（Account Management / Business Information / Performance）</span></li>
+<li class="done"><span class="bx">✓</span><span>Musubi自社のビジネスプロフィール作成（サービス提供型・住所非公開）← 申請の前提</span></li>
+<li class="done"><span class="bx">✓</span><span><strong>Business Profile API（旧 My Business API v4）の利用申請を提出</strong> ← 審査待ち（律速）</span></li>
 <li><span class="bx"></span><span>OAuth 同意画面を構成（スコープ <code>business.manage</code>、テスト→本番公開）</span></li>
 <li><span class="bx"></span><span>OAuth クライアントID/シークレット発行（リダイレクトURI登録）</span></li>
 <li><span class="bx"></span><span>Anthropic アカウント・APIキー発行（請求上限を設定）</span></li>
