@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>炭火・地酒 さくら亭 顧客ポータル</title>
+<style>
+:root{--ink:#22262f;--acc:#127b66;--accd:#0c5a4a;--gold:#c8893f;--verm:#b5402e;
+--bg:#f6f4ef;--card:#fff;--line:#e8e2d6;--muted:#8b8578;--sub:#6f6a60;--green:#1ea86b;--red:#d6453b;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);font-size:14px;-webkit-font-smoothing:antialiased}
+.top{background:#fff;border-bottom:1px solid var(--line);padding:0 30px;display:flex;align-items:center;gap:26px;height:64px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand .mk{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;font-family:serif;font-weight:700;font-size:19px}
+.brand b{font-size:16px;font-weight:700;letter-spacing:.04em}
+.brand small{display:block;font-size:9px;color:var(--muted);letter-spacing:.14em}
+.tabs{display:flex;gap:4px;margin-left:8px}
+.tabs a{padding:9px 15px;font-size:13.5px;color:var(--sub);text-decoration:none;border-radius:9px;display:flex;align-items:center;gap:7px}
+.tabs a.on{background:#eef5f2;color:var(--accd);font-weight:700}
+.tabs a:hover{background:#f1efe9}
+.tabs .bdg{background:var(--verm);color:#fff;font-size:10px;font-weight:700;border-radius:20px;padding:1px 7px}
+.sp{flex:1}
+.prov{font-size:11px;color:var(--muted);text-align:right;line-height:1.4}
+.av{width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+.wrap{max-width:1080px;margin:0 auto;padding:26px 30px}
+.hello{font-size:20px;font-weight:700;margin-bottom:4px}
+.hello span{color:var(--acc)}
+.sub{color:var(--muted);font-size:13px;margin-bottom:20px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.kpi .l{font-size:12px;color:var(--muted)}
+.kpi .v{font-size:30px;font-weight:700;margin-top:3px}
+.kpi .v small{font-size:13px;color:var(--muted);font-weight:400}
+.kpi .d{font-size:12px;font-weight:700;margin-top:5px}
+.up{color:var(--green)}.flat{color:var(--muted)}.down{color:var(--red)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-top:18px}
+.card h3{font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.tag{font-size:11px;font-weight:700;color:var(--acc);background:#e8f3ef;border-radius:20px;padding:3px 10px;margin-left:auto}
+.stars{color:#f0a82e;letter-spacing:1px;font-size:13px}
+.gray{color:#dcdcdc;letter-spacing:1px;font-size:13px}
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;border-radius:9px;padding:9px 16px;border:0;cursor:pointer}
+.btn.pri{background:var(--acc);color:#fff}.btn.gho{background:#fff;border:1.4px solid var(--line);color:var(--ink)}
+.btn.sub2{background:#fff;border:1.4px solid var(--line);color:var(--muted)}
+.muted{color:var(--muted)}.sm{font-size:12px}
+.b{display:inline-block;font-size:11px;font-weight:700;border-radius:20px;padding:3px 11px}
+.b.new{background:#fdeceb;color:var(--verm)}.b.ok{background:#e7f6ee;color:var(--green)}
+.revc{border:1px solid var(--line);border-radius:13px;padding:18px;margin-bottom:14px}
+.revc .top2{display:flex;align-items:center;gap:9px;font-size:13px}
+.revc .q{font-size:13.5px;color:#3c4150;margin:9px 0 0;line-height:1.7;background:#faf8f3;border-radius:9px;padding:11px 13px}
+.ai{background:#f3f8f6;border:1px solid #d7e8e1;border-radius:11px;padding:13px 15px;margin-top:12px;font-size:13px;line-height:1.85}
+.ai .h{font-size:11px;font-weight:700;color:var(--acc);margin-bottom:6px}
+.acts{display:flex;gap:9px;margin-top:13px;align-items:center}
+.bar{display:flex;align-items:flex-end;gap:12px;height:140px;margin-top:8px}
+.bar .c{flex:1;height:100%;background:#edf4f1;border-radius:7px 7px 0 0;position:relative}
+.bar .c i{position:absolute;bottom:0;left:0;right:0;background:var(--acc);border-radius:7px 7px 0 0}
+.bar .c em{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:10px;color:var(--muted);font-style:normal}
+.bar .c span{position:absolute;top:-17px;left:0;right:0;text-align:center;font-size:10px;color:var(--muted)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.meo{width:100%;border-collapse:collapse;font-size:13px}
+.meo td{padding:9px 4px;border-bottom:1px solid var(--line)}
+.meo td:first-child{color:var(--muted)}
+.meo td:nth-child(2),.meo td:nth-child(3){text-align:right;font-weight:700}
+.list .it{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+.list .it:last-child{border-bottom:0}
+.chk{color:var(--acc);font-weight:700}
+.rep-h{background:var(--ink);color:#fff;border-radius:12px;padding:18px 22px;display:flex;justify-content:space-between;align-items:flex-end}
+.rep-h .mo{font-size:12px;color:#c9d6d1}
+.rep-h b{font-family:serif;font-size:18px}
+</style></head><body>
+<div class="top">
+ <div class="brand"><span class="mk">櫻</span><span><b>炭火・地酒 さくら亭</b><small>店舗オーナー ポータル</small></span></div>
+ <nav class="tabs"><a href="home.html" class="on">成果ホーム</a><a href="reviews.html" class="">口コミ承認 <span class="bdg">2</span></a><a href="report.html" class="">月次レポート</a><a href="site.html" class="">自店サイト</a></nav>
+ <div class="sp"></div>
+ <div class="prov">提供：むすび制作<br>サポート 090-0000-0000</div>
+ <div class="av">佐</div>
+</div>
+<div class="wrap">
+<div class="hello">さくら亭さま、<span>今月の成果</span>です。</div>
+<div class="sub">2026年6月 ・ 先月より予約・問い合わせが伸びています。詳細は「月次レポート」から。</div>
+<div class="grid4">
+ <div class="kpi"><div class="l">サイト訪問数</div><div class="v">1,240<small> 回</small></div><div class="d up">＋18%</div></div>
+ <div class="kpi"><div class="l">ネット予約</div><div class="v">32<small> 件</small></div><div class="d up">＋9件</div></div>
+ <div class="kpi"><div class="l">問い合わせ</div><div class="v">11<small> 件</small></div><div class="d flat">±0</div></div>
+ <div class="kpi"><div class="l">Google評価</div><div class="v">★4.6</div><div class="d up">＋0.1</div></div>
+</div>
+<div class="two">
+ <div class="card"><h3>予約数の推移（6ヶ月）</h3>
+  <div class="bar">
+   <div class="c"><i style="height:40%"></i><span>14</span><em>1月</em></div>
+   <div class="c"><i style="height:52%"></i><span>18</span><em>2月</em></div>
+   <div class="c"><i style="height:58%"></i><span>20</span><em>3月</em></div>
+   <div class="c"><i style="height:66%"></i><span>23</span><em>4月</em></div>
+   <div class="c"><i style="height:78%"></i><span>27</span><em>5月</em></div>
+   <div class="c"><i style="height:92%"></i><span>32</span><em>6月</em></div>
+  </div>
+ </div>
+ <div class="card"><h3>やること <span class="tag">あなたの承認待ち</span></h3>
+  <div class="list">
+   <div class="it"><span class="b new">2</span><div style="flex:1">口コミへの返信を承認してください<div class="sm muted">AIが返信案を用意済み</div></div><a class="btn pri" href="reviews.html">確認する</a></div>
+   <div class="it"><span class="chk">✓</span><div style="flex:1">6月の月次レポートが公開されました<div class="sm muted">2026/6/30</div></div><a class="btn gho" href="report.html">見る</a></div>
+  </div>
+ </div>
+</div>
+</div></body></html>
