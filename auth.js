@@ -30,7 +30,7 @@
     g.innerHTML =
       '<div style="background:#fff;border-radius:18px;padding:38px 34px 30px;width:min(360px,86vw);box-shadow:0 24px 60px rgba(0,0,0,.4);text-align:center">' +
         '<div style="width:52px;height:52px;border-radius:13px;background:#127b66;color:#fff;font-weight:700;font-size:26px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">結</div>' +
-        '<div style="font-size:18px;font-weight:700;color:#22262f;letter-spacing:.04em">むすび制作 デモ</div>' +
+        '<div style="font-size:18px;font-weight:700;color:#22262f;letter-spacing:.04em">むすび デモ</div>' +
         '<div style="font-size:12.5px;color:#8b8578;margin:6px 0 22px">閲覧にはパスワードが必要です</div>' +
         '<input id="authpw" type="password" placeholder="パスワード" autocomplete="off" ' +
           'style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid #e8e2d6;border-radius:10px;font-size:15px;outline:none">' +
