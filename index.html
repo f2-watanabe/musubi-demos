@@ -4,7 +4,7 @@
 <script src="auth.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Musubi デモ一覧</title>
+<title>Musubi プロジェクトハブ</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#22262f;--acc:#127b66;--verm:#b5402e;--gold:#c8893f;--bg:#f6f4ef;--line:#e8e2d6;--sub:#6f6a60;--muted:#8b8578}
@@ -35,16 +35,32 @@ h1{font-size:30px;letter-spacing:.02em;margin-bottom:10px}
 .pdf a{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:14px 16px;text-decoration:none;color:var(--ink);font-size:13.5px;font-weight:500}
 .pdf a:hover{border-color:var(--verm);color:var(--verm);box-shadow:0 6px 16px rgba(40,30,20,.08)}
 .note{margin-top:40px;font-size:12px;color:var(--muted);line-height:1.8;border-top:1px solid var(--line);padding-top:20px}
+.tablewrap{overflow-x:auto}
+table.cost{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
+.cost th{text-align:left;color:var(--muted);font-weight:600;font-size:12px;padding:9px 10px;border-bottom:1px solid var(--line)}
+.cost td{padding:10px 10px;border-bottom:1px solid var(--line)}
+.cost td.r{text-align:right;white-space:nowrap}
+.cost .sm{color:var(--muted);font-size:11px;margin-left:3px}
+.badge{font-size:11px;font-weight:700;border-radius:20px;padding:3px 10px}
+.badge.nec{background:#e7f6ee;color:var(--acc)}
+.badge.grow{background:#fdf3e4;color:var(--gold)}
+.costsum{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.sumcard{background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+.sumcard .l{font-size:12px;color:var(--muted)}
+.sumcard .v{font-size:21px;font-weight:700;margin:4px 0;letter-spacing:.01em}
+.sumcard .n{font-size:11.5px;color:var(--sub);line-height:1.6}
+@media(max-width:760px){.costsum{grid-template-columns:1fr}}
 @media(max-width:760px){.pdf{grid-template-columns:1fr}}
 @media(max-width:760px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="brand"><img src="assets/musubi-logo.png" alt="Musubi" style="height:48px;display:block"><span><small>DEMO INDEX</small></span></div>
+  <div class="brand"><img src="assets/musubi-logo.png" alt="Musubi" style="height:48px;display:block"><span><small>PROJECT HUB</small></span></div>
   <span class="tag">パートナー共有用</span>
-  <h1>デモ一覧</h1>
-  <p class="lead">Google高評価×Web未保有の店舗向けに提供する、3つの画面のデモです。サンプル店舗は「炭火・地酒 さくら亭」。スマホ／PCどちらからでもご覧いただけます。</p>
+  <h1>プロジェクトハブ</h1>
+  <p class="lead">Musubiの事業デモ・提案資料・環境構築の記録・運用コストを1か所に。Google高評価×Web未保有の店舗向け事業。スマホ／PCどちらからでも閲覧できます。</p>
+  <h2 style="font-size:20px;margin:8px 0 14px">画面デモ（3種）</h2>
   <div class="grid">
     <a class="card c1" href="site/index.html">
       <span class="ic">🍶</span>
@@ -103,7 +119,29 @@ h1{font-size:30px;letter-spacing:.02em;margin-bottom:10px}
     <a href="docs/構築手順ロードマップ.html">🧭 構築手順ロードマップ（細粒度）</a>
     <a href="docs/構築ログ.html">📋 構築ログ（証跡・随時更新）</a>
   </div>
-  <p class="note">※ すべてデモ用のサンプル画面・資料です。実データは含まれません。<br>Musubi（仮称・未法人） / local-web-sales プロジェクト</p>
+  <h2 style="font-size:20px;margin:42px 0 6px">運用コスト（月額の目安）</h2>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:14px">事業を回すためのランニングコスト。立ち上げ期は無料枠を活用して最小限、店舗数が増えたらProへ。金額は概算（$1≒¥150換算・税別、為替/プランで変動）。</p>
+  <div class="tablewrap">
+  <table class="cost">
+    <thead><tr><th>サービス</th><th>用途</th><th class="r">月額の目安</th><th>区分</th></tr></thead>
+    <tbody>
+      <tr><td>Google Workspace</td><td>会社メール（admin@musubiweb.com）</td><td class="r">約¥800</td><td><span class="badge nec">必須</span></td></tr>
+      <tr><td>独自ドメイン</td><td>musubiweb.com</td><td class="r">約¥125<span class="sm">（年¥1,500）</span></td><td><span class="badge nec">必須</span></td></tr>
+      <tr><td>Cloudflare Pages</td><td>顧客サイトの公開ホスティング</td><td class="r">無料</td><td><span class="badge nec">必須</span></td></tr>
+      <tr><td>Anthropic API</td><td>口コミ返信のAI生成（原価）</td><td class="r">従量 約¥数百〜数千</td><td><span class="badge nec">必須</span></td></tr>
+      <tr><td>Stripe</td><td>月額・初期費の決済</td><td class="r">固定費0<span class="sm">（手数料3.6%）</span></td><td><span class="badge nec">必須</span></td></tr>
+      <tr><td>GA4 / UptimeRobot / GBP API</td><td>解析・死活監視・口コミ取得</td><td class="r">無料</td><td><span class="badge nec">必須</span></td></tr>
+      <tr><td>Vercel</td><td>管理アプリ・API・定期実行</td><td class="r">無料→Pro 約¥3,000</td><td><span class="badge grow">成長時</span></td></tr>
+      <tr><td>Supabase</td><td>DB・認証・ストレージ</td><td class="r">無料→Pro 約¥3,750</td><td><span class="badge grow">成長時</span></td></tr>
+      <tr><td>Resend</td><td>通知・レポートのメール送信</td><td class="r">無料→有料 約¥3,000</td><td><span class="badge grow">成長時</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="costsum">
+    <div class="sumcard"><div class="l">立ち上げ期（無料枠フル活用）</div><div class="v">月 約¥1,000〜2,000</div><div class="n">Workspace＋ドメイン＋AI原価。ほかは無料枠で吸収</div></div>
+    <div class="sumcard"><div class="l">本番運用期（Pro一式）</div><div class="v">月 約¥10,000前後＋従量</div><div class="n">Vercel/Supabase/Resend Pro＋AI生成・決済手数料</div></div>
+  </div>
+  <p class="note">※ デモ画面・資料はサンプルです（実データなし）。運用コストは概算。<br>Musubi（仮称・未法人） / local-web-sales プロジェクト</p>
 </div>
 </body>
 </html>

@@ -52,6 +52,14 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-27 ・ 公開ハブを「プロジェクトハブ」に改称・運用コスト掲載</h2>
+<ul>
+<li><strong>What</strong>: 公開ハブ（musubi-demos）を「デモ一覧」→「プロジェクトハブ」に改称。運用（ランニング）コストの月額目安を掲載。</li>
+<li><strong>Why</strong>: デモ単体でなく、資料・環境構築の記録・コストを束ねる場になったため名称を実態に合わせた。運用費を見える化して判断材料に。</li>
+<li><strong>How</strong>: <code>index.html</code> に運用コスト表（サービス/用途/月額/区分＝必須・成長時）＋立ち上げ期/本番期のサマリカード。$1≒¥150換算の概算。</li>
+<li><strong>Result</strong>: 立ち上げ期 月約¥1,000〜2,000、本番運用期 月約¥10,000前後＋従量、が一目で分かる状態。</li>
+<li><strong>証跡</strong>: 本コミット。</li>
+</ul>
 <h2>2026-06-27 ・ OAuth同意画面・クライアントID発行【Phase 0 完了】</h2>
 <ul>
 <li><strong>What</strong>: OAuth同意画面を Audience=Internal で構成（スコープ <code>business.manage</code>）。ウェブアプリ型のクライアントID/シークレットを発行（リダイレクト <code>http://localhost:5858/oauth2callback</code>）。プロトタイプの <code>.env</code> に設定。</li>
