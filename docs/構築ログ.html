@@ -57,7 +57,7 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>What</strong>: <code>musubi-admin</code> の Vercelプロジェクトを <code>watanabe-fumiya</code>（GitHub個人 f2-watanabe）配下 → <strong><code>admin@musubiweb.com</code>＝Team &quot;Musubi&quot; 配下</strong>へ移し直し、GitHub⇄Vercel の自動デプロイを成立させた。本番URLは https://musubi-admin-two.vercel.app。</li>
 <li><strong>Why</strong>: 当初CLIが f2-watanabe でログイン中だったため誤った帰属になっていた。Phase 0方針「各SaaSは admin@musubiweb.com に集約」。また f2-watanabe アカウントは GitHub Login Connection 未追加で自動デプロイが張れなかった（push時に「commit emailがGitHubアカと不一致」でブロック）。</li>
 <li><strong>How</strong>: <code>vercel login</code>（device認可）で <code>musubiweb</code> にログイン → <code>.vercel</code> を作り直し <code>vercel link --scope musubiweb</code>（GitHubリポ &quot;Connected&quot; 成立）→ 環境変数2本を再投入 → <code>vercel deploy --prod</code>。コミットメールは GitHub noreply（<code>148515864+f2-watanabe@users.noreply.github.com</code>）に変更しアカウント紐付けを担保。空コミットを push → 新デプロイが git 起点で自動Building することを実証。</li>
-<li><strong>Result</strong>: admin@配下に統合＋master push で自動デプロイ。<code>/login</code>200・<code>/</code>→<code>/login</code>307 を確認。<strong>残</strong>＝旧 <code>watanabe-fumiya/musubi-admin</code>（<code>musubi-admin-phi.vercel.app</code>）の削除クリーンアップ（要確認）。</li>
+<li><strong>Result</strong>: admin@配下に統合＋master push で自動デプロイ。<code>/login</code>200・<code>/</code>→<code>/login</code>307 を確認。旧 <code>watanabe-fumiya/musubi-admin</code>（<code>musubi-admin-phi.vercel.app</code>）はダッシュボードから削除済（旧URL 404 を確認）。</li>
 <li><strong>証跡</strong>: 本コミット。新本番URL／自動デプロイのBuilding確認。</li>
 </ul>
 <h2>2026-06-27 ・ 顧客サイト量産基盤（2業種目テンプレ＋GA計測＋公開1コマンド化）【Phase 3 進捗】</h2>
