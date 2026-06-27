@@ -108,12 +108,12 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <p><strong>目的</strong>: 顧客・契約・口コミ・請求を一元管理するDBと、運営/顧客の認証を用意する。</p>
 <p><strong>手順</strong></p>
 <ul class="task">
-<li><span class="bx"></span><span>Supabase スキーマ設計（<code>stores</code> / <code>contracts</code> / <code>reviews</code> / <code>invoices</code> / <code>reports</code>）</span></li>
-<li><span class="bx"></span><span>マイグレーション管理を導入（SQL or supabase migrations）</span></li>
-<li><span class="bx"></span><span>RLS（行レベルセキュリティ）方針を決める（顧客は自店のみ閲覧）</span></li>
-<li><span class="bx"></span><span>Auth 設定（運営=管理アプリ、顧客=ポータル。ロール分離）</span></li>
-<li><span class="bx"></span><span>管理アプリ（Next.js）を Vercel に雛形デプロイ（ダッシュボードの枠だけ）</span></li>
-<li><span class="bx"></span><span>Supabase 接続・環境変数を Vercel に設定</span></li>
+<li class="done"><span class="bx">✓</span><span>Supabase スキーマ設計（<code>stores</code> / <code>contracts</code> / <code>reviews</code> / <code>invoices</code> / <code>reports</code>）← <code>09_データ基盤/supabase/migrations/0001_schema.sql</code></span></li>
+<li class="done"><span class="bx">✓</span><span>マイグレーション管理を導入（連番SQL。将来 supabase CLI へ移行可）</span></li>
+<li class="done"><span class="bx">✓</span><span>RLS（行レベルセキュリティ）方針を決める（顧客は自店のみ閲覧）← <code>0002_rls.sql</code></span></li>
+<li class="done"><span class="bx">✓</span><span>Auth 設定（運営=管理アプリ＝<code>staff_members</code>登録者のみ。顧客ポータルは別途）← <code>musubi-admin</code> <code>c08f380</code>（コード完成・実キー接続テストは未）</span></li>
+<li class="done"><span class="bx">✓</span><span>管理アプリ（Next.js）を Vercel にデプロイ ← <code>musubi-admin</code> 本番 https://musubi-admin-phi.vercel.app（CLIデプロイ。GitHub自動連携はVercel側Login Connection未追加のため保留）</span></li>
+<li class="done"><span class="bx">✓</span><span>Supabase 接続・環境変数を Vercel に設定 ← <code>NEXT_PUBLIC_SUPABASE_URL</code>／<code>ANON_KEY</code> を全環境に設定・実キーで接続確認済</span></li>
 <li><span class="bx"></span><span>コストモニタ画面（従量課金サービスの使用量・コストを管理画面に集約表示。詳細は Phase 7）</span></li>
 </ul>
 <p><strong>使用サービス</strong>: Supabase（Postgres/Auth）/ Vercel / Next.js</p>
@@ -124,16 +124,17 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <p><strong>目的</strong>: <code>content.json + テンプレHTML</code> で店舗サイトを量産し、Cloudflare Pages へ自動デプロイできる状態にする。</p>
 <p><strong>手順</strong></p>
 <ul class="task">
-<li><span class="bx"></span><span>既存 <code>restaurant</code> テンプレを基盤として整理</span></li>
-<li><span class="bx"></span><span><strong>2業種目のテンプレを追加</strong>（美容室 or 整体）し量産性を確認</span></li>
-<li><span class="bx"></span><span>GA4・イベント計測（フォーム送信／電話タップ）をテンプレに標準同梱</span></li>
-<li><span class="bx"></span><span><code>build_site.py</code> を管理アプリのビルド機能として接続（or CI化）</span></li>
-<li><span class="bx"></span><span>Cloudflare Pages へのデプロイ自動化（ドメイン割当・SSL）</span></li>
-<li><span class="bx"></span><span>独自ドメイン取得〜割当の手順を確立（Registrar）</span></li>
+<li class="done"><span class="bx">✓</span><span>既存 <code>restaurant</code> テンプレを基盤として整理（<code>{{#if}}</code> 対応・GA計測同梱）</span></li>
+<li class="done"><span class="bx">✓</span><span><strong>2業種目のテンプレを追加</strong>（美容室＝<code>04_サイトテンプレート/beauty/</code>）し量産性を確認 ← 飲食店と同一JSONキー構成・別世界観デザインで量産性実証</span></li>
+<li class="done"><span class="bx">✓</span><span>GA4・イベント計測（フォーム送信＝<code>reservation_submit</code>／電話タップ＝<code>phone_tap</code>）をテンプレに標準同梱 ← <code>ga4.measurement_id</code> 設定時のみ出力（空なら非出力）</span></li>
+<li class="done"><span class="bx">✓</span><span>サイト生成→公開を1コマンド化（<code>06_スクリプト/publish_site.sh</code>）← <code>build_site.py</code>＋<code>wrangler pages deploy</code>。管理アプリのビルド機能としての接続は将来（現状はCLI）</span></li>
+<li><span class="bx"></span><span>Cloudflare Pages へのデプロイ自動化（ドメイン割当・SSL）← スクリプトは用意済。実行は Node 22＋<code>CLOUDFLARE_API_TOKEN</code>／Pagesプロジェクトが必要（<strong>外部操作・未</strong>）</span></li>
+<li><span class="bx"></span><span>独自ドメイン取得〜割当の手順を確立（Registrar）← <strong>外部操作・未</strong></span></li>
 </ul>
 <p><strong>使用サービス</strong>: Cloudflare Pages / Registrar / GitHub Actions（任意）/ GA4</p>
 <p><strong>受け入れ基準</strong>: 新規店舗のJSONを用意 → 1コマンド／1操作で公開サイトがHTTPSで立ち上がり、計測タグが動く。</p>
-<p><strong>残す証跡</strong>: 追加テンプレのプレビュー、デプロイ手順、計測の動作確認スクショ。</p>
+<p>→ <strong>コード面は達成</strong>（<code>publish_site.sh</code> で JSON→ビルド→Pages公開を1コマンド・計測タグはビルド検証で動作確認済）。残るはCloudflare認証トークン発行とドメイン割当（外部操作）。</p>
+<p><strong>残す証跡</strong>: 追加テンプレ（<code>beauty/</code>）、<code>publish_site.sh</code>、計測タグのビルド検証（空=非出力・id有=出力を確認）。</p>
 <hr>
 <h2>Phase 4 ・ 月次レポート自動集計</h2>
 <p><strong>目的</strong>: 解約防止の武器「月次レポート」を、手作業を最小化して毎月生成・公開する。</p>

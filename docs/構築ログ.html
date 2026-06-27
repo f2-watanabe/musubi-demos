@@ -52,6 +52,46 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-27 ・ 顧客サイト量産基盤（2業種目テンプレ＋GA計測＋公開1コマンド化）【Phase 3 進捗】</h2>
+<ul>
+<li><strong>What</strong>: 顧客サイト量産の土台を強化。(1) テンプレートエンジン <code>build_site.py</code> に <code>{{#if key}}...{{/if}}</code> を追加、(2) 既存 <code>restaurant</code> テンプレと新規 <strong>美容室テンプレ <code>04_サイトテンプレート/beauty/</code></strong> に GA4計測（電話タップ<code>phone_tap</code>／フォーム送信<code>reservation_submit</code>）を標準同梱、(3) ビルド→Cloudflare Pages公開を1コマンドにする <code>06_スクリプト/publish_site.sh</code> を追加。</li>
+<li><strong>Why</strong>: Phase 3 受け入れ基準「新規JSON→1コマンドで公開サイトがHTTPSで立ち上がり計測タグが動く」。2業種目の追加で量産性（テンプレ流用のしやすさ）を実証する。</li>
+<li><strong>How</strong>: 美容室テンプレは飲食店と<strong>同一のJSONキー構成</strong>（<code>meta/brand/hero/strip/about/features/menu/gallery/hours/access/form/ga4</code> 等）に揃え、<code>build_site.py</code>・GA注入を共通化。デザインは別世界観（飲食=墨/朱/和、美容室=オフホワイト/くすみセージ/セリフ見出し）。GAは <code>{{#if ga4.measurement_id}}</code> で囲み、IDが空ならタグ非出力。計測イベントは <code>window.gtag</code> ガード付きで、GA無効でも無害。検証: 両テンプレを ga4空／id有 でビルドし、(a) 未解決プレースホルダ0件、(b) 空→gtag非出力・<code>#if</code>タグ残存なし、(c) id有→gtagと measurement_id 出力、(d) <code>phone_tap</code>/<code>reservation_submit</code> 送信スクリプト存在、を確認。</li>
+<li><strong>Result</strong>: 飲食・美容室の2テンプレが同一パイプラインで量産可能に。<code>publish_site.sh</code> で「JSON→ビルド→公開」を1コマンド化。<strong>コード面の受け入れ基準は達成</strong>（計測タグの動作はビルド検証で確認）。<strong>残（外部操作）</strong>＝Cloudflare APIトークン発行・Pagesプロジェクト作成・独自ドメイン割当。加えて <code>wrangler</code> は Node 22要（本環境は v18.18 のため実デプロイは未実行）。</li>
+<li><strong>証跡</strong>: 本コミット。<code>04_サイトテンプレート/beauty/</code>（template.html／content.example.json／README）、<code>06_スクリプト/build_site.py</code>（#if対応）・<code>publish_site.sh</code>、<code>restaurant/template.html</code>（GA同梱）。</li>
+</ul>
+<h2>2026-06-27 ・ <code>musubi-admin</code> を本番デプロイ・E2E検証＝【Phase 2 受け入れ基準クリア】</h2>
+<ul>
+<li><strong>What</strong>: <code>musubi-admin</code> を Vercel 本番にデプロイし、実Supabaseに対して「ログイン→stores CRUD→RLS分離」を通しで検証。<strong>Phase 2 完了</strong>。</li>
+<li><strong>Why</strong>: Phase 2 の残タスク（Vercelデプロイ・Supabase接続・受け入れ基準の実証）を片付けるため。</li>
+<li><strong>How</strong>: GitHubへpush（<code>f2-watanabe/musubi-admin</code> private）→ <code>vercel link</code>／<code>vercel env add</code>（<code>NEXT_PUBLIC_SUPABASE_URL</code>・<code>ANON_KEY</code> を production/preview/development）→ <code>vercel deploy --prod</code>。Supabaseは SQL Editor で <code>0001</code>→<code>0002</code> を適用済（全6テーブル 200応答を確認）。検証は GoTrue <code>token?grant_type=password</code> でサインイン→取得トークンで PostgREST を直接叩き、INSERT(201)／SELECT(200)／UPDATE(200・<code>updated_at</code>更新)／DELETE(204) と、anonキーでの <code>stores</code> SELECT が <code>[]</code>（RLSで非staffは不可視）を確認。<code>staff_members</code> 登録ユーザーのみ <code>is_staff()</code> で自店ロスタが見えることも確認。テストデータは削除済（0件）。</li>
+<li><strong>Result</strong>: 本番 https://musubi-admin-phi.vercel.app 稼働。未ログインは <code>/login</code> へ307、<code>/login</code> は200。受け入れ基準「管理アプリからログイン・storesを1件CRUD・顧客ロールは他店不可視」を<strong>実機で満たした</strong>。<strong>残</strong>＝Vercel⇄GitHub の自動デプロイ連携（Vercelアカウントに GitHub Login Connection 追加→Import で有効化。現状はCLIデプロイで代替）。</li>
+<li><strong>証跡</strong>: 本コミット。<code>musubi-admin</code> 初回コミット <code>4094b8e</code>／本番URL。</li>
+</ul>
+<h2>2026-06-27 ・ 管理アプリ <code>musubi-admin</code> をデプロイ可能な完全形に再構築【Phase 2 進捗】</h2>
+<ul>
+<li><strong>What</strong>: 別リポ <code>musubi-admin</code> を、ビルド・デプロイ可能な完全形として再構築。前エントリで参照していた <code>c08f380</code> の実体は本作業環境に存在せず（ローカルには <code>page.tsx</code>／<code>stores/actions.ts</code> の2ファイルのみで、参照先 <code>lib/supabase/*</code>・<code>package.json</code>・認証一式が欠落）、デプロイ不能だったため作り直した。Next.js <strong>15.5.19</strong>（前回記載の 15.5.4 は CVE-2025-66478 のため最新パッチへ更新）/ App Router / TS / Tailwind v4 / <code>@supabase/ssr</code>。</li>
+<li><strong>Why</strong>: Phase 2 の残タスク「管理アプリをVercelにデプロイ／Supabase接続」を実行するには、まずデプロイ可能なコードベースが必要。</li>
+<li><strong>How</strong>: <code>package.json</code>／<code>tsconfig</code>／<code>next.config.ts</code>（<code>eslint.ignoreDuringBuilds</code>）／<code>postcss</code>＋<code>eslint.config.mjs</code>（flat config）／<code>app/globals.css</code>（Tailwind v4 <code>@import</code>）／<code>app/layout.tsx</code>／<code>lib/supabase/server.ts</code>（cookieベース）／<code>lib/supabase/middleware.ts</code>（<code>getUser</code>でセッション更新・未ログインは <code>/login</code> へ）／<code>middleware.ts</code>（認証ガード）／<code>app/login</code>（フォーム＋<code>staff_members</code> ゲート＝運営のみ入室）／<code>app/stores</code>（一覧＋CRUD／server actions、<code>ga4_property_id</code> も対応）。ダミー <code>.env.local</code> で <code>npm run build</code>（型チェック含め通過）と <code>npm run lint</code>（warnings/errors 0）を確認。<code>@supabase/ssr</code> の <code>setAll</code> で <code>CookieOptions</code> を明示注釈し implicit-any を解消。Tailwind oxide のネイティブバインディング欠落（npm optional-deps バグ）は arm64 バイナリを明示インストールして回避。</li>
+<li><strong>Result</strong>: 認証＋storesCRUDが build/lint/型チェックを通過し、独立gitリポとして初回コミット。<strong>未実施（外部操作が必要）</strong>＝(1) GitHubへpush、(2) Vercel連携＋実Supabaseキー（<code>NEXT_PUBLIC_SUPABASE_URL</code>／<code>ANON_KEY</code>）の設定、(3) 実キーでの接続・CRUD動作確認、(4) <code>staff_members</code> に運営ユーザーを登録してのログイン確認、(5) RLSのrole分離の実テスト。</li>
+<li><strong>証跡</strong>: 本コミット（local-web-sales側ドキュメント）。実装本体は <code>musubi-admin</code> リポ初回コミット <code>4094b8e</code>。</li>
+</ul>
+<h2>2026-06-27 ・ 管理アプリ（Next.js）に認証＋stores CRUDを実装【Phase 2 進捗】</h2>
+<ul>
+<li><strong>What</strong>: 別リポ <code>musubi-admin</code>（Next.js 15.5.4 / App Router / TS / Tailwind）に、Supabase認証と店舗（stores）のCRUDを実装。<code>@supabase/ssr</code> でサーバ／middlewareクライアントを構成、middlewareで未ログインは <code>/login</code> へ誘導しセッションを更新。メール＋パスワードでログインし、<strong><code>staff_members</code> に登録された運営ユーザーのみ管理アプリに入れる</strong>。<code>/stores</code> で一覧・追加・編集・削除（server actions）。</li>
+<li><strong>Why</strong>: Phase 2 受け入れ基準「管理アプリからログインでき、storesを1件CRUDできる／顧客ロールは他店が見えない」を満たすため。Phase 1（GBP承認待ち）と並行して進められる中核。</li>
+<li><strong>How</strong>: <code>lib/supabase/server.ts</code>（cookieベース）・<code>lib/supabase/middleware.ts</code>（getUserでトークン更新）・<code>middleware.ts</code>（認証ガード）・<code>app/login</code>（フォーム＋server action）・<code>app/stores</code>（一覧＋CRUD）。検証はダミー <code>.env.local</code> を置いて <code>npm run build</code>（コンパイル・型チェック通過）と <code>npm run lint</code>（flat config）で実施し、いずれも成功。ESLint 9 と next build 内蔵lintの不整合は <code>next.config.ts</code> の <code>eslint.ignoreDuringBuilds</code> で回避し、lintは <code>npm run lint</code> 側で担保。</li>
+<li><strong>Result</strong>: 認証＋CRUDのコードは完成し、build/lint/型チェックを通過。<strong>未実施</strong>＝(1) 実Supabaseキーでの接続・動作確認（実キーはユーザー保管、<code>.env.example</code> のみ用意）、(2) Vercelデプロイ、(3) RLSのrole強制の実テスト。<code>musubi-admin</code> のコミットは <code>c08f380</code>。</li>
+<li><strong>証跡</strong>: 本コミット（local-web-sales側のドキュメント更新）。実装本体は <code>musubi-admin</code> リポ <code>c08f380</code>。</li>
+</ul>
+<h2>2026-06-27 ・ Supabaseスキーマ／マイグレーション／RLS作成【Phase 2 着手】</h2>
+<ul>
+<li><strong>What</strong>: データ基盤の中核スキーマをローカルに作成（<code>09_データ基盤/supabase/migrations/</code>）。5テーブル（stores / contracts / reviews / invoices / reports）＋運営判定用 <code>staff_members</code>、4 enum（plan/contract/review/invoice status）、<code>updated_at</code> 自動更新トリガ、RLSポリシー一式。</li>
+<li><strong>Why</strong>: Phase 1（GBP API承認待ち＝外部律速）を待つ間に、並行で着手できる土台がデータ基盤。顧客・契約・口コミ・請求・月次レポートを一元管理するDBを先に固める。</li>
+<li><strong>How</strong>: CLI/psql未導入のため連番SQL（<code>0001_schema.sql</code>／<code>0002_rls.sql</code>）で管理し、Supabase SQL Editor で貼付適用する前提（将来 <code>npx supabase db push</code> へ移行可）。RLSは「運営（staff_members登録者）＝全操作可／顧客（店舗オーナー）＝自店のみ参照のみ・レポートは公開済みのみ」。再帰回避のため判定ヘルパー <code>is_staff()</code>／<code>owns_store()</code> を security definer で実装。書き込みは staff か service_role 経由に限定。</li>
+<li><strong>Result</strong>: Phase 2 受け入れ基準のうち「スキーマ設計／マイグレーション管理／RLS方針」の3項目が完了。残りは Auth設定・管理アプリ（Next.js）雛形のVercelデプロイ・Supabase接続。実Supabaseへの適用は SQL Editor で2ファイルを順に実行。</li>
+<li><strong>証跡</strong>: 本コミット。<code>09_データ基盤/</code>（migrations 2本・README）。</li>
+</ul>
 <h2>2026-06-27 ・ Cloudflare登録 ＝【Phase 0 完了】</h2>
 <ul>
 <li><strong>What</strong>: Cloudflare アカウントを <code>admin@musubiweb.com</code> で作成。これで Phase 0 の全SaaS登録が揃い、<strong>Phase 0 完了</strong>。</li>
