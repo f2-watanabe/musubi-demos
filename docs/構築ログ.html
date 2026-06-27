@@ -52,6 +52,20 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-28 ・ Phase 4 月次レポート自動集計（GA4 Data API ingest＋Cron＋公開通知）</h2>
+<ul>
+<li><strong>What</strong>: GA4 Data API でサイト指標を取得し <code>reports</code> へ集計する ingest route、月次 Vercel Cron、レポート公開時の Resend 通知を実装。</li>
+<li><strong>Why</strong>: 解約防止の武器「月次レポート」を、手作業（コメントのみ）に最小化して毎月自動生成・公開するため。データモデル・手入力UI・ポータル表示は既存、残るは自動データ取得とCronだった。</li>
+<li><strong>How</strong>:</li>
+<li>アーキは<strong>案B（1プロパティ集約・<code>hostName</code>で店舗識別）</strong>を採用。顧客には加工レポートのみ見せる方針のため、全店を1つのGA4プロパティに集約し hostName で分離する運用が最軽量（サービスアカウント権限付与が1回で済む）。</li>
+<li><code>musubi-admin/app/api/cron/ingest-ga4/route.ts</code>（GET）: <code>@google-analytics/data</code> で前月分を <code>runReport</code> 2本取得（①hostNameごとセッション ②hostName×eventNameごとイベント数）。<code>stores.site_domain</code> または <code>&lt;site_project&gt;.pages.dev</code> で店舗照合し、<code>reports</code> に access_count(セッション)/phone_tap_count/reservation_count を upsert（<code>onConflict: store_id,period</code>、comment/published_at/GBP系カラムは非破壊）。<code>CRON_SECRET</code> を Bearer 照合、<code>?period=YYYY-MM</code> で手動上書き可。</li>
+<li><code>musubi-admin/vercel.json</code>: <code>0 3 1 * *</code>（毎月1日03:00 UTC）で上記 route を起動。Vercel Cron は <code>Authorization: Bearer $CRON_SECRET</code> を自動付与。</li>
+<li><code>musubi-admin/lib/resend.ts</code>: Resend 送信ヘルパ（<code>RESEND_API_KEY</code> 未設定なら no-op）。<code>app/report/actions.ts</code> の <code>setReportPublished</code> 公開ON時に <code>notifyOwner</code>→<code>stores.owner_user_id</code> の auth.users メール宛に「レポート公開」通知。</li>
+<li>サイト側イベント計測は restaurant/beauty テンプレで <code>phone_tap</code>・<code>reservation_submit</code> を gtag 送信済（既存・追加実装不要）。</li>
+<li><strong>Result</strong>: <code>npm run build</code> 成功、<code>/api/cron/ingest-ga4</code> が動的ルートとして登録。GA4由来指標は鍵投入で自動化、GBP由来は承認まで手入力。<strong>残る外部待ちは (1) GA4サービスアカウント鍵の発行＋プロパティ閲覧権限付与 (2) GBP API承認 のみ。</strong> 鍵類の値は未保管（発行後に Vercel env へ：<code>GA4_PROPERTY_ID</code>/<code>GA4_SA_JSON</code>/<code>CRON_SECRET</code>/<code>RESEND_API_KEY</code>/<code>PORTAL_URL</code>）。</li>
+<li><strong>証跡</strong>: <code>musubi-admin</code> commit <code>f7579c7</code>（route/vercel.json/lib/resend.ts/report actions、<code>.env.example</code> にGA4/Cron/Resend項目追記）。</li>
+</ul>
+<hr>
 <h2>2026-06-28 ・ ドメイン方式を差別化（プレミアム＝独自ドメイン）・解説資料作成・価格表改訂</h2>
 <ul>
 <li><strong>What</strong>: プラン間のドメイン差別化を決め、価格表に反映。サブドメイン／独自ドメインのメリット・デメリットと「解約時にやること」を詳述した資料『ドメインの選び方ガイド』を新規作成し、両方を PDF 化してプロジェクトハブに配置。</li>
