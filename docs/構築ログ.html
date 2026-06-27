@@ -52,6 +52,15 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-27 ・ 管理アプリに「サイト制作（サイトビルダー）」画面を実装【Phase 3・builder MVP】</h2>
+<ul>
+<li><strong>What</strong>: 管理アプリ <code>musubi-admin</code> の <code>/builder</code>（デモ <code>admin/builder.html</code> 相当）をスタブから実画面化。店舗ごとの <code>content.json</code> を Supabase に保存・編集し、公開状況とライブプレビューを表示する。本番デプロイは Vercel サーバ上で直接は実行できないため（python/wrangler/CFトークン/JSONが無い）、<code>content.json</code> のダウンロードと CLI 公開コマンドの提示に留める正直な MVP。</li>
+<li><strong>Why</strong>: ロードマップ「デモ画面↔Phase 対応」の管理アプリ「サイト制作（ビルド接続）＝Phase 3」。Phase 3 のサイト量産（テンプレ＋<code>publish_site.sh</code>）と実公開（<code>sakura-tei.pages.dev</code>）は達成済で、その入力（各店の content）を一元管理する画面を用意して運用に乗せるため。</li>
+<li><strong>How</strong>: (1) migration <code>0006_site_content.sql</code> で <code>stores</code> に <code>template</code>/<code>content</code>(jsonb)/<code>site_project</code>/<code>last_deployed_at</code> を nullable 追加（RLS は既存 <code>stores_staff_all</code>/<code>stores_owner_read</code> がカバー）。Supabase 本番へ適用済。(2) <code>lib/siteDefaults.ts</code>＝テンプレ一覧・新規店の最小 content スキャフォールド・クイック編集フィールド定義（店名/キャッチ/電話/看板メニュー/GA4測定ID を content の dotted-path にマッピング）・<code>getPath</code>/<code>setPath</code>。(3) <code>app/builder/page.tsx</code>＝店舗セレクト→左カードでクイック編集＋<code>content.json</code> 全体テキストエリア（<strong>JSON が正、非空のクイック値を上書きマージ</strong>）、右カードで公開状況（最終デプロイ/独自ドメインを DB 実値で表示・捏造なし）・<strong>ライブプレビュー iframe</strong>（<code>&lt;site_project&gt;.pages.dev</code>）・<code>content.json</code> DL・公開 CLI コマンド提示。(4) <code>app/builder/actions.ts</code> <code>saveSiteContent</code>＝JSON をパース（不正なら保存せずエラー表示）→クイック値を上書き→<code>stores.content/template/site_project</code> を update（書込は RLS の is_staff() ゲートが保護）。(5) <code>app/builder/download/route.ts</code>＝<code>content.json</code> を attachment で返す。(6) <code>.okbox</code>/<code>.mono</code>/<code>.codebox</code> を globals.css に追加。検証: <code>tsc --noEmit</code>・<code>next lint</code>（warnings 0）・<code>next build</code> を <strong>Node v22 スタンドアロンで実行し全て成功</strong>（<code>/builder</code>・<code>/builder/download</code> は dynamic）。実データ確認として store <code>c821fde8</code> に restaurant 例の content＋<code>site_project=sakura-tei</code>＋<code>last_deployed_at</code> を seed（builder で実際にクイック値・JSON・ライブプレビュー・公開中が出る状態）。</li>
+<li><strong>Result</strong>: 「店舗を選ぶ→content を編集・保存→content.json を DL→CLI で公開」の運用がブラウザ完結手前まで通る。<strong>未（次段）</strong>＝ブラウザからの直接デプロイ（build の TS 移植＋Cloudflare 直アップロード API＋CF トークンを Vercel env 保管。設計のみ・別タスク）。<code>last_deployed_at</code> は現状 deploy 手順側で手当てが必要（自動更新は直接デプロイ実装時）。</li>
+<li><strong>証跡</strong>: <code>musubi-admin</code> <code>aacfba0</code>（<code>app/builder/</code>・<code>lib/siteDefaults.ts</code>・<code>app/globals.css</code>）、<code>local-web-sales</code> <code>0006_site_content.sql</code>。</li>
+</ul>
+<hr>
 <h2>2026-06-27 ・ Cloudflare Pages へ実公開し Phase 3 を実地クリア【Phase 3・公開達成/独自ドメインは残】</h2>
 <ul>
 <li><strong>What</strong>: 顧客サイト量産基盤（Phase 3）の最後のブロッカーだった「Cloudflare Pages への実デプロイ」を実施。サンプル店舗サイト（restaurant テンプレ）を生成し本番 Pages へ公開、HTTPS で立ち上がることを実証。<code>publish_site.sh</code> をプロジェクト自動作成つきに改善し真の1コマンド化。</li>
