@@ -59,6 +59,22 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
         │            ├──▶ Phase 4 月次レポート自動集計
         │            └──▶ Phase 5 課金(Stripe)
         └──▶ Phase 7 監視・バックアップ（全体に横断）</code></pre>
+<h3>デモ画面 ↔ Phase 対応（公開ハブのデモを「本番アプリとして組む」トレーサビリティ）</h3>
+<p>デモ（<code>musubi-demos</code>）にある管理アプリ6画面・顧客ポータル3画面は、各Phaseで段階的に本番実装する。</p>
+<ul>
+<li>管理アプリ（運営）</li>
+<li>ダッシュボード／店舗（stores） … Phase 2【実装済】</li>
+<li>営業リスト（CRM） … Phase 2（追加項目）</li>
+<li>サイト制作（ビルド接続） … Phase 3</li>
+<li>口コミ返信AI … Phase 1・6</li>
+<li>請求・サブスク … Phase 5</li>
+<li>レポート … Phase 4</li>
+<li>コストモニタ … Phase 2/7</li>
+<li>顧客ポータル（店舗オーナー）</li>
+<li>土台のデプロイ＋顧客認証 … Phase 2（追加項目）</li>
+<li>成果ホーム／月次レポート閲覧 … Phase 4</li>
+<li>口コミ承認 … Phase 6</li>
+</ul>
 <hr>
 <h2>Phase 0 ・ アカウント準備とAPI申請（最優先）【完了 2026-06-27】</h2>
 <p><strong>目的</strong>: 後工程の前提となる外部アカウントと、リードタイムの長いAPI審査を先に片付ける。</p>
@@ -112,13 +128,15 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li class="done"><span class="bx">✓</span><span>マイグレーション管理を導入（連番SQL。将来 supabase CLI へ移行可）</span></li>
 <li class="done"><span class="bx">✓</span><span>RLS（行レベルセキュリティ）方針を決める（顧客は自店のみ閲覧）← <code>0002_rls.sql</code></span></li>
 <li class="done"><span class="bx">✓</span><span>Auth 設定（運営=管理アプリ＝<code>staff_members</code>登録者のみ。顧客ポータルは別途）← <code>musubi-admin</code> <code>c08f380</code>（コード完成・実キー接続テストは未）</span></li>
-<li class="done"><span class="bx">✓</span><span>管理アプリ（Next.js）を Vercel にデプロイ ← <code>musubi-admin</code> 本番 https://musubi-admin-phi.vercel.app（CLIデプロイ。GitHub自動連携はVercel側Login Connection未追加のため保留）</span></li>
+<li class="done"><span class="bx">✓</span><span>管理アプリ（Next.js）を Vercel にデプロイ ← <code>musubi-admin</code> 本番 https://musubi-admin-two.vercel.app（<strong><code>admin@musubiweb.com</code>＝Team &quot;Musubi&quot; 配下</strong>）。<strong>GitHub⇄Vercel自動デプロイ稼働</strong>（master へ push → 自動ビルドを実証）。コミットメールは GitHub noreply に変更。残: 旧 <code>watanabe-fumiya</code> 配下の重複プロジェクト（<code>-phi</code>）削除のクリーンアップのみ</span></li>
 <li class="done"><span class="bx">✓</span><span>Supabase 接続・環境変数を Vercel に設定 ← <code>NEXT_PUBLIC_SUPABASE_URL</code>／<code>ANON_KEY</code> を全環境に設定・実キーで接続確認済</span></li>
+<li><span class="bx"></span><span>管理アプリに <strong>営業リスト（CRM）画面</strong>を追加（リード取得→ステータス管理。デモの <code>admin/crm</code> に相当。<code>03_営業リスト</code> のスコアリングと連携）</span></li>
+<li><span class="bx"></span><span><strong>顧客ポータル（Next.js）の土台をデプロイ＋顧客（店舗オーナー）認証</strong>（Supabase Auth・<code>stores.owner_user_id</code> で自店のみ閲覧。成果ホームの枠まで）← Phase 4のレポート公開・Phase 6の承認UIが乗る前提。Phase 2目的「運営/<strong>顧客</strong>の認証」の顧客側</span></li>
 <li><span class="bx"></span><span>コストモニタ画面（従量課金サービスの使用量・コストを管理画面に集約表示。詳細は Phase 7）</span></li>
 </ul>
 <p><strong>使用サービス</strong>: Supabase（Postgres/Auth）/ Vercel / Next.js</p>
-<p><strong>受け入れ基準</strong>: 管理アプリからログインでき、DBに1件の店舗レコードをCRUDできる。顧客ロールは他店データが見えない。</p>
-<p><strong>残す証跡</strong>: スキーマ図／DDL、RLSポリシー、デプロイURL。</p>
+<p><strong>受け入れ基準</strong>: 管理アプリからログインでき、DBに1件の店舗レコードをCRUDできる。顧客ロールは他店データが見えない。（顧客ポータルの土台・顧客認証も本Phaseで用意し、成果/レポート/承認の各UIは Phase 4・6 で中身を実装）</p>
+<p><strong>残す証跡</strong>: スキーマ図／DDL、RLSポリシー、デプロイURL（管理アプリ・顧客ポータル）。</p>
 <hr>
 <h2>Phase 3 ・ 顧客サイト量産基盤</h2>
 <p><strong>目的</strong>: <code>content.json + テンプレHTML</code> で店舗サイトを量産し、Cloudflare Pages へ自動デプロイできる状態にする。</p>
