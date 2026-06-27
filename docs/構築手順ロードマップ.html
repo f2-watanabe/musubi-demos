@@ -68,11 +68,11 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>サイト制作（ビルド接続） … Phase 3</li>
 <li>口コミ返信AI … Phase 1・6</li>
 <li>請求・サブスク … Phase 5</li>
-<li>レポート … Phase 4</li>
+<li>レポート … Phase 4【作成・公開の枠 実装済・自動集計は外部待ち】</li>
 <li>コストモニタ … Phase 2/7【枠実装済・実データはPhase 7】</li>
 <li>顧客ポータル（店舗オーナー）</li>
 <li>土台のデプロイ＋顧客認証 … Phase 2（追加項目）【コード実装済・デプロイは外部操作】</li>
-<li>成果ホーム／月次レポート閲覧 … Phase 4</li>
+<li>成果ホーム／月次レポート閲覧 … Phase 4【月次レポート閲覧 実装済・成果ホームはPhase 2で枠】</li>
 <li>口コミ承認 … Phase 6</li>
 </ul>
 <hr>
@@ -158,16 +158,19 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <p><strong>目的</strong>: 解約防止の武器「月次レポート」を、手作業を最小化して毎月生成・公開する。</p>
 <p><strong>手順</strong></p>
 <ul class="task">
-<li><span class="bx"></span><span>GA4 Data API でアクセス/イベント数を取得する処理</span></li>
-<li><span class="bx"></span><span>GBP API で口コミ件数・平均評価・返信対応状況を集計する処理</span></li>
-<li><span class="bx"></span><span>既存 <code>04_サイトテンプレート/report/</code> テンプレへデータ流し込み</span></li>
-<li><span class="bx"></span><span>顧客ポータルへ公開する導線（更新通知メールは Resend）</span></li>
-<li><span class="bx"></span><span>月次の定期実行（Vercel Cron）</span></li>
-<li><span class="bx"></span><span>人の手は「ひとことコメント」のみに限定</span></li>
+<li><span class="bx"></span><span>GA4 Data API でアクセス/イベント数を取得する処理 ← <strong>外部・未</strong>（要 GA4 Data API サービスアカウント。Phase 0 で保留）</span></li>
+<li><span class="bx"></span><span>GBP API で口コミ件数・平均評価・返信対応状況を集計する処理 ← <strong>外部・未</strong>（GBP API 承認待ち）</span></li>
+<li class="done"><span class="bx">✓</span><span>レポートのデータモデル＋指標（GA4/GBP由来）を整備 ← <code>09_データ基盤/.../0004_reports_metrics.sql</code>（<code>reports</code> に reservation_count/phone_tap_count/inquiry_count/search_views/map_views を nullable 追加）</span></li>
+<li class="done"><span class="bx">✓</span><span>顧客ポータルへ公開する導線（成果ホーム＋月次レポート画面） ← <code>musubi-portal</code> <code>07c2b0a</code>。<code>/report</code> を実画面化（最新 published レポートをデモ準拠UIで表示・前月比デルタ）。<strong>更新通知メール（Resend）は未</strong></span></li>
+<li class="done"><span class="bx">✓</span><span>人の手は「ひとことコメント」のみに限定（の枠）← <code>musubi-admin</code> <code>cad129c</code>。<code>/report</code> で store×period のレポートを手入力 upsert・公開/非公開トグル。コメント欄を明示。<strong>現状は全指標が手入力</strong>（GA4/GBP 自動集計が乗れば人手はコメントのみになる）</span></li>
+<li><span class="bx"></span><span>既存 <code>04_サイトテンプレート/report/</code> テンプレへデータ流し込み（自動集計実装時）</span></li>
+<li><span class="bx"></span><span>月次の定期実行（Vercel Cron）← 自動集計が無いため未</span></li>
 </ul>
 <p><strong>使用サービス</strong>: GA4 Data API / GBP API / Vercel Cron / Resend</p>
 <p><strong>受け入れ基準</strong>: 1店舗ぶんのレポートが自動でデータ取得〜生成〜ポータル公開まで通る。手作業はコメント追記だけ。</p>
+<p>→ <strong>公開・表示・管理の枠は達成</strong>（手入力でレポート作成→公開→ポータル表示が通る）。残は GA4 Data API／GBP API による<strong>自動データ取得</strong>と Vercel Cron・Resend通知（外部認証待ち）。</p>
 <p><strong>残す証跡</strong>: 自動生成されたレポート、Cron実行ログ。</p>
+<p><strong>現時点の証跡</strong>: <code>0004_reports_metrics.sql</code>、管理 <code>/report</code>（作成・公開）、ポータル <code>/report</code>（表示・前月比）。</p>
 <hr>
 <h2>Phase 5 ・ 課金（Stripe サブスク）</h2>
 <p><strong>目的</strong>: 月額の自動回収と未入金対応を仕組み化し、請求業務をゼロに近づける。</p>

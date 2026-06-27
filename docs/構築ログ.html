@@ -52,6 +52,14 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-27 ・ 月次レポートの作成・公開・表示を実装【Phase 4・検証可能分】</h2>
+<ul>
+<li><strong>What</strong>: 月次レポート（Phase 4）のうち、データモデル・管理アプリでの作成/公開・顧客ポータルでの表示を実装。GA4/GBP からの自動データ取得と Vercel Cron は外部認証待ちで今回スコープ外。</li>
+<li><strong>Why</strong>: ロードマップ Phase 4。上から順の方針で Phase 2 完了の次。GA4 Data API（サービスアカウント未）・GBP API（承認待ち）で自動取得はブロックだが、レポートの公開・閲覧・管理の枠は今すぐ検証可能なため先行実装（手入力でデータ投入→公開→ポータル表示が通る）。</li>
+<li><strong>How</strong>: (1) マイグレーション <code>0004_reports_metrics.sql</code> で <code>reports</code> に nullable 5カラム追加（reservation_count/phone_tap_count/inquiry_count＝GA4イベント、search_views/map_views＝GBP表示数）。RLSは既存ポリシーがカバー。(2) 管理 <code>musubi-admin</code> <code>/report</code>: AdminShell でラップし、store×period の指標を手入力 <code>upsert(onConflict: store_id,period)</code>、ひとことコメント、公開/非公開トグル（<code>published_at</code> を now()/null）、削除。「自動集計は後送り・現状手入力」を明記。(3) ポータル <code>musubi-portal</code> <code>/report</code>: <code>getReportWithPrev</code> で最新 published＋前月を取得し前月比デルタ算出、デモ <code>portal/report.html</code> を忠実再現（<code>.rep-h</code> 帯・KPI4枚・<code>.meo</code> 表・口コミ状況）。null は「—」、固定数値の捏造なしで全て DB 値バインド。検証: 両リポ <code>tsc</code>/<code>lint</code>/<code>build</code> 通過（<code>/report</code> は両者 dynamic）。</li>
+<li><strong>Result</strong>: 「レポート手入力→公開→顧客ポータルで閲覧（前月比つき）」が通る。Phase 4 の公開・表示・管理の枠は達成。<strong>残（外部）</strong>＝GA4 Data API／GBP API による自動データ取得、Vercel Cron 定期実行、Resend 更新通知。</li>
+<li><strong>証跡</strong>: <code>0004_reports_metrics.sql</code>、<code>musubi-admin</code> <code>cad129c</code>（<code>app/report/</code>）、<code>musubi-portal</code> <code>07c2b0a</code>（<code>app/report/</code>・<code>lib/portal.ts</code>）。</li>
+</ul>
 <h2>2026-06-27 ・ コストモニタ画面の集約表示枠を実装【Phase 2 追加項目・完了】</h2>
 <ul>
 <li><strong>What</strong>: 管理アプリ <code>musubi-admin</code> の <code>/costs</code>（コストモニタ）を、スタブからデモ <code>costs.html</code> 準拠の実画面に。従量課金サービスの利用状況を集約表示する枠を実装。</li>
