@@ -35,6 +35,15 @@ th{background:#eef3f0;font-weight:700}
 hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 a{color:var(--acc)}
 blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px;margin:12px 0;color:var(--sub);font-size:13.5px}
+details.logentry{border:1px solid var(--line);border-radius:10px;background:#fbfaf7;margin:10px 0;overflow:hidden}
+details.logentry>summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+details.logentry>summary::-webkit-details-marker{display:none}
+details.logentry>summary::before{content:"▶";font-size:10px;color:var(--acc);transition:transform .15s}
+details.logentry[open]>summary::before{transform:rotate(90deg)}
+details.logentry[open]>summary{border-bottom:1px solid var(--line);background:#f2efe7}
+details.logentry>summary:hover{color:var(--acc)}
+.logbody{padding:4px 18px 16px}
+.logbody h2{border-top:none;padding-top:0;margin-top:14px}
 .note{margin-top:46px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
 @media print{.top,.brand{display:none}body{background:#fff}.wrap{padding:0}h2{break-after:avoid}}
 </style></head>
@@ -51,8 +60,7 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
-<hr>
-<h2>2026-06-28 ・ Phase 4 月次レポート自動集計（GA4 Data API ingest＋Cron＋公開通知）</h2>
+<details class="logentry"><summary>2026-06-28 ・ Phase 4 月次レポート自動集計（GA4 Data API ingest＋Cron＋公開通知）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: GA4 Data API でサイト指標を取得し <code>reports</code> へ集計する ingest route、月次 Vercel Cron、レポート公開時の Resend 通知を実装。</li>
 <li><strong>Why</strong>: 解約防止の武器「月次レポート」を、手作業（コメントのみ）に最小化して毎月自動生成・公開するため。データモデル・手入力UI・ポータル表示は既存、残るは自動データ取得とCronだった。</li>
@@ -65,8 +73,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: <code>npm run build</code> 成功、<code>/api/cron/ingest-ga4</code> が動的ルートとして登録。GA4由来指標は鍵投入で自動化、GBP由来は承認まで手入力。<strong>残る外部待ちは (1) GA4サービスアカウント鍵の発行＋プロパティ閲覧権限付与 (2) GBP API承認 のみ。</strong> 鍵類の値は未保管（発行後に Vercel env へ：<code>GA4_PROPERTY_ID</code>/<code>GA4_SA_JSON</code>/<code>CRON_SECRET</code>/<code>RESEND_API_KEY</code>/<code>PORTAL_URL</code>）。</li>
 <li><strong>証跡</strong>: <code>musubi-admin</code> commit <code>f7579c7</code>（route/vercel.json/lib/resend.ts/report actions、<code>.env.example</code> にGA4/Cron/Resend項目追記）。</li>
 </ul>
-<hr>
-<h2>2026-06-28 ・ ドメイン方式を差別化（プレミアム＝独自ドメイン）・解説資料作成・価格表改訂</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-28 ・ ドメイン方式を差別化（プレミアム＝独自ドメイン）・解説資料作成・価格表改訂</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: プラン間のドメイン差別化を決め、価格表に反映。サブドメイン／独自ドメインのメリット・デメリットと「解約時にやること」を詳述した資料『ドメインの選び方ガイド』を新規作成し、両方を PDF 化してプロジェクトハブに配置。</li>
 <li><strong>Why</strong>: 独自ドメインを上位プランの価値として位置づけ、解約時の自走可否（サブドメイン＝消滅／独自ドメイン＝持ち運び可）を顧客に明示するため。解約時の移行作業は「別途相談（見積り）」とし、トラブル回避と上位プラン訴求を両立する。</li>
@@ -74,8 +82,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 価格表（<code>サービス価格表.pdf</code>）と新ガイド（<code>ドメインの選び方ガイド.pdf</code>）がハブで閲覧可能に。プラン別ドメイン方針が資料・価格に一貫して反映。Phase 3「独自ドメイン取得〜割当の手順を確立」の運用方針（標準サブ／プレミアム独自・解約時移行は別途）が確定。</li>
 <li><strong>証跡</strong>: <code>local-web-sales</code> <code>06_スクリプト/price_sheet.py</code>・<code>domain_guide.py</code>・<code>01_提案・設計資料/{サービス価格表,ドメインの選び方ガイド}.pptx</code>、<code>musubi-demos</code> <code>pdf/{サービス価格表,ドメインの選び方ガイド}.pdf</code>・<code>index.html</code>。</li>
 </ul>
-<hr>
-<h2>2026-06-27 ・ 管理アプリに「サイト制作（サイトビルダー）」画面を実装【Phase 3・builder MVP】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ 管理アプリに「サイト制作（サイトビルダー）」画面を実装【Phase 3・builder MVP】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 管理アプリ <code>musubi-admin</code> の <code>/builder</code>（デモ <code>admin/builder.html</code> 相当）をスタブから実画面化。店舗ごとの <code>content.json</code> を Supabase に保存・編集し、公開状況とライブプレビューを表示する。本番デプロイは Vercel サーバ上で直接は実行できないため（python/wrangler/CFトークン/JSONが無い）、<code>content.json</code> のダウンロードと CLI 公開コマンドの提示に留める正直な MVP。</li>
 <li><strong>Why</strong>: ロードマップ「デモ画面↔Phase 対応」の管理アプリ「サイト制作（ビルド接続）＝Phase 3」。Phase 3 のサイト量産（テンプレ＋<code>publish_site.sh</code>）と実公開（<code>sakura-tei.pages.dev</code>）は達成済で、その入力（各店の content）を一元管理する画面を用意して運用に乗せるため。</li>
@@ -83,8 +91,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 「店舗を選ぶ→content を編集・保存→content.json を DL→CLI で公開」の運用がブラウザ完結手前まで通る。<strong>未（次段）</strong>＝ブラウザからの直接デプロイ（build の TS 移植＋Cloudflare 直アップロード API＋CF トークンを Vercel env 保管。設計のみ・別タスク）。<code>last_deployed_at</code> は現状 deploy 手順側で手当てが必要（自動更新は直接デプロイ実装時）。</li>
 <li><strong>証跡</strong>: <code>musubi-admin</code> <code>aacfba0</code>（<code>app/builder/</code>・<code>lib/siteDefaults.ts</code>・<code>app/globals.css</code>）、<code>local-web-sales</code> <code>0006_site_content.sql</code>。</li>
 </ul>
-<hr>
-<h2>2026-06-27 ・ Cloudflare Pages へ実公開し Phase 3 を実地クリア【Phase 3・公開達成/独自ドメインは残】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ Cloudflare Pages へ実公開し Phase 3 を実地クリア【Phase 3・公開達成/独自ドメインは残】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 顧客サイト量産基盤（Phase 3）の最後のブロッカーだった「Cloudflare Pages への実デプロイ」を実施。サンプル店舗サイト（restaurant テンプレ）を生成し本番 Pages へ公開、HTTPS で立ち上がることを実証。<code>publish_site.sh</code> をプロジェクト自動作成つきに改善し真の1コマンド化。</li>
 <li><strong>Why</strong>: ロードマップ Phase 3。受け入れ基準「JSON → 1コマンドで HTTPS 公開・計測タグが動く」のうちコード面は達成済で、残っていた Cloudflare 認証トークン発行と実公開を今回のキー入力で消化するため。ドメインは初回 <code>pages.dev</code> 無料サブドメインで「公開サイトが HTTPS で立ち上がる」を満たし、独自ドメインは後送り（Registrar 作業）。</li>
@@ -92,8 +100,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 本番 https://sakura-tei.pages.dev が HTTP 200 で公開・タイトル正常。計測タグは content の <code>ga4.measurement_id</code> が空のため非出力（設計どおり「空なら出さない」を実地で確認。実店舗では測定 ID 設定で出力）。<strong>残</strong>＝独自ドメイン取得〜割当（Registrar・外部）。注: 使った Cloudflare API トークンはセッション作業用で失効推奨。</li>
 <li><strong>証跡</strong>: 本番 URL <code>sakura-tei.pages.dev</code>、Cloudflare account <code>ddc2bc48c202d4714f1aa2bb30da2c8f</code>・Pages project <code>sakura-tei</code>、<code>local-web-sales</code> <code>06_スクリプト/publish_site.sh</code>（プロジェクト自動作成つきに改善）。</li>
 </ul>
-<hr>
-<h2>2026-06-27 ・ Phase 2 の外部・キー必須残を消化し受け入れ基準を実地クリア【Phase 2・完了】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ Phase 2 の外部・キー必須残を消化し受け入れ基準を実地クリア【Phase 2・完了】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: キー入力が必要で先送りしていた Phase 2 の残4項目を実施。(1) Supabase 本番へ未適用だった <code>0003_leads.sql</code>・<code>0004_reports_metrics.sql</code> を適用、(2) 顧客ポータル <code>musubi-portal</code> の Vercel 環境変数を設定し本番デプロイ、(3) Supabase Auth に顧客テストユーザーを作成し <code>stores.owner_user_id</code> に紐付け、(4) 管理ユーザー <code>admin@musubiweb.com</code> のログインパスワードを既知値にリセット。仕上げに顧客／管理 両ロールのログインと RLS 分離を実地で検証。</li>
 <li><strong>Why</strong>: ロードマップを Phase 2 から振り返り、外部操作・キー必須で <code>[ ]</code> のまま残っていた項目を実際のキーで消化するため。Phase 2 の受け入れ基準（管理アプリからログイン→店舗 CRUD／顧客ロールは自店のみ閲覧／顧客ポータル土台と顧客認証）を、コードだけでなく本番環境で満たすのが目的。</li>
@@ -101,8 +109,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: Phase 2 の残4項目が完了し、受け入れ基準を本番環境で実地クリア。顧客ポータル本番 https://musubi-portal.vercel.app が稼働（Supabase 接続・認証ゲート動作）。RLS による店舗データ分離を顧客／staff の両トークンで実証。ログイン情報（値は本ログに非記載・パスワードマネージャ保管）＝顧客 <code>portal-demo@musubiweb.com</code>／管理 <code>admin@musubiweb.com</code>。注: 作業に使った Supabase 個人アクセストークン・Vercel アクセストークンはセッション限りの想定で、作業後の失効を推奨。</li>
 <li><strong>証跡</strong>: Supabase project <code>hsyhiiqrrtrbxexqyixi</code>（<code>leads</code>／<code>reports</code> 適用済・<code>stores.owner_user_id</code> 紐付け）、<code>musubi-portal</code> 本番デプロイ（commit <code>07c2b0a</code> を env 付きで再ビルド）、<code>local-web-sales</code> <code>0003_leads.sql</code>・<code>0004_reports_metrics.sql</code>。</li>
 </ul>
-<hr>
-<h2>2026-06-27 ・ Stripe サブスク課金を実装【Phase 5・コード面完了/実テストは外部待ち】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ Stripe サブスク課金を実装【Phase 5・コード面完了/実テストは外部待ち】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 課金（Phase 5）の中核を <code>musubi-admin</code> に実装。料金プラン定義・サブスク作成/解約・初期費の決済リンク・Stripe Webhook での DB 同期・請求画面（<code>/billing</code>）。実テスト（テストモードでの契約→課金→失敗→解約の通し）は API キー等が未設定のため未実施。</li>
 <li><strong>Why</strong>: ロードマップ Phase 5。上から順の方針で Phase 4 の次。Stripe はテスト疎通済（charges/payouts enabled）で、コードとビルドは今すぐ固められる。実キー（<code>STRIPE_SECRET_KEY</code>）・price ID・Webhook secret・Supabase service role・Stripe CLI が揃えば実テストに進める。</li>
@@ -110,8 +118,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 「請求画面の表示・契約作成/解約・初期費リンク・Webhook 同期」がコードとして完成しビルドが通る。<strong>未（外部操作・キー必須で今回未実施）</strong>＝(a) <code>.env.local</code> に <code>STRIPE_SECRET_KEY</code>/<code>STRIPE_WEBHOOK_SECRET</code>/<code>STRIPE_PRICE_*</code>/<code>SUPABASE_URL</code>/<code>SUPABASE_SERVICE_ROLE_KEY</code> 設定、(b) Supabase 本番へ <code>0005</code> 適用、(c) <code>stripe_setup_products.mjs</code> 実行で price 作成、(d) Stripe CLI で <code>stripe listen</code>/<code>trigger</code> による実テスト。<strong>Resend リトライ案内・未入金フロー・領収書自動発行は未実装</strong>（Webhook に TODO コメントのみ。Resend 接続は Phase 7）。</li>
 <li><strong>証跡</strong>: <code>musubi-admin</code> <code>40bcb2b</code>（<code>app/billing/</code>・<code>app/api/stripe/webhook/</code>・<code>lib/{plans,stripe,auth}.ts</code>・<code>lib/supabase/service.ts</code>）、<code>local-web-sales</code> <code>0005_billing_sync.sql</code>・<code>06_スクリプト/stripe_setup_products.mjs</code>。</li>
 </ul>
-<hr>
-<h2>2026-06-27 ・ 月次レポートの作成・公開・表示を実装【Phase 4・検証可能分】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ 月次レポートの作成・公開・表示を実装【Phase 4・検証可能分】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 月次レポート（Phase 4）のうち、データモデル・管理アプリでの作成/公開・顧客ポータルでの表示を実装。GA4/GBP からの自動データ取得と Vercel Cron は外部認証待ちで今回スコープ外。</li>
 <li><strong>Why</strong>: ロードマップ Phase 4。上から順の方針で Phase 2 完了の次。GA4 Data API（サービスアカウント未）・GBP API（承認待ち）で自動取得はブロックだが、レポートの公開・閲覧・管理の枠は今すぐ検証可能なため先行実装（手入力でデータ投入→公開→ポータル表示が通る）。</li>
@@ -119,7 +127,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 「レポート手入力→公開→顧客ポータルで閲覧（前月比つき）」が通る。Phase 4 の公開・表示・管理の枠は達成。<strong>残（外部）</strong>＝GA4 Data API／GBP API による自動データ取得、Vercel Cron 定期実行、Resend 更新通知。</li>
 <li><strong>証跡</strong>: <code>0004_reports_metrics.sql</code>、<code>musubi-admin</code> <code>cad129c</code>（<code>app/report/</code>）、<code>musubi-portal</code> <code>07c2b0a</code>（<code>app/report/</code>・<code>lib/portal.ts</code>）。</li>
 </ul>
-<h2>2026-06-27 ・ コストモニタ画面の集約表示枠を実装【Phase 2 追加項目・完了】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ コストモニタ画面の集約表示枠を実装【Phase 2 追加項目・完了】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 管理アプリ <code>musubi-admin</code> の <code>/costs</code>（コストモニタ）を、スタブからデモ <code>costs.html</code> 準拠の実画面に。従量課金サービスの利用状況を集約表示する枠を実装。</li>
 <li><strong>Why</strong>: ロードマップ Phase 2 の追加項目「コストモニタ画面（使用量・コストを集約表示。詳細は Phase 7）」。上から順の方針で Phase 2 残の最後の項目。</li>
@@ -127,7 +136,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: Phase 2 の追加3項目（営業リストCRM・顧客ポータル土台・コストモニタ枠）が出そろい、管理アプリ側のPhase 2スコープは完了。実データ接続は Phase 7。</li>
 <li><strong>証跡</strong>: <code>musubi-admin</code> <code>e0ef40f</code>（<code>app/costs/page.tsx</code>）。</li>
 </ul>
-<h2>2026-06-27 ・ ハブドキュメント再生成・顧客ポータルをGitHub公開・管理アプリUIをデモ準拠化</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ ハブドキュメント再生成・顧客ポータルをGitHub公開・管理アプリUIをデモ準拠化</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) 公開ハブ（<code>musubi-demos</code>）の構築ログ/ロードマップHTMLを最新の <code>.md</code> から再生成、(2) 顧客ポータル <code>musubi-portal</code> を GitHub に新規リポ作成＋push、(3) 管理アプリ <code>musubi-admin</code> のUIをデモ（サイドバー型コンソール）に合わせて reskin。</li>
 <li><strong>Why</strong>: ハブ配信の構築ドキュメントが CRM・顧客ポータル実装を反映できていなかった。ポータルはローカルコミットのみで GitHub 未登録だった。管理アプリのUIがデモ（<code>02_デモサイト/admin</code>＝サイドバー型）と乖離しており、デモと同じ見た目に揃える方針。</li>
@@ -135,7 +145,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: ハブの構築ログ/ロードマップが最新（push 反映済）。<code>musubi-portal</code> は GitHub 上で管理開始（private）。管理アプリUIがデモ準拠に。<strong>管理アプリは本番自動デプロイのため push は保留（依頼時に実施）</strong>。</li>
 <li><strong>証跡</strong>: <code>musubi-demos</code> <code>8bfec1c</code>（docs再生成）、<code>musubi-portal</code> GitHub 作成＋初回push、<code>musubi-admin</code> <code>87e6177</code>（AdminShell・reskin）。</li>
 </ul>
-<h2>2026-06-27 ・ 顧客ポータルの土台＋顧客（店舗オーナー）認証を実装【Phase 2 追加項目・コード完了】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ 顧客ポータルの土台＋顧客（店舗オーナー）認証を実装【Phase 2 追加項目・コード完了】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 店舗オーナー向けの顧客ポータルを<strong>新リポ <code>musubi-portal</code></strong> として新規構築。Supabase Auth による顧客認証（<code>stores.owner_user_id</code> ゲート）と成果ホーム画面を実装。タブ（成果ホーム/口コミ承認/月次レポート/自店サイト）の枠を用意し、口コミ承認=Phase 6・月次レポート=Phase 4 はスタブ。</li>
 <li><strong>Why</strong>: ロードマップ Phase 2 の目的「運営/<strong>顧客</strong>の認証」の顧客側。Phase 4（レポート公開）・Phase 6（承認UI）がこのポータル上に乗る前提のため、土台と認証を先に用意する。ロードマップ上から順の方針で、CRM の次の未着手項目。</li>
@@ -144,7 +155,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>補足（ビルド注意）</strong>: 本環境（Node 18）で初回ビルドが <code>@tailwindcss/oxide</code> の native binding 不足（npm optional-deps バグ #4828）で失敗。<code>@tailwindcss/oxide-darwin-arm64</code> を明示インストールで解消（<code>--no-save</code>のため package.json 不変）。クリーン再インストール時に再発し得る。Vercel（Linux）ビルドには影響しない見込み。</li>
 <li><strong>証跡</strong>: <code>musubi-portal</code> <code>2f88bb3</code>（21ファイル：設定一式・<code>lib/supabase/*</code>・<code>middleware.ts</code>・<code>app/login/*</code>・<code>app/home/page.tsx</code>・<code>components/PortalNav.tsx</code>・<code>lib/portal.ts</code>・スタブ3ページ）。</li>
 </ul>
-<h2>2026-06-27 ・ 管理アプリに営業リスト（CRM）画面を実装【Phase 2 追加項目・完了】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ 管理アプリに営業リスト（CRM）画面を実装【Phase 2 追加項目・完了】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: <code>musubi-admin</code> に営業リスト（CRM）画面 <code>/crm</code> を追加。リードの追加・編集・削除、ステータス管理（未着手→アポ→商談→受注/除外）、優先度スコア/ランクの自動算出、CSV一括取込、ランク/ステータスでのフィルタを実装。デモ <code>musubi-demos/admin/crm.html</code> に相当する画面を本番アプリとして組んだ。</li>
 <li><strong>Why</strong>: ロードマップ Phase 2 の追加項目「営業リスト（CRM）画面」。Phase 1（GBP API承認待ち）は外部依存で着手不可のため、実装可能な最上位項目として着手。<code>03_営業リスト</code> のスコアリング（<code>score.py</code>）を管理アプリ側に取り込み、収集→採点→ステータス管理を一画面に集約する。</li>
@@ -152,7 +164,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: コード面は完了。型チェック・lint・本番ビルドを通過。<strong>残（外部操作）</strong>＝Supabase本番へ <code>0003_leads.sql</code> を適用（SQL Editor）。適用後にデプロイされた <code>/crm</code> で実データ動作を確認する。</li>
 <li><strong>証跡</strong>: <code>musubi-admin</code> <code>89f612e</code>（<code>app/crm/</code>・<code>lib/score.ts</code>・<code>components/Nav.tsx</code>）。<code>09_データ基盤/supabase/migrations/0003_leads.sql</code>。</li>
 </ul>
-<h2>2026-06-27 ・ 管理アプリを admin@ 配下へ移管・GitHub自動デプロイ稼働</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ 管理アプリを admin@ 配下へ移管・GitHub自動デプロイ稼働</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: <code>musubi-admin</code> の Vercelプロジェクトを <code>watanabe-fumiya</code>（GitHub個人 f2-watanabe）配下 → <strong><code>admin@musubiweb.com</code>＝Team &quot;Musubi&quot; 配下</strong>へ移し直し、GitHub⇄Vercel の自動デプロイを成立させた。本番URLは https://musubi-admin-two.vercel.app。</li>
 <li><strong>Why</strong>: 当初CLIが f2-watanabe でログイン中だったため誤った帰属になっていた。Phase 0方針「各SaaSは admin@musubiweb.com に集約」。また f2-watanabe アカウントは GitHub Login Connection 未追加で自動デプロイが張れなかった（push時に「commit emailがGitHubアカと不一致」でブロック）。</li>
@@ -160,7 +173,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: admin@配下に統合＋master push で自動デプロイ。<code>/login</code>200・<code>/</code>→<code>/login</code>307 を確認。旧 <code>watanabe-fumiya/musubi-admin</code>（<code>musubi-admin-phi.vercel.app</code>）はダッシュボードから削除済（旧URL 404 を確認）。</li>
 <li><strong>証跡</strong>: 本コミット。新本番URL／自動デプロイのBuilding確認。</li>
 </ul>
-<h2>2026-06-27 ・ 顧客サイト量産基盤（2業種目テンプレ＋GA計測＋公開1コマンド化）【Phase 3 進捗】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ 顧客サイト量産基盤（2業種目テンプレ＋GA計測＋公開1コマンド化）【Phase 3 進捗】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 顧客サイト量産の土台を強化。(1) テンプレートエンジン <code>build_site.py</code> に <code>{{#if key}}...{{/if}}</code> を追加、(2) 既存 <code>restaurant</code> テンプレと新規 <strong>美容室テンプレ <code>04_サイトテンプレート/beauty/</code></strong> に GA4計測（電話タップ<code>phone_tap</code>／フォーム送信<code>reservation_submit</code>）を標準同梱、(3) ビルド→Cloudflare Pages公開を1コマンドにする <code>06_スクリプト/publish_site.sh</code> を追加。</li>
 <li><strong>Why</strong>: Phase 3 受け入れ基準「新規JSON→1コマンドで公開サイトがHTTPSで立ち上がり計測タグが動く」。2業種目の追加で量産性（テンプレ流用のしやすさ）を実証する。</li>
@@ -168,7 +182,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 飲食・美容室の2テンプレが同一パイプラインで量産可能に。<code>publish_site.sh</code> で「JSON→ビルド→公開」を1コマンド化。<strong>コード面の受け入れ基準は達成</strong>（計測タグの動作はビルド検証で確認）。<strong>残（外部操作）</strong>＝Cloudflare APIトークン発行・Pagesプロジェクト作成・独自ドメイン割当。加えて <code>wrangler</code> は Node 22要（本環境は v18.18 のため実デプロイは未実行）。</li>
 <li><strong>証跡</strong>: 本コミット。<code>04_サイトテンプレート/beauty/</code>（template.html／content.example.json／README）、<code>06_スクリプト/build_site.py</code>（#if対応）・<code>publish_site.sh</code>、<code>restaurant/template.html</code>（GA同梱）。</li>
 </ul>
-<h2>2026-06-27 ・ <code>musubi-admin</code> を本番デプロイ・E2E検証＝【Phase 2 受け入れ基準クリア】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ <code>musubi-admin</code> を本番デプロイ・E2E検証＝【Phase 2 受け入れ基準クリア】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: <code>musubi-admin</code> を Vercel 本番にデプロイし、実Supabaseに対して「ログイン→stores CRUD→RLS分離」を通しで検証。<strong>Phase 2 完了</strong>。</li>
 <li><strong>Why</strong>: Phase 2 の残タスク（Vercelデプロイ・Supabase接続・受け入れ基準の実証）を片付けるため。</li>
@@ -176,7 +191,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 本番 https://musubi-admin-phi.vercel.app 稼働。未ログインは <code>/login</code> へ307、<code>/login</code> は200。受け入れ基準「管理アプリからログイン・storesを1件CRUD・顧客ロールは他店不可視」を<strong>実機で満たした</strong>。<strong>残</strong>＝Vercel⇄GitHub の自動デプロイ連携（Vercelアカウントに GitHub Login Connection 追加→Import で有効化。現状はCLIデプロイで代替）。</li>
 <li><strong>証跡</strong>: 本コミット。<code>musubi-admin</code> 初回コミット <code>4094b8e</code>／本番URL。</li>
 </ul>
-<h2>2026-06-27 ・ 管理アプリ <code>musubi-admin</code> をデプロイ可能な完全形に再構築【Phase 2 進捗】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ 管理アプリ <code>musubi-admin</code> をデプロイ可能な完全形に再構築【Phase 2 進捗】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 別リポ <code>musubi-admin</code> を、ビルド・デプロイ可能な完全形として再構築。前エントリで参照していた <code>c08f380</code> の実体は本作業環境に存在せず（ローカルには <code>page.tsx</code>／<code>stores/actions.ts</code> の2ファイルのみで、参照先 <code>lib/supabase/*</code>・<code>package.json</code>・認証一式が欠落）、デプロイ不能だったため作り直した。Next.js <strong>15.5.19</strong>（前回記載の 15.5.4 は CVE-2025-66478 のため最新パッチへ更新）/ App Router / TS / Tailwind v4 / <code>@supabase/ssr</code>。</li>
 <li><strong>Why</strong>: Phase 2 の残タスク「管理アプリをVercelにデプロイ／Supabase接続」を実行するには、まずデプロイ可能なコードベースが必要。</li>
@@ -184,7 +200,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 認証＋storesCRUDが build/lint/型チェックを通過し、独立gitリポとして初回コミット。<strong>未実施（外部操作が必要）</strong>＝(1) GitHubへpush、(2) Vercel連携＋実Supabaseキー（<code>NEXT_PUBLIC_SUPABASE_URL</code>／<code>ANON_KEY</code>）の設定、(3) 実キーでの接続・CRUD動作確認、(4) <code>staff_members</code> に運営ユーザーを登録してのログイン確認、(5) RLSのrole分離の実テスト。</li>
 <li><strong>証跡</strong>: 本コミット（local-web-sales側ドキュメント）。実装本体は <code>musubi-admin</code> リポ初回コミット <code>4094b8e</code>。</li>
 </ul>
-<h2>2026-06-27 ・ 管理アプリ（Next.js）に認証＋stores CRUDを実装【Phase 2 進捗】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ 管理アプリ（Next.js）に認証＋stores CRUDを実装【Phase 2 進捗】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 別リポ <code>musubi-admin</code>（Next.js 15.5.4 / App Router / TS / Tailwind）に、Supabase認証と店舗（stores）のCRUDを実装。<code>@supabase/ssr</code> でサーバ／middlewareクライアントを構成、middlewareで未ログインは <code>/login</code> へ誘導しセッションを更新。メール＋パスワードでログインし、<strong><code>staff_members</code> に登録された運営ユーザーのみ管理アプリに入れる</strong>。<code>/stores</code> で一覧・追加・編集・削除（server actions）。</li>
 <li><strong>Why</strong>: Phase 2 受け入れ基準「管理アプリからログインでき、storesを1件CRUDできる／顧客ロールは他店が見えない」を満たすため。Phase 1（GBP承認待ち）と並行して進められる中核。</li>
@@ -192,7 +209,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 認証＋CRUDのコードは完成し、build/lint/型チェックを通過。<strong>未実施</strong>＝(1) 実Supabaseキーでの接続・動作確認（実キーはユーザー保管、<code>.env.example</code> のみ用意）、(2) Vercelデプロイ、(3) RLSのrole強制の実テスト。<code>musubi-admin</code> のコミットは <code>c08f380</code>。</li>
 <li><strong>証跡</strong>: 本コミット（local-web-sales側のドキュメント更新）。実装本体は <code>musubi-admin</code> リポ <code>c08f380</code>。</li>
 </ul>
-<h2>2026-06-27 ・ Supabaseスキーマ／マイグレーション／RLS作成【Phase 2 着手】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ Supabaseスキーマ／マイグレーション／RLS作成【Phase 2 着手】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: データ基盤の中核スキーマをローカルに作成（<code>09_データ基盤/supabase/migrations/</code>）。5テーブル（stores / contracts / reviews / invoices / reports）＋運営判定用 <code>staff_members</code>、4 enum（plan/contract/review/invoice status）、<code>updated_at</code> 自動更新トリガ、RLSポリシー一式。</li>
 <li><strong>Why</strong>: Phase 1（GBP API承認待ち＝外部律速）を待つ間に、並行で着手できる土台がデータ基盤。顧客・契約・口コミ・請求・月次レポートを一元管理するDBを先に固める。</li>
@@ -200,7 +218,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: Phase 2 受け入れ基準のうち「スキーマ設計／マイグレーション管理／RLS方針」の3項目が完了。残りは Auth設定・管理アプリ（Next.js）雛形のVercelデプロイ・Supabase接続。実Supabaseへの適用は SQL Editor で2ファイルを順に実行。</li>
 <li><strong>証跡</strong>: 本コミット。<code>09_データ基盤/</code>（migrations 2本・README）。</li>
 </ul>
-<h2>2026-06-27 ・ Cloudflare登録 ＝【Phase 0 完了】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ Cloudflare登録 ＝【Phase 0 完了】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: Cloudflare アカウントを <code>admin@musubiweb.com</code> で作成。これで Phase 0 の全SaaS登録が揃い、<strong>Phase 0 完了</strong>。</li>
 <li><strong>Why</strong>: 顧客サイト配信（Cloudflare Pages）の土台。Phase 0（アカウント準備・API申請）のゴール到達。</li>
@@ -208,7 +227,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: <strong>Phase 0 受け入れ基準クリア</strong> — GBP API申請受付済（承認待ち＝Phase 1の律速）、各SaaS（Google/Anthropic/Supabase/Vercel/Cloudflare/Stripe/Resend/GA4）にログイン可・キーは各 <code>.env</code>／パスワードマネージャに保管。次は <strong>Phase 1（GBP承認待ち）と並行で Phase 2（データ基盤）着手可</strong>。</li>
 <li><strong>証跡</strong>: 本コミット。</li>
 </ul>
-<h2>2026-06-27 ・ GA4 プロパティ作成【Phase 0 進捗】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ GA4 プロパティ作成【Phase 0 進捗】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: GA4 アカウント <code>Musubi</code>・プロパティ（タイムゾーン 日本 / 通貨 JPY）を作成。ウェブのデータストリームを1本発行し測定ID <code>G-2508HY449K</code> を取得。</li>
 <li><strong>Why</strong>: アクセス計測の土台。月次レポート（Phase 4）でアクセス数を自動集計する素地。</li>
@@ -216,7 +236,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: Phase 0 のSaaS登録は <strong>残り Cloudflare のみ</strong>。測定IDはサイトに埋め込む公開IDのため記録（APIキー等の機密とは別扱い）。</li>
 <li><strong>証跡</strong>: 本コミット。</li>
 </ul>
-<h2>2026-06-27 ・ 主要SaaS登録（Supabase / Vercel / Resend / Stripe）【Phase 0 進捗】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ 主要SaaS登録（Supabase / Vercel / Resend / Stripe）【Phase 0 進捗】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: <code>admin@musubiweb.com</code> で4サービスを登録。Supabase（東京リージョンでプロジェクト作成）、Vercel（チーム Musubi・GitHub 連携）、Resend（<code>send.musubiweb.com</code> の送信ドメインを認証）、Stripe（本人確認完了・JP/JPY・テスト疎通OK）。</li>
 <li><strong>Why</strong>: Phase 2 以降の土台（DB / ホスティング / 通知メール / 課金）。特に Stripe の本人確認は審査リードタイムがあるため先に通す。</li>
@@ -224,7 +245,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: Stripe は本人確認反映後 <strong>charges / payouts = enabled</strong>、テスト環境（livemode=false）で疎通。残りは GA4・Cloudflare。各キーは各 <code>.env</code>（gitignore済・非追跡）で秘匿。</li>
 <li><strong>証跡</strong>: 本コミット。<code>stripe-probe/</code>（probe.js・package.json）。APIキー値は記録しない（保管場所のみ）。</li>
 </ul>
-<h2>2026-06-27 ・ コストモニタ（従量課金の利用状況可視化）を要件追加</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ コストモニタ（従量課金の利用状況可視化）を要件追加</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 管理アプリに「コストモニタ」画面を追加（NAVに新設）。従量課金サービス7種（Anthropic / Stripe / Vercel / Supabase / Resend / Cloudflare / GA4）の当月使用量・コスト・月上限・前月比を1画面に集約。各行に取得方法バッジ（自動／計算／条件付・対象外）。</li>
 <li><strong>Why</strong>: 運用費は従量で増える。どこにいくらかかっているかをコンソール横断で見るのは手間。管理画面に集約し、暴走課金（特にAI）を上限アラートで早期検知する。</li>
@@ -232,7 +254,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 管理アプリデモが9画面に。「自動取得3社／自前計算2社／対象外2社」の切り分けが画面と手順に落ちた。実装はPhase 2/7で（Anthropicのコスト取得には Admin APIキーの別途発行が必要）。</li>
 <li><strong>証跡</strong>: 本コミット。<code>06_スクリプト/build_admin.py</code>、<code>02_デモサイト/admin/costs.html</code>。</li>
 </ul>
-<h2>2026-06-27 ・ Anthropic アカウント・APIキー発行【Phase 0 進捗】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ Anthropic アカウント・APIキー発行【Phase 0 進捗】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: <code>admin@musubiweb.com</code> で Anthropic を組織登録。請求設定＋月の使用上限を設定。プロトタイプ用のAPIキーを発行し <code>gbp-review-reply/.env</code> に設定。動作実績（初期検証）でコスト約$5.5。</li>
 <li><strong>Why</strong>: 口コミ自動返信の生成エンジン。Phase 0 のSaaS登録のうち最優先（中核機能が依存）。月上限を設定して暴走課金を防ぐ。</li>
@@ -240,7 +263,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: キー発行・接続準備完了。<code>GBP_MODE=mock</code> でClaude下書き生成が叩ける状態。実績コスト$5.5（検証分）。Phase 0 のSaaS登録チェックを1つ消化。</li>
 <li><strong>証跡</strong>: 本コミット。APIキーは <code>.env</code>（gitignore済・非追跡）で秘匿。値は記録しない（保管場所のみ）。</li>
 </ul>
-<h2>2026-06-27 ・ 公開ハブを「プロジェクトハブ」に改称・運用コスト掲載</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ 公開ハブを「プロジェクトハブ」に改称・運用コスト掲載</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 公開ハブ（musubi-demos）を「デモ一覧」→「プロジェクトハブ」に改称。運用（ランニング）コストの月額目安を掲載。</li>
 <li><strong>Why</strong>: デモ単体でなく、資料・環境構築の記録・コストを束ねる場になったため名称を実態に合わせた。運用費を見える化して判断材料に。</li>
@@ -248,7 +272,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 立ち上げ期 月約¥1,000〜2,000、本番運用期 月約¥10,000前後＋従量、が一目で分かる状態。</li>
 <li><strong>証跡</strong>: 本コミット。</li>
 </ul>
-<h2>2026-06-27 ・ OAuth同意画面・クライアントID発行【Phase 0 完了】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ OAuth同意画面・クライアントID発行【Phase 0 完了】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: OAuth同意画面を Audience=Internal で構成（スコープ <code>business.manage</code>）。ウェブアプリ型のクライアントID/シークレットを発行（リダイレクト <code>http://localhost:5858/oauth2callback</code>）。プロトタイプの <code>.env</code> に設定。</li>
 <li><strong>Why</strong>: GBP API認可の前提。OAuth認可するのは自社 admin@musubiweb.com のみ（店舗はGBPのマネージャー権限でadmin@を招待する本番モデル）。Internal なら機密スコープでもGoogle検証審査が不要で最速。</li>
@@ -256,7 +281,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: Phase 0 の GBP 認可周りが完了。残るは <strong>API審査の承認待ち</strong>のみ。承認後 <code>npm run auth</code> → <code>GBP_MODE=live</code> で実接続。</li>
 <li><strong>証跡</strong>: 本コミット。client_id/secret は <code>.env</code>（gitignore済・非追跡）で秘匿管理。</li>
 </ul>
-<h2>2026-06-27 ・ GCP整備・Business Profile API 利用申請を提出【Phase 0 進捗】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ GCP整備・Business Profile API 利用申請を提出【Phase 0 進捗】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: GCPプロジェクト確保（自動生成の My First Project を流用）＋請求先アカウントをリンク。Business Profile系API3種（Account Management / Business Information / Performance）を有効化。Musubi自社のビジネスプロフィール（サービス提供型・住所非公開）を作成。Google My Business API（v4）の利用申請を提出。</li>
 <li><strong>Why</strong>: 口コミの取得・返信投稿（v4）は審査制で、申請が全体の律速。最優先で提出した。新規Workspaceは組織レベルの project 作成権限が無く、自動生成プロジェクトを流用して権限の壁を回避。申請フォームが自社ビジネスプロフィール保有を前提とするため、サービス提供型で作成。</li>
@@ -264,7 +290,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 申請受付。承認待ち（数日〜数週間）。待ち時間は OAuth同意画面・クライアントID発行、他SaaS登録、Phase 2/3 を並行で進められる。</li>
 <li><strong>証跡</strong>: 本コミット。プロジェクトID・番号は別途秘匿管理（公開リポジトリには記載しない）。</li>
 </ul>
-<h2>2026-06-27 ・ 表記をローマ字「Musubi」に統一</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ 表記をローマ字「Musubi」に統一</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: ブランド表記を「むすび」→「Musubi」に統一。ロゴ（ワードマーク &quot;Musubi&quot; 入り）を使う面はテキスト名を省き、テキストで名前を出す面は「Musubi」。</li>
 <li><strong>Why</strong>: ロゴに &quot;Musubi&quot; の文字が入っており、ローマ字表記で統一する方針。</li>
@@ -272,7 +299,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 全Web面・資料のブランド表記が &quot;Musubi&quot; に統一。</li>
 <li><strong>証跡</strong>: 本コミット。</li>
 </ul>
-<h2>2026-06-27 ・ ドメイン取得・Google Workspace開設【完了】</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ ドメイン取得・Google Workspace開設【完了】</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: <code>musubiweb.com</code> を取得し、Google Workspace を開設。<code>admin@musubiweb.com</code> を発行。</li>
 <li><strong>Why</strong>: 会社用Googleアカウントの土台。フリーGmailより独自ドメイン＋Workspaceが信用・移行面で有利（[[構築手順ロードマップ]] Phase 0）。</li>
@@ -281,7 +309,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>証跡</strong>: 本コミット。ロードマップ Phase 0 の該当項目をチェック済に更新。</li>
 <li><strong>次アクション</strong>: GBP API利用申請（審査が律速・最優先）→ Phase 1 の実店舗疎通。</li>
 </ul>
-<h2>2026-06-27 ・ ロゴ（仮）の適用・背景透過</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ ロゴ（仮）の適用・背景透過</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 仮ロゴ（紺の結び目マーク＋&quot;Musubi&quot;ワードマーク）を全Web面のブランドに適用。背景を透過化。</li>
 <li><strong>Why</strong>: 「結」の暫定マーク／テキストから、実ロゴへ差し替え。透過PNGで任意背景に重ねられるようにする。</li>
@@ -289,7 +318,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 透過確認済（紺/白背景に重ねて検証）。各面のブランドが実ロゴに。資産は <code>assets/musubi-logo.png</code> / <code>musubi-mark.png</code> / <code>musubi-mark-white.png</code>。</li>
 <li><strong>証跡</strong>: 本コミット。<code>06_スクリプト/make_logo_transparent.py</code>。※ロゴは仮のため、確定後に差し替え予定。</li>
 </ul>
-<h2>2026-06-27 ・ チーム/社名の決定とアカウント方針</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-27 ・ チーム/社名の決定とアカウント方針</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: ブランド名を「むすび（Musubi）」に確定。表記は「むすび制作」→「むすび」へ統一。Googleアカウントは独自ドメイン <code>musubiweb.com</code> ＋ Google Workspace で発行する方針に決定。</li>
 <li><strong>Why</strong>: 既存の「結」ロゴ・全資料・デモがむすび基盤で、継続が切替コスト最小。SaaS要素（口コミ自動返信）も出てきたため「制作」を外しブランドを広く取る。会社用メールはフリーGmailより独自ドメインWorkspaceが信用・移行面で有利。<code>.co.jp</code> は取得済みのため <code>.com</code> を採用。</li>
@@ -297,7 +327,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 表記統一。アカウント発行はドメイン取得→Workspace設定（<code>admin@musubiweb.com</code>）が次アクション。</li>
 <li><strong>証跡</strong>: 本コミット。ドメイン取得・Workspace開設は実施後に追記。</li>
 </ul>
-<h2>2026-06-26 ・ 口コミ自動返信プロトタイプのセキュリティ対策</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-26 ・ 口コミ自動返信プロトタイプのセキュリティ対策</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: <code>gbp-review-reply</code> にインジェクション／CSRF／無人公開投稿の対策を追加。</li>
 <li><strong>Why</strong>: 口コミ本文は第三者が自由に書ける信頼できないデータ。AIが生成した返信がそのまま公開投稿されるため、悪用で不適切な内容が店舗名義で公開されるリスクがある。</li>
@@ -309,7 +340,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 悪性下書き（割引・URL・&quot;ignore instructions&quot;）を検証で全て検出、正常文は通過。mockパイプライン健全。</li>
 <li><strong>証跡</strong>: commit <code>5924cdb</code>。</li>
 </ul>
-<h2>2026-06-26 ・ 口コミ自動返信の疎通プロトタイプ実装</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-26 ・ 口コミ自動返信の疎通プロトタイプ実装</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 取得→Claude下書き→承認→投稿のパイプライン最小実装（<code>gbp-review-reply</code>）。</li>
 <li><strong>Why</strong>: 月額価値の根幹がGBP APIに全依存。API審査前でもパイプラインを検証し、後戻りを防ぐ必要がある（環境構築前の最重要検証）。</li>
@@ -317,7 +349,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: mockで全工程が通過。★2は要人間レビューでskipされることを確認。</li>
 <li><strong>証跡</strong>: commit <code>90e5faf</code>。次アクション=GBP API利用申請（ロードマップ Phase 0）。</li>
 </ul>
-<h2>2026-06-26 ・ 料金プランの再構築</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-26 ・ 料金プランの再構築</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 価格表を3頁化（プランカード／機能比較マトリクス／オプション）。提供しない機能を撤去。</li>
 <li><strong>Why</strong>: 「24時間営業マン」の訴求が不明瞭、見通しの立たない機能（プロ写真撮影・SEO対策・Googleビジネス初期最適化）が混在していた。2人体制で実施内容が明確・人手の少ないものに絞る方針。</li>
@@ -325,7 +358,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: 価格表3頁、マトリクスでどの機能がどのプランかが一目で分かる状態。</li>
 <li><strong>証跡</strong>: commit <code>8556f74</code>。</li>
 </ul>
-<h2>2026-06-(以前) ・ 月額サービスの再定義</h2>
+</div></details>
+<details class="logentry"><summary>2026-06-(以前) ・ 月額サービスの再定義</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 月額を「MEO集客代行」から「サイト保守＋口コミ自動返信＋月次レポート」へ再定義。</li>
 <li><strong>Why</strong>: MEO集客代行は人手が重く、成果のコントロールが難しい。継続価値が明確で運用しやすい範囲に絞る。</li>
@@ -333,7 +367,7 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li><strong>Result</strong>: サービス範囲が明確化。提供しないこと（MEO集客代行・順位対策・定期投稿/写真更新代行・能動的集客）も明文化。</li>
 <li><strong>証跡</strong>: commit <code>494ce66</code> ほか。</li>
 </ul>
-<hr>
+</div></details>
 <h2>テンプレ（コピーして上に追記）</h2>
 <pre><code>## YYYY-MM-DD ・ &lt;作業の見出し&gt;
 
