@@ -52,6 +52,14 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-27 ・ 主要SaaS登録（Supabase / Vercel / Resend / Stripe）【Phase 0 進捗】</h2>
+<ul>
+<li><strong>What</strong>: <code>admin@musubiweb.com</code> で4サービスを登録。Supabase（東京リージョンでプロジェクト作成）、Vercel（チーム Musubi・GitHub 連携）、Resend（<code>send.musubiweb.com</code> の送信ドメインを認証）、Stripe（本人確認完了・JP/JPY・テスト疎通OK）。</li>
+<li><strong>Why</strong>: Phase 2 以降の土台（DB / ホスティング / 通知メール / 課金）。特に Stripe の本人確認は審査リードタイムがあるため先に通す。</li>
+<li><strong>How</strong>: 各サービスに Google / GitHub でサインアップ。Resend のみ <code>musubiweb.com</code> のDNS（Squarespace 管理）に<strong>サブドメイン</strong>で MX/SPF/DKIM を追加（ルートの Workspace 受信 MX は触らず保護）。Stripe は最小Nodeの <code>stripe-probe</code>（stripe SDK）でAPIキー疎通を確認（account / charges / payouts / livemode）。本番キー（<code>sk_live_</code>）はチャットに出さず Vercel のサーバ環境変数で管理する方針。</li>
+<li><strong>Result</strong>: Stripe は本人確認反映後 <strong>charges / payouts = enabled</strong>、テスト環境（livemode=false）で疎通。残りは GA4・Cloudflare。各キーは各 <code>.env</code>（gitignore済・非追跡）で秘匿。</li>
+<li><strong>証跡</strong>: 本コミット。<code>stripe-probe/</code>（probe.js・package.json）。APIキー値は記録しない（保管場所のみ）。</li>
+</ul>
 <h2>2026-06-27 ・ コストモニタ（従量課金の利用状況可視化）を要件追加</h2>
 <ul>
 <li><strong>What</strong>: 管理アプリに「コストモニタ」画面を追加（NAVに新設）。従量課金サービス7種（Anthropic / Stripe / Vercel / Supabase / Resend / Cloudflare / GA4）の当月使用量・コスト・月上限・前月比を1画面に集約。各行に取得方法バッジ（自動／計算／条件付・対象外）。</li>

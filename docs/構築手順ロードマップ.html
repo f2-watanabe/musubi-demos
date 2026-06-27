@@ -73,11 +73,11 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li class="done"><span class="bx">✓</span><span>OAuth 同意画面を構成（Audience=Internal・スコープ <code>business.manage</code>）</span></li>
 <li class="done"><span class="bx">✓</span><span>OAuth クライアントID/シークレット発行（ウェブアプリ型・リダイレクト <code>localhost:5858/oauth2callback</code>）→ <code>.env</code> に設定</span></li>
 <li class="done"><span class="bx">✓</span><span>Anthropic アカウント・APIキー発行（請求上限を設定）※コスト取得用 Admin APIキーは Phase 7 実装時に別途発行</span></li>
-<li><span class="bx"></span><span>Supabase プロジェクト作成（リージョン: Tokyo）</span></li>
-<li><span class="bx"></span><span>Vercel アカウント・チーム作成（GitHub連携）</span></li>
+<li class="done"><span class="bx">✓</span><span>Supabase プロジェクト作成（リージョン: Tokyo）</span></li>
+<li class="done"><span class="bx">✓</span><span>Vercel アカウント・チーム作成（GitHub連携）</span></li>
 <li><span class="bx"></span><span>Cloudflare アカウント作成（Pages・Registrar）</span></li>
-<li><span class="bx"></span><span>Stripe アカウント作成（本人確認・入金口座登録）</span></li>
-<li><span class="bx"></span><span>Resend アカウント作成（送信ドメイン認証）</span></li>
+<li class="done"><span class="bx">✓</span><span>Stripe アカウント作成（本人確認完了・入金口座登録。テスト疎通OK / charges・payouts enabled）</span></li>
+<li class="done"><span class="bx">✓</span><span>Resend アカウント作成（<code>send.musubiweb.com</code> 送信ドメインを Squarespace DNS で認証）</span></li>
 <li><span class="bx"></span><span>GA4 プロパティ作成・データストリーム発行</span></li>
 </ul>
 <p><strong>使用サービス</strong>: Google Cloud / Anthropic / Supabase / Vercel / Cloudflare / Stripe / Resend / GA4</p>
