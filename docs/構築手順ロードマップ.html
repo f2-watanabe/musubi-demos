@@ -69,7 +69,7 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>口コミ返信AI … Phase 1・6</li>
 <li>請求・サブスク … Phase 5</li>
 <li>レポート … Phase 4</li>
-<li>コストモニタ … Phase 2/7</li>
+<li>コストモニタ … Phase 2/7【枠実装済・実データはPhase 7】</li>
 <li>顧客ポータル（店舗オーナー）</li>
 <li>土台のデプロイ＋顧客認証 … Phase 2（追加項目）【コード実装済・デプロイは外部操作】</li>
 <li>成果ホーム／月次レポート閲覧 … Phase 4</li>
@@ -132,7 +132,7 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li class="done"><span class="bx">✓</span><span>Supabase 接続・環境変数を Vercel に設定 ← <code>NEXT_PUBLIC_SUPABASE_URL</code>／<code>ANON_KEY</code> を全環境に設定・実キーで接続確認済</span></li>
 <li class="done"><span class="bx">✓</span><span>管理アプリに <strong>営業リスト（CRM）画面</strong>を追加（リード取得→ステータス管理。デモの <code>admin/crm</code> に相当。<code>03_営業リスト</code> のスコアリングと連携）← <code>musubi-admin</code> <code>89f612e</code>。<code>leads</code> テーブル新設（<code>09_データ基盤/.../0003_leads.sql</code>・RLSはstaffのみ）。<code>03_営業リスト/score.py</code> のスコアロジックを <code>lib/score.ts</code> へ移植し、追加・編集・CSV取込時にスコア/ランクを自動算出。ステータス（未着手→アポ→商談→受注/除外）管理・ランク/ステータスでのフィルタ・CSV一括取込（営業リスト_テンプレート形式）。型チェック・本番ビルド通過。<strong>残: Supabase本番へ 0003 マイグレーション適用（外部操作）</strong></span></li>
 <li class="done"><span class="bx">✓</span><span><strong>顧客ポータル（Next.js）の土台をデプロイ＋顧客（店舗オーナー）認証</strong>（Supabase Auth・<code>stores.owner_user_id</code> で自店のみ閲覧。成果ホームの枠まで）← Phase 4のレポート公開・Phase 6の承認UIが乗る前提。Phase 2目的「運営/<strong>顧客</strong>の認証」の顧客側 ← <strong>新リポ <code>musubi-portal</code></strong> <code>2f88bb3</code>（musubi-admin と同一スタック）。顧客認証＝<code>stores.owner_user_id</code> ゲート。成果ホームUIはデモ <code>portal/home.html</code> を忠実再現（KPI/予約推移/やること。実データ集計は Phase 4）。reviews=Phase 6・report=Phase 4 はタブ共通でスタブ。tsc/lint/build 通過。<strong>残: GitHubリポ作成・Vercelデプロイ・Supabase Auth に顧客ユーザー作成＋<code>stores.owner_user_id</code> 紐付け（外部操作）</strong></span></li>
-<li><span class="bx"></span><span>コストモニタ画面（従量課金サービスの使用量・コストを管理画面に集約表示。詳細は Phase 7）</span></li>
+<li class="done"><span class="bx">✓</span><span>コストモニタ画面（従量課金サービスの使用量・コストを管理画面に集約表示。詳細は Phase 7）← <code>musubi-admin</code> <code>e0ef40f</code>。デモ <code>costs.html</code> 準拠で <code>/costs</code> を実画面化。従量課金7サービス（Anthropic/Vercel/Stripe/Supabase/Resend/Cloudflare/GA4）のカタログ（用途・取得方法分類 自動/計算/条件付/対象外・月上限）を構造化表示。<strong>実値の自動取得・月上限アラートは Phase 7 で接続</strong>のため使用量/コストは「—・未接続」表示（捏造回避）。集約表示の枠として完成。</span></li>
 </ul>
 <p><strong>使用サービス</strong>: Supabase（Postgres/Auth）/ Vercel / Next.js</p>
 <p><strong>受け入れ基準</strong>: 管理アプリからログインでき、DBに1件の店舗レコードをCRUDできる。顧客ロールは他店データが見えない。（顧客ポータルの土台・顧客認証も本Phaseで用意し、成果/レポート/承認の各UIは Phase 4・6 で中身を実装）</p>

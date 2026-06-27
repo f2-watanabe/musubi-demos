@@ -52,6 +52,14 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-27 ・ コストモニタ画面の集約表示枠を実装【Phase 2 追加項目・完了】</h2>
+<ul>
+<li><strong>What</strong>: 管理アプリ <code>musubi-admin</code> の <code>/costs</code>（コストモニタ）を、スタブからデモ <code>costs.html</code> 準拠の実画面に。従量課金サービスの利用状況を集約表示する枠を実装。</li>
+<li><strong>Why</strong>: ロードマップ Phase 2 の追加項目「コストモニタ画面（使用量・コストを集約表示。詳細は Phase 7）」。上から順の方針で Phase 2 残の最後の項目。</li>
+<li><strong>How</strong>: 7サービス（Anthropic/Vercel/Stripe/Supabase/Resend/Cloudflare/GA4）のカタログ（用途・取得方法分類＝自動/計算/条件付/対象外・月上限の設定値）を Phase 7 の設計どおり構造化して表で表示。KPI4枠・月上限アラート枠・コスト内訳枠を配置。<strong>実データの自動取得・日次更新（Vercel Cron）・アラート発火は Phase 7 で接続</strong>するため、使用量・コスト・KPIは「—／未接続」表示にして捏造を回避。<code>tsc</code>/<code>lint</code>/<code>build</code> 通過（<code>/costs</code> は静的）。</li>
+<li><strong>Result</strong>: Phase 2 の追加3項目（営業リストCRM・顧客ポータル土台・コストモニタ枠）が出そろい、管理アプリ側のPhase 2スコープは完了。実データ接続は Phase 7。</li>
+<li><strong>証跡</strong>: <code>musubi-admin</code> <code>e0ef40f</code>（<code>app/costs/page.tsx</code>）。</li>
+</ul>
 <h2>2026-06-27 ・ ハブドキュメント再生成・顧客ポータルをGitHub公開・管理アプリUIをデモ準拠化</h2>
 <ul>
 <li><strong>What</strong>: (1) 公開ハブ（<code>musubi-demos</code>）の構築ログ/ロードマップHTMLを最新の <code>.md</code> から再生成、(2) 顧客ポータル <code>musubi-portal</code> を GitHub に新規リポ作成＋push、(3) 管理アプリ <code>musubi-admin</code> のUIをデモ（サイドバー型コンソール）に合わせて reskin。</li>
