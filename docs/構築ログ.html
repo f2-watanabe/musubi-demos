@@ -60,6 +60,15 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-06-28 ・ GA4認証を Workload Identity Federation（鍵レス）に切替</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: GA4 Data API の認証を、サービスアカウント鍵JSONから Workload Identity Federation(WIF) に変更。<code>ingest-ga4</code> route を ADC/external_account 対応に改修。</li>
+<li><strong>Why</strong>: SAキー作成が組織ポリシー <code>iam.disableServiceAccountKeyCreation</code> でブロック。解除には組織レベル権限(<code>orgpolicy.policyAdmin</code>)が必要で、プロジェクト<code>musubi-bgp</code>の権限では <code>orgpolicy.policies.create/update/delete</code> 不可だった。組織ポリシーを触らず回避でき、鍵漏洩リスクもゼロのWIFが本筋。</li>
+<li><strong>How</strong>: <code>google-auth-library</code>(9.15.1) の <code>ExternalAccountClient</code> + <code>subject_token_supplier</code> で <code>VERCEL_OIDC_TOKEN</code> を subject token として供給→GCP STS でアクセストークン交換→<code>generateAccessToken</code> で SA になりすまし→<code>BetaAnalyticsDataClient({ authClient })</code>。route は WIF優先・<code>GA4_SA_JSON</code>(ローカル検証用)フォールバックの二刀流。env: <code>GCP_WIF_AUDIENCE</code>/<code>GCP_SA_EMAIL</code>(本番)。<code>.env.example</code> 更新。tsc/build 通過。</li>
+<li><strong>Result</strong>: 鍵レスで本番疎通できる構成に。<strong>残る外部作業=GCPでWIFプール/プロバイダ(Vercel OIDC issuer)作成・SA作成・<code>roles/iam.workloadIdentityUser</code>紐付け・GA4プロパティへSA閲覧者追加、VercelでOIDC有効化＋env投入。</strong> 値は未保管。</li>
+<li><strong>証跡</strong>: <code>musubi-admin</code> commit <code>05de00b</code>（route/.env.example）。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-06-28 ・ Phase 4 月次レポート自動集計（GA4 Data API ingest＋Cron＋公開通知）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: GA4 Data API でサイト指標を取得し <code>reports</code> へ集計する ingest route、月次 Vercel Cron、レポート公開時の Resend 通知を実装。</li>
