@@ -52,6 +52,23 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-27 ・ 顧客ポータルの土台＋顧客（店舗オーナー）認証を実装【Phase 2 追加項目・コード完了】</h2>
+<ul>
+<li><strong>What</strong>: 店舗オーナー向けの顧客ポータルを<strong>新リポ <code>musubi-portal</code></strong> として新規構築。Supabase Auth による顧客認証（<code>stores.owner_user_id</code> ゲート）と成果ホーム画面を実装。タブ（成果ホーム/口コミ承認/月次レポート/自店サイト）の枠を用意し、口コミ承認=Phase 6・月次レポート=Phase 4 はスタブ。</li>
+<li><strong>Why</strong>: ロードマップ Phase 2 の目的「運営/<strong>顧客</strong>の認証」の顧客側。Phase 4（レポート公開）・Phase 6（承認UI）がこのポータル上に乗る前提のため、土台と認証を先に用意する。ロードマップ上から順の方針で、CRM の次の未着手項目。</li>
+<li><strong>How</strong>: 管理アプリ <code>musubi-admin</code> と<strong>同一スタック</strong>（Next.js 15.5.19 / App Router / React 19 / TypeScript strict / Tailwind v4 / <code>@supabase/ssr</code>）で構築。<code>lib/supabase/*</code>・<code>middleware.ts</code>・login 一式を踏襲し、認証ゲートだけ「<code>stores</code> に <code>owner_user_id = ログインユーザー</code> の行が存在するか」に差し替え（staff ではなくオーナー判定。無ければ signOut→エラー）。成果ホームUIはデモ <code>musubi-demos/portal/home.html</code> のCSS・マークアップを忠実再現（<code>app/globals.css</code> にデモCSSを移植し同一クラスで描画）。データは <code>lib/portal.ts</code> で owner の store と最新 published <code>reports</code>・<code>status=&#x27;drafted&#x27;</code> の reviews 件数を取得し、KPI・「やること」にバインド（実データ集計は Phase 4 のため未取得分は「—」表示。KPIの前月比デルタは捏造回避のため非表示）。RLS（<code>stores_owner_read</code>/<code>reviews_owner_read</code>/<code>reports_owner_read</code>）で自店のみ閲覧。検証: <code>npm install</code>→<code>tsc --noEmit</code> 0・<code>next lint</code> 0・<code>next build</code> 成功（<code>/home /reviews /report /site</code> が dynamic、<code>/login</code> static）。</li>
+<li><strong>Result</strong>: コード面は完了。型/lint/build 通過。新リポ初回コミット済（push・GitHubリポ作成は未）。<strong>残（外部操作）</strong>＝GitHubリポ作成・Vercelデプロイ・Supabase Auth に顧客ユーザーを作成し対象 <code>stores.owner_user_id</code> に紐付け→実機で「オーナーのみ自店ポータル閲覧」を検証。</li>
+<li><strong>補足（ビルド注意）</strong>: 本環境（Node 18）で初回ビルドが <code>@tailwindcss/oxide</code> の native binding 不足（npm optional-deps バグ #4828）で失敗。<code>@tailwindcss/oxide-darwin-arm64</code> を明示インストールで解消（<code>--no-save</code>のため package.json 不変）。クリーン再インストール時に再発し得る。Vercel（Linux）ビルドには影響しない見込み。</li>
+<li><strong>証跡</strong>: <code>musubi-portal</code> <code>2f88bb3</code>（21ファイル：設定一式・<code>lib/supabase/*</code>・<code>middleware.ts</code>・<code>app/login/*</code>・<code>app/home/page.tsx</code>・<code>components/PortalNav.tsx</code>・<code>lib/portal.ts</code>・スタブ3ページ）。</li>
+</ul>
+<h2>2026-06-27 ・ 管理アプリに営業リスト（CRM）画面を実装【Phase 2 追加項目・完了】</h2>
+<ul>
+<li><strong>What</strong>: <code>musubi-admin</code> に営業リスト（CRM）画面 <code>/crm</code> を追加。リードの追加・編集・削除、ステータス管理（未着手→アポ→商談→受注/除外）、優先度スコア/ランクの自動算出、CSV一括取込、ランク/ステータスでのフィルタを実装。デモ <code>musubi-demos/admin/crm.html</code> に相当する画面を本番アプリとして組んだ。</li>
+<li><strong>Why</strong>: ロードマップ Phase 2 の追加項目「営業リスト（CRM）画面」。Phase 1（GBP API承認待ち）は外部依存で着手不可のため、実装可能な最上位項目として着手。<code>03_営業リスト</code> のスコアリング（<code>score.py</code>）を管理アプリ側に取り込み、収集→採点→ステータス管理を一画面に集約する。</li>
+<li><strong>How</strong>: (1) 新テーブル <code>leads</code> をマイグレーション <code>09_データ基盤/supabase/migrations/0003_leads.sql</code> で定義（<code>lead_status</code> enum・スコア/ランク列・<code>store_id</code> で受注後の stores 昇格に接続。RLSは <code>is_staff()</code> のみ＝顧客には不可視）。(2) <code>score.py</code> のスコアロジック（評価・口コミ数・公式サイト有無・予約手段から 0〜10点、ホット≥8/ウォーム≥5/コールド）を <code>lib/score.ts</code> へ忠実移植し、追加・編集・CSV取込の各サーバアクションで <code>score</code>/<code>rank</code> を自動再算出。(3) CSV取込は営業リスト_テンプレート形式（日本語ヘッダ）をクオート対応の簡易パーサで解釈し bulk insert。(4) <code>stores</code>/<code>crm</code> 共通ナビ <code>components/Nav.tsx</code> を追加。検証: <code>tsc --noEmit</code> パス・<code>next lint</code> 警告0・<code>next build</code> 成功（<code>/crm</code> が dynamic ルートとして追加）。</li>
+<li><strong>Result</strong>: コード面は完了。型チェック・lint・本番ビルドを通過。<strong>残（外部操作）</strong>＝Supabase本番へ <code>0003_leads.sql</code> を適用（SQL Editor）。適用後にデプロイされた <code>/crm</code> で実データ動作を確認する。</li>
+<li><strong>証跡</strong>: <code>musubi-admin</code> <code>89f612e</code>（<code>app/crm/</code>・<code>lib/score.ts</code>・<code>components/Nav.tsx</code>）。<code>09_データ基盤/supabase/migrations/0003_leads.sql</code>。</li>
+</ul>
 <h2>2026-06-27 ・ 管理アプリを admin@ 配下へ移管・GitHub自動デプロイ稼働</h2>
 <ul>
 <li><strong>What</strong>: <code>musubi-admin</code> の Vercelプロジェクトを <code>watanabe-fumiya</code>（GitHub個人 f2-watanabe）配下 → <strong><code>admin@musubiweb.com</code>＝Team &quot;Musubi&quot; 配下</strong>へ移し直し、GitHub⇄Vercel の自動デプロイを成立させた。本番URLは https://musubi-admin-two.vercel.app。</li>
