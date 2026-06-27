@@ -52,6 +52,15 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-28 ・ ドメイン方式を差別化（プレミアム＝独自ドメイン）・解説資料作成・価格表改訂</h2>
+<ul>
+<li><strong>What</strong>: プラン間のドメイン差別化を決め、価格表に反映。サブドメイン／独自ドメインのメリット・デメリットと「解約時にやること」を詳述した資料『ドメインの選び方ガイド』を新規作成し、両方を PDF 化してプロジェクトハブに配置。</li>
+<li><strong>Why</strong>: 独自ドメインを上位プランの価値として位置づけ、解約時の自走可否（サブドメイン＝消滅／独自ドメイン＝持ち運び可）を顧客に明示するため。解約時の移行作業は「別途相談（見積り）」とし、トラブル回避と上位プラン訴求を両立する。</li>
+<li><strong>How</strong>: (1) <code>06_スクリプト/price_sheet.py</code> 改訂＝プレミアムカードに「独自ドメイン取得・設定」を追加、機能比較に「ドメイン形式（サブ／サブ／独自）」行を新設（行追加に伴い行高・開始位置を圧縮してページ内に収め、PDF を画像確認）、脚注にドメイン説明と移行対応の注記、オプションに「独自ドメイン取得・設定 ¥15,000〜」「解約時のサイト移行対応 別途お見積り」を追加。(2) <code>06_スクリプト/domain_guide.py</code> 新規＝3ページ（2方式の違い・選び方／メリット・デメリット比較／解約時にやること（サブドメイン＝公開停止・追加費用なし、独自ドメイン＝名義継続・静的ファイル引き渡し・ホスティング移設・フォーム/GA4差替え、移行対応は別途見積り））。同一の warm editorial スタイルで作成。(3) 両 pptx を <code>soffice</code> で PDF 化し <code>musubi-demos/pdf/</code> に配置、ハブ <code>index.html</code> の資料セクションにガイドへのリンクを追加。各 PDF を Read で全ページ視覚確認しレイアウト崩れなしを確認。</li>
+<li><strong>Result</strong>: 価格表（<code>サービス価格表.pdf</code>）と新ガイド（<code>ドメインの選び方ガイド.pdf</code>）がハブで閲覧可能に。プラン別ドメイン方針が資料・価格に一貫して反映。Phase 3「独自ドメイン取得〜割当の手順を確立」の運用方針（標準サブ／プレミアム独自・解約時移行は別途）が確定。</li>
+<li><strong>証跡</strong>: <code>local-web-sales</code> <code>06_スクリプト/price_sheet.py</code>・<code>domain_guide.py</code>・<code>01_提案・設計資料/{サービス価格表,ドメインの選び方ガイド}.pptx</code>、<code>musubi-demos</code> <code>pdf/{サービス価格表,ドメインの選び方ガイド}.pdf</code>・<code>index.html</code>。</li>
+</ul>
+<hr>
 <h2>2026-06-27 ・ 管理アプリに「サイト制作（サイトビルダー）」画面を実装【Phase 3・builder MVP】</h2>
 <ul>
 <li><strong>What</strong>: 管理アプリ <code>musubi-admin</code> の <code>/builder</code>（デモ <code>admin/builder.html</code> 相当）をスタブから実画面化。店舗ごとの <code>content.json</code> を Supabase に保存・編集し、公開状況とライブプレビューを表示する。本番デプロイは Vercel サーバ上で直接は実行できないため（python/wrangler/CFトークン/JSONが無い）、<code>content.json</code> のダウンロードと CLI 公開コマンドの提示に留める正直な MVP。</li>
