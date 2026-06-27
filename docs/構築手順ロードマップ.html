@@ -147,8 +147,8 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li class="done"><span class="bx">✓</span><span><strong>2業種目のテンプレを追加</strong>（美容室＝<code>04_サイトテンプレート/beauty/</code>）し量産性を確認 ← 飲食店と同一JSONキー構成・別世界観デザインで量産性実証</span></li>
 <li class="done"><span class="bx">✓</span><span>GA4・イベント計測（フォーム送信＝<code>reservation_submit</code>／電話タップ＝<code>phone_tap</code>）をテンプレに標準同梱 ← <code>ga4.measurement_id</code> 設定時のみ出力（空なら非出力）</span></li>
 <li class="done"><span class="bx">✓</span><span>サイト生成→公開を1コマンド化（<code>06_スクリプト/publish_site.sh</code>）← <code>build_site.py</code>＋<code>wrangler pages deploy</code>。管理アプリのビルド機能としての接続は将来（現状はCLI）</span></li>
-<li><span class="bx"></span><span>Cloudflare Pages へのデプロイ自動化（ドメイン割当・SSL）← スクリプトは用意済。実行は Node 22＋<code>CLOUDFLARE_API_TOKEN</code>／Pagesプロジェクトが必要（<strong>外部操作・未</strong>）</span></li>
-<li><span class="bx"></span><span>独自ドメイン取得〜割当の手順を確立（Registrar）← <strong>外部操作・未</strong></span></li>
+<li class="done"><span class="bx">✓</span><span>Cloudflare Pages へのデプロイ自動化（SSL）← <strong>実公開済（2026-06-27）</strong>。<code>publish_site.sh</code> を Pages プロジェクト自動作成つきに改善し1コマンド化。サンプル <code>sakura-tei</code> を本番公開＝https://sakura-tei.pages.dev （HTTP 200・HTTPS自動）。Node は v22 スタンドアロンバイナリを PATH 前置きで使用（環境のv18を変えず）。トークンは Account/Cloudflare Pages/<strong>Edit</strong> 権限が必須（Read のみだと作成が <code>Authentication error</code>）</span></li>
+<li><span class="bx"></span><span>独自ドメイン取得〜割当の手順を確立（Registrar）← <strong>外部操作・未</strong>（pages.dev で公開済のため次段。<code>wrangler pages domain add</code> で割当予定）</span></li>
 </ul>
 <p><strong>使用サービス</strong>: Cloudflare Pages / Registrar / GitHub Actions（任意）/ GA4</p>
 <p><strong>受け入れ基準</strong>: 新規店舗のJSONを用意 → 1コマンド／1操作で公開サイトがHTTPSで立ち上がり、計測タグが動く。</p>

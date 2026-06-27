@@ -52,6 +52,15 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-27 ・ Cloudflare Pages へ実公開し Phase 3 を実地クリア【Phase 3・公開達成/独自ドメインは残】</h2>
+<ul>
+<li><strong>What</strong>: 顧客サイト量産基盤（Phase 3）の最後のブロッカーだった「Cloudflare Pages への実デプロイ」を実施。サンプル店舗サイト（restaurant テンプレ）を生成し本番 Pages へ公開、HTTPS で立ち上がることを実証。<code>publish_site.sh</code> をプロジェクト自動作成つきに改善し真の1コマンド化。</li>
+<li><strong>Why</strong>: ロードマップ Phase 3。受け入れ基準「JSON → 1コマンドで HTTPS 公開・計測タグが動く」のうちコード面は達成済で、残っていた Cloudflare 認証トークン発行と実公開を今回のキー入力で消化するため。ドメインは初回 <code>pages.dev</code> 無料サブドメインで「公開サイトが HTTPS で立ち上がる」を満たし、独自ドメインは後送り（Registrar 作業）。</li>
+<li><strong>How</strong>: (1) 現環境の Node が v18（wrangler は 20+ 要）だったため、システムを変えずに <strong>Node v22.11.0 のスタンドアロンバイナリを一時展開</strong>して PATH 前置きで wrangler を実行。(2) Cloudflare API トークンは最初 Pages 読取のみで <code>pages projects</code> 作成が <code>Authentication error</code>（write 権限不足）→ <strong>Account / Cloudflare Pages / Edit</strong> 権限で再発行して解決。(3) トークン検証（<code>/user/tokens/verify</code>=active）→ <code>/accounts</code> で account ID 取得 → <code>/pages/projects</code> に <code>sakura-tei</code>（production_branch=main）を作成（subdomain=<code>sakura-tei.pages.dev</code>）→ <code>wrangler pages deploy sites/sakura-tei --project-name sakura-tei --branch main</code> で公開。(4) <code>publish_site.sh</code> に「デプロイ前に Pages プロジェクトを CF API で冪等作成」する処理と <code>--branch</code>（<code>PAGES_BRANCH</code>、既定 main）を追加。前提コメントも Node20+ / Pages:Edit トークンに更新。</li>
+<li><strong>Result</strong>: 本番 https://sakura-tei.pages.dev が HTTP 200 で公開・タイトル正常。計測タグは content の <code>ga4.measurement_id</code> が空のため非出力（設計どおり「空なら出さない」を実地で確認。実店舗では測定 ID 設定で出力）。<strong>残</strong>＝独自ドメイン取得〜割当（Registrar・外部）。注: 使った Cloudflare API トークンはセッション作業用で失効推奨。</li>
+<li><strong>証跡</strong>: 本番 URL <code>sakura-tei.pages.dev</code>、Cloudflare account <code>ddc2bc48c202d4714f1aa2bb30da2c8f</code>・Pages project <code>sakura-tei</code>、<code>local-web-sales</code> <code>06_スクリプト/publish_site.sh</code>（プロジェクト自動作成つきに改善）。</li>
+</ul>
+<hr>
 <h2>2026-06-27 ・ Phase 2 の外部・キー必須残を消化し受け入れ基準を実地クリア【Phase 2・完了】</h2>
 <ul>
 <li><strong>What</strong>: キー入力が必要で先送りしていた Phase 2 の残4項目を実施。(1) Supabase 本番へ未適用だった <code>0003_leads.sql</code>・<code>0004_reports_metrics.sql</code> を適用、(2) 顧客ポータル <code>musubi-portal</code> の Vercel 環境変数を設定し本番デプロイ、(3) Supabase Auth に顧客テストユーザーを作成し <code>stores.owner_user_id</code> に紐付け、(4) 管理ユーザー <code>admin@musubiweb.com</code> のログインパスワードを既知値にリセット。仕上げに顧客／管理 両ロールのログインと RLS 分離を実地で検証。</li>
