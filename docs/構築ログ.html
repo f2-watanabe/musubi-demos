@@ -60,7 +60,14 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
-<details class="logentry"><summary>2026-06-28 ・ GA4認証を Workload Identity Federation（鍵レス）に切替</summary><div class="logbody">
+<details class="logentry"><summary>2026-06-28 ・ Phase 4 本番実通し確認（WIFセットアップ済・ingest-ga4 本番200）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: WIFの外部セットアップ（GCP/Vercel側）完了を受け、月次レポート自動集計 <code>ingest-ga4</code> を本番で実通し確認。認証パイプラインが通り、エンドポイントが正常応答することを検証。</li>
+<li><strong>Why</strong>: これまで「残る外部作業＝WIFプール/プロバイダ作成・SA作成・権限紐付け・Vercel OIDC有効化＋env投入」として保留扱いだった。外部側が済んだため、コードと認証が本番で実際に動くかを証跡として残す。</li>
+<li><strong>How</strong>: 本番 <code>https://musubi-admin-two.vercel.app/api/cron/ingest-ga4?period=YYYY-MM</code> を <code>Authorization: Bearer $CRON_SECRET</code> 付きで実行。<code>period=2026-04/05/06</code> の3か月を確認。</li>
+<li><strong>Result</strong>: <strong>全リクエスト HTTP 200</strong>・レスポンス <code>{&quot;period&quot;:&quot;...&quot;,&quot;hosts_seen&quot;:0,&quot;updated&quot;:[]}</code>。認証ガード（secret無し＝401）も正常。<code>hosts_seen:0</code> は <strong>VERCEL_OIDC→GCP STS→SAなりすまし→GA4 Data API runReport が成功して結果0行</strong>を意味する＝WIF認証パイプラインは完通。データが0なのは現状テストサイト <code>sakura-tei.pages.dev</code> のみで実訪問が無いため（コードは正常・想定どおり）。実店舗サイト公開＋実訪問が乗れば自動で <code>reports</code> に書き込まれる。<strong>Phase 4（GA4自動集計）の実通しはこれで完了。残るは GBP API 承認待ちの指標のみ（手入力で代替中）。</strong></li>
+<li><strong>証跡</strong>: 本番 ingest-ga4 への認証付きcurlで <code>[HTTP 200]</code>×3（period=2026-04/05/06）。<code>CRON_SECRET</code> は Vercel env 保管（値は未記載）。</li>
+</ul>
 <ul>
 <li><strong>What</strong>: GA4 Data API の認証を、サービスアカウント鍵JSONから Workload Identity Federation(WIF) に変更。<code>ingest-ga4</code> route を ADC/external_account 対応に改修。</li>
 <li><strong>Why</strong>: SAキー作成が組織ポリシー <code>iam.disableServiceAccountKeyCreation</code> でブロック。解除には組織レベル権限(<code>orgpolicy.policyAdmin</code>)が必要で、プロジェクト<code>musubi-bgp</code>の権限では <code>orgpolicy.policies.create/update/delete</code> 不可だった。組織ポリシーを触らず回避でき、鍵漏洩リスクもゼロのWIFが本筋。</li>
