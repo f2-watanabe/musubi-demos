@@ -52,6 +52,15 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-27 ・ Phase 2 の外部・キー必須残を消化し受け入れ基準を実地クリア【Phase 2・完了】</h2>
+<ul>
+<li><strong>What</strong>: キー入力が必要で先送りしていた Phase 2 の残4項目を実施。(1) Supabase 本番へ未適用だった <code>0003_leads.sql</code>・<code>0004_reports_metrics.sql</code> を適用、(2) 顧客ポータル <code>musubi-portal</code> の Vercel 環境変数を設定し本番デプロイ、(3) Supabase Auth に顧客テストユーザーを作成し <code>stores.owner_user_id</code> に紐付け、(4) 管理ユーザー <code>admin@musubiweb.com</code> のログインパスワードを既知値にリセット。仕上げに顧客／管理 両ロールのログインと RLS 分離を実地で検証。</li>
+<li><strong>Why</strong>: ロードマップを Phase 2 から振り返り、外部操作・キー必須で <code>[ ]</code> のまま残っていた項目を実際のキーで消化するため。Phase 2 の受け入れ基準（管理アプリからログイン→店舗 CRUD／顧客ロールは自店のみ閲覧／顧客ポータル土台と顧客認証）を、コードだけでなく本番環境で満たすのが目的。</li>
+<li><strong>How</strong>: (1) Supabase Management API（<code>POST /v1/projects/{ref}/database/query</code>・個人アクセストークン）で <code>0003</code>（<code>leads</code> テーブル＋<code>lead_status</code> enum＋index＋<code>set_updated_at</code> trigger＋<code>is_staff()</code> RLS）・<code>0004</code>（<code>reports</code> に nullable 5指標カラム）を順に適用し、<code>information_schema</code>／<code>pg_policies</code> で 21カラム・RLS有効・<code>leads_staff_all</code>・reports 5カラムを確認。(2) Vercel REST API（チーム <code>musubiweb</code>・project <code>musubi-portal</code>）で <code>NEXT_PUBLIC_SUPABASE_URL</code>／<code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>（管理アプリと同一 Supabase の値を流用）を全 target に設定→最新デプロイを production 再デプロイ→<code>/</code> が <code>/login</code> へ 307、<code>/login</code> が 200（タイトル「Musubi 顧客ポータル」）を確認し env 反映を実証。(3) anon の <code>auth/v1/signup</code> で顧客テストユーザー <code>portal-demo@musubiweb.com</code> を作成（<code>mailer_autoconfirm=false</code> のため Management SQL で <code>auth.users.email_confirmed_at</code> を補完）、<code>stores.owner_user_id</code> を当該 UID に更新。(4) admin@ は auth.users・staff_members に既存（&quot;MusubiAdmin&quot;・権限テーブル上は問題なし）だったため、新規作成ではなく <code>auth.users.encrypted_password = crypt(..., gen_salt(&#x27;bf&#x27;))</code>（pgcrypto bcrypt）でパスワードをリセット。検証: REST <code>token?grant_type=password</code> で両者ログイン成功、<code>rest/v1/stores</code> を各トークンで取得し、顧客は自店1件のみ・staff は全2件が見えることを確認（RLS 分離が実地で成立）。</li>
+<li><strong>Result</strong>: Phase 2 の残4項目が完了し、受け入れ基準を本番環境で実地クリア。顧客ポータル本番 https://musubi-portal.vercel.app が稼働（Supabase 接続・認証ゲート動作）。RLS による店舗データ分離を顧客／staff の両トークンで実証。ログイン情報（値は本ログに非記載・パスワードマネージャ保管）＝顧客 <code>portal-demo@musubiweb.com</code>／管理 <code>admin@musubiweb.com</code>。注: 作業に使った Supabase 個人アクセストークン・Vercel アクセストークンはセッション限りの想定で、作業後の失効を推奨。</li>
+<li><strong>証跡</strong>: Supabase project <code>hsyhiiqrrtrbxexqyixi</code>（<code>leads</code>／<code>reports</code> 適用済・<code>stores.owner_user_id</code> 紐付け）、<code>musubi-portal</code> 本番デプロイ（commit <code>07c2b0a</code> を env 付きで再ビルド）、<code>local-web-sales</code> <code>0003_leads.sql</code>・<code>0004_reports_metrics.sql</code>。</li>
+</ul>
+<hr>
 <h2>2026-06-27 ・ Stripe サブスク課金を実装【Phase 5・コード面完了/実テストは外部待ち】</h2>
 <ul>
 <li><strong>What</strong>: 課金（Phase 5）の中核を <code>musubi-admin</code> に実装。料金プラン定義・サブスク作成/解約・初期費の決済リンク・Stripe Webhook での DB 同期・請求画面（<code>/billing</code>）。実テスト（テストモードでの契約→課金→失敗→解約の通し）は API キー等が未設定のため未実施。</li>
