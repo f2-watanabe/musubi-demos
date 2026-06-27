@@ -52,6 +52,14 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-27 ・ ハブドキュメント再生成・顧客ポータルをGitHub公開・管理アプリUIをデモ準拠化</h2>
+<ul>
+<li><strong>What</strong>: (1) 公開ハブ（<code>musubi-demos</code>）の構築ログ/ロードマップHTMLを最新の <code>.md</code> から再生成、(2) 顧客ポータル <code>musubi-portal</code> を GitHub に新規リポ作成＋push、(3) 管理アプリ <code>musubi-admin</code> のUIをデモ（サイドバー型コンソール）に合わせて reskin。</li>
+<li><strong>Why</strong>: ハブ配信の構築ドキュメントが CRM・顧客ポータル実装を反映できていなかった。ポータルはローカルコミットのみで GitHub 未登録だった。管理アプリのUIがデモ（<code>02_デモサイト/admin</code>＝サイドバー型）と乖離しており、デモと同じ見た目に揃える方針。</li>
+<li><strong>How</strong>: (1) <code>06_スクリプト/build_docs.py</code> 実行で <code>08_環境構築/*.md</code> → <code>musubi-demos/docs/*.html</code> を再生成。(2) <code>gh repo create f2-watanabe/musubi-portal --private --source=. --push</code>（コミットメールは GitHub noreply）。(3) サブエージェントで reskin: 共通シェル <code>components/AdminShell.tsx</code>（ダーク緑サイドバー＋9ナビ＋トップバー）を追加し、<code>stores</code>（顧客管理）・<code>crm</code>（営業リスト）をデモのカードUIへ。デモCSS（<code>build_admin.py</code> の CSS）を <code>globals.css</code> に移植。未実装7画面（dashboard/builder/reviews/billing/costs/report/settings）は AdminShell ラップの「準備中（対応Phase明記）」スタブ。<strong>server actions・DBクエリ・認証ゲート・フォーム input name は不変（見た目のみ変更）</strong>。旧 <code>components/Nav.tsx</code> 削除。<code>tsc</code>/<code>lint</code>/<code>build</code> 通過。</li>
+<li><strong>Result</strong>: ハブの構築ログ/ロードマップが最新（push 反映済）。<code>musubi-portal</code> は GitHub 上で管理開始（private）。管理アプリUIがデモ準拠に。<strong>管理アプリは本番自動デプロイのため push は保留（依頼時に実施）</strong>。</li>
+<li><strong>証跡</strong>: <code>musubi-demos</code> <code>8bfec1c</code>（docs再生成）、<code>musubi-portal</code> GitHub 作成＋初回push、<code>musubi-admin</code> <code>87e6177</code>（AdminShell・reskin）。</li>
+</ul>
 <h2>2026-06-27 ・ 顧客ポータルの土台＋顧客（店舗オーナー）認証を実装【Phase 2 追加項目・コード完了】</h2>
 <ul>
 <li><strong>What</strong>: 店舗オーナー向けの顧客ポータルを<strong>新リポ <code>musubi-portal</code></strong> として新規構築。Supabase Auth による顧客認証（<code>stores.owner_user_id</code> ゲート）と成果ホーム画面を実装。タブ（成果ホーム/口コミ承認/月次レポート/自店サイト）の枠を用意し、口コミ承認=Phase 6・月次レポート=Phase 4 はスタブ。</li>
