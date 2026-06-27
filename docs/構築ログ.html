@@ -52,6 +52,14 @@ blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
 <hr>
+<h2>2026-06-27 ・ GA4 プロパティ作成【Phase 0 進捗】</h2>
+<ul>
+<li><strong>What</strong>: GA4 アカウント <code>Musubi</code>・プロパティ（タイムゾーン 日本 / 通貨 JPY）を作成。ウェブのデータストリームを1本発行し測定ID <code>G-2508HY449K</code> を取得。</li>
+<li><strong>Why</strong>: アクセス計測の土台。月次レポート（Phase 4）でアクセス数を自動集計する素地。</li>
+<li><strong>How</strong>: analytics.google.com で作成。Data API での自動取得は<strong>サービスアカウント必須</strong>（APIキー不可）で、GA4プロパティへの閲覧者付与は Phase 4 で実施。店舗別レポートは顧客サイトごとにデータストリームを分ける方針（設計は Phase 3、テンプレ <code>&lt;head&gt;</code> への計測タグ同梱も Phase 3）。</li>
+<li><strong>Result</strong>: Phase 0 のSaaS登録は <strong>残り Cloudflare のみ</strong>。測定IDはサイトに埋め込む公開IDのため記録（APIキー等の機密とは別扱い）。</li>
+<li><strong>証跡</strong>: 本コミット。</li>
+</ul>
 <h2>2026-06-27 ・ 主要SaaS登録（Supabase / Vercel / Resend / Stripe）【Phase 0 進捗】</h2>
 <ul>
 <li><strong>What</strong>: <code>admin@musubiweb.com</code> で4サービスを登録。Supabase（東京リージョンでプロジェクト作成）、Vercel（チーム Musubi・GitHub 連携）、Resend（<code>send.musubiweb.com</code> の送信ドメインを認証）、Stripe（本人確認完了・JP/JPY・テスト疎通OK）。</li>
