@@ -230,6 +230,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .agree{display:flex;align-items:flex-start;gap:11px;margin-top:22px;padding:15px 16px;background:#fdf6f4;border:1px solid #f1d7cf;border-radius:11px;cursor:pointer;font-size:13px;color:#4d463b;line-height:1.6}
 .agree input{width:19px;height:19px;margin-top:1px;flex:none;accent-color:var(--vermilion);cursor:pointer}
 .agree b{color:var(--vermilion-d)}
+.book-inline{width:100%;margin-top:16px;background:var(--vermilion);color:#fff;font-size:15px;font-weight:700;letter-spacing:.06em;padding:16px;border-radius:11px;transition:.2s;box-shadow:0 8px 20px rgba(181,64,46,.3)}
+.book-inline:hover:not(:disabled){background:var(--vermilion-d);transform:translateY(-1px)}
+.book-inline:disabled{background:#d8c9bd;color:#fff;box-shadow:none;cursor:not-allowed}
+.book-inline-note{text-align:center;font-size:11.5px;color:var(--muted);margin-top:9px}
 
 @media(max-width:880px){
   .layout{grid-template-columns:1fr;padding-bottom:96px}
@@ -391,6 +395,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
           <input type="checkbox" id="cAgree">
           <span>上記の<b>注意事項・キャンセルポリシー</b>に同意します（必須）</span>
         </label>
+
+        <button class="book-inline" id="bookBtn2" disabled>日時を選んでください</button>
+        <p class="book-inline-note" id="bookInlineNote">— ・ — ／ —名</p>
       </section>
 
     </div>
@@ -636,11 +643,13 @@ function sync(){
 
   const agreed = $('cAgree').checked;
   const ready = state.date && state.time && agreed;
-  const btn = $('bookBtn'), mb = $('mbBook');
-  btn.disabled = !ready; mb.disabled = !ready;
-  btn.textContent = !state.date ? '日時を選んでください' : !state.time ? '時間を選んでください'
+  const label = !state.date ? '日時を選んでください' : !state.time ? '時間を選んでください'
     : !agreed ? 'ポリシーに同意してください' : 'この内容で予約する';
+  [$('bookBtn'), $('bookBtn2')].forEach(b=>{ b.disabled = !ready; b.textContent = label; });
+  $('mbBook').disabled = !ready;
+  const info = (state.date && state.time) ? `${fmtDate(state.date)} ${state.time} ／ ${state.party}名 ／ ${state.seat}` : '日時を選択';
   $('mbInfo').textContent = (state.date && state.time) ? `${fmtDate(state.date)} ${state.time} / ${state.party}名` : '日時を選択';
+  $('bookInlineNote').textContent = info;
 }
 
 // party stepper
@@ -687,6 +696,7 @@ function submit(){
   $('overlay').classList.add('on');
 }
 $('bookBtn').addEventListener('click', submit);
+$('bookBtn2').addEventListener('click', submit);
 $('mbBook').addEventListener('click', ()=>{
   if(!(state.date&&state.time)) return;
   document.querySelector('.panel:last-of-type').scrollIntoView({behavior:'smooth',block:'start'});
