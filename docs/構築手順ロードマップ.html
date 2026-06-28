@@ -217,7 +217,7 @@ details.logentry>summary:hover{color:var(--acc)}
 </ul>
 <p><strong>使用サービス</strong>: Next.js（ポータル）/ Supabase / GBP API / Vercel Cron</p>
 <p><strong>受け入れ基準</strong>: 店舗オーナーがポータル上で下書きを確認→承認→投稿でき、低評価には警告が出る。</p>
-<p>→ <strong>承認フロー（確認→承認/修正/スキップ・低評価警告）まで実装・実証。投稿は GBP API 承認後</strong>。承認＝投稿待ちキューまでが現状の到達点。</p>
+<p>→ <strong>承認フロー（確認→承認/修正/スキップ・低評価警告）を本番で実証済（2026-06-28）</strong>＝portal-demo で <code>/reviews</code> ログイン・承認/スキップが DB に反映（approved/skipped・下書き空は承認不可）。<strong>投稿（posted）は GBP API 承認後に Cron で実施</strong>＝承認＝投稿待ちキューまでが現状の到達点。</p>
 <p><strong>残す証跡</strong>: 画面スクショ、承認〜投稿の通しテスト。</p>
 <hr>
 <h2>Phase 7 ・ 監視・運用・バックアップ（横断）</h2>
