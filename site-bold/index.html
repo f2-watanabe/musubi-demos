@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BISTRO & DINING TANE｜旬を、大胆に。</title>
+<meta name="description" content="季節の食材を主役にした、ビストロ＆ダイニング TANE。ランチ・ディナー・コース。ネット予約24時間受付。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#15402e; --green-d:#0e2c1f; --green-l:#1e5640;
+  --cream:#f4f0e6; --paper:#faf7ee; --ink:#13130f;
+  --orange:#ff5722; --orange-d:#e8410f; --yellow:#ffc02e;
+  --line:#dcd5c3; --muted:#6f6a5c;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Noto Sans JP",sans-serif;color:var(--ink);background:var(--paper);line-height:1.85;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+img{object-fit:cover;display:block}
+.anton{font-family:"Anton",sans-serif;font-weight:400;letter-spacing:.01em}
+.archivo{font-family:"Archivo",sans-serif}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+section{position:relative}
+
+/* header */
+.head{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 28px;transition:background .4s,padding .4s,box-shadow .4s}
+.head.solid{background:var(--green);padding:12px 28px;box-shadow:0 6px 30px rgba(0,0,0,.22)}
+.brand{display:flex;align-items:center;gap:12px;color:#fff}
+.brand .mk{width:42px;height:42px;background:var(--orange);color:#fff;display:grid;place-items:center;
+  font-family:"Anton",sans-serif;font-size:24px;flex:none;transform:rotate(-4deg)}
+.brand b{font-family:"Archivo",sans-serif;font-weight:900;font-size:20px;letter-spacing:.14em;line-height:1;display:block}
+.brand small{display:block;font-size:9px;letter-spacing:.34em;color:var(--yellow);font-weight:700;margin-top:3px}
+.nav{display:flex;align-items:center;gap:30px}
+.nav a{color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.1em;opacity:.85;transition:.2s}
+.nav a:hover{opacity:1;color:var(--yellow)}
+.nav .resv{background:var(--orange);color:#fff;padding:11px 22px;opacity:1;letter-spacing:.12em;transition:.2s}
+.nav .resv:hover{background:#fff;color:var(--green)}
+@media(max-width:880px){.nav a:not(.resv){display:none}}
+
+/* hero */
+.hero{min-height:100vh;background:var(--green);color:#fff;overflow:hidden;display:flex;align-items:center;padding:120px 0 70px}
+.hero-img{position:absolute;inset:0;z-index:0}
+.hero-img img{width:100%;height:120%;opacity:.30;transform:scale(1.15);animation:slowzoom 18s ease-out forwards}
+@keyframes slowzoom{to{transform:scale(1)}}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(115deg,var(--green) 32%,rgba(21,64,46,.55) 100%)}
+.hero .wrap{position:relative;z-index:2}
+.hero .ey{display:inline-flex;align-items:center;gap:12px;font-family:"Archivo";font-weight:900;font-size:12px;letter-spacing:.32em;color:var(--yellow);
+  opacity:0;transform:translateY(26px);animation:hin .8s .15s cubic-bezier(.16,1,.3,1) forwards}
+.hero .ey::before{content:"";width:42px;height:3px;background:var(--orange)}
+.hero h1{font-family:"Noto Sans JP";font-weight:900;font-size:clamp(48px,12vw,148px);line-height:.92;letter-spacing:-.01em;margin:18px 0 0}
+.hero h1 .l{display:block;overflow:hidden}
+.hero h1 .l span{display:block;opacity:0;transform:translateY(110%) scale(1.04);animation:hup 1s cubic-bezier(.16,1,.3,1) forwards}
+.hero h1 .l:nth-child(1) span{animation-delay:.28s}
+.hero h1 .l:nth-child(2) span{animation-delay:.42s}
+.hero h1 .l .o{color:var(--orange)}
+@keyframes hup{to{opacity:1;transform:none}}
+@keyframes hin{to{opacity:1;transform:none}}
+.hero p.lead{max-width:520px;font-size:16px;color:#d8e3da;margin:32px 0 0;opacity:0;transform:translateY(26px);animation:hin .9s .7s cubic-bezier(.16,1,.3,1) forwards}
+.hero .cta{display:flex;gap:16px;flex-wrap:wrap;margin-top:38px;opacity:0;transform:translateY(26px);animation:hin .9s .85s cubic-bezier(.16,1,.3,1) forwards}
+.btn-o{background:var(--orange);color:#fff;font-weight:900;font-size:14px;letter-spacing:.1em;padding:17px 34px;transition:.22s;display:inline-flex;align-items:center;gap:10px}
+.btn-o:hover{background:var(--yellow);color:var(--green);transform:translateY(-3px)}
+.btn-line{border:2px solid rgba(255,255,255,.4);color:#fff;font-weight:700;font-size:14px;letter-spacing:.08em;padding:15px 30px;transition:.22s}
+.btn-line:hover{border-color:#fff;background:#fff;color:var(--green)}
+.hero .tel{margin-top:30px;font-size:13px;color:#aebcb1;opacity:0;animation:hin 1s 1s forwards}
+.hero .tel b{font-family:"Archivo";font-weight:900;font-size:20px;color:#fff;letter-spacing:.04em}
+
+/* quick booker */
+.qbook{background:var(--orange);padding:0}
+.qb-card{display:grid;grid-template-columns:repeat(4,1fr) auto;gap:0;background:var(--ink);color:#fff;margin-top:-44px;position:relative;z-index:10;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.qb-f{padding:20px 22px;border-right:1px solid rgba(255,255,255,.1)}
+.qb-f label{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:900;letter-spacing:.18em;color:var(--yellow);margin-bottom:9px;text-transform:uppercase}
+.qb-f label svg{width:15px;height:15px;fill:none;stroke:var(--yellow);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.qb-f input,.qb-f select{width:100%;background:transparent;border:none;color:#fff;font-family:"Archivo";font-weight:700;font-size:17px;outline:none;cursor:pointer}
+.qb-f select option{background:var(--ink);color:#fff}
+.qb-f input::-webkit-calendar-picker-indicator{filter:invert(1);cursor:pointer}
+.qb-go{background:var(--orange);color:#fff;font-weight:900;font-size:14px;letter-spacing:.08em;padding:0 34px;display:flex;align-items:center;justify-content:center;gap:10px;transition:.2s}
+.qb-go:hover{background:var(--yellow);color:var(--green)}
+.qb-go svg{transition:transform .2s}
+.qb-go:hover svg{transform:translateX(4px)}
+.qb-note{text-align:center;color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.04em;padding:16px 0 22px}
+.qb-note b{color:var(--ink)}
+@media(max-width:880px){.qb-card{grid-template-columns:1fr 1fr;margin-top:-30px}.qb-go{grid-column:1/-1;padding:18px}}
+
+/* generic section heading */
+.sec-head{margin-bottom:54px}
+.sec-head .kick{display:inline-flex;align-items:center;gap:12px;font-family:"Archivo";font-weight:900;font-size:12px;letter-spacing:.28em;color:var(--orange)}
+.sec-head .kick::before{content:"";width:34px;height:3px;background:var(--orange)}
+.sec-head h2{font-family:"Noto Sans JP";font-weight:900;font-size:clamp(32px,5.5vw,62px);line-height:1.04;letter-spacing:-.01em;margin-top:16px}
+.sec-head h2 em{font-style:normal;color:var(--orange)}
+
+/* concept */
+.concept{padding:130px 0}
+.concept .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+.concept .txt p{font-size:15.5px;color:#3c3a31;margin-top:22px;max-width:480px}
+.concept .big{font-family:"Anton";font-size:clamp(54px,9vw,120px);line-height:.92;color:var(--green);margin:6px 0 4px;letter-spacing:-.01em}
+.concept .big span{color:var(--orange)}
+.concept .ph{position:relative}
+.concept .ph .p1{width:100%;aspect-ratio:4/5;background:#ddd}
+.concept .ph .p1 img{width:100%;height:100%}
+.concept .ph .tag{position:absolute;left:-26px;bottom:42px;background:var(--orange);color:#fff;font-family:"Archivo";font-weight:900;font-size:13px;letter-spacing:.16em;padding:14px 22px;box-shadow:0 14px 30px rgba(255,87,34,.4)}
+@media(max-width:880px){.concept .grid{grid-template-columns:1fr;gap:40px}.concept .ph .tag{left:0}}
+
+/* dishes / courses */
+.dishes{background:var(--green);color:#fff;padding:130px 0}
+.dishes .sec-head .kick{color:var(--yellow)}.dishes .sec-head .kick::before{background:var(--yellow)}
+.dishes .sec-head h2 em{color:var(--yellow)}
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.mcard{background:var(--green-d);overflow:hidden;transition:.3s}
+.mcard:hover{transform:translateY(-8px)}
+.mcard .mph{aspect-ratio:3/2;overflow:hidden}
+.mcard .mph img{width:100%;height:100%;transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.mcard:hover .mph img{transform:scale(1.08)}
+.mcard .mb{padding:26px 24px 30px}
+.mcard .num{font-family:"Anton";font-size:14px;color:var(--orange);letter-spacing:.1em}
+.mcard h3{font-family:"Noto Sans JP";font-weight:900;font-size:23px;margin:8px 0 6px}
+.mcard p{font-size:13px;color:#bcc8be;line-height:1.7}
+.mcard .pr{font-family:"Archivo";font-weight:900;font-size:24px;color:#fff;margin-top:18px}
+.mcard .pr small{font-size:12px;color:#9fb0a3;font-weight:700}
+@media(max-width:880px){.menu-grid{grid-template-columns:1fr}}
+
+/* marquee */
+.marq{background:var(--orange);color:#fff;padding:30px 0;overflow:hidden}
+.marq.alt{background:var(--ink);color:#fff}
+.marq .row{display:flex;white-space:nowrap;will-change:transform}
+.marq .row span{font-family:"Anton";font-size:clamp(40px,7vw,84px);letter-spacing:.02em;padding:0 28px;text-transform:uppercase}
+.marq.alt .row span:nth-child(even){color:var(--yellow)}
+.marq .row span .dot{color:var(--yellow)}
+.marq.alt .row span .dot{color:var(--orange)}
+.marq-a .row{animation:scrollL 30s linear infinite}
+.marq-b .row{animation:scrollR 30s linear infinite}
+@keyframes scrollL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes scrollR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+
+/* gallery */
+.gallery{padding:130px 0}
+.gal-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:14px}
+.gal-grid figure{overflow:hidden;background:#ddd}
+.gal-grid figure img{width:100%;height:100%;transition:transform .8s cubic-bezier(.16,1,.3,1)}
+.gal-grid figure:hover img{transform:scale(1.1)}
+.gal-grid .w2{grid-column:span 2}.gal-grid .h2{grid-row:span 2}
+@media(max-width:880px){.gal-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}.gal-grid .w2{grid-column:span 2}}
+
+/* stats / craft */
+.craft{background:var(--cream);padding:130px 0}
+.craft .grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.craft .ph{aspect-ratio:5/4;overflow:hidden}
+.craft .ph img{width:100%;height:100%}
+.craft .feat{display:flex;flex-direction:column;gap:30px;margin-top:40px}
+.craft .feat .f{display:flex;gap:20px}
+.craft .feat .f .n{font-family:"Anton";font-size:30px;color:var(--orange);line-height:1;flex:none;width:54px}
+.craft .feat .f h4{font-weight:900;font-size:18px}
+.craft .feat .f p{font-size:13.5px;color:#4a473d;margin-top:5px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:80px;border-top:3px solid var(--ink);padding-top:46px}
+.stats .s .num{font-family:"Anton";font-size:clamp(44px,7vw,78px);line-height:.9;color:var(--green)}
+.stats .s .num .u{font-size:.42em;color:var(--orange);margin-left:4px}
+.stats .s .lb{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--muted);margin-top:8px}
+@media(max-width:880px){.craft .grid{grid-template-columns:1fr;gap:36px}.stats{grid-template-columns:1fr 1fr;gap:30px}}
+
+/* access */
+.access{padding:130px 0;background:var(--ink);color:#fff}
+.access .grid{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+.access .info dl{display:grid;grid-template-columns:120px 1fr;border-top:1px solid rgba(255,255,255,.14);padding:18px 0}
+.access .info dl:last-of-type{border-bottom:1px solid rgba(255,255,255,.14)}
+.access .info dt{font-family:"Archivo";font-weight:900;font-size:11px;letter-spacing:.16em;color:var(--yellow);padding-top:3px}
+.access .info dd{font-size:14.5px;color:#e6e3d8}
+.access .info dd b{font-weight:900}
+.access .map{aspect-ratio:1/1;overflow:hidden;position:relative}
+.access .map img{width:100%;height:100%;opacity:.85}
+.access .map .pin{position:absolute;inset:0;display:grid;place-items:center}
+.access .map .pin span{background:var(--orange);color:#fff;font-weight:900;font-size:12px;letter-spacing:.1em;padding:10px 18px}
+@media(max-width:880px){.access .grid{grid-template-columns:1fr;gap:40px}}
+
+/* reserve CTA */
+.cta-sec{background:var(--green);color:#fff;padding:120px 0;text-align:center;overflow:hidden}
+.cta-sec .big{font-family:"Noto Sans JP";font-weight:900;font-size:clamp(40px,8vw,104px);line-height:.98;letter-spacing:-.01em}
+.cta-sec .big em{font-style:normal;color:var(--orange)}
+.cta-sec p{color:#cdd8cf;font-size:15px;margin-top:24px}
+.cta-sec .tel-big{font-family:"Archivo";font-weight:900;font-size:clamp(40px,8vw,78px);color:#fff;letter-spacing:.02em;margin-top:14px;display:inline-block}
+.cta-sec .tel-big:hover{color:var(--yellow)}
+.cta-sec .sub{font-size:12px;letter-spacing:.16em;color:var(--yellow);font-weight:700}
+.cta-sec .btn-o{margin-top:36px;font-size:15px;padding:19px 44px}
+
+/* footer */
+.foot{background:var(--green-d);color:#9fb0a3;padding:64px 0 30px}
+.foot .top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:30px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:34px}
+.foot .brand b{color:#fff}
+.foot .ln{display:flex;gap:26px;flex-wrap:wrap}
+.foot .ln a{font-size:12.5px;font-weight:700;letter-spacing:.06em;transition:.2s}
+.foot .ln a:hover{color:var(--yellow)}
+.foot .cp{font-size:11px;letter-spacing:.06em;margin-top:24px}
+.foot .cp .demo{color:var(--orange);font-weight:700}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(46px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.l{transform:translateX(-60px)}.reveal.r{transform:translateX(60px)}
+.reveal.l.in,.reveal.r.in{transform:none}
+.reveal[data-d="1"]{transition-delay:.1s}.reveal[data-d="2"]{transition-delay:.2s}.reveal[data-d="3"]{transition-delay:.3s}
+</style>
+</head>
+<body>
+
+<header class="head" id="head">
+  <a href="#top" class="brand">
+    <span class="mk">T</span>
+    <span><b>TANE</b><small>BISTRO & DINING</small></span>
+  </a>
+  <nav class="nav">
+    <a href="#concept">CONCEPT</a>
+    <a href="#menu">MENU</a>
+    <a href="#gallery">GALLERY</a>
+    <a href="#access">ACCESS</a>
+    <a href="reserve.html" class="resv">ネット予約</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-img"><img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=1600&auto=format&fit=crop" alt=""></div>
+  <div class="wrap">
+    <div class="ey">SEASONAL TABLE — EST. 2012</div>
+    <h1>
+      <span class="l"><span>旬を、</span></span>
+      <span class="l"><span class="o">大胆に。</span></span>
+    </h1>
+    <p class="lead">畑から届いたその日の食材を、まっすぐに皿へ。ジャンルにとらわれない一皿で、いつもの食事を少しだけ特別に。</p>
+    <div class="cta">
+      <a href="reserve.html" class="btn-o">ネットで予約する
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="#menu" class="btn-line">メニューを見る</a>
+    </div>
+    <p class="tel">ご予約・お問い合わせ <b>03-0000-0000</b>（11:00–22:00）</p>
+  </div>
+</section>
+
+<section class="qbook">
+  <div class="wrap">
+    <div class="qb-card">
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>DATE</label>
+        <input type="date" id="qbDate">
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>TIME</label>
+        <select id="qbTime">
+          <option value="11:30">11:30</option><option value="12:00">12:00</option>
+          <option value="12:30">12:30</option><option value="13:00">13:00</option>
+          <option value="17:30">17:30</option><option value="18:00">18:00</option>
+          <option value="18:30" selected>18:30</option><option value="19:00">19:00</option>
+          <option value="19:30">19:30</option><option value="20:00">20:00</option><option value="20:30">20:30</option>
+        </select>
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>GUESTS</label>
+        <select id="qbParty">
+          <option value="1">1名</option><option value="2" selected>2名</option><option value="3">3名</option><option value="4">4名</option>
+          <option value="5">5名</option><option value="6">6名</option><option value="7">7名</option><option value="8">8名</option>
+        </select>
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><path d="M3 10h18M5 10V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3M5 10v8M19 10v8M5 18h14"/></svg>SEAT</label>
+        <select id="qbSeat">
+          <option>おまかせ</option><option>テーブル</option><option>カウンター</option><option>個室</option>
+        </select>
+      </div>
+      <button class="qb-go" id="qbGo">空席を見て予約
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+    <p class="qb-note">無休 ・ <b>24時間</b>ネット予約OK ／ 次の画面で空席を確認できます</p>
+  </div>
+</section>
+
+<section class="concept" id="concept">
+  <div class="wrap">
+    <div class="grid">
+      <div class="txt reveal l">
+        <div class="sec-head" style="margin-bottom:14px">
+          <div class="kick">CONCEPT</div>
+        </div>
+        <div class="big">FROM<br><span>FIELD</span><br>TO TABLE</div>
+        <p>その日いちばん良い食材を、市場と契約農家から。決まったジャンルはありません。素材が主役だから、調理はいたってシンプルに。</p>
+        <p>気どらないのに、忘れられない。料理長がその日の仕入れから組み立てる一皿を、ゆっくりとお楽しみください。</p>
+      </div>
+      <div class="ph reveal r" data-d="1">
+        <div class="p1"><img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=900&auto=format&fit=crop" alt="季節のお料理"></div>
+        <div class="tag">SEASONAL · DAILY</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dishes" id="menu">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kick">MENU & COURSE</div>
+      <h2>季節の<em>お料理</em>と<br>コース。</h2>
+    </div>
+    <div class="menu-grid">
+      <article class="mcard reveal" data-d="1">
+        <div class="mph"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=800&auto=format&fit=crop" alt="ランチコース"></div>
+        <div class="mb">
+          <div class="num">01 — LUNCH</div>
+          <h3>ランチコース</h3>
+          <p>前菜・本日のメイン・自家製パン・食後のドリンクまで。昼の軽やかな一皿を気軽に。</p>
+          <div class="pr">¥1,800<small> / 名</small></div>
+        </div>
+      </article>
+      <article class="mcard reveal" data-d="2">
+        <div class="mph"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=800&auto=format&fit=crop" alt="ディナーコース"></div>
+        <div class="mb">
+          <div class="num">02 — DINNER</div>
+          <h3>ディナーコース</h3>
+          <p>前菜の盛り合わせから魚・肉のメイン、デザートまで全6品。夜のゆったりした時間に。</p>
+          <div class="pr">¥4,500<small> / 名</small></div>
+        </div>
+      </article>
+      <article class="mcard reveal" data-d="3">
+        <div class="mph"><img src="https://images.unsplash.com/photo-1559054663-e8d23213f55c?q=80&w=800&auto=format&fit=crop" alt="シェフのおまかせ"></div>
+        <div class="mb">
+          <div class="num">03 — CHEF'S</div>
+          <h3>シェフのおまかせ</h3>
+          <p>その日の最良の食材で料理長が自由に組み立てる全8品。素材と季節を存分に。</p>
+          <div class="pr">¥6,000<small> / 名</small></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="marq marq-a" aria-hidden="true">
+  <div class="row" id="marqA">
+    <span>SEASONAL <span class="dot">●</span> </span><span>FRESH EVERY DAY <span class="dot">●</span> </span><span>BISTRO &amp; DINING <span class="dot">●</span> </span><span>LUNCH &amp; DINNER <span class="dot">●</span> </span>
+    <span>SEASONAL <span class="dot">●</span> </span><span>FRESH EVERY DAY <span class="dot">●</span> </span><span>BISTRO &amp; DINING <span class="dot">●</span> </span><span>LUNCH &amp; DINNER <span class="dot">●</span> </span>
+  </div>
+</div>
+
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kick">GALLERY</div>
+      <h2>テーブルの上の、<em>記憶</em>。</h2>
+    </div>
+    <div class="gal-grid">
+      <figure class="w2 h2 reveal"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1000&auto=format&fit=crop" alt=""></figure>
+      <figure class="reveal" data-d="1"><img src="https://images.unsplash.com/photo-1428515613728-6b4607e44363?q=80&w=600&auto=format&fit=crop" alt=""></figure>
+      <figure class="reveal" data-d="2"><img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?q=80&w=600&auto=format&fit=crop" alt=""></figure>
+      <figure class="reveal" data-d="1"><img src="https://images.unsplash.com/photo-1559496417-e7f25cb247f3?q=80&w=600&auto=format&fit=crop" alt=""></figure>
+      <figure class="reveal" data-d="2"><img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=600&auto=format&fit=crop" alt=""></figure>
+      <figure class="w2 reveal"><img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=1000&auto=format&fit=crop" alt=""></figure>
+      <figure class="reveal" data-d="1"><img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=600&auto=format&fit=crop" alt=""></figure>
+      <figure class="reveal" data-d="2"><img src="https://images.unsplash.com/photo-1576867757603-05b134ebc379?q=80&w=600&auto=format&fit=crop" alt=""></figure>
+    </div>
+  </div>
+</section>
+
+<section class="craft">
+  <div class="wrap">
+    <div class="grid">
+      <div class="ph reveal l"><img src="https://images.unsplash.com/photo-1582450871972-ab5ca641643d?q=80&w=900&auto=format&fit=crop" alt="こだわり"></div>
+      <div class="txt reveal r" data-d="1">
+        <div class="sec-head" style="margin-bottom:6px">
+          <div class="kick">OUR CRAFT</div>
+          <h2>3つの<em>こだわり</em>。</h2>
+        </div>
+        <div class="feat">
+          <div class="f"><div class="n">01</div><div><h4>毎朝の仕入れ</h4><p>市場と契約農家から、その日いちばんの食材だけを。だから献立は日替わりです。</p></div></div>
+          <div class="f"><div class="n">02</div><div><h4>素材を活かす火入れ</h4><p>余計なことはしない。炭・薪・低温、素材に合った火入れで持ち味を引き出します。</p></div></div>
+          <div class="f"><div class="n">03</div><div><h4>料理に寄り添う一杯</h4><p>自然派ワインから国産クラフトまで。料理長と相談しながらペアリングを。</p></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="stats reveal">
+      <div class="s"><div class="num" data-to="2012">0</div><div class="lb">創業</div></div>
+      <div class="s"><div class="num" data-to="40"><span></span><span class="u">種</span></div><div class="lb">日替わりの食材</div></div>
+      <div class="s"><div class="num" data-to="120"><span></span><span class="u">種</span></div><div class="lb">ワイン・ドリンク</div></div>
+      <div class="s"><div class="num" data-to="34"><span></span><span class="u">席</span></div><div class="lb">テーブル・個室</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="marq marq-b alt" aria-hidden="true">
+  <div class="row" id="marqB">
+    <span>03-0000-0000 <span class="dot">/</span> </span><span>RESERVE NOW <span class="dot">/</span> </span><span>OPEN EVERY DAY <span class="dot">/</span> </span><span>TANE DINING <span class="dot">/</span> </span>
+    <span>03-0000-0000 <span class="dot">/</span> </span><span>RESERVE NOW <span class="dot">/</span> </span><span>OPEN EVERY DAY <span class="dot">/</span> </span><span>TANE DINING <span class="dot">/</span> </span>
+  </div>
+</div>
+
+<section class="access" id="access">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kick" style="color:var(--yellow)">ACCESS & HOURS</div>
+      <h2 style="color:#fff">アクセス・<em style="color:var(--yellow)">営業時間</em></h2>
+    </div>
+    <div class="grid">
+      <div class="info reveal l">
+        <dl><dt>ADDRESS</dt><dd>〒000-0000<br>東京都中央区0-0-0 TANEビル 1F</dd></dl>
+        <dl><dt>ACCESS</dt><dd>各線「中央駅」から徒歩3分</dd></dl>
+        <dl><dt>HOURS</dt><dd><b>ランチ</b> 11:30–14:30（L.O.14:00）<br><b>ディナー</b> 17:30–22:00（L.O.21:30）</dd></dl>
+        <dl><dt>CLOSED</dt><dd>無休（年末年始を除く）</dd></dl>
+        <dl><dt>TEL</dt><dd><b style="font-size:18px">03-0000-0000</b></dd></dl>
+        <dl><dt>SEATS</dt><dd>34席（テーブル・カウンター・個室）</dd></dl>
+      </div>
+      <div class="map reveal r" data-d="1">
+        <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?q=80&w=900&auto=format&fit=crop" alt="エリアマップ">
+        <div class="pin"><span>TANE — 中央駅 徒歩3分</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-sec">
+  <div class="wrap">
+    <div class="big">席を、<em>とる。</em></div>
+    <p>ネット予約なら、空席を見ながら24時間いつでも。お電話でのご予約も承ります。</p>
+    <div class="sub" style="margin-top:30px">CALL US</div>
+    <a href="tel:0300000000" class="tel-big">03-0000-0000</a>
+    <div><a href="reserve.html" class="btn-o">ネットで予約する
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a></div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="top">
+      <a href="#top" class="brand"><span class="mk">T</span><span><b>TANE</b><small>BISTRO & DINING</small></span></a>
+      <div class="ln">
+        <a href="#concept">CONCEPT</a>
+        <a href="#menu">MENU</a>
+        <a href="#gallery">GALLERY</a>
+        <a href="#access">ACCESS</a>
+        <a href="reserve.html">RESERVE</a>
+      </div>
+    </div>
+    <p class="cp">© 2026 BISTRO & DINING TANE. <span class="demo">これは Musubi のデモサイトです。実在の店舗ではありません。</span></p>
+  </div>
+</footer>
+
+<script>
+// header transparent -> solid
+const head = document.getElementById('head');
+addEventListener('scroll', ()=>{ head.classList.toggle('solid', scrollY > 40); }, {passive:true});
+
+// reveal on scroll
+const io = new IntersectionObserver((es)=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:.16, rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// parallax (rAF)
+const hero = document.querySelector('.hero-img img');
+const tag = document.querySelector('.concept .tag');
+let ticking = false;
+function para(){
+  const y = scrollY;
+  if(hero) hero.style.transform = `scale(1) translateY(${y*0.18}px)`;
+  if(tag) tag.style.transform = `translateY(${Math.max(-40, 40 - y*0.04)}px)`;
+  ticking = false;
+}
+addEventListener('scroll', ()=>{ if(!ticking){ requestAnimationFrame(para); ticking=true; } }, {passive:true});
+
+// count up
+const nums = document.querySelectorAll('.stats .num');
+const cio = new IntersectionObserver((es)=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const el = e.target; const to = +el.dataset.to;
+    const span = el.querySelector('span:first-child') || el;
+    const isYear = to > 1000;
+    const dur = 1400; const t0 = performance.now();
+    function step(now){
+      const p = Math.min(1, (now-t0)/dur);
+      const ease = 1-Math.pow(1-p,3);
+      const val = Math.round(to*ease);
+      span.textContent = isYear ? val : val;
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+    cio.unobserve(el);
+  });
+}, {threshold:.5});
+nums.forEach(n=>cio.observe(n));
+
+// quick booker -> reserve.html
+const qbDate = document.getElementById('qbDate');
+const today = new Date();
+const local = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+qbDate.min = local; qbDate.value = local;
+document.getElementById('qbGo').addEventListener('click', ()=>{
+  const p = new URLSearchParams();
+  if(qbDate.value) p.set('date', qbDate.value);
+  p.set('time', document.getElementById('qbTime').value);
+  p.set('party', document.getElementById('qbParty').value);
+  p.set('seat', document.getElementById('qbSeat').value);
+  location.href = 'reserve.html?' + p.toString();
+});
+</script>
+
+</body>
+</html>

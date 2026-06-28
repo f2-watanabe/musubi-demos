@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ÉCLAT — 季節を編集するレストラン</title>
+<meta name="description" content="旬の食材を主役に、料理長が一皿ずつ仕立てるレストラン ÉCLAT（エクラ）。ランチからディナー、季節のおまかせコースまで。ネット予約受付中。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16130d; --soft:#46403a; --paper:#f4ece0; --cream:#faf5ec; --card:#fffdf8;
+  --accent:#c0381c; --accent-d:#9c2c14; --gold:#9a7b42; --line:#ddd2bf; --muted:#8c8273;
+  --ok:#3f7d5f; --warn:#c1812e; --full:#b4a896;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Noto Sans JP",sans-serif;color:var(--ink);background:var(--paper);line-height:1.85;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;object-fit:cover}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.serif{font-family:"Fraunces",serif}
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+.idx{font-family:"Fraunces",serif;font-weight:300;font-style:italic;color:var(--accent);line-height:1}
+.kicker{font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--accent);font-weight:700}
+hr.rule{border:none;border-top:1px solid var(--line);margin:0}
+
+/* ---------- header ---------- */
+.head{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;
+  padding:20px 40px;transition:background .4s,padding .4s,box-shadow .4s,border-color .4s;border-bottom:1px solid transparent}
+.head.scrolled{background:rgba(244,236,224,.86);backdrop-filter:blur(14px);padding:13px 40px;border-bottom:1px solid var(--line);box-shadow:0 1px 0 rgba(0,0,0,.02)}
+.head .brand{font-family:"Fraunces",serif;font-weight:600;font-size:25px;letter-spacing:.16em;color:#fff;transition:color .4s;display:flex;align-items:center;gap:10px}
+.head.scrolled .brand{color:var(--ink)}
+.head .brand .reg{font-size:11px;vertical-align:super;font-weight:400;letter-spacing:0}
+.nav{display:flex;align-items:center;gap:30px}
+.nav a.lnk{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.82);font-weight:500;transition:color .4s;position:relative}
+.head.scrolled .nav a.lnk{color:var(--soft)}
+.nav a.lnk::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:1px;background:var(--accent);transition:width .3s}
+.nav a.lnk:hover::after{width:100%}
+.nav a.lnk:hover{color:var(--accent)}
+.nav .resv{font-family:"Fraunces",serif;font-size:14px;letter-spacing:.06em;border:1px solid rgba(255,255,255,.6);color:#fff;padding:9px 20px;border-radius:1px;transition:.3s}
+.head.scrolled .nav .resv{border-color:var(--ink);color:var(--ink)}
+.nav .resv:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+@media(max-width:920px){.nav .lnk{display:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;height:100vh;min-height:660px;overflow:hidden;display:flex;align-items:flex-end;background:#16130d}
+.hero .bg{position:absolute;inset:-6% 0;z-index:1}
+.hero .bg img{width:100%;height:100%;animation:zoom 18s ease-out forwards}
+@keyframes zoom{from{transform:scale(1.18)}to{transform:scale(1)}}
+.hero::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(10,8,5,.42) 0%,rgba(10,8,5,.1) 38%,rgba(10,8,5,.74) 100%)}
+.hero .inner{position:relative;z-index:3;width:100%;padding:0 40px 8vh;max-width:1240px;margin:0 auto;color:#fff}
+.hero .topline{display:flex;align-items:center;gap:16px;margin-bottom:26px;opacity:0;animation:fade .9s ease .3s forwards}
+.hero .topline .k{font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:#f0e7da}
+.hero .topline .ln{flex:1;max-width:120px;height:1px;background:rgba(255,255,255,.5)}
+.hero h1{font-family:"Fraunces",serif;font-weight:380;font-size:clamp(46px,9.2vw,140px);line-height:.94;letter-spacing:-.01em}
+.hero h1 .row{display:block;overflow:hidden}
+.hero h1 .row>span{display:block;transform:translateY(112%);animation:slideUp 1s cubic-bezier(.2,.8,.2,1) forwards}
+.hero h1 .row:nth-child(1)>span{animation-delay:.45s}
+.hero h1 .row:nth-child(2)>span{animation-delay:.6s}
+.hero h1 .row:nth-child(3)>span{animation-delay:.75s}
+.hero h1 em{font-style:italic;font-weight:340;color:#e9c8a6}
+@keyframes slideUp{to{transform:translateY(0)}}
+@keyframes fade{to{opacity:1}}
+.hero .sub{margin-top:30px;max-width:440px;font-size:14.5px;line-height:1.95;color:#ece3d6;opacity:0;animation:fade 1s ease 1.05s forwards}
+.hero .scroll{position:absolute;right:40px;bottom:7vh;z-index:3;writing-mode:vertical-rl;font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,255,255,.78);display:flex;align-items:center;gap:14px;opacity:0;animation:fade 1s ease 1.3s forwards}
+.hero .scroll::after{content:"";width:1px;height:54px;background:linear-gradient(#fff,transparent);animation:drop 1.8s ease-in-out infinite}
+@keyframes drop{0%{transform:scaleY(.2);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(.2);transform-origin:top}}
+@media(max-width:680px){.hero .scroll{display:none}}
+
+/* ---------- quick booker ---------- */
+.qbook{position:relative;z-index:10;background:var(--paper)}
+.qbook .wrap{margin-top:-46px}
+.qb-card{background:var(--ink);color:#f4ece0;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr auto;border-radius:2px;box-shadow:0 30px 70px rgba(20,14,6,.34);overflow:hidden}
+.qb-f{display:flex;flex-direction:column;justify-content:center;gap:5px;padding:18px 24px;border-right:1px solid rgba(255,255,255,.1)}
+.qb-f label{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#b3a691;font-weight:700;display:flex;align-items:center;gap:7px}
+.qb-f label svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:1.8}
+.qb-f input,.qb-f select{border:none;background:transparent;font-family:"Fraunces",serif;font-size:18px;color:#faf5ec;padding:2px 0;width:100%}
+.qb-f input:focus,.qb-f select:focus{outline:none}
+.qb-f select{cursor:pointer}.qb-f select option{color:#16130d}
+.qb-f input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.7)}
+.qb-go{background:var(--accent);color:#fff;font-family:"Fraunces",serif;font-size:16px;letter-spacing:.04em;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 34px;transition:.3s}
+.qb-go:hover{background:var(--accent-d)}
+.qb-go svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2.2}
+.qb-note{font-size:11.5px;letter-spacing:.04em;color:var(--muted);text-align:center;margin-top:15px}
+.qb-note b{color:var(--accent)}
+@media(max-width:880px){
+  .qb-card{grid-template-columns:1fr 1fr}
+  .qb-f:nth-child(2n){border-right:none}
+  .qb-go{grid-column:1/-1;padding:16px}
+}
+@media(max-width:480px){.qb-card{grid-template-columns:1fr}.qb-f{border-right:none;border-bottom:1px solid rgba(255,255,255,.1)}}
+
+/* ---------- section frame ---------- */
+.sec{padding:120px 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:54px}
+.sec-head .lead .idx{font-size:15px;letter-spacing:.1em}
+.sec-head .lead .kicker{display:block;margin:14px 0 10px}
+.sec-head .lead h2{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(34px,5.4vw,68px);line-height:1.02;letter-spacing:-.01em}
+.sec-head .lead h2 em{font-style:italic;color:var(--accent)}
+.sec-head .aside{max-width:300px;font-size:13px;color:var(--soft);line-height:2;padding-bottom:8px;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:760px){.sec-head{flex-direction:column;align-items:flex-start;gap:20px}.sec-head .aside{max-width:none}}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(38px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
+.reveal.left{transform:translateX(-46px)}
+.reveal.right{transform:translateX(46px)}
+.reveal.in{opacity:1;transform:none}
+.reveal[data-d="1"]{transition-delay:.12s}.reveal[data-d="2"]{transition-delay:.24s}.reveal[data-d="3"]{transition-delay:.36s}
+
+/* ---------- about ---------- */
+.about{background:var(--cream)}
+.about-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:70px;align-items:center}
+.about-grid .copy p{font-size:15px;color:var(--soft);margin-bottom:22px;line-height:2.1}
+.about-grid .copy .big{font-family:"Fraunces",serif;font-weight:340;font-size:clamp(24px,2.4vw,30px);color:var(--ink);line-height:1.55;margin-bottom:30px}
+.about-grid .copy .big em{font-style:italic;color:var(--accent)}
+.about-grid .copy .sign{margin-top:34px;display:flex;align-items:center;gap:16px}
+.about-grid .copy .sign .ln{width:46px;height:1px;background:var(--ink)}
+.about-grid .copy .sign span{font-size:12.5px;letter-spacing:.1em;color:var(--soft)}
+.about-grid .copy .sign b{font-family:"Fraunces",serif;font-weight:500}
+.figure{position:relative}
+.figure .frame{overflow:hidden;border-radius:2px}
+.figure img{width:100%;height:560px}
+.figure .cap{position:absolute;left:-26px;bottom:34px;background:var(--card);padding:16px 22px;border:1px solid var(--line);max-width:230px;box-shadow:0 18px 40px rgba(20,14,6,.1)}
+.figure .cap .n{font-family:"Fraunces",serif;font-style:italic;color:var(--accent);font-size:14px}
+.figure .cap p{font-size:11.5px;color:var(--soft);margin-top:5px;line-height:1.7}
+.figure .tag{position:absolute;top:24px;right:-18px;writing-mode:vertical-rl;background:var(--accent);color:#fff;font-size:11px;letter-spacing:.28em;padding:16px 9px;font-weight:700}
+@media(max-width:760px){.about-grid{grid-template-columns:1fr;gap:40px}.figure .frame img{height:420px}.figure .cap{left:14px}}
+
+/* ---------- marquee ---------- */
+.marquee{background:var(--ink);color:var(--paper);padding:30px 0;overflow:hidden;white-space:nowrap;border-top:1px solid #2a241b;border-bottom:1px solid #2a241b}
+.marquee .track{display:inline-flex;align-items:center;gap:46px;animation:march 34s linear infinite;will-change:transform}
+.marquee:hover .track{animation-play-state:paused}
+.marquee span{font-family:"Fraunces",serif;font-weight:330;font-size:clamp(30px,4vw,56px);letter-spacing:.02em;text-transform:uppercase}
+.marquee span em{font-style:italic;color:#e9c8a6}
+.marquee .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);flex:none}
+@keyframes march{to{transform:translateX(-50%)}}
+
+/* ---------- menu ---------- */
+.menu-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:28px}
+.dish{grid-column:span 4;background:var(--card);border:1px solid var(--line);border-radius:2px;overflow:hidden;transition:transform .5s,box-shadow .5s}
+.dish:hover{transform:translateY(-6px);box-shadow:0 28px 56px rgba(20,14,6,.14)}
+.dish .ph{height:280px;overflow:hidden;position:relative}
+.dish .ph img{width:100%;height:100%;transition:transform .8s}
+.dish:hover .ph img{transform:scale(1.07)}
+.dish .ph .no{position:absolute;top:14px;left:16px;font-family:"Fraunces",serif;font-style:italic;font-size:20px;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.5)}
+.dish .body{padding:24px 24px 28px}
+.dish .body .ttl{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.dish .body h3{font-family:"Fraunces",serif;font-weight:500;font-size:22px;letter-spacing:.01em}
+.dish .body .pr{font-family:"Fraunces",serif;font-style:italic;color:var(--accent);font-size:19px;white-space:nowrap}
+.dish .body .pr small{font-size:11px;color:var(--muted);font-style:normal}
+.dish .body p{font-size:12.5px;color:var(--soft);margin-top:10px;line-height:1.85}
+.dish .body .meta{margin-top:16px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border-top:1px solid var(--line);padding-top:12px}
+.dish.feat{grid-column:span 6}
+.dish.feat .ph{height:340px}
+.menu-foot{margin-top:40px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:26px}
+.menu-foot p{font-size:13px;color:var(--soft);max-width:560px}
+.menu-foot p b{color:var(--ink);font-family:"Fraunces",serif}
+@media(max-width:880px){.dish,.dish.feat{grid-column:span 6}}
+@media(max-width:560px){.dish,.dish.feat{grid-column:span 12}.dish .ph,.dish.feat .ph{height:240px}}
+
+/* ---------- gallery (editorial) ---------- */
+.gallery{background:var(--cream)}
+.gal-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:170px;gap:18px}
+.gal{position:relative;overflow:hidden;border-radius:2px}
+.gal img{width:100%;height:100%;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.gal:hover img{transform:scale(1.08)}
+.gal figcaption{position:absolute;left:0;bottom:0;right:0;padding:18px 18px 14px;background:linear-gradient(transparent,rgba(12,8,4,.78));color:#fff;
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:0;transform:translateY(8px);transition:.4s}
+.gal:hover figcaption{opacity:1;transform:none}
+.gal figcaption b{font-family:"Fraunces",serif;font-style:italic;font-weight:400;font-size:15px;text-transform:none;letter-spacing:0;display:block;margin-top:3px}
+.g1{grid-column:span 5;grid-row:span 2}
+.g2{grid-column:span 4;grid-row:span 2}
+.g3{grid-column:span 3;grid-row:span 1}
+.g4{grid-column:span 3;grid-row:span 1}
+.g5{grid-column:span 4;grid-row:span 2}
+.g6{grid-column:span 5;grid-row:span 2}
+.g7{grid-column:span 3;grid-row:span 2}
+@media(max-width:760px){
+  .gal-grid{grid-auto-rows:130px}
+  .g1,.g6{grid-column:span 7}.g2,.g5{grid-column:span 5}
+  .g3,.g4{grid-column:span 6;grid-row:span 1}.g7{grid-column:span 12;grid-row:span 1}
+}
+
+/* ---------- craft (zigzag) ---------- */
+.craft .row{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;margin-bottom:96px}
+.craft .row:last-child{margin-bottom:0}
+.craft .row.flip .ph{order:2}
+.craft .ph{position:relative;overflow:hidden;border-radius:2px}
+.craft .ph img{width:100%;height:480px}
+.craft .ph .num{position:absolute;top:20px;left:24px;font-family:"Fraunces",serif;font-weight:300;font-style:italic;font-size:84px;color:#fff;line-height:1;text-shadow:0 4px 24px rgba(0,0,0,.4)}
+.craft .txt .kicker{margin-bottom:16px;display:block}
+.craft .txt h3{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(26px,3.2vw,40px);line-height:1.18;margin-bottom:20px}
+.craft .txt h3 em{font-style:italic;color:var(--accent)}
+.craft .txt p{font-size:14px;color:var(--soft);line-height:2.1}
+@media(max-width:760px){
+  .craft .row{grid-template-columns:1fr;gap:28px;margin-bottom:64px}
+  .craft .row.flip .ph{order:0}
+  .craft .ph img{height:340px}
+}
+
+/* ---------- stats countup ---------- */
+.stats{background:var(--ink);color:var(--paper)}
+.stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
+.stat{text-align:center;padding:14px 10px;border-left:1px solid #2c261c}
+.stat:first-child{border-left:none}
+.stat .num{font-family:"Fraunces",serif;font-weight:340;font-size:clamp(48px,6vw,82px);line-height:1;color:#fff}
+.stat .num .u{font-size:.4em;font-style:italic;color:var(--accent);margin-left:4px}
+.stat .lbl{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#b3a691;margin-top:14px}
+@media(max-width:680px){.stats .wrap{grid-template-columns:1fr 1fr;gap:18px}.stat:nth-child(odd){border-left:none}}
+
+/* ---------- access ---------- */
+.access-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:start}
+.hours{width:100%;border-collapse:collapse}
+.hours caption{font-family:"Fraunces",serif;font-style:italic;font-size:20px;text-align:left;color:var(--accent);padding-bottom:16px}
+.hours td{padding:15px 4px;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:top}
+.hours td:first-child{font-family:"Fraunces",serif;font-size:15px;width:42%}
+.hours td:last-child{color:var(--soft);text-align:right}
+.hours .closed{color:var(--accent)}
+.info-list{list-style:none;margin-top:30px;display:flex;flex-direction:column;gap:18px}
+.info-list li{display:flex;gap:16px;font-size:13.5px;line-height:1.8}
+.info-list li .ic{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;flex:none}
+.info-list li .ic svg{width:17px;height:17px;stroke:var(--accent);fill:none;stroke-width:1.7}
+.info-list li small{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.info-list li b{font-family:"Fraunces",serif;font-weight:500;font-size:15px}
+.access .figure img{height:520px}
+@media(max-width:760px){.access-grid{grid-template-columns:1fr;gap:36px}.access .figure img{height:380px}}
+
+/* ---------- reserve CTA ---------- */
+.cta{background:var(--accent);color:#fff;text-align:center;padding:118px 0}
+.cta .kicker{color:#ffd9cb}
+.cta h2{font-family:"Fraunces",serif;font-weight:380;font-size:clamp(38px,6vw,80px);line-height:1.02;margin:18px 0 14px}
+.cta h2 em{font-style:italic}
+.cta p{max-width:480px;margin:0 auto 44px;font-size:14.5px;color:#ffe7df;line-height:2}
+.cta .tel{font-family:"Fraunces",serif;font-style:italic;font-size:clamp(42px,7vw,72px);letter-spacing:.02em;display:inline-block;line-height:1;margin-bottom:8px}
+.cta .telsub{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#ffd9cb;margin-bottom:40px}
+.cta .acts{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+.cta .btn{font-family:"Fraunces",serif;font-size:17px;letter-spacing:.04em;padding:17px 42px;border-radius:1px;transition:.3s;display:inline-flex;align-items:center;gap:11px}
+.cta .btn.fill{background:#fff;color:var(--accent)}
+.cta .btn.fill:hover{background:var(--ink);color:#fff}
+.cta .btn.line{border:1px solid rgba(255,255,255,.7);color:#fff}
+.cta .btn.line:hover{background:rgba(255,255,255,.12)}
+.cta .btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* ---------- footer ---------- */
+.foot{background:var(--ink);color:#bdb09b;padding:78px 0 36px}
+.foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:46px;border-bottom:1px solid #2c261c}
+.foot .brand{font-family:"Fraunces",serif;font-weight:600;font-size:30px;letter-spacing:.16em;color:#fff}
+.foot .brand .reg{font-size:12px;vertical-align:super;font-weight:400}
+.foot .lede{font-size:12.5px;line-height:2;margin-top:18px;max-width:300px;color:#9b8f7c}
+.foot h4{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#7e7563;margin-bottom:18px}
+.foot ul{list-style:none;display:flex;flex-direction:column;gap:11px;font-size:13px}
+.foot ul a:hover{color:#fff}
+.foot address{font-style:normal;font-size:13px;line-height:1.9;color:#9b8f7c}
+.foot address b{color:#e7ddcc;font-family:"Fraunces",serif}
+.foot-bot{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:26px;font-size:11px;letter-spacing:.1em;color:#7e7563;flex-wrap:wrap}
+@media(max-width:680px){.foot-top{grid-template-columns:1fr;gap:30px}}
+</style>
+</head>
+<body>
+
+<header class="head" id="head">
+  <a href="#top" class="brand">ÉCLAT<span class="reg">®</span></a>
+  <nav class="nav">
+    <a class="lnk" href="#about">Concept</a>
+    <a class="lnk" href="#menu">Menu</a>
+    <a class="lnk" href="#gallery">Gallery</a>
+    <a class="lnk" href="#access">Access</a>
+    <a class="resv" href="reserve.html">予約</a>
+  </nav>
+</header>
+
+<!-- hero -->
+<section class="hero" id="top">
+  <div class="bg" id="heroBg"><img src="https://images.unsplash.com/photo-1481931098730-318b6f776db0?q=80&w=2000&auto=format&fit=crop" alt="店内の情景"></div>
+  <div class="inner">
+    <div class="topline"><span class="ln"></span><span class="k">Editorial Dining · Est. since 2008</span></div>
+    <h1 class="serif">
+      <span class="row"><span>季節を、</span></span>
+      <span class="row"><span><em>編集</em>する</span></span>
+      <span class="row"><span>レストラン。</span></span>
+    </h1>
+    <p class="sub">市場で出会った旬の食材を、料理長がその日の物語として一皿に仕立てる。ランチの静けさから、ディナーの華やぎまで。</p>
+  </div>
+  <div class="scroll">Scroll</div>
+</section>
+
+<!-- quick booker -->
+<section class="qbook">
+  <div class="wrap">
+    <div class="qb-card">
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>ご希望日</label>
+        <input type="date" id="qbDate">
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>時間</label>
+        <select id="qbTime">
+          <option value="11:30">11:30</option><option value="12:00">12:00</option>
+          <option value="12:30">12:30</option><option value="13:00">13:00</option>
+          <option value="17:30">17:30</option><option value="18:00" selected>18:00</option>
+          <option value="18:30">18:30</option><option value="19:00">19:00</option>
+          <option value="19:30">19:30</option><option value="20:00">20:00</option>
+        </select>
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>人数</label>
+        <select id="qbParty">
+          <option value="1">1名</option><option value="2" selected>2名</option><option value="3">3名</option><option value="4">4名</option>
+          <option value="5">5名</option><option value="6">6名</option><option value="7">7名</option><option value="8">8名</option>
+        </select>
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><path d="M3 10h18M5 10V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3M5 10v8M19 10v8M5 18h14"/></svg>お席</label>
+        <select id="qbSeat">
+          <option>おまかせ</option><option>テーブル</option><option>カウンター</option><option>個室</option>
+        </select>
+      </div>
+      <button class="qb-go" id="qbGo">
+        空席を見て予約
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+    <p class="qb-note">月曜定休 ・ <b>24時間</b>ネット予約OK ／ 次の画面で空席を確認できます</p>
+  </div>
+</section>
+
+<!-- about -->
+<section class="sec about" id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lead">
+        <span class="idx reveal">01</span>
+        <span class="kicker reveal" data-d="1">Concept</span>
+        <h2 class="reveal" data-d="1">食材が<em>主役</em>の<br>一日。</h2>
+      </div>
+      <p class="aside reveal" data-d="2">献立は市場で決まります。私たちは食材の声を聞き、いちばん美しい瞬間を皿の上に編集するだけ。</p>
+    </div>
+    <div class="about-grid">
+      <div class="copy reveal left">
+        <p class="big serif">「いい料理は、<em>引き算</em>でできている」。<br>余計を削ぎ、素材そのものの輪郭を立たせる。</p>
+        <p>朝、料理長が市場を歩くところから一日が始まります。その日いちばんの食材だけを選び、火入れと塩、そして余白で仕立てる。だから献立は毎日少しずつ違います。</p>
+        <p>気取らず、けれど一皿ごとに物語がある。記念日にも、なんでもない平日の夜にも寄り添う、そんなレストランでありたいと考えています。</p>
+        <div class="sign">
+          <span class="ln"></span>
+          <span>料理長 ／ <b class="serif">N. Aoki</b></span>
+        </div>
+      </div>
+      <div class="figure reveal right" data-d="1">
+        <div class="frame"><img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?q=80&w=1100&auto=format&fit=crop" alt="調理する料理長"></div>
+        <span class="tag">SEASONAL</span>
+        <div class="cap">
+          <div class="n serif">No.01</div>
+          <p>その日の市場から。仕入れによって献立は変わります。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span class="serif">Seasonal</span><span class="dot"></span>
+    <span class="serif"><em>Hand-crafted</em></span><span class="dot"></span>
+    <span class="serif">From the Market</span><span class="dot"></span>
+    <span class="serif"><em>Lunch &amp; Dinner</em></span><span class="dot"></span>
+    <span class="serif">Course Tasting</span><span class="dot"></span>
+    <span class="serif">Seasonal</span><span class="dot"></span>
+    <span class="serif"><em>Hand-crafted</em></span><span class="dot"></span>
+    <span class="serif">From the Market</span><span class="dot"></span>
+    <span class="serif"><em>Lunch &amp; Dinner</em></span><span class="dot"></span>
+    <span class="serif">Course Tasting</span><span class="dot"></span>
+  </div>
+</div>
+
+<!-- menu -->
+<section class="sec" id="menu">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lead">
+        <span class="idx reveal">02</span>
+        <span class="kicker reveal" data-d="1">The Menu</span>
+        <h2 class="reveal" data-d="1">季節の<em>品書き</em>。</h2>
+      </div>
+      <p class="aside reveal" data-d="2">ランチからディナー、そして季節のおまかせコースまで。価格は税込の目安です。</p>
+    </div>
+
+    <div class="menu-grid">
+      <article class="dish feat reveal" data-d="1">
+        <div class="ph"><span class="no serif">01</span><img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=1000&auto=format&fit=crop" alt="季節のおまかせコース"></div>
+        <div class="body">
+          <div class="ttl"><h3 class="serif">季節のおまかせコース</h3><span class="pr serif">¥6,000<small>/名</small></span></div>
+          <p>その日の食材で構成する全7品。前菜から温菜、メイン、デザートまで。料理長におまかせいただく、いちばん贅沢な一皿の連なりです。</p>
+          <div class="meta">Chef's Selection · 全7品</div>
+        </div>
+      </article>
+
+      <article class="dish reveal" data-d="2">
+        <div class="ph"><span class="no serif">02</span><img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=900&auto=format&fit=crop" alt="季節の前菜"></div>
+        <div class="body">
+          <div class="ttl"><h3 class="serif">季節の前菜</h3><span class="pr serif">¥1,400<small>〜</small></span></div>
+          <p>旬の野菜と魚介を、彩りゆたかな盛り合わせで。一日の始まりにふさわしい一皿。</p>
+          <div class="meta">Appetizer</div>
+        </div>
+      </article>
+
+      <article class="dish reveal" data-d="1">
+        <div class="ph"><span class="no serif">03</span><img src="https://images.unsplash.com/photo-1554679665-f5537f187268?q=80&w=900&auto=format&fit=crop" alt="本日のメイン"></div>
+        <div class="body">
+          <div class="ttl"><h3 class="serif">本日のメイン</h3><span class="pr serif">¥2,800<small>〜</small></span></div>
+          <p>肉または魚から。火入れと塩で、素材の輪郭をまっすぐに引き出します。</p>
+          <div class="meta">Main Course</div>
+        </div>
+      </article>
+
+      <article class="dish reveal" data-d="2">
+        <div class="ph"><span class="no serif">04</span><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=900&auto=format&fit=crop" alt="ランチコース"></div>
+        <div class="body">
+          <div class="ttl"><h3 class="serif">ランチコース</h3><span class="pr serif">¥1,800<small>/名</small></span></div>
+          <p>前菜・メイン・デザートの全3品。昼下がりの静かな時間に。</p>
+          <div class="meta">Lunch · 全3品</div>
+        </div>
+      </article>
+
+      <article class="dish feat reveal" data-d="1">
+        <div class="ph"><span class="no serif">05</span><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1000&auto=format&fit=crop" alt="ディナーコース"></div>
+        <div class="body">
+          <div class="ttl"><h3 class="serif">ディナーコース</h3><span class="pr serif">¥4,500<small>/名</small></span></div>
+          <p>夜のためのフルコース、全5品。グラスワインのペアリングもご用意しています。記念日やおもてなしの席に。</p>
+          <div class="meta">Dinner · 全5品 · ペアリング可</div>
+        </div>
+      </article>
+    </div>
+
+    <div class="menu-foot reveal">
+      <p><b class="serif">アラカルトもどうぞ。</b> その日のおすすめを、お好みで一皿ずつ。苦手な食材やアレルギーは、ご予約時にお知らせください。</p>
+      <a class="resv" href="reserve.html" style="font-family:'Fraunces',serif;border:1px solid var(--ink);padding:13px 28px;border-radius:1px;font-size:15px;transition:.3s" onmouseover="this.style.background='var(--accent)';this.style.borderColor='var(--accent)';this.style.color='#fff'" onmouseout="this.style.background='';this.style.borderColor='var(--ink)';this.style.color=''">コースを予約する →</a>
+    </div>
+  </div>
+</section>
+
+<!-- gallery -->
+<section class="sec gallery" id="gallery">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lead">
+        <span class="idx reveal">03</span>
+        <span class="kicker reveal" data-d="1">Gallery</span>
+        <h2 class="reveal" data-d="1">皿と、<em>店</em>と、時間。</h2>
+      </div>
+      <p class="aside reveal" data-d="2">料理だけでなく、器、灯り、ひとつづきの時間まで。私たちのつくる風景です。</p>
+    </div>
+    <div class="gal-grid">
+      <figure class="gal g1 reveal"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1100&auto=format&fit=crop" alt="店内"><figcaption>Interior<b class="serif">やわらかな灯りの席</b></figcaption></figure>
+      <figure class="gal g2 reveal" data-d="1"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=900&auto=format&fit=crop" alt="一皿"><figcaption>On the plate<b class="serif">季節の一皿</b></figcaption></figure>
+      <figure class="gal g3 reveal" data-d="2"><img src="https://images.unsplash.com/photo-1576867757603-05b134ebc379?q=80&w=700&auto=format&fit=crop" alt="食材"><figcaption>Ingredient<b class="serif">市場から</b></figcaption></figure>
+      <figure class="gal g4 reveal"><img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?q=80&w=700&auto=format&fit=crop" alt="グラス"><figcaption>Pairing<b class="serif">グラスとともに</b></figcaption></figure>
+      <figure class="gal g5 reveal" data-d="1"><img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=900&auto=format&fit=crop" alt="盛り付け"><figcaption>Craft<b class="serif">仕立ての手</b></figcaption></figure>
+      <figure class="gal g6 reveal" data-d="2"><img src="https://images.unsplash.com/photo-1428515613728-6b4607e44363?q=80&w=1100&auto=format&fit=crop" alt="テーブル"><figcaption>Table<b class="serif">ひとつづきの時間</b></figcaption></figure>
+      <figure class="gal g7 reveal"><img src="https://images.unsplash.com/photo-1432139555190-58524dae6a55?q=80&w=700&auto=format&fit=crop" alt="デザート"><figcaption>Dessert<b class="serif">余韻のひと匙</b></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- craft (zigzag) -->
+<section class="sec craft">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lead">
+        <span class="idx reveal">04</span>
+        <span class="kicker reveal" data-d="1">Our Craft</span>
+        <h2 class="reveal" data-d="1">こだわりの<em>三章</em>。</h2>
+      </div>
+      <p class="aside reveal" data-d="2">食材、火、そして余白。私たちが大切にしている三つのこと。</p>
+    </div>
+
+    <div class="row">
+      <div class="ph reveal left"><span class="num serif">Ⅰ</span><img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=1000&auto=format&fit=crop" alt="食材"></div>
+      <div class="txt reveal right" data-d="1">
+        <span class="kicker">Ingredient</span>
+        <h3 class="serif">その朝の<em>市場</em>から。</h3>
+        <p>料理長が自ら市場へ足を運び、その日いちばんの食材を選びます。だから献立は毎日少しずつ変わり、同じ一皿は二度とありません。旬とは、いちばんおいしい一瞬のこと。</p>
+      </div>
+    </div>
+
+    <div class="row flip">
+      <div class="ph reveal right"><span class="num serif">Ⅱ</span><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1000&auto=format&fit=crop" alt="火入れ"></div>
+      <div class="txt reveal left" data-d="1">
+        <span class="kicker">Fire &amp; Salt</span>
+        <h3 class="serif">火と塩で、<em>輪郭</em>を立てる。</h3>
+        <p>素材の持ち味を消さないために、調理はできるだけ静かに。最適な火入れと、ひとつまみの塩。引き算の積み重ねが、料理の芯を生むと考えています。</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="ph reveal left"><span class="num serif">Ⅲ</span><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1000&auto=format&fit=crop" alt="器と余白"></div>
+      <div class="txt reveal right" data-d="1">
+        <span class="kicker">Space</span>
+        <h3 class="serif">皿の上の、<em>余白</em>まで。</h3>
+        <p>器、盛り付け、そして余白。料理が最も美しく見える間合いを大切にします。味わうことが、そのまま心地よい時間になるように。一皿は、ひとつの編集です。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- stats -->
+<section class="sec stats" style="padding:90px 0">
+  <div class="wrap">
+    <div class="stat reveal"><div class="num serif" data-count="2008">0</div><div class="lbl">Established</div></div>
+    <div class="stat reveal" data-d="1"><div class="num serif" data-count="32">0<span class="u">席</span></div><div class="lbl">Seats</div></div>
+    <div class="stat reveal" data-d="2"><div class="num serif" data-count="5">0<span class="u">course</span></div><div class="lbl">コース</div></div>
+    <div class="stat reveal" data-d="3"><div class="num serif" data-count="100">0<span class="u">%</span></div><div class="lbl">季節の食材</div></div>
+  </div>
+</section>
+
+<!-- access -->
+<section class="sec access" id="access">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lead">
+        <span class="idx reveal">05</span>
+        <span class="kicker reveal" data-d="1">Access &amp; Hours</span>
+        <h2 class="reveal" data-d="1">営業時間と<em>場所</em>。</h2>
+      </div>
+      <p class="aside reveal" data-d="2">ランチ・ディナーともに、ご予約のうえお越しください。月曜は定休日です。</p>
+    </div>
+    <div class="access-grid">
+      <div class="reveal left">
+        <table class="hours">
+          <caption class="serif">Opening Hours</caption>
+          <tr><td class="serif">Lunch ／ 昼</td><td>11:30 – 14:00<br>（L.O. 13:30）</td></tr>
+          <tr><td class="serif">Dinner ／ 夜</td><td>17:30 – 22:00<br>（L.O. 21:00）</td></tr>
+          <tr><td class="serif">定休日</td><td class="closed">毎週月曜日</td></tr>
+        </table>
+        <ul class="info-list">
+          <li>
+            <span class="ic"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+            <div><small>Address</small><b class="serif">〒000-0000　東京都中央区0-0-0 エクラビル 1F</b></div>
+          </li>
+          <li>
+            <span class="ic"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+            <div><small>Reservation</small><b class="serif">03-0000-0000</b></div>
+          </li>
+          <li>
+            <span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span>
+            <div><small>Access</small><b class="serif">各線 中央駅より徒歩5分</b></div>
+          </li>
+        </ul>
+      </div>
+      <div class="figure reveal right" data-d="1">
+        <div class="frame"><img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=1000&auto=format&fit=crop" alt="店舗外観"></div>
+        <span class="tag">ÉCLAT</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- reserve CTA -->
+<section class="cta" id="reserve">
+  <div class="wrap">
+    <span class="kicker reveal">Reservation</span>
+    <h2 class="serif reveal" data-d="1">席を、<em>とっておく</em>。</h2>
+    <p class="reveal" data-d="2">お電話、またはネット予約から。空席状況を見ながら、24時間いつでもお申し込みいただけます。</p>
+    <a class="tel serif reveal" data-d="1" href="tel:0300000000">03-0000-0000</a>
+    <div class="telsub reveal" data-d="2">受付 11:00 – 21:00 ／ 月曜定休</div>
+    <div class="acts reveal" data-d="2">
+      <a class="btn fill" href="reserve.html">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        ネット予約へ
+      </a>
+      <a class="btn line" href="tel:0300000000">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        電話で予約
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- footer -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="brand">ÉCLAT<span class="reg">®</span></div>
+        <p class="lede">季節を編集するレストラン。市場の旬を主役に、料理長が一皿ずつ仕立てます。ランチからディナーまで。</p>
+      </div>
+      <div>
+        <h4>Menu</h4>
+        <ul>
+          <li><a href="#about">Concept</a></li>
+          <li><a href="#menu">季節の品書き</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#access">Access &amp; Hours</a></li>
+          <li><a href="reserve.html">ネット予約</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <address>
+          〒000-0000<br>
+          東京都中央区0-0-0 エクラビル 1F<br>
+          TEL <b>03-0000-0000</b><br>
+          各線 中央駅より徒歩5分
+        </address>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© <span id="yr"></span> ÉCLAT — Editorial Dining. これはデモサイトです。</span>
+      <span>Designed by Musubi</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const head = document.getElementById('head');
+addEventListener('scroll', ()=>head.classList.toggle('scrolled', scrollY > 40), {passive:true});
+
+// reveal
+const io = new IntersectionObserver((es)=>es.forEach(e=>{
+  if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+}), {threshold:.14, rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// parallax hero (rAF)
+const heroBg = document.getElementById('heroBg');
+let ticking = false;
+function onScroll(){
+  if(ticking) return;
+  ticking = true;
+  requestAnimationFrame(()=>{
+    const y = scrollY;
+    if(y < innerHeight) heroBg.style.transform = 'translateY(' + (y * 0.32) + 'px)';
+    ticking = false;
+  });
+}
+addEventListener('scroll', onScroll, {passive:true});
+
+// count up
+const counters = document.querySelectorAll('[data-count]');
+const cio = new IntersectionObserver((es)=>es.forEach(e=>{
+  if(!e.isIntersecting) return;
+  cio.unobserve(e.target);
+  const el = e.target, target = parseInt(el.dataset.count, 10);
+  const dur = 1400, t0 = performance.now();
+  const suffix = el.querySelector('.u');
+  const suffixHTML = suffix ? suffix.outerHTML : '';
+  function step(now){
+    const p = Math.min((now - t0) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.innerHTML = Math.round(target * eased).toLocaleString() + suffixHTML;
+    if(p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}), {threshold:.5});
+counters.forEach(c=>cio.observe(c));
+
+// quick booker -> reserve.html
+const qbDate = document.getElementById('qbDate');
+const now = new Date();
+const local = new Date(now.getTime() - now.getTimezoneOffset()*60000).toISOString().slice(0,10);
+qbDate.min = local; qbDate.value = local;
+document.getElementById('qbGo').addEventListener('click', ()=>{
+  const p = new URLSearchParams();
+  if(qbDate.value) p.set('date', qbDate.value);
+  p.set('time', document.getElementById('qbTime').value);
+  p.set('party', document.getElementById('qbParty').value);
+  p.set('seat', document.getElementById('qbSeat').value);
+  location.href = 'reserve.html?' + p.toString();
+});
+
+document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

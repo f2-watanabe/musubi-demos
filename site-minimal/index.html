@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restaurant ÉCRU ｜ 季節のお料理とワイン</title>
+<meta name="description" content="Restaurant ÉCRU — 旬の食材を一皿ずつ。余白を大切にした、静かなレストラン。ランチ・ディナーのコースをご用意しております。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#faf9f7; --panel:#ffffff; --ink:#1f1d1a; --soft:#3a3733;
+  --muted:#928d85; --line:#e7e3dc; --line-2:#efece6;
+  --accent:#9a7a52; --accent-d:#7d6240; --dark:#23211d;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Inter","Noto Sans JP",sans-serif;color:var(--ink);background:var(--paper);line-height:1.9;font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.serif{font-family:"Cormorant Garamond","Noto Serif JP",serif;font-weight:500}
+img{object-fit:cover;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+.eyebrow{font-size:10.5px;letter-spacing:.42em;text-transform:uppercase;color:var(--accent)}
+
+/* header */
+.head{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;
+  padding:24px 32px;transition:padding .4s,background .4s,box-shadow .4s,border-color .4s;border-bottom:1px solid transparent}
+.head.scrolled{padding:14px 32px;background:rgba(250,249,247,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:13px}
+.brand .mark{width:40px;height:40px;border:1px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-family:"Cormorant Garamond",serif;font-weight:500;font-size:21px;flex:none;transition:.4s}
+.brand b{font-family:"Cormorant Garamond","Noto Serif JP",serif;font-size:21px;font-weight:500;letter-spacing:.2em;display:block;line-height:1.1}
+.brand small{display:block;font-size:8.5px;letter-spacing:.44em;color:var(--muted);margin-top:2px}
+.nav{display:flex;align-items:center;gap:34px}
+.nav a{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);transition:.25s}
+.nav a:hover{color:var(--ink)}
+.nav .resv{border:1px solid var(--ink);padding:11px 22px;font-size:10.5px;font-weight:500;letter-spacing:.18em;transition:.25s}
+.nav .resv:hover{background:var(--ink);color:var(--paper)}
+@media(max-width:860px){ .nav a:not(.resv){display:none} }
+
+/* hero */
+.hero{position:relative;height:100vh;min-height:640px;overflow:hidden;display:flex;align-items:center}
+.hero-bg{position:absolute;inset:-6% -2% -2% -2%;background:center/cover;
+  background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1600&auto=format&fit=crop');
+  animation:slowzoom 18s ease-out forwards;will-change:transform}
+@keyframes slowzoom{from{transform:scale(1.16)}to{transform:scale(1)}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,18,15,.34),rgba(20,18,15,.5))}
+.hero-inner{position:relative;z-index:2;width:100%;max-width:1180px;margin:0 auto;padding:0 32px;color:#f7f5f1}
+.hero .eyebrow{color:#dac9a8;opacity:0;transform:translateY(14px);animation:fadeUp .9s .2s ease forwards}
+.hero h1{font-family:"Cormorant Garamond","Noto Serif JP",serif;font-weight:500;font-size:clamp(48px,9vw,118px);line-height:.98;letter-spacing:.02em;margin:18px 0 0}
+.hero h1 .ln{display:block;overflow:hidden}
+.hero h1 .ln span{display:block;transform:translateY(108%);animation:slideUp 1.05s cubic-bezier(.16,.84,.32,1) forwards}
+.hero h1 .ln:nth-child(2) span{animation-delay:.16s}
+.hero .sub{font-family:"Noto Serif JP",serif;font-size:clamp(13px,1.8vw,16px);letter-spacing:.34em;margin-top:26px;color:#ece7df;opacity:0;animation:fadeUp 1s .7s ease forwards}
+.hero .scroll{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);z-index:2;font-size:9.5px;letter-spacing:.34em;text-transform:uppercase;color:#e6ddcf;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fadeUp 1s 1s ease forwards}
+.hero .scroll::after{content:"";width:1px;height:46px;background:linear-gradient(#e6ddcf,transparent);animation:lineGrow 1.8s 1.2s ease-in-out infinite}
+@keyframes slideUp{to{transform:translateY(0)}}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+@keyframes lineGrow{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1)}
+.reveal.left{transform:translateX(-46px)}
+.reveal.right{transform:translateX(46px)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}
+
+/* marquee strip */
+.strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:var(--panel)}
+.marq{display:flex;gap:0;white-space:nowrap;will-change:transform}
+.marq span{font-family:"Cormorant Garamond","Noto Serif JP",serif;font-size:clamp(22px,3.4vw,38px);letter-spacing:.06em;color:var(--ink);padding:20px 0;display:inline-flex;align-items:center}
+.marq span i{font-style:normal;color:var(--accent);margin:0 38px;font-size:.6em}
+
+/* section base */
+.section{padding:120px 0}
+.sec-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;margin-bottom:64px}
+.sec-head h2{font-family:"Cormorant Garamond","Noto Serif JP",serif;font-weight:500;font-size:clamp(32px,4.6vw,50px);letter-spacing:.04em;line-height:1.1}
+.sec-head .ja{font-family:"Noto Serif JP",serif;font-size:13px;letter-spacing:.3em;color:var(--soft)}
+.sec-head p{font-size:13px;color:var(--muted);max-width:540px;letter-spacing:.02em;line-height:2}
+
+/* about */
+.about{display:grid;grid-template-columns:1.05fr .95fr;gap:74px;align-items:center}
+.about .ph{position:relative;height:560px;overflow:hidden}
+.about .ph img{position:absolute;inset:0;width:100%;height:118%;top:-9%;will-change:transform}
+.about .ph .cap{position:absolute;left:22px;bottom:22px;z-index:2;color:#f7f5f1;font-family:"Cormorant Garamond",serif;font-size:15px;letter-spacing:.18em;text-shadow:0 2px 18px rgba(0,0,0,.5)}
+.about .tx .eyebrow{margin-bottom:20px;display:block}
+.about .tx h2{font-family:"Cormorant Garamond","Noto Serif JP",serif;font-weight:500;font-size:clamp(28px,3.8vw,42px);line-height:1.3;letter-spacing:.03em}
+.about .tx .lead{font-family:"Noto Serif JP",serif;font-size:15px;color:var(--soft);margin-top:24px;line-height:2.2}
+.about .tx p{font-size:13px;color:var(--muted);margin-top:18px;line-height:2.1;letter-spacing:.02em}
+.about .tx .sign{font-family:"Cormorant Garamond",serif;font-size:22px;letter-spacing:.1em;margin-top:28px;color:var(--ink)}
+.about .tx .sign small{display:block;font-family:"Inter",sans-serif;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+@media(max-width:860px){ .about{grid-template-columns:1fr;gap:40px} .about .ph{height:420px} }
+
+/* courses */
+.menu-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column}
+.mrow{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:baseline;padding:30px 0;border-bottom:1px solid var(--line)}
+.mrow:first-child{border-top:1px solid var(--line)}
+.mrow .no{font-family:"Cormorant Garamond",serif;font-size:14px;color:var(--accent);letter-spacing:.1em}
+.mrow .mi h3{font-family:"Cormorant Garamond","Noto Serif JP",serif;font-weight:500;font-size:24px;letter-spacing:.03em}
+.mrow .mi .en{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.mrow .mi p{font-size:12.5px;color:var(--soft);margin-top:10px;line-height:1.9;letter-spacing:.02em}
+.mrow .pr{font-family:"Cormorant Garamond",serif;font-size:24px;letter-spacing:.02em;white-space:nowrap}
+.mrow .pr small{font-size:11px;color:var(--muted);margin-left:3px}
+@media(max-width:560px){ .mrow{grid-template-columns:auto 1fr;gap:14px} .mrow .pr{grid-column:2;text-align:left;font-size:20px} }
+
+/* horizontal gallery track (big motion) */
+.gallery{padding:120px 0 130px;overflow:hidden}
+.gtrack{display:flex;gap:22px;padding:0 32px;will-change:transform}
+.gtrack .gcard{position:relative;flex:none;width:clamp(260px,32vw,400px);height:clamp(340px,42vw,520px);overflow:hidden;background:var(--line-2)}
+.gtrack .gcard img{width:100%;height:100%;transition:transform 1s ease}
+.gtrack .gcard:hover img{transform:scale(1.06)}
+.gtrack .gcard .gl{position:absolute;left:18px;bottom:16px;color:#f7f5f1;font-family:"Cormorant Garamond",serif;font-size:14px;letter-spacing:.16em;text-shadow:0 2px 14px rgba(0,0,0,.5)}
+.gtrack .gcard::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(20,18,15,.5))}
+.gnote{text-align:center;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);margin-top:34px}
+
+/* values / counters */
+.values{background:var(--dark);color:#ece7df}
+.vgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.09);margin-top:18px}
+.vcell{background:var(--dark);padding:54px 28px;text-align:center}
+.vcell .num{font-family:"Cormorant Garamond",serif;font-size:clamp(40px,5.4vw,62px);color:#d8c3a3;line-height:1;letter-spacing:.02em}
+.vcell .num small{font-size:.42em;color:#9a9389;margin-left:3px}
+.vcell .lb{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#9a9389;margin-top:16px}
+.vcell .jp{font-size:12px;color:#cfc8bd;margin-top:8px;letter-spacing:.06em}
+.values .sec-head h2{color:#fff}
+.values .sec-head .ja{color:#bcb4a8}
+.values .sec-head p{color:#9a9389}
+@media(max-width:760px){ .vgrid{grid-template-columns:repeat(2,1fr)} }
+
+/* craft / こだわり */
+.craft{display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
+.craft .c{border-top:1px solid var(--ink);padding-top:26px}
+.craft .c .ci{font-family:"Cormorant Garamond",serif;font-size:14px;letter-spacing:.1em;color:var(--accent)}
+.craft .c h3{font-family:"Cormorant Garamond","Noto Serif JP",serif;font-weight:500;font-size:22px;letter-spacing:.03em;margin-top:12px}
+.craft .c p{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:2;letter-spacing:.02em}
+@media(max-width:760px){ .craft{grid-template-columns:1fr;gap:26px} }
+
+/* access */
+.access{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line)}
+.access .ax-ph{position:relative;min-height:440px;overflow:hidden;background:var(--line-2)}
+.access .ax-ph img{position:absolute;inset:0;width:100%;height:116%;top:-8%;will-change:transform}
+.access .ax-tx{padding:60px 54px;background:var(--panel)}
+.access .ax-tx h2{font-family:"Cormorant Garamond","Noto Serif JP",serif;font-weight:500;font-size:32px;letter-spacing:.04em}
+.access .ax-tx .ja{font-family:"Noto Serif JP",serif;font-size:12px;letter-spacing:.26em;color:var(--soft);margin-top:6px}
+.axrow{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--line-2)}
+.axrow:first-of-type{margin-top:30px;border-top:1px solid var(--line-2)}
+.axrow .k{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);width:104px;flex:none;padding-top:3px}
+.axrow .v{font-size:13.5px;color:var(--soft);letter-spacing:.02em;line-height:1.9}
+.axrow .v b{font-weight:500;color:var(--ink)}
+@media(max-width:860px){ .access{grid-template-columns:1fr} .access .ax-ph{min-height:300px} .access .ax-tx{padding:44px 30px} }
+
+/* CTA */
+.cta{position:relative;overflow:hidden;text-align:center;padding:130px 0}
+.cta-bg{position:absolute;inset:-8% 0;background:center/cover;
+  background-image:url('https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?q=80&w=1600&auto=format&fit=crop');will-change:transform}
+.cta::after{content:"";position:absolute;inset:0;background:rgba(22,19,16,.62)}
+.cta .ci{position:relative;z-index:2;color:#f7f5f1}
+.cta .eyebrow{color:#dac9a8}
+.cta h2{font-family:"Cormorant Garamond","Noto Serif JP",serif;font-weight:500;font-size:clamp(32px,5vw,56px);letter-spacing:.04em;margin:18px 0 10px;line-height:1.1}
+.cta p{font-size:13px;letter-spacing:.06em;color:#ddd6cb}
+.cta .tel{font-family:"Cormorant Garamond",serif;font-size:clamp(40px,6vw,64px);letter-spacing:.04em;margin:30px 0 6px;color:#fff;display:inline-block}
+.cta .tel small{display:block;font-family:"Inter",sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#cfc6b9;margin-bottom:6px}
+.cta .acts{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+.cta .btn{padding:17px 40px;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;transition:.25s}
+.cta .btn.fill{background:var(--paper);color:var(--ink)}
+.cta .btn.fill:hover{background:#fff;transform:translateY(-2px)}
+.cta .btn.line{border:1px solid rgba(255,255,255,.6);color:#fff}
+.cta .btn.line:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+
+/* quick booker */
+.qbook{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:30px 0}
+.qb-card{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr auto;gap:0;align-items:end;border:1px solid var(--line)}
+.qb-f{padding:16px 22px;border-right:1px solid var(--line)}
+.qb-f label{display:flex;align-items:center;gap:8px;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.qb-f label svg{width:14px;height:14px;fill:none;stroke:var(--accent);stroke-width:1.4}
+.qb-f input,.qb-f select{width:100%;border:none;background:transparent;font-family:inherit;font-size:14px;color:var(--ink);letter-spacing:.02em;outline:none;cursor:pointer}
+.qb-go{padding:0 38px;align-self:stretch;background:var(--ink);color:var(--paper);font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:10px;transition:.25s;white-space:nowrap}
+.qb-go:hover{background:var(--dark)}
+.qb-note{text-align:center;font-size:11px;color:var(--muted);margin-top:18px;letter-spacing:.04em}
+.qb-note b{color:var(--ink);font-weight:500}
+@media(max-width:860px){ .qb-card{grid-template-columns:1fr 1fr} .qb-f{border-right:none;border-bottom:1px solid var(--line)} .qb-go{grid-column:1/-1;justify-content:center;padding:18px} }
+
+/* footer */
+.foot{background:var(--paper);padding:74px 0 40px;border-top:1px solid var(--line)}
+.foot-top{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap}
+.foot .fb{display:flex;align-items:center;gap:13px}
+.foot .fb .mark{width:42px;height:42px;border:1px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-family:"Cormorant Garamond",serif;font-size:22px;flex:none}
+.foot .fb b{font-family:"Cormorant Garamond",serif;font-size:22px;letter-spacing:.2em;display:block}
+.foot .fb small{font-size:8.5px;letter-spacing:.42em;color:var(--muted)}
+.foot .fnav{display:flex;gap:28px;flex-wrap:wrap}
+.foot .fnav a{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+.foot .fnav a:hover{color:var(--ink)}
+.foot .fmeta{font-size:12px;color:var(--muted);line-height:2;letter-spacing:.02em;margin-top:14px}
+.foot-bot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:54px;padding-top:24px;border-top:1px solid var(--line);font-size:10.5px;letter-spacing:.08em;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="head" id="head">
+  <a href="#top" class="brand">
+    <span class="mark">É</span>
+    <span><b>ÉCRU</b><small>RESTAURANT</small></span>
+  </a>
+  <nav class="nav">
+    <a href="#about">About</a>
+    <a href="#menu">Menu</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#access">Access</a>
+    <a href="reserve.html" class="resv">ご予約</a>
+  </nav>
+</header>
+
+<!-- hero -->
+<section class="hero" id="top">
+  <div class="hero-bg" data-parallax="0.18"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Seasonal Cuisine &amp; Wine</div>
+    <h1><span class="ln"><span>Quiet</span></span><span class="ln"><span>Flavours</span></span></h1>
+    <div class="sub">旬を、一皿ずつ。</div>
+  </div>
+  <a href="#about" class="scroll">Scroll</a>
+</section>
+
+<!-- marquee -->
+<div class="strip">
+  <div class="marq" id="marq">
+    <span>旬の食材<i>◆</i>季節のおまかせ<i>◆</i>料理長の一皿<i>◆</i>ランチ &amp; ディナー<i>◆</i>静かな余白<i>◆</i>厳選のワイン<i>◆</i></span>
+    <span>旬の食材<i>◆</i>季節のおまかせ<i>◆</i>料理長の一皿<i>◆</i>ランチ &amp; ディナー<i>◆</i>静かな余白<i>◆</i>厳選のワイン<i>◆</i></span>
+  </div>
+</div>
+
+<!-- quick booker -->
+<section class="qbook">
+  <div class="wrap">
+    <div class="qb-card reveal">
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>ご希望日</label>
+        <input type="date" id="qbDate">
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>時間</label>
+        <select id="qbTime">
+          <option value="11:30">11:30</option><option value="12:00">12:00</option>
+          <option value="12:30">12:30</option><option value="13:00">13:00</option>
+          <option value="17:30">17:30</option><option value="18:00" selected>18:00</option>
+          <option value="18:30">18:30</option><option value="19:00">19:00</option>
+          <option value="19:30">19:30</option><option value="20:00">20:00</option>
+        </select>
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>人数</label>
+        <select id="qbParty">
+          <option value="1">1名</option><option value="2" selected>2名</option><option value="3">3名</option><option value="4">4名</option>
+          <option value="5">5名</option><option value="6">6名</option><option value="7">7名</option><option value="8">8名</option>
+        </select>
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><path d="M3 10h18M5 10V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3M5 10v8M19 10v8M5 18h14"/></svg>お席</label>
+        <select id="qbSeat">
+          <option>おまかせ</option><option>テーブル</option><option>カウンター</option><option>個室</option>
+        </select>
+      </div>
+      <button class="qb-go" id="qbGo">
+        空席を見て予約
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+    <p class="qb-note">月曜定休 ・ <b>24時間</b>ネット予約OK ／ 次の画面で空席を確認できます</p>
+  </div>
+</section>
+
+<!-- about -->
+<section class="section" id="about">
+  <div class="wrap about">
+    <div class="ph reveal left">
+      <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1600&auto=format&fit=crop" alt="" data-parallax="0.08">
+      <span class="cap">Since 2014</span>
+    </div>
+    <div class="tx reveal right">
+      <span class="eyebrow">About</span>
+      <h2>余白を、味わう。<br>静かなレストラン。</h2>
+      <p class="lead">必要なものだけを、丁寧に。<br>旬の食材を一皿ずつ仕立て、ゆっくりと流れる時間とともにお愉しみいただきます。</p>
+      <p>飾り立てることをやめ、素材そのものの輪郭を大切にしました。白い皿の上の余白、静かな照明、控えめなサービス。すべては、お料理とお客様の時間のためにあります。ランチからディナーまで、その日いちばん良い食材で構成するコースをご用意しております。</p>
+      <div class="sign">Chef &nbsp;—&nbsp; A. Mori<span><small>料理長</small></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- menu / courses -->
+<section class="section" id="menu" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Courses</span>
+      <h2>季節のコース</h2>
+      <div class="ja">お料理</div>
+      <p>その日に届いた食材で構成いたします。内容は仕入れにより変わります。アラカルトもご用意しております。</p>
+    </div>
+    <div class="menu-list">
+      <div class="mrow reveal">
+        <div class="no">01</div>
+        <div class="mi"><h3>ランチコース</h3><div class="en">Lunch Course ・ 全4品</div>
+          <p>前菜・季節のスープ・本日のお料理・デザートと珈琲。昼のひとときに。</p></div>
+        <div class="pr">¥1,800<small>〜</small></div>
+      </div>
+      <div class="mrow reveal d1">
+        <div class="no">02</div>
+        <div class="mi"><h3>ディナーコース</h3><div class="en">Dinner Course ・ 全6品</div>
+          <p>旬の前菜から魚・肉のメインまで、一皿ずつ仕立てる料理長おまかせの構成。</p></div>
+        <div class="pr">¥4,500</div>
+      </div>
+      <div class="mrow reveal d2">
+        <div class="no">03</div>
+        <div class="mi"><h3>シェフのおまかせ</h3><div class="en">Chef's Tasting ・ 全8品</div>
+          <p>その日の最良の食材で構成する特別なコース。記念日のご利用にも。個室確約。</p></div>
+        <div class="pr">¥6,000</div>
+      </div>
+      <div class="mrow reveal d3">
+        <div class="no">04</div>
+        <div class="mi"><h3>アラカルト &amp; ワイン</h3><div class="en">À la carte ・ 単品</div>
+          <p>季節の一品とグラスワインを、その日のおすすめからお好みで。</p></div>
+        <div class="pr">—</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- horizontal gallery -->
+<section class="gallery" id="gallery">
+  <div class="sec-head reveal">
+    <span class="eyebrow">Gallery</span>
+    <h2>Atmosphere</h2>
+    <div class="ja">店内とお料理</div>
+  </div>
+  <div class="gtrack" id="gtrack">
+    <div class="gcard"><img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=1200&auto=format&fit=crop" alt=""><span class="gl">The Plate</span></div>
+    <div class="gcard"><img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=1200&auto=format&fit=crop" alt=""><span class="gl">Seasonal</span></div>
+    <div class="gcard"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1200&auto=format&fit=crop" alt=""><span class="gl">The Table</span></div>
+    <div class="gcard"><img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=1200&auto=format&fit=crop" alt=""><span class="gl">Interior</span></div>
+    <div class="gcard"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1200&auto=format&fit=crop" alt=""><span class="gl">The Counter</span></div>
+    <div class="gcard"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop" alt=""><span class="gl">Dining</span></div>
+  </div>
+  <p class="gnote">← スクロールでご覧いただけます →</p>
+</section>
+
+<!-- values / counters -->
+<section class="section values">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" style="color:#dac9a8">In Numbers</span>
+      <h2>数字で見る ÉCRU</h2>
+      <div class="ja">わたしたちのこと</div>
+      <p>気取らず、けれど丁寧に。日々の積み重ねを、いくつかの数字で。</p>
+    </div>
+    <div class="vgrid reveal">
+      <div class="vcell"><div class="num" data-count="11"><span>0</span></div><div class="lb">Years</div><div class="jp">創業からの歩み</div></div>
+      <div class="vcell"><div class="num" data-count="24" data-suffix="席"><span>0</span></div><div class="lb">Seats</div><div class="jp">静かな空間</div></div>
+      <div class="vcell"><div class="num" data-count="6" data-suffix="品"><span>0</span></div><div class="lb">Courses</div><div class="jp">ディナーの構成</div></div>
+      <div class="vcell"><div class="num" data-count="40" data-suffix="種"><span>0</span></div><div class="lb">Wines</div><div class="jp">厳選のワイン</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- craft / こだわり -->
+<section class="section" id="craft">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Our Craft</span>
+      <h2>こだわり</h2>
+      <div class="ja">三つの約束</div>
+    </div>
+    <div class="craft">
+      <div class="c reveal">
+        <div class="ci">01</div>
+        <h3>旬の食材</h3>
+        <p>その日に届いた食材から、いちばん良い状態のものだけを選びます。献立は仕入れとともに変わり、同じ皿は二度とありません。</p>
+      </div>
+      <div class="c reveal d1">
+        <div class="ci">02</div>
+        <h3>静かな時間</h3>
+        <p>席数を絞り、ゆとりある間隔で。控えめな照明と静けさのなかで、料理と会話に集中していただけます。</p>
+      </div>
+      <div class="c reveal d2">
+        <div class="ci">03</div>
+        <h3>一皿の輪郭</h3>
+        <p>余分な装飾を削ぎ落とし、素材そのものの味と形を大切に。シンプルであることに、いちばん手をかけています。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- access -->
+<section class="section" id="access" style="padding-top:20px">
+  <div class="wrap">
+    <div class="access reveal">
+      <div class="ax-ph">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1200&auto=format&fit=crop" alt="" data-parallax="0.06">
+      </div>
+      <div class="ax-tx">
+        <h2>Access</h2>
+        <div class="ja">アクセス・営業時間</div>
+        <div class="axrow"><div class="k">Address</div><div class="v"><b>〒000-0000</b><br>東京都〇〇区〇〇 0-0-0 〇〇ビル 1F</div></div>
+        <div class="axrow"><div class="k">Hours</div><div class="v">ランチ 11:30–14:30（L.O. 13:30）<br>ディナー 17:30–22:00（L.O. 21:00）</div></div>
+        <div class="axrow"><div class="k">Closed</div><div class="v">月曜定休（祝日の場合は翌日）</div></div>
+        <div class="axrow"><div class="k">Access</div><div class="v">〇〇線「〇〇」駅より徒歩5分</div></div>
+        <div class="axrow"><div class="k">Tel</div><div class="v"><b>03-0000-0000</b></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="reserve">
+  <div class="cta-bg" data-parallax="0.12"></div>
+  <div class="wrap ci reveal">
+    <span class="eyebrow">Reservation</span>
+    <h2>ご予約</h2>
+    <p>お電話、またはネット予約でお気軽にどうぞ。</p>
+    <a href="tel:0300000000" class="tel"><small>Tel ・ お電話でのご予約</small>03-0000-0000</a>
+    <div class="acts">
+      <a href="reserve.html" class="btn fill">ネット予約はこちら</a>
+      <a href="#menu" class="btn line">コースを見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- footer -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="fb">
+          <span class="mark">É</span>
+          <span><b>ÉCRU</b><small>RESTAURANT</small></span>
+        </div>
+        <div class="fmeta">東京都〇〇区〇〇 0-0-0 〇〇ビル 1F<br>03-0000-0000 ／ 月曜定休</div>
+      </div>
+      <nav class="fnav">
+        <a href="#about">About</a>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#access">Access</a>
+        <a href="reserve.html">ご予約</a>
+      </nav>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Restaurant ÉCRU. All rights reserved.</span>
+      <span>これはデモサイトです ／ Minimal Editorial Template</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+
+// header solid on scroll
+const head = document.getElementById('head');
+addEventListener('scroll', ()=> head.classList.toggle('scrolled', scrollY > 40), {passive:true});
+
+// reveal on scroll
+const io = new IntersectionObserver((es)=>es.forEach(e=>{
+  if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+}), {threshold:.16});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// count-up
+const cio = new IntersectionObserver((es)=>es.forEach(e=>{
+  if(!e.isIntersecting) return;
+  cio.unobserve(e.target);
+  const el = e.target, end = +el.dataset.count, suf = el.dataset.suffix || '';
+  const span = el.querySelector('span'); const dur = 1500; const t0 = performance.now();
+  function step(t){
+    const p = Math.min((t-t0)/dur, 1);
+    const eased = 1 - Math.pow(1-p, 3);
+    if(p < 1){ span.textContent = Math.round(end*eased); requestAnimationFrame(step); }
+    else span.innerHTML = end + (suf ? '<small>'+suf+'</small>' : '');
+  }
+  requestAnimationFrame(step);
+}), {threshold:.4});
+document.querySelectorAll('.num[data-count]').forEach(el=>cio.observe(el));
+
+// horizontal gallery scroll-linked + parallax via rAF
+const gtrack = document.getElementById('gtrack');
+const gallery = document.getElementById('gallery');
+const marq = document.getElementById('marq');
+const parallaxEls = [...document.querySelectorAll('[data-parallax]')];
+let ticking = false;
+function onScroll(){
+  const y = scrollY;
+  // parallax
+  parallaxEls.forEach(el=>{
+    const r = el.getBoundingClientRect();
+    const speed = parseFloat(el.dataset.parallax);
+    const offset = (r.top + r.height/2 - innerHeight/2) * -speed;
+    el.style.transform = `translate3d(0,${offset.toFixed(1)}px,0)`;
+  });
+  // horizontal gallery track
+  if(gtrack){
+    const gr = gallery.getBoundingClientRect();
+    const total = gtrack.scrollWidth - innerWidth;
+    if(gr.top < innerHeight && gr.bottom > 0 && total > 0){
+      const prog = Math.min(Math.max((innerHeight - gr.top) / (innerHeight + gr.height), 0), 1);
+      gtrack.style.transform = `translate3d(${(-prog*total*0.82).toFixed(1)}px,0,0)`;
+    }
+  }
+  // marquee drift
+  if(marq){ marq.style.transform = `translateX(${(-(y*0.08) % (marq.scrollWidth/2)).toFixed(1)}px)`; }
+  ticking = false;
+}
+addEventListener('scroll', ()=>{ if(!ticking){ requestAnimationFrame(onScroll); ticking = true; } }, {passive:true});
+addEventListener('resize', onScroll);
+onScroll();
+
+// quick booker -> reserve.html
+const qbDate = document.getElementById('qbDate');
+const now = new Date();
+const local = new Date(now.getTime() - now.getTimezoneOffset()*60000).toISOString().slice(0,10);
+qbDate.min = local; qbDate.value = local;
+document.getElementById('qbGo').addEventListener('click', ()=>{
+  const p = new URLSearchParams();
+  if(qbDate.value) p.set('date', qbDate.value);
+  p.set('time', document.getElementById('qbTime').value);
+  p.set('party', document.getElementById('qbParty').value);
+  p.set('seat', document.getElementById('qbSeat').value);
+  location.href = 'reserve.html?' + p.toString();
+});
+</script>
+
+</body>
+</html>
