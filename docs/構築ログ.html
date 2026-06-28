@@ -60,6 +60,19 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-06-28 ・ ログインUI刷新（緑ブランド統一＋ロゴ＋送信中フィードバック）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 管理アプリ・顧客ポータル両方のログイン画面を刷新。Musubi ロゴ採用、ブランド緑への色統一、入力/ボタンのモダン化、送信中の状態フィードバック追加。</li>
+<li><strong>Why</strong>: ログインが素朴な白黒でブランド感ゼロ（「ダサい」）、かつ <code>&lt;form action={login}&gt;</code> 直結で送信中表示が無く「ボタンを押したか／処理中か分からない」UI だった。初版は紺で作ったが、ロゴ・アプリ本体が緑基調のため緑へ揃え直し。</li>
+<li><strong>How</strong>:</li>
+<li>ロゴ：<code>local-web-sales/10_デザイン/musubilogo_yoko.png</code>（紺の結び目∞）を PIL で<strong>緑（#0c5a4a）の透過 PNG に変換</strong>（<code>ImageOps.invert</code> で輝度→alpha・背景透過）。各アプリ <code>public/musubi-logo.png</code> に配置し <code>next/image</code> 配信。変換スクリプトは <code>$CLAUDE_JOB_DIR/tmp/greenify.py</code>（再現可・要 PIL）。</li>
+<li>色：ログイン背景をアプリ本体と同じ <code>var(--bg)</code>、ボタン/focus を <code>var(--acc)</code>(#127b66)/<code>var(--accd)</code>、ロゴ深緑で統一。globals.css の既存ブランド変数を arbitrary value で参照。</li>
+<li>モダン化：入力に封筒/鍵アイコン＋<code>rounded-xl</code>＋<code>focus:ring</code>＋focus時 white 化、ボタン <code>rounded-xl</code>＋影＋<code>active:scale</code>、フッターに「セキュアな接続」コピー。</li>
+<li><code>app/login/SubmitButton.tsx</code>（client・<code>useFormStatus</code>）新設：pending 時スピナー＋「ログイン中…」＋disable＋<code>aria-busy</code>。</li>
+<li><strong>Result</strong>: 両アプリ <code>npm run build</code> 成功。push 済（admin <code>1019be9</code>／portal <code>1bebcb7</code>）→ Vercel 自動デプロイ。送信中フィードバックで「押したか分からない」問題を解消。<strong>複数エージェントによるデザインチェックは未実施（次セッションで実施予定）</strong>。</li>
+<li><strong>証跡</strong>: <code>musubi-admin</code>／<code>musubi-portal</code> 各 <code>app/login/{page.tsx,SubmitButton.tsx}</code>・<code>public/musubi-logo.png</code>。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-06-28 ・ Phase 1/6 口コミ返信下書き生成を本番アプリへ移植・実Claude実証</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: <code>gbp-review-reply</code> プロトの下書き生成ロジックを <code>musubi-admin</code> に移植し、pending 口コミに AI 返信下書きを生成して drafted 化する Cron を実装。実 Claude で生成・セキュリティを実証。</li>
