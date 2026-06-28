@@ -204,6 +204,33 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .mm-close:hover{border-color:var(--vermilion);color:var(--vermilion)}
 .mmodal .mm-foot{font-size:10.5px;color:var(--muted);text-align:center;padding:14px 28px 24px}
 
+/* notes / charge / policy */
+.panel-h .pn.ginfo{background:var(--sumi);font-style:italic}
+.info-block{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+.info-block:first-of-type{border-top:none;padding-top:6px;margin-top:8px}
+.ib-title{font-family:"Shippori Mincho",serif;font-size:15px;letter-spacing:.04em;margin-bottom:11px}
+.ib-note{font-size:11.5px;color:var(--muted);line-height:1.7;margin-top:10px}
+.ib-note a,.notice a{color:var(--vermilion);font-weight:700}
+.notice{list-style:none;display:flex;flex-direction:column;gap:8px}
+.notice li{position:relative;padding-left:18px;font-size:13px;color:#4d463b;line-height:1.7}
+.notice li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.charge{list-style:none;display:flex;flex-direction:column;gap:0}
+.charge li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+.charge li:last-child{border-bottom:none}
+.charge li span{color:#4d463b}
+.charge li b{font-family:"Shippori Mincho",serif;color:var(--vermilion-d);white-space:nowrap}
+.policy{list-style:none;display:flex;flex-direction:column;gap:0}
+.policy li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line)}
+.policy li:last-child{border-bottom:none}
+.policy .when{font-size:13.5px;color:#4d463b}
+.policy .rate{font-family:"Shippori Mincho",serif;font-size:14.5px;font-weight:600;white-space:nowrap}
+.policy .rate.ok{color:var(--ok)}
+.policy .rate.warn{color:var(--warn)}
+.policy .rate.bad{color:var(--vermilion)}
+.agree{display:flex;align-items:flex-start;gap:11px;margin-top:22px;padding:15px 16px;background:#fdf6f4;border:1px solid #f1d7cf;border-radius:11px;cursor:pointer;font-size:13px;color:#4d463b;line-height:1.6}
+.agree input{width:19px;height:19px;margin-top:1px;flex:none;accent-color:var(--vermilion);cursor:pointer}
+.agree b{color:var(--vermilion-d)}
+
 @media(max-width:880px){
   .layout{grid-template-columns:1fr;padding-bottom:96px}
   .summary{display:none}
@@ -325,6 +352,47 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         </form>
       </section>
 
+      <!-- 5. notes / charge / cancel policy -->
+      <section class="panel">
+        <div class="panel-h"><span class="pn ginfo">i</span><h2>ご予約にあたって</h2></div>
+
+        <div class="info-block">
+          <div class="ib-title">ご利用の注意事項</div>
+          <ul class="notice">
+            <li>全席禁煙です（喫煙は店外の喫煙スペースをご利用ください）。</li>
+            <li>お席のご利用は2時間制、コースの飲み放題は2時間制です。</li>
+            <li>ご予約時間を10分以上過ぎてもご連絡がない場合、お席をお譲りいただくことがあります。</li>
+            <li>お子様連れ・アレルギー・苦手な食材は「ご要望」欄にご記入ください。</li>
+            <li>9名様以上の宴会・貸切は <a href="tel:0470000000">047-000-0000</a> までお電話ください。</li>
+          </ul>
+        </div>
+
+        <div class="info-block">
+          <div class="ib-title">サービス料・チャージ</div>
+          <ul class="charge">
+            <li><span>お通し（チャージ）</span><b>1名様 ¥400</b></li>
+            <li><span>座敷個室のご利用</span><b>サービス料 10%</b></li>
+            <li><span>22:00以降のご利用</span><b>深夜料金 10%</b></li>
+          </ul>
+          <p class="ib-note">概算合計にはお通し代（¥400×人数）を含みます。サービス料・深夜料金は当日精算分のため概算には含みません。</p>
+        </div>
+
+        <div class="info-block">
+          <div class="ib-title">キャンセルポリシー</div>
+          <ul class="policy">
+            <li><span class="when">前日まで</span><span class="rate ok">無料</span></li>
+            <li><span class="when">当日のキャンセル</span><span class="rate warn">コース料金の50%</span></li>
+            <li><span class="when">無断キャンセル（ノーショー）</span><span class="rate bad">コース料金の100%</span></li>
+          </ul>
+          <p class="ib-note">コースなしのご予約は、1名様 ¥2,000 を上記料率の基準額とします。キャンセル・人数変更は <a href="tel:0470000000">047-000-0000</a> へお電話ください。キャンセル料は後日のお振込、または次回ご来店時に申し受けます。</p>
+        </div>
+
+        <label class="agree">
+          <input type="checkbox" id="cAgree">
+          <span>上記の<b>注意事項・キャンセルポリシー</b>に同意します（必須）</span>
+        </label>
+      </section>
+
     </div>
 
     <!-- summary -->
@@ -336,6 +404,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         <div class="srow"><span class="k">人数</span><span class="v" id="sParty">2 名</span></div>
         <div class="srow"><span class="k">お席</span><span class="v" id="sSeat">おまかせ</span></div>
         <div class="srow"><span class="k">コース</span><span class="v empty" id="sCourse">未選択</span></div>
+        <div class="srow"><span class="k">お通し代</span><span class="v" id="sCharge">¥800</span></div>
         <div class="total"><span class="k">概算合計</span><span class="v" id="sTotal">—</span></div>
         <button class="book-btn" id="bookBtn" disabled>日時を選んでください</button>
         <div class="micro">予約確定後、確認メールをお送りします。<br>キャンセルは前日まで無料です。</div>
@@ -530,8 +599,10 @@ function renderCourses(){
   });
 }
 
+const CHARGE_PER = 400;
 function courseObj(){ return COURSES.find(c=>c.id===state.course) || null; }
-function total(){ const c = courseObj(); return c && c.price ? c.price*state.party : 0; }
+function charge(){ return CHARGE_PER * state.party; }
+function total(){ const c = courseObj(); return (c && c.price ? c.price*state.party : 0) + charge(); }
 
 function sync(){
   $('sDate').textContent = state.date ? fmtDate(state.date) : '未選択';
@@ -543,9 +614,10 @@ function sync(){
   const c = courseObj();
   $('sCourse').textContent = c ? c.name.replace('（アラカルト）','') : '未選択';
   $('sCourse').classList.toggle('empty', !c);
-  const t = total();
-  $('sTotal').textContent = c ? (c.price ? '¥'+t.toLocaleString() : '当日精算') : '—';
-  $('mbTotal').textContent = $('sTotal').textContent;
+  $('sCharge').textContent = `¥${charge().toLocaleString()}（¥400×${state.party}）`;
+  const totalText = (c && c.price) ? '¥'+total().toLocaleString() : `¥${charge().toLocaleString()}〜`;
+  $('sTotal').textContent = totalText;
+  $('mbTotal').textContent = totalText;
 
   // step progress
   const stepDone = [!!state.date && !!state.time, true, !!c, false];
@@ -562,11 +634,13 @@ function sync(){
   });
   bars.forEach((b,i)=>b.classList.toggle('done', i < active));
 
-  const ready = state.date && state.time;
+  const agreed = $('cAgree').checked;
+  const ready = state.date && state.time && agreed;
   const btn = $('bookBtn'), mb = $('mbBook');
   btn.disabled = !ready; mb.disabled = !ready;
-  btn.textContent = ready ? 'この内容で予約する' : (!state.date ? '日時を選んでください' : '時間を選んでください');
-  $('mbInfo').textContent = ready ? `${fmtDate(state.date)} ${state.time} / ${state.party}名` : '日時を選択';
+  btn.textContent = !state.date ? '日時を選んでください' : !state.time ? '時間を選んでください'
+    : !agreed ? 'ポリシーに同意してください' : 'この内容で予約する';
+  $('mbInfo').textContent = (state.date && state.time) ? `${fmtDate(state.date)} ${state.time} / ${state.party}名` : '日時を選択';
 }
 
 // party stepper
@@ -580,6 +654,7 @@ $('seats').addEventListener('click', e=>{
 });
 $('prevMo').addEventListener('click', ()=>{ view=new Date(view.getFullYear(),view.getMonth()-1,1); renderCal(); });
 $('nextMo').addEventListener('click', ()=>{ view=new Date(view.getFullYear(),view.getMonth()+1,1); renderCal(); });
+$('cAgree').addEventListener('change', sync);
 
 function submit(){
   if (!(state.date && state.time)) return;
@@ -587,11 +662,15 @@ function submit(){
   const tel = $('cTel').value.trim();
   const mail = $('cMail').value.trim();
   if (!name || !tel || !mail){
-    document.querySelector('.panel:last-of-type').scrollIntoView({behavior:'smooth',block:'center'});
+    $('cName').closest('.panel').scrollIntoView({behavior:'smooth',block:'center'});
     if(!name) $('cName').focus(); else if(!tel) $('cTel').focus(); else $('cMail').focus();
     [['cName',name],['cTel',tel],['cMail',mail]].forEach(([id,v])=>{
       $(id).style.borderColor = v ? '' : 'var(--vermilion)';
     });
+    return;
+  }
+  if (!$('cAgree').checked){
+    document.querySelector('.agree').scrollIntoView({behavior:'smooth',block:'center'});
     return;
   }
   const c = courseObj();
@@ -602,7 +681,8 @@ function submit(){
     <div class="r"><span>日時</span><span>${fmtDate(state.date)} ${state.time}</span></div>
     <div class="r"><span>人数・席</span><span>${state.party}名 / ${state.seat}</span></div>
     <div class="r"><span>コース</span><span>${c?c.name.replace('（アラカルト）',''):'未選択'}</span></div>
-    <div class="r"><span>概算</span><span>${c?(c.price?'¥'+total().toLocaleString():'当日精算'):'—'}</span></div>
+    <div class="r"><span>お通し代</span><span>¥${charge().toLocaleString()}</span></div>
+    <div class="r"><span>概算合計</span><span>${(c&&c.price)?'¥'+total().toLocaleString():'¥'+charge().toLocaleString()+'〜'}</span></div>
     <div class="r"><span>お名前</span><span>${name} 様</span></div>`;
   $('overlay').classList.add('on');
 }
