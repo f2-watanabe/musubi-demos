@@ -60,6 +60,19 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-06-28 ・ Phase 5 課金 実テスト完了（webhook 全分岐をDB同期・silent failureバグ発見/修正）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: Stripe サブスク課金（Phase 5）の実テストを test mode で一通り実施。<code>0005</code> 本番適用、Price 作成、Stripe CLI で webhook 転送、<code>stripe trigger</code> で支払い成功/失敗/解約を発火し、Supabase への同期を実証。途中で webhook の silent failure バグを発見し修正。</li>
+<li><strong>Why</strong>: Phase 5 はコード・ビルドのみ達成で「実テストは外部キー待ち」だった。キー（Stripe test secret／Supabase service role／個人アクセストークン）が揃ったため、受け入れ基準「契約→課金→失敗→解約がDB同期」を実環境で通す。</li>
+<li><strong>How</strong>:</li>
+<li><code>0005_billing_sync.sql</code> を Supabase Management API（個人アクセストークン）で本番適用＝<code>contracts</code> に <code>stripe_price_id</code>/<code>current_period_end</code>/<code>last_payment_status</code> を追加し <code>information_schema</code> で3列確認。</li>
+<li><code>06_スクリプト/stripe_setup_products.mjs</code> を test secret で実行＝3プランの月額 Price を冪等作成し <code>musubi-admin/.env.local</code> の <code>STRIPE_PRICE_LIGHT/STANDARD/PREMIUM</code> に設定。<code>.env.local</code> に <code>SUPABASE_URL</code>/<code>SUPABASE_SERVICE_ROLE_KEY</code>/<code>STRIPE_SECRET_KEY</code>/<code>STRIPE_WEBHOOK_SECRET</code> も投入。</li>
+<li><code>stripe listen --print-secret</code> で本番 webhook secret を取得→<code>.env.local</code> へ。<code>next dev</code> 起動＋<code>stripe listen --forward-to localhost:3000/api/stripe/webhook</code> で転送。</li>
+<li>テスト用に Stripe customer + subscription を作成し、service role で <code>contracts</code> にテスト行（store=さくら亭・plan=light・active）を投入。<code>stripe trigger invoice.payment_succeeded|payment_failed --add invoice:customer=&lt;cus&gt;</code> と <code>stripe subscriptions cancel &lt;sub&gt;</code> で各 webhook を発火。</li>
+<li><strong>Result</strong>: <strong>全分岐が実 DB に同期されることを実証</strong>＝<code>payment_succeeded</code>→<code>invoices(paid)</code>＋<code>contracts.last_payment_status=&#x27;paid&#x27;</code>、<code>payment_failed</code>→<code>invoices(failed)</code>＋<code>last_payment_status=&#x27;failed&#x27;</code>、<code>subscription.deleted</code>→<code>contracts.status=&#x27;cancelled&#x27;</code>。<strong>実テストで silent failure バグを発見・修正</strong>＝webhook が supabase-js の <code>{error}</code> を未チェックで、<code>invoice.paid</code> の <code>invoices</code> insert が失敗（<code>amount: inv.amount_paid</code> が undefined で NOT NULL 違反）しても <code>contracts</code> 側は <code>paid</code> に更新されていた（invoice 行が欠落するのに支払い済表示になる重大な不整合）。修正＝各 insert/update の <code>error</code> を検査し失敗時 500（Stripe がリトライ）、<code>amount</code> を <code>amount_paid ?? amount_due ?? 0</code> にフォールバック、<code>stripe_invoice_id</code> で冪等化（既存はスキップ＝リトライ・重複イベントでの二重計上を防止）。修正後の再 trigger で <code>invoices(paid)</code> が正しく記録されることを確認。<code>tsc --noEmit</code> 0・<code>next lint</code> 0。</li>
+<li><strong>証跡</strong>: <code>musubi-admin</code> <code>app/api/stripe/webhook/route.ts</code> 修正（error チェック＋amount フォールバック＋冪等化）。Supabase 本番 <code>contracts</code>/<code>invoices</code> のテスト行で状態遷移を確認。test mode の Stripe customer/subscription/invoice。注: テスト行（contract <code>a565195e…</code>・関連 invoices・Stripe customer <code>cus_TnFFNK91tyisv</code>）は本番DBに残存（status=cancelled でMRR集計には非混入）。掃除は要判断。鍵類の値は未記載（<code>.env.local</code>・パスワードマネージャ・セッション限りの個人トークン）。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-06-28 ・ Phase 4 本番実通し確認（WIFセットアップ済・ingest-ga4 本番200）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: WIFの外部セットアップ（GCP/Vercel側）完了を受け、月次レポート自動集計 <code>ingest-ga4</code> を本番で実通し確認。認証パイプラインが通り、エンドポイントが正常応答することを検証。</li>
