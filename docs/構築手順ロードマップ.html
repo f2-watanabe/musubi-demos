@@ -205,14 +205,19 @@ details.logentry>summary:hover{color:var(--acc)}
 <p><strong>目的</strong>: 口コミ承認をCLIからWeb（顧客ポータル）へ移し、店舗オーナー自身が承認できるようにする。</p>
 <p><strong>手順</strong></p>
 <ul class="task">
-<li><span class="bx"></span><span>ポータルに「口コミ承認」画面を実装（一覧・下書き表示・修正・承認/差戻し）</span></li>
-<li><span class="bx"></span><span>承認アクション → GBP API へ投稿（サーバ側で実行）</span></li>
-<li><span class="bx"></span><span>低評価・検証フラグ付きは明示し、慎重な承認を促すUI</span></li>
-<li><span class="bx"></span><span>新着口コミの定期取得（Cron）→ 未対応をポータルに表示</span></li>
-<li><span class="bx"></span><span>対応状況を月次レポートへ連携</span></li>
+<li class="done"><span class="bx">✓</span><span>ポータルに「口コミ承認」画面を実装（一覧・下書き表示・修正・承認/差戻し）← <code>musubi-portal</code> <code>/reviews</code>。read は RLS 下 server client（owner=自店のみ）、write は service client＋本人確認(IDOR ガード)。承認/文章修正/スキップの server action</span></li>
+</ul>
+<ul>
+<li>[~] 承認アクション → GBP API へ投稿（サーバ側で実行）← <strong>GBP API 承認待ちのため approved 止め</strong>（投稿待ちキュー）。実投稿は承認後に Cron が approved を拾って posted 化（捏造回避で posted にしない）</li>
+</ul>
+<ul class="task">
+<li class="done"><span class="bx">✓</span><span>低評価・検証フラグ付きは明示し、慎重な承認を促すUI ← <code>flagged || rating&lt;=2</code> で「要確認・慎重に」バッジ</span></li>
+<li><span class="bx"></span><span>新着口コミの定期取得（Cron）→ 未対応をポータルに表示 ← GBP API 承認後</span></li>
+<li><span class="bx"></span><span>対応状況を月次レポートへ連携 ← GBP API 承認後</span></li>
 </ul>
 <p><strong>使用サービス</strong>: Next.js（ポータル）/ Supabase / GBP API / Vercel Cron</p>
 <p><strong>受け入れ基準</strong>: 店舗オーナーがポータル上で下書きを確認→承認→投稿でき、低評価には警告が出る。</p>
+<p>→ <strong>承認フロー（確認→承認/修正/スキップ・低評価警告）まで実装・実証。投稿は GBP API 承認後</strong>。承認＝投稿待ちキューまでが現状の到達点。</p>
 <p><strong>残す証跡</strong>: 画面スクショ、承認〜投稿の通しテスト。</p>
 <hr>
 <h2>Phase 7 ・ 監視・運用・バックアップ（横断）</h2>

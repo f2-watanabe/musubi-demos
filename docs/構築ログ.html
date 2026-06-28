@@ -60,6 +60,20 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-06-28 ・ Phase 6 口コミ承認UI実装（ポータル <code>/reviews</code>・approved 止め）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 顧客ポータルに口コミ承認画面を実装。店舗オーナーが AI 返信下書きを確認し、承認/文章修正/スキップできる。GBP API 承認待ちのため実投稿はせず approved（投稿待ち）まで。</li>
+<li><strong>Why</strong>: Phase 6 の主眼は承認 UI。口コミ自動返信（Phase 1）の人手チェックを CLI からポータルへ移す土台。GBP API 承認はまだだが、UI・DB・承認フローは先に組める（実投稿だけ承認後に差し替え）。</li>
+<li><strong>How</strong>:</li>
+<li><code>musubi-portal</code> に実装（subagent 委譲・呼び出し元で検証/コミット）。<code>app/reviews/page.tsx</code>（スタブ→実装）＝<code>getActiveReviews()</code> で <code>status in (pending,drafted,approved)</code> を新しい順表示。デモ <code>portal/reviews.html</code> 準拠のカード（author/★/comment/AI返信案）、<code>flagged||rating&lt;=2</code> で「要確認・慎重に」バッジ、approved は「投稿待ち」でアクション無効、空状態は placeholder。</li>
+<li><code>app/reviews/actions.ts</code>（server action）＝共通 <code>authorizeReview()</code> で <code>getPortalContext()</code> の自店 id と対象 review の store_id 一致を検証（<strong>IDOR ガード</strong>）してから service client で書込。approveReview（draft 空は不可・<code>status=&#x27;approved&#x27;</code>・実投稿せず）/updateDraft/skipReview。各 action 後 <code>revalidatePath(&#x27;/reviews&#x27;)</code>。</li>
+<li><code>app/reviews/ReviewActions.tsx</code>（client・編集インライン textarea）、<code>lib/supabase/service.ts</code>（service-role client）新規。<code>lib/portal.ts</code> に <code>Review</code>/<code>getActiveReviews()</code> 追加、バッジ count を <code>status in (pending,drafted)</code> に修正。</li>
+<li><strong>read は RLS 下の server client</strong>（owner=自店のみ・他店漏洩なし）＋store_id フィルタの二重防御。<strong>write のみ service client</strong>（owner は RLS で write 不可のため）で本人確認後に実行。</li>
+<li>検証用に <code>reviews</code> へテスト4件 seed（store <code>c821fde8</code>＝portal-demo 紐付け・高評価2/低評価flagged1/下書きなし pending1。ユーザー承認の上で投入・E2E 後に削除予定）。</li>
+<li><strong>Result</strong>: <code>npm run build</code>（tsc 含む）/<code>npx next lint</code>/<code>tsc --noEmit</code> いずれも exit 0。コードレビューで IDOR ガード・approved 止め・捏造なし・RLS read 分離を確認。<strong>本番反映は未</strong>＝portal Vercel に <code>SUPABASE_URL</code>/<code>SUPABASE_SERVICE_ROLE_KEY</code> 投入＋デプロイが必要（現状 portal 本番は NEXT_PUBLIC のみ）。ブラウザ E2E（portal-demo ログイン→承認→投稿待ち遷移）は本番反映後に実施。</li>
+<li><strong>証跡</strong>: <code>musubi-portal</code> <code>app/reviews/{page.tsx,actions.ts,ReviewActions.tsx}</code>・<code>lib/supabase/service.ts</code>・<code>lib/portal.ts</code>・<code>app/globals.css</code>・<code>.env.example</code>。Supabase <code>reviews</code> にテスト seed（検証後削除）。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-06-28 ・ Phase 7 完了（死活監視・バックアップ復元テストを実証）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: Phase 7 の残2項目を実証してフェーズ完了。(1) UptimeRobot 死活監視3モニタ登録、(2) Supabase 論理バックアップ→非破壊の復元テスト。</li>
