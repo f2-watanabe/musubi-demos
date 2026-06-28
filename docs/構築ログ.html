@@ -60,6 +60,19 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-06-28 ・ ブランド緑ロゴの全面反映＋ログインUI改善＋送信中UX横展開＋Phase5支払失敗案内</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: (1) ユーザーが配置し直した新ロゴ（緑統一の横/縦/丸 3種）を全ブランド面へ反映、(2) ログイン画面を複数観点レビューし指摘を修正、(3) 送信中フィードバック（useFormStatus）を両アプリの全フォームへ横展開、(4) Phase 5 課金 webhook に支払失敗時 Resend 案内＋silent-failure ハードニングを実装。</li>
+<li><strong>Why</strong>: ログインは緑化済だったがハブ（<code>musubi-demos</code>）のロゴ画像だけ旧紺のままで、緑テーマと不整合だった。ログインUIの複数エージェントチェックが引き継ぎ最優先で未実施だった。送信中フィードバックは login のみで、CRM/課金/承認等の他フォームは「押したか分からない」ままだった。Phase 5 の「支払失敗時の案内」は Resend 接続（Phase 7 完了）後も未実装で、ロードマップが「修正済」と記す silent-failure 対策も実コミットに無かった。</li>
+<li><strong>How</strong>:</li>
+<li>ロゴ: <code>10_デザイン/musubilogo_yoko_green.png</code> を PIL で近白→透過化＋自動トリミングし、両アプリ <code>public/musubi-logo.png</code>（1281×311）に配置。ハブ <code>musubi-demos/assets/musubi-logo.png</code> は同緑ロゴを 144px 高にリサイズ、<code>musubi-mark.png</code> は緑ロゴ左のマーク部を切り出して置換（旧紺マークを廃止）。<code>musubilogo_circle_green.png</code> から両アプリ <code>app/icon.png</code>（favicon・マークのみ 512px）と <code>assets/musubi-icon.png</code> を生成。スクリプトは scratchpad <code>logos.py</code>（再現可・要 PIL）。</li>
+<li>ログインレビュー: 読み取り専用エージェントで a11y/コントラスト/レスポンシブ/コード品質を評価。修正＝(a) <code>next/image</code> の width/height をトリミング後の実寸 1281×311 に更新（旧 1536×1024 でアスペクト歪みリスク）、(b) サブタイトル <code>--sub</code>／フッター <code>--muted</code> が WCAG AA 未達のため <code>#565d58</code>／<code>#5e645f</code> に変更、(c) エラー <code>&lt;p&gt;</code> に <code>role=&quot;alert&quot;</code>/<code>aria-live</code>、入力に <code>aria-invalid</code>/<code>aria-describedby</code> を付与、(d) フォーカスリングを <code>/20</code>→<code>/40</code> に増強。admin/portal 両方。</li>
+<li>送信中UX: エージェント委譲。<code>musubi-admin</code> に再利用 <code>components/SubmitButton.tsx</code>（<code>useFormStatus</code>・props で label/pendingLabel）を作り、stores/crm/report/builder/billing の全 Server Action 送信ボタンに pending スピナー＋「○○中…」＋disable＋<code>aria-busy</code> を適用。<code>musubi-portal</code> は <code>app/reviews/ReviewActions.tsx</code> を押下ボタン単位の <code>active</code> 状態で個別 pending 表示に。login は手本のため変更なし。</li>
+<li>Phase 5 webhook: <code>app/api/stripe/webhook/route.ts</code> に <code>notifyPaymentFailed</code>（store→owner_user_id→<code>auth.admin.getUserById</code> で email→<code>lib/resend.ts</code> で送信。<code>hosted_invoice_url</code> を案内 URL に）と <code>recordInvoice</code>（<code>stripe_invoice_id</code> で冪等・<code>amount = amount_paid ?? amount_due ?? 0</code>・各 DB 失敗を throw）を追加し、handler 全体を try/catch で 500 化（Stripe リトライ）。ロードマップ line 185 の「修正済」記述が実コミットに無かった件を整合注記。</li>
+<li><strong>Result</strong>: <code>musubi-admin</code>／<code>musubi-portal</code> とも <code>npm run build</code> exit 0。ロゴは緑統一で表示確認（マーク・favicon・横ロゴ）。ログイン a11y/コントラスト/アスペクト修正反映。<strong>アプリ2リポは push せずコミットのみ</strong>（本番デプロイのため・ユーザー指示時に push）。docs（<code>local-web-sales</code>/<code>musubi-demos</code>）はハブ再生成の上 push。<strong>未対応</strong>: ログインの admin/portal コード重複は別リポのため共有化は見送り（要 monorepo 化）。Phase 5 の支払失敗メールの実送信テストは Stripe test 環境＋キー投入時に実施。未入金フロー・領収書自動発行は未実装。</li>
+<li><strong>証跡</strong>: <code>musubi-admin</code>（<code>public/musubi-logo.png</code>・<code>app/icon.png</code>・<code>app/login/page.tsx</code>・<code>components/SubmitButton.tsx</code>・各 Server Action ページ・<code>app/api/stripe/webhook/route.ts</code>）、<code>musubi-portal</code>（同ロゴ/favicon・<code>app/login/page.tsx</code>・<code>app/reviews/ReviewActions.tsx</code>）、<code>musubi-demos</code>（<code>assets/musubi-logo.png</code>・<code>musubi-mark.png</code>・<code>musubi-icon.png</code>）。スクリプト scratchpad <code>logos.py</code>。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-06-28 ・ ログインUI刷新（緑ブランド統一＋ロゴ＋送信中フィードバック）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 管理アプリ・顧客ポータル両方のログイン画面を刷新。Musubi ロゴ採用、ブランド緑への色統一、入力/ボタンのモダン化、送信中の状態フィードバック追加。</li>
