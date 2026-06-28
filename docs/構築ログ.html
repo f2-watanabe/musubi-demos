@@ -60,6 +60,31 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-06-28 ・ Phase 7 完了（死活監視・バックアップ復元テストを実証）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: Phase 7 の残2項目を実証してフェーズ完了。(1) UptimeRobot 死活監視3モニタ登録、(2) Supabase 論理バックアップ→非破壊の復元テスト。</li>
+<li><strong>Why</strong>: コスト暴走通知は前エントリで実証済。受け入れ基準「監視が通知を出せる／バックアップから復元できることを1度確認」の残り（死活監視・復元）を満たし、環境構築フェーズのゴールに前進する。</li>
+<li><strong>How</strong>:</li>
+<li><strong>死活監視</strong>: UptimeRobot Main API key を <code>.env.local</code> に投入。<code>getAlertContacts</code> で承認済み連絡先 <code>admin@musubiweb.com</code> を確認。無料プランは <code>newMonitor</code>（write）が <code>access_denied</code> のためダッシュボードで手動登録（管理アプリ <code>…/login</code>・ポータル <code>…/login</code>・デモサイト <code>sakura-tei.pages.dev</code>、5分間隔、通知先紐付け）。<code>getMonitors</code>（read API は無料でも通る）で検証。</li>
+<li><strong>バックアップ復元</strong>: 無料プランは自動バックアップ/PITR なし → 論理バックアップで代替。<code>06_スクリプト/backup_restore_test.mjs</code> を作成＝全 public テーブルを REST(SERVICE_ROLE) で JSON エクスポート→一時テーブル <code>_restore_test</code> へ Management API の SQL で復元→件数照合→一時テーブル削除。新規テーブルは PostgREST のスキーマキャッシュ未反映で REST insert が 404 になるため、復元投入は Management API 経由に切替。</li>
+<li><strong>Result</strong>: <strong>死活監視=3モニタとも <code>status=2</code>(UP)・通知先 <code>admin@musubiweb.com</code> 紐付けを確認</strong>。<strong>復元=エクスポート合計4行（staff_members 2・stores 2）が一時テーブルに 4/4 一致で復元、検証後に <code>_restore_test</code> を削除し本番に残存0（読み取りのみ・無傷）</strong>。エクスポート JSON は PII を含むため scratchpad で検証後に削除（スクリプトで再生成可）。<strong>Phase 7 完了</strong>。</li>
+<li><strong>証跡</strong>: <code>local-web-sales</code> <code>06_スクリプト/backup_restore_test.mjs</code>・<code>08_環境構築/ランブック.md</code>（バックアップ節・監視対象）・<code>構築手順ロードマップ.md</code>（Phase 7 受け入れ基準を達成に更新）。UptimeRobot API key は <code>.env.local</code>（git 無視）保管・値は未記載。</li>
+</ul>
+</div></details>
+<details class="logentry"><summary>2026-06-28 ・ Phase 7 コスト暴走アラートの自動化（cost-alert Cron＋Resend通知・冪等記録）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 従量課金の月上限アラートを日次 Cron 化。Anthropic の当月コストが上限の 80%/100% に達したら Resend でメール通知する <code>/api/cron/cost-alert</code> を実装。併せて障害一次対応ランブックを新設。</li>
+<li><strong>Why</strong>: Phase 7（監視・運用・バックアップ）のうち、コストモニタ画面は「集約表示の枠」止まりで、Anthropic/Stripe の実コスト取得はできても<strong>閾値超過の自動通知が無く暴走課金を能動的に検知できなかった</strong>。受け入れ基準「監視が通知を出せる」をコード側で満たす。</li>
+<li><strong>How</strong>:</li>
+<li>migration <code>0007_cost_alerts.sql</code>＝<code>cost_alerts(period, service, level, cost_usd, threshold_usd, sent_at)</code>、<code>unique(period, service, level)</code> で同一月・同レベルの二重送信を防止。RLS は service_role 書き込み・staff 閲覧。</li>
+<li><code>lib/costs.ts</code> に閾値定数（<code>ANTHROPIC_CAP_USD=20</code>/<code>COST_WARN_RATIO=0.8</code>/<code>ANTHROPIC_WARN_USD</code>）と <code>currentPeriod()</code> を集約し、<code>/costs</code> 画面と Cron で共有（page.tsx のローカル重複を削除）。</li>
+<li><code>app/api/cron/cost-alert/route.ts</code>＝<code>CRON_SECRET</code> Bearer 認証。Anthropic 当月コストを取得し 100%→80% の順で最上位の超過レベルを判定。<code>cost_alerts</code> へ <code>ignoreDuplicates</code> upsert し、<strong>新規挿入できた時だけ未送信とみなして Resend 送信</strong>（<code>ALERT_EMAIL</code> 宛）。<code>ANTHROPIC_ADMIN_KEY</code> 無し/取得失敗は skip（捏造回避）、<code>ALERT_EMAIL</code> 無しは記録のみ。</li>
+<li><code>vercel.json</code> に Cron 追加（毎日 04:00 UTC）。<code>.env.example</code> に <code>ANTHROPIC_ADMIN_KEY</code>/<code>ALERT_EMAIL</code> を追記。</li>
+<li><code>08_環境構築/ランブック.md</code> 新設＝サイト停止/500/課金未反映/レポート未更新/コスト暴走の一次対応フロー、Supabase バックアップ・復元手順、APIキー棚卸し・失効手順。</li>
+<li><strong>Result</strong>: コスト暴走の自動検知・通知パスがコードとして完成。<code>tsc --noEmit</code> 0・<code>next lint</code>（変更ファイル）0。<strong><code>0007</code> は本番 Supabase へ適用済</strong>＝Management API（個人アクセストークン）で実行し <code>information_schema</code>/<code>pg_class</code>/<code>pg_policies</code> で <code>cost_alerts</code>（7列・RLS有効・staff閲覧ポリシー1）を確認。<strong>実通知を実環境で実証済（2026-06-28）</strong>＝本番キー（<code>ANTHROPIC_ADMIN_KEY</code>/<code>RESEND_API_KEY</code>/<code>RESEND_FROM</code>/<code>ALERT_EMAIL</code>）を Vercel Production に投入し <code>vercel env pull</code>＋ローカル <code>next dev</code> で本物の route を通し検証。Anthropic <code>cost_report</code> 取得が HTTP200（当月 $0.00）、認証なし=401、cap を一時 0 にして強制発火させると <code>{sent:[{Anthropic,100}], notified:true}</code>＝Resend が受理（route 200・<code>sendEmail</code> 非throw）し <code>ALERT_EMAIL</code> 宛に送信、<code>cost_alerts</code> に記録。再実行で <code>sent:[]</code>＝<strong>冪等（同月・同レベルは再送しない）を実証</strong>。検証後にテスト行を PostgREST で削除（<code>cost_alerts</code> 0行）・cap を 20 へ復元。残る Phase 7 は外部操作（UptimeRobot 死活監視登録・Supabase バックアップ復元テスト1回）。</li>
+<li><strong>証跡</strong>: <code>musubi-admin</code> <code>app/api/cron/cost-alert/route.ts</code>・<code>lib/costs.ts</code>・<code>app/costs/page.tsx</code>・<code>vercel.json</code>・<code>.env.example</code>。<code>local-web-sales</code> <code>09_データ基盤/supabase/migrations/0007_cost_alerts.sql</code>・<code>08_環境構築/ランブック.md</code>・<code>06_スクリプト/apply_migration.mjs</code>（Management API で DDL を本番適用する再利用スクリプト）。実通知の本番キーは Vercel Production env 保管（値は未記載）。ローカル検証は <code>vercel env pull</code>＋SERVICE_ROLE 直書きで実施し <code>.env.local</code>（git 無視）に保持。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-06-28 ・ Phase 5 課金 実テスト完了（webhook 全分岐をDB同期・silent failureバグ発見/修正）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: Stripe サブスク課金（Phase 5）の実テストを test mode で一通り実施。<code>0005</code> 本番適用、Price 作成、Stripe CLI で webhook 転送、<code>stripe trigger</code> で支払い成功/失敗/解約を発火し、Supabase への同期を実証。途中で webhook の silent failure バグを発見し修正。</li>

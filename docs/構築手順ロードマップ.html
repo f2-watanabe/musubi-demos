@@ -219,23 +219,24 @@ details.logentry>summary:hover{color:var(--acc)}
 <p><strong>目的</strong>: 公開後に落ちない・データを失わない運用基盤。</p>
 <p><strong>手順</strong></p>
 <ul class="task">
-<li><span class="bx"></span><span>UptimeRobot で公開サイト・主要エンドポイントの死活監視</span></li>
-<li><span class="bx"></span><span>エラー通知（メール/Slack等）</span></li>
-<li><span class="bx"></span><span><strong>従量課金の使用量・コスト監視</strong>を管理アプリに実装（コストモニタ画面）</span></li>
+<li class="done"><span class="bx">✓</span><span>UptimeRobot で公開サイト・主要エンドポイントの死活監視 ← 3モニタ登録済（管理アプリ/ポータル/デモサイト・5分間隔・通知先 admin@musubiweb.com）。<code>getMonitors</code> で全件 status=2(UP) 確認。無料プランは API 作成不可のためダッシュボード手動登録</span></li>
+<li class="done"><span class="bx">✓</span><span>エラー通知（メール）← コスト暴走を Resend でメール通知（<code>/api/cron/cost-alert</code>）。死活監視の通知は UptimeRobot 側で設定</span></li>
+<li class="done"><span class="bx">✓</span><span><strong>従量課金の使用量・コスト監視</strong>を管理アプリに実装（コストモニタ画面）</span></li>
 </ul>
 <ul>
-<li>自動取得（コスト$をAPIで直接）: Anthropic（Admin APIキー <code>usage_report</code>/<code>cost_report</code>）・Vercel（<code>/v1/billing/charges</code>）・Stripe（<code>balance_transactions.fee</code>）</li>
-<li>自前計算（使用量API＋公式料金で算出。コスト$のAPIなし）: Supabase（Management/Metrics）・Resend（送信数ヘッダ/Webhook）</li>
+<li>自動取得（コスト$をAPIで直接）: Anthropic（Admin APIキー <code>cost_report</code>）【実装済】・Stripe（<code>balance_transactions.fee</code>）【実装済】・Vercel（公式 Billing API は安定版なし→「未接続」表示で捏造回避）</li>
+<li>自前計算（使用量API＋公式料金で算出。コスト$のAPIなし）: Supabase（Management/Metrics）・Resend（送信数）← 未接続表示のまま（実値はキー接続後）</li>
 <li>対象外: GA4（無料・課金概念なし）。Cloudflare は Billing API が Alpha＆従量アカウント限定</li>
-<li>月上限アラート（80%到達でメール通知＝Resend）で暴走課金を遮断。Anthropic は Usage Limits も併用</li>
 </ul>
 <ul class="task">
-<li><span class="bx"></span><span>Supabase の定期バックアップ確認</span></li>
-<li><span class="bx"></span><span>APIキー・トークンの保管と棚卸し（漏洩時の失効手順）</span></li>
-<li><span class="bx"></span><span>簡易ランブック（障害時の一次対応）を <code>構築ログ</code> 隣に用意</span></li>
+<li class="done"><span class="bx">✓</span><span>月上限アラート（80%/100%到達でメール通知＝Resend）で暴走課金を遮断 ← <code>/api/cron/cost-alert</code> を日次 Cron 化。<code>cost_alerts</code>（<code>0007</code>）で当月・同レベルを一度だけ送る冪等通知。Anthropic は Usage Limits も併用</span></li>
+<li class="done"><span class="bx">✓</span><span>Supabase の定期バックアップ確認 ← 無料プランは自動バックアップ無しのため<strong>論理バックアップで代替</strong>。<code>backup_restore_test.mjs</code> で全テーブルJSONエクスポート→一時テーブル復元→件数一致（4/4）→一時テーブル削除を実証（本番無傷）</span></li>
+<li class="done"><span class="bx">✓</span><span>APIキー・トークンの保管と棚卸し（漏洩時の失効手順）← <code>ランブック.md</code> に棚卸し・失効手順を記載</span></li>
+<li class="done"><span class="bx">✓</span><span>簡易ランブック（障害時の一次対応）を <code>構築ログ</code> 隣に用意 ← <code>08_環境構築/ランブック.md</code></span></li>
 </ul>
-<p><strong>使用サービス</strong>: UptimeRobot / Supabase / Vercel</p>
+<p><strong>使用サービス</strong>: UptimeRobot / Supabase / Vercel / Resend</p>
 <p><strong>受け入れ基準</strong>: 監視が通知を出せる。バックアップから復元できることを1度確認。</p>
+<p>→ <strong>達成（2026-06-28）</strong>。(1) コスト暴走通知=cost-alert を通し検証し Resend 送信＋<code>cost_alerts</code> 記録＋冪等を確認（cap一時0で強制発火・検証後復元）。(2) 死活監視=UptimeRobot 3モニタ登録・全件 UP・通知先紐付け確認。(3) 復元=論理バックアップ→一時テーブル復元の件数一致（4/4）を実証。<strong>Phase 7 完了。</strong> 残る運用整備（エラー通知の Slack 化・Pro バックアップ移行など）は本番スケール時に随時。</p>
 <p><strong>残す証跡</strong>: 監視設定、復元テストの記録。</p>
 <hr>
 <h2>完了の定義（環境構築フェーズのゴール）</h2>
