@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飲食店Webサイト 構成案（サイトマップ）｜さくら亭 × Musubi</title>
+<meta name="description" content="飲食店向け公開Webサイトの全体構成案。ページ構成・各ページの中身・搭載する便利機能をひと目で。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1c1a17; --sumi:#26221d; --cream:#f7f2e9; --paper:#fbf8f1;
+  --vermilion:#b5402e; --vermilion-d:#963123; --gold:#b8893f; --line:#e2d9c8;
+  --muted:#8a8175;
+  --acc:#0a7361; --accd:#0c5a4a; --acc-soft:#e7f1ee;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Noto Sans JP",sans-serif;color:var(--ink);background:var(--paper);line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.mincho{font-family:"Shippori Mincho",serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.eyebrow{font-size:12px;letter-spacing:.32em;color:var(--acc);font-weight:700;margin-bottom:14px}
+
+/* header */
+.head{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:13px 24px;background:rgba(251,248,241,.92);backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line)}
+.brand{display:flex;align-items:center;gap:11px}
+.brand .mark{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;font-family:"Shippori Mincho",serif;font-weight:700;font-size:19px;flex:none}
+.brand b{font-family:"Shippori Mincho",serif;font-size:19px;font-weight:700;letter-spacing:.08em;display:block;line-height:1.1}
+.brand small{display:block;font-size:9px;letter-spacing:.28em;color:var(--muted)}
+.head-right{display:flex;align-items:center;gap:14px}
+.head-right .by{font-size:11px;letter-spacing:.16em;color:var(--muted)}
+.head-right .by b{color:var(--acc)}
+.btn{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700;letter-spacing:.04em;
+  padding:10px 18px;border-radius:999px;transition:.22s;white-space:nowrap;cursor:pointer;border:none}
+.btn-primary{background:var(--acc);color:#fff;box-shadow:0 6px 16px rgba(10,115,97,.26)}
+.btn-primary:hover{background:var(--accd);transform:translateY(-1px)}
+
+/* hero */
+.intro{padding:72px 0 48px;background:
+  radial-gradient(1100px 380px at 80% -10%,rgba(10,115,97,.07),transparent 60%),
+  linear-gradient(180deg,#fff,var(--paper))}
+.intro .badge{display:inline-flex;align-items:center;gap:8px;background:var(--acc-soft);color:var(--accd);
+  border:1px solid #cfe3dd;padding:7px 15px;border-radius:999px;font-size:12.5px;font-weight:700;letter-spacing:.04em;margin-bottom:22px}
+.intro h1{font-family:"Shippori Mincho",serif;font-size:clamp(30px,5vw,46px);font-weight:700;line-height:1.28;letter-spacing:.03em}
+.intro h1 em{font-style:normal;color:var(--vermilion)}
+.intro p.lead{margin-top:18px;font-size:15.5px;color:#544c40;max-width:680px;line-height:2}
+.meta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.chip{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:999px;
+  padding:8px 15px;font-size:12.5px;font-weight:500;color:#5b5347}
+.chip b{color:var(--ink)}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--acc);flex:none}
+
+/* global nav overview */
+.section{padding:64px 0}
+.sec-head{text-align:center;max-width:680px;margin:0 auto 8px}
+.sec-head h2{font-family:"Shippori Mincho",serif;font-size:28px;letter-spacing:.04em;line-height:1.4}
+.sec-head p{color:var(--muted);font-size:14px;margin-top:8px}
+
+.navmap{margin-top:42px}
+.navbar-demo{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--sumi);color:var(--cream);
+  border-radius:14px;padding:16px 22px;box-shadow:0 18px 40px rgba(40,30,20,.16)}
+.navbar-demo .nb-brand{font-family:"Shippori Mincho",serif;font-size:17px;letter-spacing:.1em;color:#fff}
+.navbar-demo .nb-links{display:flex;gap:20px;font-size:13px;letter-spacing:.06em;color:#d8cdb8;flex-wrap:wrap;justify-content:center}
+.navbar-demo .nb-links span.active{color:#fff;position:relative}
+.navbar-demo .nb-links span.active::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:2px;background:var(--gold);border-radius:2px}
+.navbar-demo .nb-cta{background:var(--vermilion);color:#fff;font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:999px;white-space:nowrap}
+
+/* tree */
+.tree{margin-top:40px;display:flex;flex-direction:column;align-items:center}
+.tree-root{display:inline-flex;flex-direction:column;align-items:center;gap:4px;background:var(--acc);color:#fff;
+  border-radius:12px;padding:16px 30px;box-shadow:0 12px 26px rgba(10,115,97,.28);text-align:center}
+.tree-root b{font-family:"Shippori Mincho",serif;font-size:18px;letter-spacing:.06em}
+.tree-root span{font-size:11px;letter-spacing:.14em;opacity:.85}
+.tree-stem{width:2px;height:30px;background:var(--line)}
+.tree-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;position:relative;padding-top:14px}
+.tree-row::before{content:"";position:absolute;top:0;left:8%;right:8%;height:2px;background:var(--line)}
+.tree-node{position:relative;background:#fff;border:1px solid var(--line);border-radius:11px;padding:13px 16px;min-width:124px;text-align:center;transition:.2s}
+.tree-node::before{content:"";position:absolute;top:-14px;left:50%;width:2px;height:14px;background:var(--line)}
+.tree-node:hover{border-color:var(--acc);transform:translateY(-3px);box-shadow:0 12px 24px rgba(40,30,20,.1)}
+.tree-node .nn{font-family:"Shippori Mincho",serif;font-size:14.5px;font-weight:600}
+.tree-node .nu{font-size:10.5px;color:var(--muted);letter-spacing:.04em;margin-top:2px}
+
+/* page cards */
+.pages{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:44px}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:.25s;display:flex;flex-direction:column}
+.pcard:hover{box-shadow:0 22px 46px rgba(40,30,20,.1);border-color:#d9cdb6;transform:translateY(-3px)}
+.pcard-top{display:flex;align-items:flex-start;gap:14px;padding:22px 24px 16px}
+.pnum{font-family:"Shippori Mincho",serif;font-size:13px;color:#fff;background:var(--vermilion);width:34px;height:34px;border-radius:9px;display:grid;place-items:center;flex:none;letter-spacing:0}
+.pcard-top .pt{flex:1;min-width:0}
+.pcard-top h3{font-family:"Shippori Mincho",serif;font-size:19px;letter-spacing:.04em;line-height:1.3}
+.pcard-top .url{font-size:11.5px;color:var(--acc);font-weight:700;letter-spacing:.04em;margin-top:3px}
+.pcard-top .purpose{font-size:12.5px;color:#6b6457;margin-top:9px;line-height:1.75}
+.pcard-body{padding:4px 24px 22px;margin-top:auto}
+.pcard-body .lbl{font-size:10.5px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:14px 0 9px}
+.sects{display:flex;flex-direction:column;gap:7px}
+.sect{display:flex;align-items:center;gap:9px;font-size:12.5px;color:#4d463b}
+.sect .bx{width:15px;height:15px;border-radius:4px;background:var(--acc-soft);color:var(--acc);display:grid;place-items:center;font-size:9px;flex:none}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.tag{font-size:11px;font-weight:600;color:var(--accd);background:var(--acc-soft);border:1px solid #d3e6e0;border-radius:6px;padding:3px 9px}
+.tag.v{color:var(--vermilion-d);background:#fbeeea;border-color:#f1d7cf}
+
+/* feature grid */
+.features{background:var(--sumi);color:var(--cream)}
+.features .sec-head h2{color:#fff}.features .sec-head p{color:#bcae97}
+.features .eyebrow{color:#e0a96d;text-align:center}
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:42px}
+.fcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:22px 18px;transition:.25s}
+.fcard:hover{background:rgba(255,255,255,.07);transform:translateY(-4px);border-color:rgba(224,169,109,.4)}
+.fcard .fi{width:42px;height:42px;border-radius:11px;background:rgba(224,169,109,.16);display:grid;place-items:center;margin-bottom:14px}
+.fcard .fi svg{width:22px;height:22px;stroke:#e7b27e;fill:none;stroke-width:1.7}
+.fcard h4{font-family:"Shippori Mincho",serif;font-size:15.5px;letter-spacing:.03em;color:#fff}
+.fcard p{font-size:12px;color:#b3a892;margin-top:7px;line-height:1.7}
+
+/* trust / ops */
+.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px}
+.tcard{background:#fff;border:1px solid var(--line);border-radius:13px;padding:26px 24px}
+.tcard .tn{font-family:"Shippori Mincho",serif;font-size:30px;color:var(--acc);letter-spacing:.02em}
+.tcard h4{font-family:"Shippori Mincho",serif;font-size:16px;margin:6px 0 8px;letter-spacing:.04em}
+.tcard p{font-size:12.5px;color:#6b6457;line-height:1.85}
+
+/* cta */
+.cta{text-align:center;padding:72px 0 84px;background:linear-gradient(180deg,var(--paper),#f0e9d9)}
+.cta h2{font-family:"Shippori Mincho",serif;font-size:26px;letter-spacing:.04em}
+.cta p{color:#6b6457;font-size:14px;margin-top:10px}
+.cta .acts{display:flex;gap:12px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.btn-line{background:#fff;border:1.4px solid var(--line);color:var(--ink)}
+.btn-line:hover{border-color:var(--acc);color:var(--acc)}
+
+footer{background:var(--ink);color:#c9bfae;padding:40px 0;text-align:center;font-size:12px;letter-spacing:.06em}
+footer b{color:#fff;font-family:"Shippori Mincho",serif;letter-spacing:.1em}
+
+@media(max-width:900px){
+  .pages{grid-template-columns:1fr}
+  .fgrid{grid-template-columns:repeat(2,1fr)}
+  .trust-grid{grid-template-columns:1fr}
+  .navbar-demo{flex-direction:column;align-items:flex-start;gap:12px}
+  .navbar-demo .nb-links{justify-content:flex-start}
+}
+@media(max-width:520px){
+  .fgrid{grid-template-columns:1fr}
+  .head-right .by{display:none}
+  .tree-node{min-width:108px}
+}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div class="brand">
+    <span class="mark">櫻</span>
+    <span><b>さくら亭</b><small>WEBSITE BLUEPRINT</small></span>
+  </div>
+  <div class="head-right">
+    <span class="by">Designed by <b>Musubi</b></span>
+    <a href="index.html" class="btn btn-primary">完成イメージを見る →</a>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="wrap">
+    <div class="badge">◗ 飲食店向け Web サイト構成案</div>
+    <h1>「行ってみたい」を生む、<br><em>ちゃんとしたお店</em>のWebサイト設計図。</h1>
+    <p class="lead">スマホで見やすく、24時間ネット予約ができて、Google口コミとも連動。
+    お客様が「探す→迷う→決める→来店」までを、つまずかせない。全8ページ＋横断機能で、はじめての一見客にも常連にも応えるサイト構成です。</p>
+    <div class="meta-row">
+      <span class="chip"><span class="dot"></span><b>全8ページ</b>構成</span>
+      <span class="chip"><span class="dot"></span>スマホ最適化 <b>レスポンシブ</b></span>
+      <span class="chip"><span class="dot"></span><b>24時間</b>ネット予約</span>
+      <span class="chip"><span class="dot"></span><b>常時SSL</b>・高速表示</span>
+      <span class="chip"><span class="dot"></span>制作後の<b>更新サポート</b>込み</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" style="text-align:center">GLOBAL NAVIGATION</div>
+      <h2>どのページからでも、迷わせない</h2>
+      <p>全ページ共通のヘッダーナビ。電話・予約ボタンは常に手の届く位置に固定します。</p>
+    </div>
+
+    <div class="navmap">
+      <div class="navbar-demo">
+        <span class="nb-brand">櫻 さくら亭</span>
+        <nav class="nb-links">
+          <span class="active">トップ</span>
+          <span>お品書き</span>
+          <span>お店について</span>
+          <span>ギャラリー</span>
+          <span>アクセス</span>
+          <span>お知らせ</span>
+        </nav>
+        <span class="nb-cta">ネット予約</span>
+      </div>
+    </div>
+
+    <div class="tree">
+      <div class="tree-root"><b>トップページ</b><span>HOME ／ お店の玄関</span></div>
+      <div class="tree-stem"></div>
+      <div class="tree-row">
+        <div class="tree-node"><div class="nn">お品書き</div><div class="nu">/menu</div></div>
+        <div class="tree-node"><div class="nn">お店について</div><div class="nu">/about</div></div>
+        <div class="tree-node"><div class="nn">ギャラリー</div><div class="nu">/gallery</div></div>
+        <div class="tree-node"><div class="nn">ご予約</div><div class="nu">/reserve</div></div>
+        <div class="tree-node"><div class="nn">アクセス</div><div class="nu">/access</div></div>
+        <div class="tree-node"><div class="nn">お知らせ</div><div class="nu">/news</div></div>
+        <div class="tree-node"><div class="nn">お問い合わせ</div><div class="nu">/contact</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:8px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" style="text-align:center">PAGE STRUCTURE</div>
+      <h2>各ページに、何を載せるか</h2>
+      <p>ページごとの役割と中身、搭載する便利機能を一覧にしました。</p>
+    </div>
+
+    <div class="pages">
+
+      <article class="pcard">
+        <div class="pcard-top">
+          <span class="pnum">01</span>
+          <div class="pt">
+            <h3>トップページ</h3>
+            <div class="url">HOME ／ /</div>
+            <p class="purpose">お店の第一印象。雰囲気・評価・おすすめを見せ、予約と各ページへ最短で案内する玄関口。</p>
+          </div>
+        </div>
+        <div class="pcard-body">
+          <div class="lbl">主なセクション</div>
+          <div class="sects">
+            <div class="sect"><span class="bx">✓</span>フルスクリーンの料理写真ヒーロー＋キャッチコピー</div>
+            <div class="sect"><span class="bx">✓</span>Google口コミ★評価・受賞バッジ</div>
+            <div class="sect"><span class="bx">✓</span>今月のおすすめ／旬の一品</div>
+            <div class="sect"><span class="bx">✓</span>各ページへの入口・予約CTA</div>
+          </div>
+          <div class="lbl">搭載機能</div>
+          <div class="tags"><span class="tag v">ネット予約CTA</span><span class="tag">★口コミ連携</span><span class="tag">スマホ固定バー</span></div>
+        </div>
+      </article>
+
+      <article class="pcard">
+        <div class="pcard-top">
+          <span class="pnum">02</span>
+          <div class="pt">
+            <h3>お品書き</h3>
+            <div class="url">MENU ／ /menu</div>
+            <p class="purpose">来店の決め手。写真・価格・こだわりを丁寧に。コースとアラカルトを見やすく整理。</p>
+          </div>
+        </div>
+        <div class="pcard-body">
+          <div class="lbl">主なセクション</div>
+          <div class="sects">
+            <div class="sect"><span class="bx">✓</span>カテゴリ別メニュー（炭火串・刺身・地酒…）</div>
+            <div class="sect"><span class="bx">✓</span>写真付き・価格表示</div>
+            <div class="sect"><span class="bx">✓</span>宴会／コースプラン</div>
+            <div class="sect"><span class="bx">✓</span>アレルギー・税表記の注記</div>
+          </div>
+          <div class="lbl">搭載機能</div>
+          <div class="tags"><span class="tag">カテゴリ絞り込み</span><span class="tag">写真ズーム</span><span class="tag">管理画面から更新</span></div>
+        </div>
+      </article>
+
+      <article class="pcard">
+        <div class="pcard-top">
+          <span class="pnum">03</span>
+          <div class="pt">
+            <h3>お店について</h3>
+            <div class="url">ABOUT ／ /about</div>
+            <p class="purpose">「ここで食べたい」をつくる物語。店主の想い・空間・こだわりで信頼と期待を高める。</p>
+          </div>
+        </div>
+        <div class="pcard-body">
+          <div class="lbl">主なセクション</div>
+          <div class="sects">
+            <div class="sect"><span class="bx">✓</span>お店のストーリー・歴史</div>
+            <div class="sect"><span class="bx">✓</span>店主・スタッフ紹介</div>
+            <div class="sect"><span class="bx">✓</span>こだわり（食材・炭火・地酒）</div>
+            <div class="sect"><span class="bx">✓</span>店内・席タイプの紹介</div>
+          </div>
+          <div class="lbl">搭載機能</div>
+          <div class="tags"><span class="tag">パララックス演出</span><span class="tag">SEO（地域＋業種）</span></div>
+        </div>
+      </article>
+
+      <article class="pcard">
+        <div class="pcard-top">
+          <span class="pnum">04</span>
+          <div class="pt">
+            <h3>フォトギャラリー</h3>
+            <div class="url">GALLERY ／ /gallery</div>
+            <p class="purpose">料理・店内・季節の写真で五感に訴える。SNSと連動し、最新の雰囲気を自動で見せる。</p>
+          </div>
+        </div>
+        <div class="pcard-body">
+          <div class="lbl">主なセクション</div>
+          <div class="sects">
+            <div class="sect"><span class="bx">✓</span>料理／店内／季節のカテゴリ別ギャラリー</div>
+            <div class="sect"><span class="bx">✓</span>タップで拡大（ライトボックス）</div>
+            <div class="sect"><span class="bx">✓</span>Instagram 最新投稿の自動表示</div>
+          </div>
+          <div class="lbl">搭載機能</div>
+          <div class="tags"><span class="tag">Instagram連携</span><span class="tag">遅延読み込み高速化</span></div>
+        </div>
+      </article>
+
+      <article class="pcard">
+        <div class="pcard-top">
+          <span class="pnum">05</span>
+          <div class="pt">
+            <h3>ご予約</h3>
+            <div class="url">RESERVE ／ /reserve</div>
+            <p class="purpose">取りこぼしを防ぐ要。24時間いつでも、日時・人数・席・コースを選んでネット予約。</p>
+          </div>
+        </div>
+        <div class="pcard-body">
+          <div class="lbl">主なセクション</div>
+          <div class="sects">
+            <div class="sect"><span class="bx">✓</span>ネット予約フォーム（日時・人数・席・コース）</div>
+            <div class="sect"><span class="bx">✓</span>空席カレンダー表示</div>
+            <div class="sect"><span class="bx">✓</span>電話予約・LINE予約の導線</div>
+            <div class="sect"><span class="bx">✓</span>予約完了の自動メール</div>
+          </div>
+          <div class="lbl">搭載機能</div>
+          <div class="tags"><span class="tag v">24時間ネット予約</span><span class="tag">自動返信メール</span><span class="tag">LINE連携</span></div>
+        </div>
+      </article>
+
+      <article class="pcard">
+        <div class="pcard-top">
+          <span class="pnum">06</span>
+          <div class="pt">
+            <h3>アクセス</h3>
+            <div class="url">ACCESS ／ /access</div>
+            <p class="purpose">「迷わず来られる」を実現。地図・営業時間・駐車場を、ひと目でわかる形に。</p>
+          </div>
+        </div>
+        <div class="pcard-body">
+          <div class="lbl">主なセクション</div>
+          <div class="sects">
+            <div class="sect"><span class="bx">✓</span>Googleマップ埋め込み・経路案内</div>
+            <div class="sect"><span class="bx">✓</span>営業時間・定休日カレンダー</div>
+            <div class="sect"><span class="bx">✓</span>駐車場・最寄駅からの道順</div>
+          </div>
+          <div class="lbl">搭載機能</div>
+          <div class="tags"><span class="tag">Googleマップ連携</span><span class="tag">ワンタップ経路案内</span><span class="tag">電話発信</span></div>
+        </div>
+      </article>
+
+      <article class="pcard">
+        <div class="pcard-top">
+          <span class="pnum">07</span>
+          <div class="pt">
+            <h3>お知らせ・ブログ</h3>
+            <div class="url">NEWS ／ /news</div>
+            <p class="purpose">季節メニューや休業情報を発信。更新するほど検索に強くなり、リピートにつながる。</p>
+          </div>
+        </div>
+        <div class="pcard-body">
+          <div class="lbl">主なセクション</div>
+          <div class="sects">
+            <div class="sect"><span class="bx">✓</span>季節メニュー・イベント告知</div>
+            <div class="sect"><span class="bx">✓</span>臨時休業・営業時間変更のお知らせ</div>
+            <div class="sect"><span class="bx">✓</span>記事一覧・カテゴリ</div>
+          </div>
+          <div class="lbl">搭載機能</div>
+          <div class="tags"><span class="tag">管理画面から投稿</span><span class="tag">SEO記事</span><span class="tag">SNSシェア</span></div>
+        </div>
+      </article>
+
+      <article class="pcard">
+        <div class="pcard-top">
+          <span class="pnum">08</span>
+          <div class="pt">
+            <h3>お問い合わせ</h3>
+            <div class="url">CONTACT ／ /contact</div>
+            <p class="purpose">予約以外の声を受ける窓口。貸切・宴会の相談、求人応募までまとめて対応。</p>
+          </div>
+        </div>
+        <div class="pcard-body">
+          <div class="lbl">主なセクション</div>
+          <div class="sects">
+            <div class="sect"><span class="bx">✓</span>お問い合わせフォーム</div>
+            <div class="sect"><span class="bx">✓</span>貸切・宴会のご相談</div>
+            <div class="sect"><span class="bx">✓</span>求人・スタッフ募集</div>
+          </div>
+          <div class="lbl">搭載機能</div>
+          <div class="tags"><span class="tag">スパム対策</span><span class="tag">自動返信</span><span class="tag">メール通知</span></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="section features">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">CONVENIENT FEATURES</div>
+      <h2>全ページを横断する、便利な仕掛け</h2>
+      <p>個々のページだけでなく、サイト全体で来店までを後押しします。</p>
+    </div>
+    <div class="fgrid">
+      <div class="fcard">
+        <div class="fi"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <h4>24時間ネット予約</h4>
+        <p>営業時間外でも予約獲得。電話に出られない機会損失をなくす。</p>
+      </div>
+      <div class="fcard">
+        <div class="fi"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+        <h4>Googleマップ連携</h4>
+        <p>地図・経路案内・店舗情報をワンタップ。MEO（地図検索）にも効く。</p>
+      </div>
+      <div class="fcard">
+        <div class="fi"><svg viewBox="0 0 24 24"><path d="m12 3 2.6 5.6 6 .7-4.4 4.1 1.2 6L12 16.8 6.6 19.4l1.2-6L3.4 9.3l6-.7Z"/></svg></div>
+        <h4>Google口コミ★連携</h4>
+        <p>最新の評価・レビューを自動表示。第三者の声で信頼を後押し。</p>
+      </div>
+      <div class="fcard">
+        <div class="fi"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></div>
+        <h4>スマホ最適化</h4>
+        <p>画面下に「電話・予約」を固定。指一本で行動につなげる。</p>
+      </div>
+      <div class="fcard">
+        <div class="fi"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.4 8.6 8.6 0 0 1-4-1L3 20l1.1-5.4a8.4 8.4 0 1 1 16.9-3.1Z"/></svg></div>
+        <h4>LINE公式連携</h4>
+        <p>予約・問い合わせ・再来店クーポンをLINEで。リピート導線を構築。</p>
+      </div>
+      <div class="fcard">
+        <div class="fi"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></div>
+        <h4>Instagram連携</h4>
+        <p>最新投稿をサイトに自動表示。更新の手間なく鮮度を保つ。</p>
+      </div>
+      <div class="fcard">
+        <div class="fi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></svg></div>
+        <h4>多言語・インバウンド</h4>
+        <p>英語・中国語に切替。訪日客の集客にも対応できる。</p>
+      </div>
+      <div class="fcard">
+        <div class="fi"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+        <h4>SEO・地域検索対策</h4>
+        <p>「エリア＋業種」で見つかる設計。お知らせ更新で検索に強く。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" style="text-align:center">QUALITY &amp; SUPPORT</div>
+      <h2>“ちゃんとしてる” を、見えないところで支える</h2>
+      <p>デザインだけでなく、表示速度・安全性・運用のしやすさまで。</p>
+    </div>
+    <div class="trust-grid">
+      <div class="tcard">
+        <div class="tn">高速</div>
+        <h4>待たせない表示速度</h4>
+        <p>画像最適化と軽量設計で、スマホでもすばやく表示。離脱を防ぎ、SEO評価も高めます。</p>
+      </div>
+      <div class="tcard">
+        <div class="tn">安全</div>
+        <h4>常時SSL・安心の運用</h4>
+        <p>全ページHTTPSで暗号化。フォームのスパム対策、バックアップまで標準対応。</p>
+      </div>
+      <div class="tcard">
+        <div class="tn">楽</div>
+        <h4>更新サポート込み</h4>
+        <p>メニューやお知らせの更新は管理画面から。難しい操作は私たちが代行します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <h2>この構成で、お店の「Web集客」を始めませんか。</h2>
+    <p>サイトマップは業態・ご要望に合わせて調整できます。まずは完成イメージをご覧ください。</p>
+    <div class="acts">
+      <a href="index.html" class="btn btn-primary">完成サイトのデモを見る →</a>
+      <a href="../index.html" class="btn btn-line">Musubi サービス概要へ</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><b>Musubi</b>　飲食店向け Web サイト構成案 ／ さくら亭（サンプル）</p>
+</footer>
+
+</body>
+</html>
