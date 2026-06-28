@@ -59,6 +59,16 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-06-29 ・ 要件定義書・方式設計書・課題管理表を整備（多観点エージェントレビュー）＋webhook認証スキップ漏れ修正</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: Musubi 事業システムの設計ドキュメントを作成・精査し、課題管理表に集約。(1)要件定義書（IPA非機能要求グレード準拠・機能/非機能・確定/未決）、(2)方式設計書（IPA基本設計準拠・システム構成/配置/業務フロー/ER/DFD/シーケンス/画面遷移の図）、(3)課題管理表（IPA準拠・45課題）。あわせて発見した実バグ <code>/api/stripe/webhook</code> の middleware 認証スキップ漏れを修正。ハブ(<code>musubi-demos</code>)に3点のPDFを掲載。</li>
+<li><strong>Why</strong>: 大枠が固まったため要件・方式を公的フォーマット(IPA)で言語化し、検討漏れ・未検討を可視化して合意形成と今後の意思決定の土台にする要望。</li>
+<li><strong>How</strong>（多観点レビュー）: 設計文書ごとに複数のレビューエージェントを並列起動して相互レビュー。要件定義=6観点(法務/セキュリティ/運用SRE/事業/UX・SEO/データ)＋IPA準拠/全ページ精査/ステータス網羅、方式設計=IPA準拠監査/図表欠落/技術正確性/デザイン可読性。指摘を<strong>実コードで検証</strong>して統合（例: 検証エージェントの「ハッシュ=MD5」「構文=<code>{{#when}}</code>」は誤りと判定し、実コード <code>cfPages.ts</code>=blake3・<code>render.ts</code>=<code>{{#if}}</code> を採用。RLSは「reservations以外Dashboard依存」が誤りで、コアテーブルは <code>09_データ基盤/0002_rls.sql</code> 等で定義済み＝reservationsがポリシー欠落、と訂正）。</li>
+<li><strong>How</strong>（webhook修正）: <code>musubi-admin/lib/supabase/middleware.ts</code> は <code>/api/cron/*</code> と <code>/api/reserve/*</code> のみ認証スキップで、<code>/api/stripe/webhook</code> が未スキップ＝未認証POSTが <code>/login</code> へ307リダイレクトされ Webhook が機能しない潜在バグ。<code>/api/stripe/</code> のスキップ分岐を追加（署名検証で自衛）。<code>tsc</code> 通過。課題管理表 ISS-03 を「済」に更新。</li>
+<li><strong>Result</strong>: 要件定義書(32頁)・方式設計書(31頁)・課題管理表(8頁・45課題)をハブに掲載。各要件/方式に確定/仕掛/検討漏れの状態を色分け。実コード照合で事実誤りを修正。<strong>webhook修正は <code>musubi-admin</code> コミット（push未・本番反映はユーザー指示時）</strong>。docs(<code>local-web-sales</code>)＋ハブ(<code>musubi-demos</code>)は push。</li>
+<li><strong>証跡</strong>: <code>local-web-sales</code>(<code>06_スクリプト/requirements_deck.py</code>・<code>design_spec_deck.py</code>・<code>issues_deck.py</code>)、<code>musubi-demos</code>(<code>pdf/要件定義書.pdf</code>・<code>方式設計書.pdf</code>・<code>課題管理表.pdf</code>・<code>index.html</code>)、<code>musubi-admin</code>(<code>lib/supabase/middleware.ts</code>)。残課題は課題管理表 ISS-01〜45。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-06-29 ・ サイトビルダーを4フェーズ拡張（テンプレ置換／画像アップロード／AI入力／ネット予約バックエンド）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: <code>musubi-admin</code> の <code>/builder</code> を顧客要望どおり「テンプレ選択→文字・画像を入力→サイト完成、リアルタイムプレビュー、管理画面からデプロイ、ドメインは musubiweb.com サブドメイン」の実用形へ。4フェーズで実装。(P1)builder のテンプレをプロジェクトハブ最新の「さくら亭」（トップ＋予約画面）に置換。(P2)画像アップロード（持ち込み画像の埋め込み）。(P3)URL・テキストから AI が入力項目を自動生成。(P4)ネット予約バックエンド（リアルタイム在庫型）。</li>
