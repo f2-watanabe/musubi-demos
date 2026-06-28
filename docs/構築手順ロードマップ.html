@@ -72,12 +72,14 @@ details.logentry>summary:hover{color:var(--acc)}
 <p>デモ（<code>musubi-demos</code>）にある管理アプリ6画面・顧客ポータル3画面は、各Phaseで段階的に本番実装する。</p>
 <ul>
 <li>管理アプリ（運営）</li>
-<li>ダッシュボード／店舗（stores） … Phase 2【実装済】</li>
-<li>営業リスト（CRM） … Phase 2（追加項目）【実装済】</li>
+<li>ダッシュボード … Phase 2【実装済・2026-06-28 デモ準拠UIで本実装（KPI/MRR/タスク/未返信口コミ・Supabase実集計）】</li>
+<li>店舗（stores・顧客管理） … Phase 2【実装済・2026-06-28 デモ customers.html 準拠テーブルに刷新】</li>
+<li>営業リスト（CRM） … Phase 2（追加項目）【実装済・2026-06-28 デモ crm.html 準拠テーブルに刷新】</li>
 <li>サイト制作（ビルド接続） … Phase 3【builder MVP 実装済・直接デプロイは次段】</li>
-<li>口コミ返信AI … Phase 1・6</li>
+<li>口コミ返信AI … Phase 1・6【管理側UI実装済・2026-06-28 デモ reviews.html 準拠（スタッフ監視/下書き編集/再生成・承認/投稿はポータル）】</li>
 <li>請求・サブスク … Phase 5</li>
-<li>レポート … Phase 4【作成・公開の枠 実装済・自動集計は外部待ち】</li>
+<li>レポート … Phase 4【2026-06-28 管理側を読取専用化（手入力フォーム廃止）・月次自動公開（Cron）に変更。GBP指標の自動集計は外部待ち】</li>
+<li>設定 … Phase 2【実装済・2026-06-28 デモ settings.html 準拠（アカウント/チーム=staff_members・連携API状態=env有無。担当者名のみ実書込）】</li>
 <li>コストモニタ … Phase 2/7【枠実装済・実データはPhase 7】</li>
 <li>顧客ポータル（店舗オーナー）</li>
 <li>土台のデプロイ＋顧客認証 … Phase 2（追加項目）【コード実装済・デプロイは外部操作】</li>

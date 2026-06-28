@@ -60,6 +60,22 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-06-28 ・ 管理アプリ画面群をデモ準拠で本実装＋レポート自動公開＋ログイン刷新＋webhook修正</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 管理アプリ(<code>musubi-admin</code>)の主要画面をデモ(<code>musubi-demos/admin/*.html</code>)準拠で一括実装/刷新。(1)ダッシュボード新規、(2)口コミ返信AI(reviews)新規、(3)設定(settings)新規、(4)営業リスト(crm)・顧客管理(stores)をデモ準拠テーブルに刷新、(5)レポートを「管理側読取専用＋月次自動公開」に変更、(6)ログインをモダン2カラムに刷新(admin/portal)＋デモ用静的モック作成、(7)Stripe webhook の HTML インジェクション対策(commit セキュリティレビュー指摘)。</li>
+<li><strong>Why</strong>: 管理アプリの dashboard/reviews/settings が「準備中」スタブのままだった。crm/stores はデモUIと見た目が乖離。レポートは「毎月決まった日に自動でポータル更新・管理側は項目不要」が要望(手入力フォームは不要)。ログインは「デモ用モック＋実アプリもモダンに」が要望。webhook のオーナー宛メールに <code>store.name</code> を未エスケープで埋め込んでおり HTML インジェクションの指摘が出た。</li>
+<li><strong>How</strong>(各画面を subagent 並列委譲・共有ファイル(globals.css/AdminShell/layout)不可触・最終ビルドは呼び出し元で一括):</li>
+<li>ダッシュボード <code>app/dashboard/page.tsx</code>＝Supabase 実集計(稼働顧客/MRR[<code>lib/plans.ts</code>]/営業リード/未返信口コミ)・今月のタスク・未返信口コミ一覧。MRR推移は履歴テーブルが無いため現月単一バー＋「蓄積中」注記(捏造回避)。<code>dashboard.module.css</code>。</li>
+<li>口コミ返信AI <code>app/reviews/page.tsx</code>＋<code>ReviewsClient.tsx</code>＋<code>actions.ts</code>＝reviews を store join 表示・status pill・要確認バッジ・下書き編集(updateDraft)・AI再生成(regenerate=<code>lib/draftReply</code>)。<strong>承認/GBP投稿はポータル側</strong>(ここは監視/編集のみ)。</li>
+<li>設定 <code>app/settings/page.tsx</code>＋<code>actions.ts</code>＝アカウント/チーム(<code>staff_members</code>一覧＋ログインユーザー)・連携API状態(env 有無で接続済/未接続表示・値非表示)。<strong>担当者名のみ実書込</strong>(<code>staff_members.name</code>)。屋号/招待はバッキング無く「表示のみ」明示・新テーブル新設なし。</li>
+<li>営業リスト/顧客管理＝<code>app/crm/page.tsx</code>・<code>app/stores/page.tsx</code> をデモ準拠の単一カード＋テーブルに刷新。既存 Server Action/Supabase クエリ/スコア算出/CSV取込/フィルタは維持。stores はスキーマに無い業種/プラン列は捏造せず実列のみ。</li>
+<li>レポート＝<code>app/report/page.tsx</code> の手入力フォーム/公開トグル/削除を全廃し読取専用ビューに。<code>app/report/actions.ts</code> 削除(saveReport/setReportPublished/deleteReport)。<code>notifyOwner</code> を <code>lib/report-notify.ts</code> へ移設。<code>app/api/cron/ingest-ga4/route.ts</code> の upsert に <code>.select(&#x27;id, published_at&#x27;)</code> を付け、<strong>未公開行のみ当月集計時刻で <code>published_at</code> を自動セット＋一度だけオーナー通知</strong>(既公開は非破壊・<code>?period=</code> 再実行でも冪等で二重送信なし)。</li>
+<li>ログイン＝<code>musubi-admin</code>/<code>musubi-portal</code> の <code>app/login/page.tsx</code> を左ブランドパネル(緑グラデ)＋右フォームの2カラムに刷新。md未満は1カラム。**直近の a11y(role=alert/aria-*/focusリング/コントラスト)・実寸 1281×311・Server Action・SubmitButton は保持**。デモ用静的モック <code>musubi-demos/admin/login.html</code> 作成＋ハブ index にリンク。</li>
+<li>webhook＝<code>app/api/stripe/webhook/route.ts</code> に <code>escapeHtml</code> を追加し <code>store.name</code> をエスケープ。同種の <code>report-notify.ts</code>(旧 report/actions notifyOwner)も <code>&amp;/&lt;</code> をエスケープ。</li>
+<li><strong>Result</strong>: <code>musubi-admin</code>/<code>musubi-portal</code> とも <code>npm run build</code> exit 0(フル統合ビルドで cross-file 解決を確認)。各 subagent は担当外の一時 tsc エラー(並行作業中の参照欠落)を除き自領域クリーンを報告、最終ビルドで全解消。<strong>捏造なし</strong>(未接続/無データは「—」・存在しないテーブルへの書込なし)。<strong>アプリ2リポはコミットのみ・push 未</strong>(本番デプロイのため・ユーザー指示時)。docs(<code>local-web-sales</code>)＋ハブ(<code>musubi-demos</code>=ログインモック含む)は push。<strong>未検証=ブラウザ実描画の目視</strong>(ビルド/型のみ)。</li>
+<li><strong>証跡</strong>: <code>musubi-admin</code>(<code>app/dashboard/</code>・<code>app/reviews/</code>・<code>app/settings/</code>・<code>app/crm/page.tsx</code>・<code>app/stores/page.tsx</code>・<code>app/report/</code>・<code>lib/report-notify.ts</code>・<code>app/api/cron/ingest-ga4/route.ts</code>・<code>app/api/stripe/webhook/route.ts</code>・<code>components/SubmitButton.tsx</code>・<code>app/login/page.tsx</code>)、<code>musubi-portal</code>(<code>app/login/page.tsx</code>)、<code>musubi-demos</code>(<code>admin/login.html</code>・<code>index.html</code>)。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-06-28 ・ ブランド緑ロゴの全面反映＋ログインUI改善＋送信中UX横展開＋Phase5支払失敗案内</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) ユーザーが配置し直した新ロゴ（緑統一の横/縦/丸 3種）を全ブランド面へ反映、(2) ログイン画面を複数観点レビューし指摘を修正、(3) 送信中フィードバック（useFormStatus）を両アプリの全フォームへ横展開、(4) Phase 5 課金 webhook に支払失敗時 Resend 案内＋silent-failure ハードニングを実装。</li>

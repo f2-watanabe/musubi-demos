@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>ログイン | Musubi 管理アプリ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1f2430;--acc:#127b66;--accd:#0c5a4a;--bg:#f4f6f5;--card:#fff;--line:#e7ebe9;--sub:#565d58;--muted:#8a9088;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh;display:grid;place-items:center;padding:24px}
+.shell{width:100%;max-width:920px;background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:0 30px 70px -30px rgba(18,30,25,.35),0 8px 24px -12px rgba(18,30,25,.12);overflow:hidden;display:grid;grid-template-columns:1.05fr .95fr}
+/* left brand panel */
+.brand{position:relative;padding:48px 44px;color:#eaf5f0;background:radial-gradient(120% 120% at 0% 0%,#16957b 0%,#127b66 42%,#0c5a4a 100%);display:flex;flex-direction:column;overflow:hidden}
+.brand::after{content:"";position:absolute;right:-90px;bottom:-90px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.06)}
+.brand::before{content:"";position:absolute;left:-70px;top:-70px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.05)}
+.brand .mk{width:46px;height:46px;object-fit:contain;display:block}
+.brand .eyebrow{margin-top:26px;font-size:11px;letter-spacing:.28em;color:#bfe0d5;font-weight:700}
+.brand h2{margin-top:12px;font-size:27px;line-height:1.45;letter-spacing:.01em;font-weight:700;color:#fff}
+.brand p{margin-top:14px;font-size:13.5px;line-height:1.9;color:#cfe7df;max-width:32ch}
+.brand .feats{margin-top:auto;padding-top:30px;display:flex;flex-direction:column;gap:12px}
+.brand .feat{display:flex;align-items:center;gap:11px;font-size:13px;color:#e3f2ec}
+.brand .feat .tick{width:22px;height:22px;border-radius:7px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:12px;color:#fff;flex:none}
+/* right form panel */
+.form{padding:48px 46px;display:flex;flex-direction:column;justify-content:center}
+.form .logo{height:34px;width:auto;display:block;margin-bottom:6px}
+.form .sub{font-size:13px;color:var(--sub);margin-bottom:28px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:500;color:var(--ink);margin-bottom:7px}
+.inwrap{position:relative}
+.inwrap .ic{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);display:flex;pointer-events:none}
+.inwrap input{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px 14px 12px 40px;font-size:14px;font-family:inherit;color:var(--ink);transition:.15s;outline:none}
+.inwrap input::placeholder{color:#a8aeaa}
+.inwrap input:focus{background:#fff;border-color:var(--acc);box-shadow:0 0 0 3px rgba(18,123,102,.18)}
+.row{display:flex;align-items:center;justify-content:space-between;margin:4px 0 22px}
+.row label{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--sub);cursor:pointer}
+.row a{font-size:12.5px;color:var(--acc);text-decoration:none;font-weight:500}
+.row a:hover{text-decoration:underline}
+.submit{width:100%;border:0;border-radius:12px;background:var(--acc);color:#fff;font-size:14.5px;font-weight:700;font-family:inherit;padding:13px;cursor:pointer;transition:.15s;box-shadow:0 8px 20px -8px rgba(18,123,102,.6)}
+.submit:hover{background:var(--accd)}
+.submit:active{transform:scale(.99)}
+.foot{margin-top:24px;text-align:center;font-size:11.5px;color:#5e645f}
+.lock{display:inline-flex;align-items:center;gap:5px}
+@media(max-width:720px){
+ .shell{grid-template-columns:1fr;max-width:420px}
+ .brand{padding:34px 30px}
+ .brand .feats{display:none}
+ .brand h2{font-size:22px;margin-top:10px}
+ .brand p{margin-top:10px}
+ .form{padding:34px 30px}
+}
+</style></head><body>
+<div class="shell">
+  <section class="brand">
+    <img class="mk" src="../assets/musubi-mark-white.png" alt="Musubi">
+    <div class="eyebrow">MUSUBI ADMIN CONSOLE</div>
+    <h2>店舗の集客を、<br>ひとつの管理画面で。</h2>
+    <p>営業リスト・サイト制作・口コミ返信AI・請求・レポートを一元管理。Google高評価×Web未保有の店舗向け運営プラットフォーム。</p>
+    <div class="feats">
+      <div class="feat"><span class="tick">✓</span>口コミ返信AIで運用を自動化</div>
+      <div class="feat"><span class="tick">✓</span>顧客サイトをテンプレで量産</div>
+      <div class="feat"><span class="tick">✓</span>MRR・継続率をリアルタイム把握</div>
+    </div>
+  </section>
+  <section class="form">
+    <img class="logo" src="../assets/musubi-logo.png" alt="Musubi">
+    <div class="sub">管理アプリ ・ 運営スタッフ専用</div>
+    <form onsubmit="return false">
+      <div class="field">
+        <label for="email">メールアドレス</label>
+        <div class="inwrap">
+          <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+          <input id="email" type="email" placeholder="you@example.com" autocomplete="email">
+        </div>
+      </div>
+      <div class="field">
+        <label for="password">パスワード</label>
+        <div class="inwrap">
+          <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+          <input id="password" type="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+      </div>
+      <div class="row">
+        <label><input type="checkbox"> ログイン状態を保持</label>
+        <a href="#">パスワードをお忘れですか？</a>
+      </div>
+      <button class="submit" type="submit">ログイン</button>
+    </form>
+    <div class="foot"><span class="lock">🔒 セキュアな接続で保護されています</span><br>© Musubi</div>
+  </section>
+</div>
+</body></html>
