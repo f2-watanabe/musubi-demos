@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鮨 一心 — 銀座 おまかせ江戸前鮨・割烹</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700&family=Noto+Sans+JP:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0d0d0e;
+    --ink2:#16140f;
+    --gold:#b89765;
+    --gold-soft:#cdb38a;
+    --sumi:#1c1a16;
+    --paper:#efe9df;
+    --paper-dim:#b8b2a6;
+    --line:rgba(184,151,101,.28);
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    overflow-x:hidden;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:"Noto Sans JP",sans-serif;
+    font-weight:300;
+    line-height:1.95;
+    letter-spacing:.04em;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{display:block;width:100%;height:100%;object-fit:cover}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:"Shippori Mincho",serif;font-weight:600;margin:0;letter-spacing:.08em}
+  .serif{font-family:"Shippori Mincho",serif}
+  .en{font-family:"Cormorant Garamond",serif;letter-spacing:.18em;font-style:italic}
+  .gold{color:var(--gold)}
+
+  /* ---------- header ---------- */
+  header{
+    position:fixed;top:0;left:0;width:100%;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:26px clamp(20px,5vw,64px);
+    transition:background .8s var(--ease),backdrop-filter .8s var(--ease),padding .6s var(--ease);
+  }
+  header.scrolled{
+    background:rgba(10,10,11,.72);
+    backdrop-filter:blur(14px) saturate(1.2);
+    -webkit-backdrop-filter:blur(14px) saturate(1.2);
+    padding:16px clamp(20px,5vw,64px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{font-family:"Shippori Mincho",serif;font-weight:600;font-size:22px;letter-spacing:.3em}
+  .brand small{display:block;font-family:"Cormorant Garamond",serif;font-size:11px;letter-spacing:.4em;color:var(--gold);font-style:normal;margin-top:2px}
+  nav{display:flex;align-items:center;gap:clamp(16px,2.6vw,40px)}
+  nav a{font-size:13px;letter-spacing:.14em;color:var(--paper-dim);transition:color .5s var(--ease);position:relative}
+  nav a:hover{color:var(--paper)}
+  .nav-links{display:flex;gap:clamp(16px,2.6vw,38px)}
+  .btn-reserve{
+    font-family:"Shippori Mincho",serif;font-size:13px;letter-spacing:.2em;
+    padding:11px 24px;border:1px solid var(--gold);color:var(--gold);
+    transition:background .6s var(--ease),color .6s var(--ease);
+  }
+  .btn-reserve:hover{background:var(--gold);color:var(--ink)}
+  @media(max-width:760px){.nav-links{display:none}}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;height:100svh;min-height:560px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .hero-bg{position:absolute;inset:0;z-index:0}
+  .hero-bg img{transform:scale(1.12);animation:slowzoom 14s var(--ease) forwards}
+  @keyframes slowzoom{to{transform:scale(1)}}
+  .hero-bg::after{content:"";position:absolute;inset:0;background:
+    linear-gradient(to bottom,rgba(8,8,9,.55),rgba(8,8,9,.25) 40%,rgba(8,8,9,.78));}
+  .hero-inner{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;gap:34px}
+  .hero-title{
+    writing-mode:vertical-rl;text-orientation:upright;
+    font-family:"Shippori Mincho",serif;font-weight:600;
+    font-size:clamp(46px,9vw,104px);letter-spacing:.22em;
+    color:var(--paper);height:auto;display:flex;
+    text-shadow:0 4px 40px rgba(0,0,0,.6);
+  }
+  .hero-title .ch{display:inline-block;opacity:0;transform:translateY(46px);
+    animation:rise 1.1s var(--ease) forwards;}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+  .hero-sub{
+    font-family:"Cormorant Garamond",serif;font-style:italic;
+    letter-spacing:.42em;font-size:clamp(13px,2vw,17px);color:var(--gold-soft);
+    opacity:0;animation:fadeup 1.2s var(--ease) 1.1s forwards;
+  }
+  .hero-jp{font-size:13px;letter-spacing:.3em;color:var(--paper-dim);
+    opacity:0;animation:fadeup 1.2s var(--ease) 1.35s forwards;}
+  @keyframes fadeup{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .scroll-cue{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);z-index:3;
+    writing-mode:vertical-rl;font-family:"Cormorant Garamond",serif;letter-spacing:.4em;
+    font-size:11px;color:var(--paper-dim);opacity:0;animation:fadeup 1s var(--ease) 1.8s forwards;}
+  .scroll-cue::after{content:"";display:block;width:1px;height:48px;margin:14px auto 0;
+    background:linear-gradient(var(--gold),transparent);}
+
+  /* ---------- layout ---------- */
+  section{position:relative}
+  .wrap{max-width:1180px;margin:0 auto;padding:clamp(80px,12vh,160px) clamp(22px,5vw,64px)}
+  .eyebrow{font-family:"Cormorant Garamond",serif;font-style:italic;letter-spacing:.34em;
+    font-size:15px;color:var(--gold);margin-bottom:18px}
+  .vtitle{writing-mode:vertical-rl;font-family:"Shippori Mincho",serif;font-weight:600;
+    font-size:clamp(26px,4vw,40px);letter-spacing:.26em;line-height:1.1;height:auto}
+
+  /* reveal */
+  .reveal{opacity:0;transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+  .reveal.up{transform:translateY(54px)}
+  .reveal.left{transform:translateX(-60px)}
+  .reveal.right{transform:translateX(60px)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal[data-d="1"]{transition-delay:.12s}
+  .reveal[data-d="2"]{transition-delay:.24s}
+  .reveal[data-d="3"]{transition-delay:.36s}
+
+  /* mask wipe image */
+  .mask{position:relative;overflow:hidden}
+  .mask img{transform:scale(1.18);transition:transform 1.6s var(--ease)}
+  .mask::before{content:"";position:absolute;inset:0;z-index:2;background:var(--ink);
+    transform:translateX(0);transition:transform 1.2s var(--ease)}
+  .mask.in::before{transform:translateX(101%)}
+  .mask.in img{transform:scale(1)}
+
+  /* ---------- about ---------- */
+  .about{background:linear-gradient(180deg,var(--ink),var(--ink2))}
+  .about-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(36px,6vw,90px);align-items:center}
+  .about-vis{position:relative}
+  .about-vis .mask{aspect-ratio:3/4;border:1px solid var(--line)}
+  .about-vis .frame{position:absolute;inset:-16px;border:1px solid var(--line);z-index:-1;
+    pointer-events:none}
+  .about-copy{display:flex;gap:40px;align-items:flex-start}
+  .about-text p{color:var(--paper-dim);margin:0 0 22px;max-width:46ch}
+  .about-text p.lead{font-family:"Shippori Mincho",serif;font-weight:500;font-size:clamp(20px,2.6vw,28px);
+    color:var(--paper);line-height:1.85;letter-spacing:.06em}
+  .sign{font-family:"Shippori Mincho",serif;letter-spacing:.2em;color:var(--gold);margin-top:30px}
+  .sign small{display:block;font-family:"Cormorant Garamond",serif;font-style:italic;
+    letter-spacing:.2em;color:var(--paper-dim);font-size:13px}
+  @media(max-width:840px){.about-grid{grid-template-columns:1fr}.about-copy{flex-direction:column;gap:20px}
+    .about-text p.lead{max-width:none}}
+
+  /* ---------- course ---------- */
+  .course{background:var(--ink2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .course-head{display:flex;justify-content:space-between;align-items:flex-end;
+    flex-wrap:wrap;gap:24px;margin-bottom:64px}
+  .course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2vw,30px)}
+  .card{border:1px solid var(--line);background:rgba(255,255,255,.014);
+    padding:40px 34px;display:flex;flex-direction:column;
+    transition:transform .9s var(--ease),background .9s var(--ease),border-color .9s var(--ease)}
+  .card:hover{transform:translateY(-8px);background:rgba(184,151,101,.05);border-color:var(--gold)}
+  .card .kind{font-family:"Cormorant Garamond",serif;font-style:italic;letter-spacing:.3em;
+    font-size:14px;color:var(--gold)}
+  .card h3{font-size:25px;margin:10px 0 6px;letter-spacing:.14em}
+  .card .price{font-family:"Shippori Mincho",serif;font-size:30px;color:var(--paper);margin:18px 0 4px}
+  .card .price small{font-size:14px;color:var(--paper-dim);font-family:"Noto Sans JP";margin-left:6px}
+  .card .meta{font-size:12px;letter-spacing:.16em;color:var(--paper-dim);
+    border-top:1px solid var(--line);padding-top:18px;margin-top:18px}
+  .card ul{list-style:none;padding:0;margin:22px 0 0;flex:1}
+  .card li{font-size:13.5px;color:var(--paper-dim);padding:9px 0;border-bottom:1px dashed rgba(184,151,101,.14);
+    display:flex;gap:12px}
+  .card li::before{content:"—";color:var(--gold)}
+  .card.feature{background:linear-gradient(180deg,rgba(184,151,101,.08),rgba(184,151,101,.02));border-color:var(--gold)}
+  @media(max-width:840px){.course-grid{grid-template-columns:1fr}}
+
+  /* ---------- gallery ---------- */
+  .gallery{background:var(--ink)}
+  .g-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:14px}
+  .g-item{overflow:hidden;position:relative;border:1px solid rgba(184,151,101,.12)}
+  .g-item img{transition:transform 1.3s var(--ease)}
+  .g-item:hover img{transform:scale(1.12)}
+  .g-item::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(8,8,9,.5));
+    opacity:0;transition:opacity .8s var(--ease)}
+  .g-item:hover::after{opacity:1}
+  .g-item .cap{position:absolute;left:16px;bottom:14px;z-index:2;font-family:"Shippori Mincho",serif;
+    letter-spacing:.16em;font-size:14px;opacity:0;transform:translateY(10px);
+    transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .g-item:hover .cap{opacity:1;transform:none}
+  .g-tall{grid-row:span 2}
+  .g-wide{grid-column:span 2}
+  @media(max-width:840px){.g-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}
+    .g-wide{grid-column:span 2}.g-tall{grid-row:span 1}}
+
+  /* ---------- interior ---------- */
+  .interior{background:linear-gradient(180deg,var(--ink),var(--ink2));overflow:hidden}
+  .int-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:clamp(28px,4vw,60px);align-items:center}
+  .int-vis .mask{aspect-ratio:16/11}
+  .int-copy h2{font-size:clamp(26px,4vw,40px);line-height:1.4;margin-bottom:26px}
+  .int-copy p{color:var(--paper-dim);max-width:42ch}
+  .int-sub{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:30px}
+  .int-sub .mask{aspect-ratio:4/3}
+  .parallax-deco{position:absolute;right:-60px;top:8%;writing-mode:vertical-rl;
+    font-family:"Shippori Mincho",serif;font-size:clamp(80px,16vw,200px);font-weight:700;
+    color:rgba(184,151,101,.05);letter-spacing:.1em;pointer-events:none;z-index:0;user-select:none}
+  @media(max-width:840px){.int-grid{grid-template-columns:1fr}}
+
+  /* ---------- access ---------- */
+  .access{background:var(--ink2);border-top:1px solid var(--line)}
+  .access-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,6vw,80px)}
+  .info-row{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--line)}
+  .info-row dt{width:120px;flex:none;font-family:"Shippori Mincho",serif;letter-spacing:.18em;
+    color:var(--gold);font-size:14px}
+  .info-row dd{margin:0;color:var(--paper-dim);font-size:14.5px}
+  .access-vis .mask{aspect-ratio:1/1;height:100%;border:1px solid var(--line)}
+  @media(max-width:840px){.access-grid{grid-template-columns:1fr}.access-vis{order:-1}}
+
+  /* ---------- cta ---------- */
+  .cta{position:relative;text-align:center;overflow:hidden}
+  .cta-bg{position:absolute;inset:0;z-index:0}
+  .cta-bg::after{content:"";position:absolute;inset:0;background:rgba(8,8,9,.78)}
+  .cta-inner{position:relative;z-index:2}
+  .cta h2{font-size:clamp(28px,5vw,52px);letter-spacing:.18em;margin-bottom:18px}
+  .cta p{color:var(--paper-dim);margin-bottom:46px}
+  .tel{font-family:"Cormorant Garamond",serif;font-weight:500;font-style:normal;
+    font-size:clamp(40px,8vw,78px);letter-spacing:.06em;color:var(--paper);line-height:1;display:block}
+  .tel-label{font-size:12px;letter-spacing:.4em;color:var(--gold);margin-bottom:14px}
+  .cta-actions{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:44px}
+  .btn-lg{font-family:"Shippori Mincho",serif;letter-spacing:.2em;font-size:15px;padding:17px 44px;
+    transition:all .6s var(--ease)}
+  .btn-fill{background:var(--gold);color:var(--ink)}
+  .btn-fill:hover{background:var(--gold-soft)}
+  .btn-out{border:1px solid var(--gold);color:var(--gold)}
+  .btn-out:hover{background:var(--gold);color:var(--ink)}
+  .cta-hours{margin-top:38px;font-size:12px;letter-spacing:.2em;color:var(--paper-dim)}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--ink);border-top:1px solid var(--line);
+    padding:64px clamp(22px,5vw,64px) 40px;text-align:center}
+  .f-brand{font-family:"Shippori Mincho",serif;font-size:26px;letter-spacing:.34em;margin-bottom:8px}
+  .f-en{font-family:"Cormorant Garamond",serif;font-style:italic;letter-spacing:.4em;
+    color:var(--gold);font-size:13px;margin-bottom:30px}
+  .f-nav{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-bottom:34px}
+  .f-nav a{font-size:12px;letter-spacing:.16em;color:var(--paper-dim);transition:color .5s var(--ease)}
+  .f-nav a:hover{color:var(--gold)}
+  .copy{font-size:11px;letter-spacing:.2em;color:#5b574e}
+</style>
+</head>
+<body>
+
+<header id="hd">
+  <div class="brand">鮨 一心<small>SUSHI ISSHIN</small></div>
+  <nav>
+    <div class="nav-links">
+      <a href="#about">大将の言葉</a>
+      <a href="#course">おまかせ</a>
+      <a href="#gallery">握り</a>
+      <a href="#interior">店内</a>
+      <a href="#access">アクセス</a>
+    </div>
+    <a href="#reserve" class="btn-reserve">ご予約</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=2000&auto=format&fit=crop" alt="握り">
+  </div>
+  <div class="hero-inner">
+    <h1 class="hero-title" id="heroTitle" aria-label="鮨 一心"></h1>
+    <div class="hero-sub">Edomae Sushi &amp; Kappo &middot; Ginza</div>
+    <div class="hero-jp">銀座 ― 一貫に、心を込めて。</div>
+  </div>
+  <a href="#about" class="scroll-cue">SCROLL</a>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div class="about-vis reveal left">
+      <div class="frame"></div>
+      <div class="mask"><img src="https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=80&w=1200&auto=format&fit=crop" alt="大将"></div>
+    </div>
+    <div class="about-copy">
+      <div class="vtitle reveal right gold">大将の言葉</div>
+      <div class="about-text">
+        <div class="eyebrow reveal up">Words from the Itamae</div>
+        <p class="lead reveal up" data-d="1">その日、最良の魚にだけ、<br>包丁を入れる。</p>
+        <p class="reveal up" data-d="2">豊洲で目利きした魚を、江戸前の手仕事で仕込む。煮切り、漬け、酢〆 ― 一貫ごとに最も美味い瞬間を見極め、温度と握りの硬さを変えています。背伸びをせず、けれど一切の妥協なく。</p>
+        <p class="reveal up" data-d="3">カウンター八席のみ。お客様の召し上がる速さに合わせ、目の前で握る。その静かな時間こそ、当店がお出しできる何よりのもてなしです。</p>
+        <div class="sign reveal up" data-d="3">店主 ・ 三浦 一心<small>Owner Chef &mdash; Isshin Miura</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSE -->
+<section class="course" id="course">
+  <div class="wrap">
+    <div class="course-head">
+      <div>
+        <div class="eyebrow reveal up">Omakase</div>
+        <h2 class="reveal up" data-d="1" style="font-size:clamp(28px,5vw,46px);letter-spacing:.16em">おまかせコース</h2>
+      </div>
+      <p class="reveal up" data-d="2" style="max-width:34ch;color:var(--paper-dim);font-size:14px">仕入れにより内容は変わります。お品書きは一例です。アレルギー・苦手な食材は予約時にお知らせください。</p>
+    </div>
+    <div class="course-grid">
+      <div class="card reveal up">
+        <div class="kind">Lunch</div>
+        <h3>昼のおまかせ</h3>
+        <div class="price">¥8,000<small>税込・サ別</small></div>
+        <div class="meta">つまみ三品 ・ 握り十貫 ・ 椀 ・ 玉子</div>
+        <ul>
+          <li>季節のつまみ</li>
+          <li>握り 十貫</li>
+          <li>巻物・椀物</li>
+          <li>所要 約75分</li>
+        </ul>
+      </div>
+      <div class="card feature reveal up" data-d="1">
+        <div class="kind">Dinner</div>
+        <h3>夜のおまかせ</h3>
+        <div class="price">¥18,000<small>税込・サ別</small></div>
+        <div class="meta">つまみ六品 ・ 握り十五貫 ・ 椀 ・ 甘味</div>
+        <ul>
+          <li>先付・季節のつまみ六品</li>
+          <li>握り 十五貫</li>
+          <li>椀物 ・ 巻物</li>
+          <li>甘味 ・ 香の物</li>
+          <li>所要 約120分</li>
+        </ul>
+      </div>
+      <div class="card reveal up" data-d="2">
+        <div class="kind">Special</div>
+        <h3>特選おまかせ</h3>
+        <div class="price">¥28,000<small>税込・サ別</small></div>
+        <div class="meta">旬の極み ・ 握り十八貫 ・ 完全予約制</div>
+        <ul>
+          <li>その日の特上ネタ中心</li>
+          <li>つまみ ・ 握り 十八貫</li>
+          <li>椀 ・ 甘味</li>
+          <li>三日前までのご予約</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <div class="course-head">
+      <div>
+        <div class="eyebrow reveal up">Gallery</div>
+        <h2 class="reveal up" data-d="1" style="font-size:clamp(28px,5vw,46px);letter-spacing:.16em">一貫の景色</h2>
+      </div>
+      <div class="vtitle reveal right gold" style="font-size:clamp(20px,3vw,30px)">握り</div>
+    </div>
+    <div class="g-grid">
+      <div class="g-item g-tall reveal up"><img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=900&auto=format&fit=crop" alt="握り"><span class="cap">本日の握り</span></div>
+      <div class="g-item reveal up" data-d="1"><img src="https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=80&w=700&auto=format&fit=crop" alt="盛り合わせ"><span class="cap">盛り合わせ</span></div>
+      <div class="g-item reveal up" data-d="2"><img src="https://images.unsplash.com/photo-1582450871972-ab5ca641643d?q=80&w=700&auto=format&fit=crop" alt="つまみ"><span class="cap">季節のつまみ</span></div>
+      <div class="g-item g-wide reveal up"><img src="https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?q=80&w=1200&auto=format&fit=crop" alt="盛付"><span class="cap">先付の彩り</span></div>
+      <div class="g-item reveal up" data-d="1"><img src="https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?q=80&w=700&auto=format&fit=crop" alt="逸品"><span class="cap">旬の逸品</span></div>
+      <div class="g-item reveal up" data-d="2"><img src="https://images.unsplash.com/photo-1576867757603-05b134ebc379?q=80&w=700&auto=format&fit=crop" alt="椀物"><span class="cap">椀物</span></div>
+      <div class="g-item reveal up"><img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=700&auto=format&fit=crop" alt="握り二貫"><span class="cap">二貫</span></div>
+      <div class="g-item g-wide reveal up" data-d="1"><img src="https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?q=80&w=1200&auto=format&fit=crop" alt="酒肴"><span class="cap">酒肴</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERIOR -->
+<section class="interior" id="interior">
+  <div class="parallax-deco" data-parallax="0.12">鮨</div>
+  <div class="wrap int-grid">
+    <div class="int-vis reveal left">
+      <div class="mask"><img src="https://images.unsplash.com/photo-1481931098730-318b6f776db0?q=80&w=1300&auto=format&fit=crop" alt="カウンター"></div>
+      <div class="int-sub">
+        <div class="mask"><img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=700&auto=format&fit=crop" alt="店内"></div>
+        <div class="mask"><img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=700&auto=format&fit=crop" alt="設え"></div>
+      </div>
+    </div>
+    <div class="int-copy">
+      <div class="eyebrow reveal up">The Counter</div>
+      <h2 class="reveal up" data-d="1">白木のカウンター、<br>八席だけの静寂。</h2>
+      <p class="reveal up" data-d="2">無垢の檜を一枚で誂えたカウンター。照明を落とした墨色の空間で、所作の音と季節の香りだけが満ちる。会食にも、おひとりの夜にも。お連れ様との会話を妨げない、ほどよい距離を設えました。</p>
+      <p class="reveal up" data-d="3" style="margin-top:18px;color:var(--gold);font-family:'Shippori Mincho';letter-spacing:.12em">― 個室のご用意はございません。カウンターでの一席を、どうぞ。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESS -->
+<section class="access" id="access">
+  <div class="wrap access-grid">
+    <div>
+      <div class="eyebrow reveal up">Access &amp; Hours</div>
+      <h2 class="reveal up" data-d="1" style="font-size:clamp(26px,4vw,40px);letter-spacing:.16em;margin-bottom:34px">店舗のご案内</h2>
+      <dl style="margin:0">
+        <div class="info-row reveal up"><dt>店名</dt><dd>鮨 一心（すし いっしん）</dd></div>
+        <div class="info-row reveal up" data-d="1"><dt>住所</dt><dd>東京都中央区銀座8-12-3 一心ビル B1F</dd></div>
+        <div class="info-row reveal up" data-d="1"><dt>電話</dt><dd>03-0000-0000</dd></div>
+        <div class="info-row reveal up" data-d="2"><dt>営業時間</dt><dd>昼 12:00 / 一斉スタート　夜 18:00・20:30 / 二部制</dd></div>
+        <div class="info-row reveal up" data-d="2"><dt>定休日</dt><dd>月曜（火〜日 営業）</dd></div>
+        <div class="info-row reveal up" data-d="3"><dt>席数</dt><dd>カウンター 8席のみ</dd></div>
+        <div class="info-row reveal up" data-d="3"><dt>ご利用</dt><dd>完全予約制 ・ お子様のご入店はご遠慮いただいております</dd></div>
+      </dl>
+    </div>
+    <div class="access-vis reveal right">
+      <div class="mask"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1100&auto=format&fit=crop" alt="店構え"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="reserve">
+  <div class="cta-bg" data-parallax="0.08">
+    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=1800&auto=format&fit=crop" alt="">
+  </div>
+  <div class="wrap cta-inner">
+    <div class="eyebrow reveal up" style="margin-bottom:10px">Reservation</div>
+    <h2 class="reveal up" data-d="1">ご予約</h2>
+    <p class="reveal up" data-d="2">ご予約・お問い合わせは、お電話にて承ります。<br>当日のご予約はお受けできない場合がございます。</p>
+    <div class="reveal up" data-d="2">
+      <span class="tel-label">TEL ・ 12:00 - 21:00</span>
+      <a href="tel:0300000000" class="tel">03-0000-0000</a>
+    </div>
+    <div class="cta-actions reveal up" data-d="3">
+      <a href="tel:0300000000" class="btn-lg btn-fill">電話で予約する</a>
+      <a href="#" class="btn-lg btn-out">ネット予約</a>
+    </div>
+    <div class="cta-hours reveal up" data-d="3">火〜日 営業　/　月曜定休　/　カウンター8席　/　完全予約制</div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-brand">鮨 一心</div>
+  <div class="f-en">SUSHI ISSHIN &middot; GINZA</div>
+  <div class="f-nav">
+    <a href="#about">大将の言葉</a>
+    <a href="#course">おまかせ</a>
+    <a href="#gallery">握り</a>
+    <a href="#interior">店内</a>
+    <a href="#access">アクセス</a>
+    <a href="#reserve">ご予約</a>
+  </div>
+  <div class="copy">&copy; 鮨 一心 SUSHI ISSHIN — Demo template. 架空の店舗です。</div>
+</footer>
+
+<script>
+(function(){
+  var title="鮨 一心";
+  var el=document.getElementById("heroTitle");
+  var chars=title.split("");
+  for(var i=0;i<chars.length;i++){
+    var c=chars[i];
+    var span=document.createElement("span");
+    span.className="ch";
+    span.textContent=(c===" ")?"　":c;
+    span.style.animationDelay=(0.35+i*0.16)+"s";
+    el.appendChild(span);
+  }
+
+  var hd=document.getElementById("hd");
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}
+    });
+  },{threshold:0.18,rootMargin:"0px 0px -8% 0px"});
+  document.querySelectorAll(".reveal,.mask").forEach(function(n){io.observe(n);});
+
+  var ticking=false;
+  var parallax=[].slice.call(document.querySelectorAll("[data-parallax]"));
+  function onScroll(){
+    var y=window.pageYOffset;
+    if(y>40){hd.classList.add("scrolled");}else{hd.classList.remove("scrolled");}
+    if(!ticking){
+      window.requestAnimationFrame(function(){
+        for(var i=0;i<parallax.length;i++){
+          var p=parallax[i];
+          var rect=p.parentElement.getBoundingClientRect();
+          var speed=parseFloat(p.getAttribute("data-parallax"))||0.1;
+          var offset=(rect.top - window.innerHeight/2)*-speed;
+          p.style.transform="translateY("+offset.toFixed(2)+"px)";
+        }
+        ticking=false;
+      });
+      ticking=true;
+    }
+  }
+  window.addEventListener("scroll",onScroll,{passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>

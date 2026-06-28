@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麺屋 轟 -TODOROKI- | 高田馬場 濃厚豚骨醤油・鶏白湯</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Reggae+One&family=RocknRoll+One&family=Yuji+Syuku&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{
+  background:#0a0a0a;color:#f4f1ea;overflow-x:hidden;
+  font-family:'Noto Sans JP',sans-serif;line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+img{object-fit:cover;display:block}
+:root{
+  --ink:#0a0a0a;--red:#e0282e;--yellow:#f5c518;--cream:#f4f1ea;
+  --redark:#a51b20;--gray:#161616;
+}
+.disp{font-family:'RocknRoll One',sans-serif}
+.brush{font-family:'Yuji Syuku',serif}
+.reggae{font-family:'Reggae One',sans-serif}
+.num{font-family:'Oswald',sans-serif;font-weight:700;letter-spacing:.02em}
+
+/* ====== HEADER (暖簾風) ====== */
+header{
+  position:fixed;top:0;left:0;width:100%;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px clamp(18px,5vw,56px);
+  transition:background .4s ease,padding .4s ease,box-shadow .4s ease;
+}
+header.solid{background:rgba(10,10,10,.94);padding:12px clamp(18px,5vw,56px);box-shadow:0 4px 30px rgba(0,0,0,.6);border-bottom:3px solid var(--red)}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo .stamp{
+  width:48px;height:48px;background:var(--red);border-radius:8px;
+  display:grid;place-items:center;color:#fff;font-family:'Yuji Syuku',serif;
+  font-size:26px;line-height:1;transform:rotate(-4deg);
+  box-shadow:0 4px 14px rgba(224,40,46,.5);flex:0 0 auto;
+}
+.logo .lt b{display:block;font-family:'RocknRoll One',sans-serif;font-size:20px;color:var(--cream);letter-spacing:.04em}
+.logo .lt span{display:block;font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.34em;color:var(--yellow)}
+nav{display:flex;gap:26px;align-items:center}
+nav a{color:var(--cream);text-decoration:none;font-size:14px;font-weight:700;letter-spacing:.05em;position:relative;transition:color .3s}
+nav a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--yellow);transition:width .3s ease}
+nav a:hover{color:var(--yellow)}
+nav a:hover::after{width:100%}
+.tel-btn{background:var(--red);color:#fff!important;padding:10px 20px;border-radius:6px;font-family:'Oswald',sans-serif;letter-spacing:.05em}
+.tel-btn:hover{background:var(--yellow);color:var(--ink)!important}
+.menu-toggle{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px}
+.menu-toggle span{width:26px;height:3px;background:var(--cream);border-radius:2px;transition:.3s}
+
+/* ====== HERO ====== */
+.hero{position:relative;height:100vh;min-height:620px;display:grid;place-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:120%;filter:brightness(.42) contrast(1.1) saturate(1.1);animation:slowzoom 22s ease-in-out infinite alternate}
+@keyframes slowzoom{from{transform:scale(1)}to{transform:scale(1.18)}}
+.hero-bg::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(120% 90% at 50% 30%,transparent 30%,rgba(10,10,10,.55) 80%),
+  linear-gradient(180deg,rgba(10,10,10,.5) 0%,transparent 30%,rgba(10,10,10,.85) 100%)}
+.hero-content{position:relative;z-index:3;text-align:center;width:100%;padding:0 18px}
+.hero-eyebrow{
+  display:inline-block;color:var(--yellow);font-family:'Oswald',sans-serif;
+  letter-spacing:.5em;font-size:13px;margin-bottom:6px;padding-left:.5em;
+  opacity:0;transform:translateY(20px);animation:fadeUp .7s cubic-bezier(.16,1,.3,1) .2s forwards;
+}
+.kinetic{display:flex;flex-direction:column;align-items:center;gap:0;line-height:.92}
+.kinetic .k1{
+  font-family:'Yuji Syuku',serif;font-size:clamp(64px,17vw,230px);color:var(--cream);
+  text-shadow:0 0 40px rgba(0,0,0,.6);letter-spacing:.04em;
+  opacity:0;transform:translateX(-12%) scale(.8);
+  animation:slideScaleIn .7s cubic-bezier(.16,1,.3,1) .35s forwards;
+}
+.kinetic .k2{
+  font-family:'RocknRoll One',sans-serif;font-size:clamp(30px,7vw,96px);
+  color:var(--red);letter-spacing:.1em;margin-top:-.08em;
+  -webkit-text-stroke:1px rgba(245,197,24,.0);
+  opacity:0;transform:translateX(14%) scale(.85);
+  animation:slideScaleIn .65s cubic-bezier(.16,1,.3,1) .55s forwards;
+}
+.hero-sub{
+  margin-top:22px;font-size:clamp(14px,2vw,18px);font-weight:700;letter-spacing:.08em;color:#d8d2c6;
+  opacity:0;transform:translateY(24px);animation:fadeUp .7s cubic-bezier(.16,1,.3,1) .8s forwards;
+}
+.hero-tags{
+  margin-top:26px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  opacity:0;transform:translateY(24px);animation:fadeUp .7s cubic-bezier(.16,1,.3,1) .95s forwards;
+}
+.hero-tags span{
+  border:2px solid rgba(244,241,234,.3);padding:7px 16px;border-radius:30px;
+  font-size:13px;font-weight:700;letter-spacing:.05em;backdrop-filter:blur(2px);
+}
+.hero-tags span:first-child{background:var(--red);border-color:var(--red)}
+@keyframes slideScaleIn{to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.scroll-cue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;color:#bdb7ab;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.3em;text-align:center;opacity:0;animation:fadeUp .7s ease 1.3s forwards}
+.scroll-cue .bar{width:1px;height:40px;background:linear-gradient(var(--yellow),transparent);margin:8px auto 0;animation:cuepulse 1.6s ease-in-out infinite}
+@keyframes cuepulse{0%,100%{transform:scaleY(.4);opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+/* steam */
+.steam{position:absolute;z-index:2;bottom:38%;width:14px;height:120px;border-radius:50%;
+  background:linear-gradient(transparent,rgba(255,255,255,.16),transparent);filter:blur(7px);opacity:0}
+.s1{left:42%;animation:steam 4.2s ease-in-out infinite}
+.s2{left:50%;height:160px;animation:steam 5s ease-in-out .6s infinite}
+.s3{left:58%;animation:steam 4.6s ease-in-out 1.1s infinite}
+@keyframes steam{0%{opacity:0;transform:translateY(20px) scaleX(.8)}30%{opacity:.7}100%{opacity:0;transform:translateY(-130px) scaleX(1.5) skewX(8deg)}}
+
+/* ====== SECTION BASICS ====== */
+section{position:relative}
+.wrap{max-width:1180px;margin:0 auto;padding:clamp(70px,11vw,140px) clamp(18px,5vw,40px)}
+.sec-head{margin-bottom:54px}
+.sec-kicker{display:inline-block;color:var(--red);font-family:'Oswald',sans-serif;letter-spacing:.4em;font-size:13px;margin-bottom:10px}
+.sec-title{font-family:'RocknRoll One',sans-serif;font-size:clamp(34px,6vw,72px);line-height:1.04;letter-spacing:.02em}
+.sec-title em{font-style:normal;color:var(--red)}
+.sec-lead{margin-top:18px;max-width:620px;color:#c9c3b7;font-size:15px}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(46px);transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.left{transform:translateX(-70px)}
+.reveal.right{transform:translateX(70px)}
+.reveal.left.in,.reveal.right.in{transform:none}
+[data-delay="1"]{transition-delay:.08s}
+[data-delay="2"]{transition-delay:.16s}
+[data-delay="3"]{transition-delay:.24s}
+
+/* ====== KODAWARI ====== */
+.kodawari{background:
+  linear-gradient(180deg,#0a0a0a,#111 50%,#0a0a0a);}
+.kdwr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.kdwr-card{
+  position:relative;border-radius:14px;overflow:hidden;min-height:440px;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  border:1px solid #232323;
+}
+.kdwr-card .ph{position:absolute;inset:0;z-index:0}
+.kdwr-card .ph img{width:100%;height:100%;transition:transform .7s cubic-bezier(.22,1,.36,1);filter:brightness(.6)}
+.kdwr-card:hover .ph img{transform:scale(1.1)}
+.kdwr-card::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(transparent 30%,rgba(10,10,10,.95))}
+.kdwr-card .body{position:relative;z-index:2;padding:30px}
+.kdwr-card .no{font-family:'Oswald',sans-serif;font-size:14px;color:var(--yellow);letter-spacing:.3em}
+.kdwr-card h3{font-family:'RocknRoll One',sans-serif;font-size:30px;margin:8px 0 10px;letter-spacing:.02em}
+.kdwr-card h3 b{color:var(--red)}
+.kdwr-card p{font-size:14px;color:#cfc9bd}
+
+/* ====== MARQUEE ====== */
+.marquee-band{background:var(--red);padding:0;overflow:hidden;border-top:4px solid var(--yellow);border-bottom:4px solid var(--yellow)}
+.marquee{display:flex;white-space:nowrap;will-change:transform}
+.marquee.row1{animation:scrollL 24s linear infinite}
+.marquee.row2{animation:scrollR 28s linear infinite}
+.marquee span{
+  font-family:'Reggae One',sans-serif;font-size:clamp(40px,8vw,96px);
+  color:#0a0a0a;padding:14px 28px;display:inline-block;letter-spacing:.02em;
+}
+.marquee span:nth-child(even){color:transparent;-webkit-text-stroke:2px #0a0a0a}
+.row2-wrap{background:#0a0a0a;border-top:4px solid var(--yellow);overflow:hidden}
+.marquee.row2 span{color:var(--yellow)}
+.marquee.row2 span:nth-child(even){color:transparent;-webkit-text-stroke:2px var(--yellow)}
+@keyframes scrollL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes scrollR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+
+/* ====== MENU ====== */
+.menu{background:#0a0a0a;position:relative}
+.menu::before{content:"麺";position:absolute;top:6%;right:-2%;font-family:'Yuji Syuku',serif;font-size:clamp(200px,40vw,560px);color:rgba(224,40,46,.05);z-index:0;pointer-events:none;line-height:1}
+.menu .wrap{position:relative;z-index:1}
+.menu-list{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:10px}
+.dish{
+  position:relative;border-radius:14px;overflow:hidden;border:1px solid #242424;
+  background:#121212;min-height:320px;display:flex;align-items:flex-end;
+}
+.dish .ph{position:absolute;inset:0;z-index:0;overflow:hidden}
+.dish .ph img{width:100%;height:100%;transition:transform .8s cubic-bezier(.22,1,.36,1);filter:brightness(.78)}
+.dish:hover .ph img{transform:scale(1.13)}
+.dish::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(80deg,rgba(10,10,10,.9) 10%,transparent 70%)}
+.dish .info{position:relative;z-index:2;padding:28px;width:100%}
+.dish .badge{display:inline-block;background:var(--yellow);color:var(--ink);font-size:11px;font-weight:900;padding:4px 11px;border-radius:4px;letter-spacing:.06em;margin-bottom:12px}
+.dish .badge.limited{background:var(--red);color:#fff}
+.dish h3{font-family:'RocknRoll One',sans-serif;font-size:27px;letter-spacing:.02em}
+.dish .ja{font-size:13px;color:#c9c3b7;margin:4px 0 14px}
+.dish .price{font-family:'Oswald',sans-serif;font-weight:700;font-size:32px;color:var(--yellow)}
+.dish .price small{font-size:15px;color:#cfc9bd;font-weight:500}
+
+.topbar{margin-top:34px;background:#121212;border:1px solid #242424;border-radius:14px;padding:30px;display:grid;grid-template-columns:1.2fr 2fr;gap:30px;align-items:center}
+.topbar h4{font-family:'RocknRoll One',sans-serif;font-size:24px}
+.topbar h4 b{color:var(--red)}
+.topbar p{font-size:13px;color:#c9c3b7;margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:flex;align-items:center;gap:8px;background:#1c1c1c;border:1px solid #2c2c2c;border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700}
+.chip b{font-family:'Oswald',sans-serif;color:var(--yellow);font-size:17px}
+
+/* ====== STATS ====== */
+.stats{background:linear-gradient(180deg,#0a0a0a,#140607);border-top:1px solid #222}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+.stat .v{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(46px,8vw,82px);line-height:1;color:var(--cream)}
+.stat .v .u{color:var(--red);font-size:.5em;margin-left:4px}
+.stat .l{margin-top:10px;font-size:13px;color:#c9c3b7;letter-spacing:.04em}
+.stat .k{font-family:'Oswald',sans-serif;color:var(--yellow);font-size:11px;letter-spacing:.3em;margin-bottom:6px}
+
+/* ====== ATMOSPHERE ====== */
+.atmo{background:#0a0a0a;overflow:hidden}
+.atmo-grid{display:grid;grid-template-columns:1.4fr 1fr;grid-template-rows:1fr 1fr;gap:16px;height:560px}
+.atmo-grid figure{position:relative;border-radius:12px;overflow:hidden;border:1px solid #232323}
+.atmo-grid figure:first-child{grid-row:1 / span 2}
+.atmo-grid img{width:100%;height:100%;transition:transform .9s cubic-bezier(.22,1,.36,1);filter:brightness(.72)}
+.atmo-grid figure:hover img{transform:scale(1.08)}
+.atmo-grid figcaption{position:absolute;left:0;bottom:0;z-index:2;padding:18px;font-family:'Yuji Syuku',serif;font-size:20px;text-shadow:0 2px 8px #000}
+.atmo-grid figure::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(10,10,10,.8))}
+
+/* ====== ACCESS ====== */
+.access{background:linear-gradient(180deg,#0a0a0a,#101010);border-top:1px solid #222}
+.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.info-card{background:#131313;border:1px solid #242424;border-radius:14px;padding:34px}
+.info-card h3{font-family:'RocknRoll One',sans-serif;font-size:26px;margin-bottom:20px}
+.info-row{display:flex;gap:16px;padding:14px 0;border-bottom:1px dashed #2a2a2a}
+.info-row:last-child{border-bottom:0}
+.info-row .lbl{flex:0 0 92px;color:var(--yellow);font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:.12em;padding-top:2px}
+.info-row .val{font-size:14.5px;color:#e3ddd1}
+.info-row .val b{color:#fff}
+.hours-table{width:100%;border-collapse:collapse;font-size:14px}
+.hours-table td{padding:9px 0;border-bottom:1px dashed #2a2a2a}
+.hours-table td:last-child{text-align:right;font-family:'Oswald',sans-serif;color:#e3ddd1}
+.hours-table .off td:last-child{color:var(--red)}
+.pay{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.pay span{background:#1c1c1c;border:1px solid #2c2c2c;border-radius:6px;padding:7px 13px;font-size:12.5px;font-weight:700}
+.map{margin-top:20px;border-radius:12px;overflow:hidden;border:1px solid #242424;height:200px;position:relative}
+.map img{width:100%;height:100%;filter:grayscale(.4) brightness(.7) contrast(1.1)}
+.map .pin{position:absolute;inset:0;display:grid;place-items:center;flex-direction:column;color:#fff;text-align:center}
+.map .pin .dot{width:18px;height:18px;border-radius:50%;background:var(--red);margin:0 auto 8px;box-shadow:0 0 0 8px rgba(224,40,46,.25);animation:cuepulse 1.8s ease-in-out infinite}
+.map .pin span{font-family:'Yuji Syuku',serif;text-shadow:0 2px 6px #000}
+
+/* ====== CTA ====== */
+.cta{position:relative;overflow:hidden;text-align:center;background:var(--red)}
+.cta .bg{position:absolute;inset:0;z-index:0}
+.cta .bg img{width:100%;height:130%;filter:brightness(.32) saturate(1.2)}
+.cta .wrap{position:relative;z-index:2}
+.cta h2{font-family:'Yuji Syuku',serif;font-size:clamp(40px,8vw,104px);line-height:1.05;letter-spacing:.04em}
+.cta p{margin:18px auto 32px;max-width:520px;font-size:16px;font-weight:700;color:#f4f1ea}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:17px 34px;border-radius:8px;font-weight:900;font-size:16px;text-decoration:none;letter-spacing:.04em;transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s}
+.btn-tel{background:var(--yellow);color:var(--ink);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.btn-tel:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 40px rgba(0,0,0,.5)}
+.btn-line{background:#0a0a0a;color:#fff;border:2px solid #0a0a0a}
+.btn-line:hover{transform:translateY(-4px) scale(1.03)}
+.btn .tnum{font-family:'Oswald',sans-serif;font-size:21px}
+
+/* ====== FOOTER ====== */
+footer{background:#070707;border-top:3px solid var(--red);padding:60px clamp(18px,5vw,40px) 30px}
+.foot-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}
+.foot-brand .stamp{width:54px;height:54px;background:var(--red);border-radius:8px;display:grid;place-items:center;font-family:'Yuji Syuku',serif;font-size:30px;color:#fff;transform:rotate(-4deg);margin-bottom:16px}
+.foot-brand h4{font-family:'RocknRoll One',sans-serif;font-size:24px;letter-spacing:.04em}
+.foot-brand p{margin-top:10px;font-size:13px;color:#9a948a;max-width:340px}
+.foot-col h5{font-family:'Oswald',sans-serif;color:var(--yellow);letter-spacing:.2em;font-size:13px;margin-bottom:16px}
+.foot-col a,.foot-col p{display:block;color:#bdb7ab;text-decoration:none;font-size:13.5px;margin-bottom:10px;transition:color .3s}
+.foot-col a:hover{color:var(--red)}
+.foot-bottom{max-width:1180px;margin:40px auto 0;padding-top:22px;border-top:1px solid #1c1c1c;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:#6f6a61}
+
+/* ====== RESPONSIVE ====== */
+@media(max-width:920px){
+  nav{position:fixed;top:0;right:0;height:100vh;width:74%;max-width:320px;background:#0d0d0d;
+    flex-direction:column;justify-content:center;gap:28px;transform:translateX(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);border-left:3px solid var(--red);z-index:99}
+  nav.open{transform:translateX(0)}
+  nav a{font-size:18px}
+  .menu-toggle{display:flex;z-index:101}
+  .kdwr-grid{grid-template-columns:1fr;gap:18px}
+  .kdwr-card{min-height:340px}
+  .menu-list{grid-template-columns:1fr}
+  .topbar{grid-template-columns:1fr;gap:20px}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:34px 20px}
+  .atmo-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;height:auto}
+  .atmo-grid figure:first-child{grid-row:auto;grid-column:1 / span 2;height:300px}
+  .atmo-grid figure{height:200px}
+  .access-grid{grid-template-columns:1fr;gap:24px}
+  .foot-grid{grid-template-columns:1fr;gap:30px}
+}
+@media(max-width:520px){
+  .atmo-grid{grid-template-columns:1fr}
+  .atmo-grid figure:first-child{grid-column:auto;height:240px}
+}
+</style>
+</head>
+<body>
+
+<header id="header">
+  <a href="#top" class="logo">
+    <div class="stamp">轟</div>
+    <div class="lt"><b>麺屋 轟</b><span>MENYA TODOROKI</span></div>
+  </a>
+  <nav id="nav">
+    <a href="#kodawari" class="nav-link">こだわり</a>
+    <a href="#menu" class="nav-link">メニュー</a>
+    <a href="#atmo" class="nav-link">店内</a>
+    <a href="#access" class="nav-link">アクセス</a>
+    <a href="tel:0300000000" class="tel-btn nav-link">03-0000-0000</a>
+  </nav>
+  <button class="menu-toggle" id="toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg"><img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=1600&auto=format&fit=crop" alt="濃厚豚骨醤油ラーメン"></div>
+  <div class="steam s1"></div><div class="steam s2"></div><div class="steam s3"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">TAKADANOBABA &mdash; SINCE 2014</span>
+    <div class="kinetic">
+      <span class="k1">麺屋 轟</span>
+      <span class="k2">濃厚豚骨醤油</span>
+    </div>
+    <p class="hero-sub">一杯に、全部のせる。高田馬場の路地裏から響く、轟音のような一杯。</p>
+    <div class="hero-tags"><span>券売機制</span><span>替え玉あり</span><span>限定麺</span><span>鶏白湯</span></div>
+  </div>
+  <div class="scroll-cue">SCROLL<div class="bar"></div></div>
+</section>
+
+<!-- KODAWARI -->
+<section class="kodawari" id="kodawari">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-kicker">OUR CRAFT</span>
+      <h2 class="sec-title">妥協なき、<em>三本柱</em>。</h2>
+      <p class="sec-lead">スープ、麺、チャーシュー。どれか一つでも欠ければ、轟の一杯にはならない。毎朝の仕込みから、すべてを店内で。</p>
+    </div>
+    <div class="kdwr-grid">
+      <article class="kdwr-card reveal" data-delay="1">
+        <div class="ph"><img src="https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?q=80&w=1600&auto=format&fit=crop" alt="豚骨スープ"></div>
+        <div class="body">
+          <span class="no">No.01 &mdash; SOUP</span>
+          <h3><b>豚骨</b>を、炊き切る。</h3>
+          <p>国産豚の頭骨とゲンコツを大寸胴で長時間。強火を絶やさず、白濁する濃厚スープを炊き上げる。臭みを抜いた、芯のある一杯。</p>
+        </div>
+      </article>
+      <article class="kdwr-card reveal" data-delay="2">
+        <div class="ph"><img src="https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=80&w=1600&auto=format&fit=crop" alt="自家製麺"></div>
+        <div class="body">
+          <span class="no">No.02 &mdash; NOODLE</span>
+          <h3>自家製<b>麺</b>、加水。</h3>
+          <p>濃厚スープに負けない、もっちりとした中加水のオリジナル麺。小麦の香りとコシを両立し、替え玉まで飽きさせない。</p>
+        </div>
+      </article>
+      <article class="kdwr-card reveal" data-delay="3">
+        <div class="ph"><img src="https://images.unsplash.com/photo-1582450871972-ab5ca641643d?q=80&w=1600&auto=format&fit=crop" alt="チャーシュー"></div>
+        <div class="body">
+          <span class="no">No.03 &mdash; CHASHU</span>
+          <h3>とろける<b>叉焼</b>。</h3>
+          <p>低温でじっくり火入れした肩ロースと、香ばしく炙ったバラ。口の中でほどける旨みを、丼いっぱいに。</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-band">
+  <div class="row1-wrap">
+    <div class="marquee row1">
+      <span>豚骨</span><span>鶏白湯</span><span>替え玉</span><span>濃厚醤油</span><span>限定麺</span><span>つけ麺</span>
+      <span>豚骨</span><span>鶏白湯</span><span>替え玉</span><span>濃厚醤油</span><span>限定麺</span><span>つけ麺</span>
+    </div>
+  </div>
+  <div class="row2-wrap">
+    <div class="marquee row2">
+      <span>TODOROKI</span><span>RAMEN</span><span>高田馬場</span><span>SINCE 2014</span><span>麺屋 轟</span><span>替え玉無料</span>
+      <span>TODOROKI</span><span>RAMEN</span><span>高田馬場</span><span>SINCE 2014</span><span>麺屋 轟</span><span>替え玉無料</span>
+    </div>
+  </div>
+</div>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-kicker">MENU</span>
+      <h2 class="sec-title">看板の、<em>一杯</em>。</h2>
+      <p class="sec-lead">券売機で食券をご購入のうえ、お席へ。お好みでトッピング・替え玉をどうぞ。</p>
+    </div>
+    <div class="menu-list">
+      <article class="dish reveal left">
+        <div class="ph"><img src="https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?q=80&w=1600&auto=format&fit=crop" alt="濃厚豚骨醤油ラーメン"></div>
+        <div class="info">
+          <span class="badge">看板</span>
+          <h3>濃厚豚骨醤油</h3>
+          <p class="ja">轟の原点。白濁スープに醤油ダレを合わせた一杯。</p>
+          <p class="price">¥980 <small>(税込)</small></p>
+        </div>
+      </article>
+      <article class="dish reveal right">
+        <div class="ph"><img src="https://images.unsplash.com/photo-1626804475297-41608ea09aeb?q=80&w=1600&auto=format&fit=crop" alt="鶏白湯ラーメン"></div>
+        <div class="info">
+          <span class="badge">人気</span>
+          <h3>鶏白湯</h3>
+          <p class="ja">鶏の旨みを凝縮した、まろやかでクリーミーな一杯。</p>
+          <p class="price">¥1,050 <small>(税込)</small></p>
+        </div>
+      </article>
+      <article class="dish reveal left">
+        <div class="ph"><img src="https://images.unsplash.com/photo-1576867757603-05b134ebc379?q=80&w=1600&auto=format&fit=crop" alt="特製つけ麺"></div>
+        <div class="info">
+          <span class="badge">ボリューム</span>
+          <h3>特製つけ麺</h3>
+          <p class="ja">超濃厚つけ汁に、コシの強い極太麺をくぐらせて。</p>
+          <p class="price">¥1,180 <small>(税込)</small></p>
+        </div>
+      </article>
+      <article class="dish reveal right">
+        <div class="ph"><img src="https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?q=80&w=1600&auto=format&fit=crop" alt="今月の限定麺"></div>
+        <div class="info">
+          <span class="badge limited">数量限定</span>
+          <h3>月替わり限定</h3>
+          <p class="ja">店主の気まぐれで仕込む、今月だけの一杯。無くなり次第終了。</p>
+          <p class="price">¥1,200 <small>(税込)</small></p>
+        </div>
+      </article>
+    </div>
+
+    <div class="topbar reveal">
+      <div>
+        <h4>トッピング & <b>替え玉</b></h4>
+        <p>あなただけの一杯にカスタマイズ。替え玉は券売機の食券をカウンターへ。</p>
+      </div>
+      <div class="chips">
+        <div class="chip">替え玉 <b>¥150</b></div>
+        <div class="chip">味玉 <b>¥120</b></div>
+        <div class="chip">チャーシュー増 <b>¥300</b></div>
+        <div class="chip">のり <b>¥100</b></div>
+        <div class="chip">ねぎ増し <b>¥120</b></div>
+        <div class="chip">メンマ <b>¥120</b></div>
+        <div class="chip">辛味 <b>¥80</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:40px">
+      <span class="sec-kicker">NUMBERS</span>
+      <h2 class="sec-title">数字で見る、<em>轟</em>。</h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat reveal" data-delay="1">
+        <div class="k">SINCE</div>
+        <div class="v"><span class="count" data-to="11">0</span><span class="u">年</span></div>
+        <div class="l">高田馬場で営業を続けて</div>
+      </div>
+      <div class="stat reveal" data-delay="2">
+        <div class="k">SOUP</div>
+        <div class="v"><span class="count" data-to="12">0</span><span class="u">h+</span></div>
+        <div class="l">豚骨スープの炊き込み時間</div>
+      </div>
+      <div class="stat reveal" data-delay="3">
+        <div class="k">NOODLE</div>
+        <div class="v"><span class="count" data-to="35">0</span><span class="u">%</span></div>
+        <div class="l">自家製麺のおおよその加水率</div>
+      </div>
+      <div class="stat reveal" data-delay="3">
+        <div class="k">SEATS</div>
+        <div class="v"><span class="count" data-to="14">0</span><span class="u">席</span></div>
+        <div class="l">カウンター中心の店内</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ATMOSPHERE -->
+<section class="atmo" id="atmo">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-kicker">ATMOSPHERE</span>
+      <h2 class="sec-title">熱気の、<em>カウンター</em>。</h2>
+      <p class="sec-lead">湯気と活気に包まれた店内。一人でも、ふらりと。並んだ先にある一杯のために。</p>
+    </div>
+    <div class="atmo-grid reveal">
+      <figure><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1600&auto=format&fit=crop" alt="活気ある店内">
+        <figcaption>湯気あがる厨房</figcaption></figure>
+      <figure><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1600&auto=format&fit=crop" alt="カウンター席">
+        <figcaption>カウンター</figcaption></figure>
+      <figure><img src="https://images.unsplash.com/photo-1481931098730-318b6f776db0?q=80&w=1600&auto=format&fit=crop" alt="夜の暖簾">
+        <figcaption>路地裏の暖簾</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESS -->
+<section class="access" id="access">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-kicker">ACCESS</span>
+      <h2 class="sec-title">店舗 <em>情報</em>。</h2>
+    </div>
+    <div class="access-grid">
+      <div class="info-card reveal left">
+        <h3>麺屋 轟</h3>
+        <div class="info-row"><div class="lbl">ADDRESS</div><div class="val"><b>東京都新宿区高田馬場0-0-0</b><br>轟ビル 1F</div></div>
+        <div class="info-row"><div class="lbl">ACCESS</div><div class="val">JR山手線・西武新宿線・東京メトロ東西線<br>「高田馬場駅」早稲田口より徒歩4分</div></div>
+        <div class="info-row"><div class="lbl">TEL</div><div class="val"><b>03-0000-0000</b></div></div>
+        <div class="info-row"><div class="lbl">SYSTEM</div><div class="val">券売機制(入口にて先に食券をご購入ください)</div></div>
+        <div class="pay">
+          <span>現金</span><span>QRコード決済</span><span>交通系IC</span><span>クレジットカード</span>
+        </div>
+        <div class="map">
+          <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=1600&auto=format&fit=crop" alt="エリアマップ">
+          <div class="pin"><div><div class="dot"></div><span>麺屋 轟</span></div></div>
+        </div>
+      </div>
+      <div class="info-card reveal right">
+        <h3>営業時間</h3>
+        <table class="hours-table">
+          <tr><td>月</td><td>11:00 &ndash; 15:00 / 18:00 &ndash; 23:00</td></tr>
+          <tr><td>火</td><td>11:00 &ndash; 15:00 / 18:00 &ndash; 23:00</td></tr>
+          <tr class="off"><td>水</td><td>定休日</td></tr>
+          <tr><td>木</td><td>11:00 &ndash; 15:00 / 18:00 &ndash; 23:00</td></tr>
+          <tr><td>金</td><td>11:00 &ndash; 15:00 / 18:00 &ndash; 24:00</td></tr>
+          <tr><td>土</td><td>11:00 &ndash; 24:00</td></tr>
+          <tr><td>日</td><td>11:00 &ndash; 22:00</td></tr>
+        </table>
+        <p style="font-size:13px;color:#c9c3b7;margin-top:18px;">※ スープが無くなり次第、閉店とさせていただく場合がございます。<br>※ 限定麺は数量限定のため、売り切れの際はご容赦ください。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="bg"><img src="https://images.unsplash.com/photo-1591814468924-caf88d1232e1?q=80&w=1600&auto=format&fit=crop" alt="ラーメン"></div>
+  <div class="wrap">
+    <h2 class="reveal">さあ、轟こう。</h2>
+    <p class="reveal" data-delay="1">行列の混雑状況は、お電話または並び状況のチェックから。一杯の感動を、ぜひ店で。</p>
+    <div class="cta-btns reveal" data-delay="2">
+      <a href="tel:0300000000" class="btn btn-tel">電話する <span class="tnum">03-0000-0000</span></a>
+      <a href="#" class="btn btn-line">並びを確認する</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="stamp">轟</div>
+      <h4>麺屋 轟</h4>
+      <p>東京・高田馬場。濃厚豚骨醤油と鶏白湯のラーメン専門店。一杯に、全部のせて。轟音のような一杯を、あなたに。</p>
+    </div>
+    <div class="foot-col">
+      <h5>MENU</h5>
+      <a href="#kodawari">こだわり</a>
+      <a href="#menu">ラーメン</a>
+      <a href="#menu">トッピング・替え玉</a>
+      <a href="#atmo">店内の様子</a>
+    </div>
+    <div class="foot-col">
+      <h5>INFO</h5>
+      <p>東京都新宿区高田馬場0-0-0</p>
+      <a href="tel:0300000000">03-0000-0000</a>
+      <p>水曜定休 / 11:00&ndash;</p>
+      <a href="#access">アクセス</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>&copy; 2026 麺屋 轟 TODOROKI. All rights reserved.</span>
+    <span>高田馬場 / RAMEN &amp; 町中華</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var header=document.getElementById('header');
+  var toggle=document.getElementById('toggle');
+  var nav=document.getElementById('nav');
+
+  function onScroll(){
+    if(window.scrollY>60)header.classList.add('solid');
+    else header.classList.remove('solid');
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+
+  toggle.addEventListener('click',function(){nav.classList.toggle('open');});
+  document.querySelectorAll('.nav-link').forEach(function(a){
+    a.addEventListener('click',function(){nav.classList.remove('open');});
+  });
+
+  // reveal
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{threshold:.16});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+
+  // count up
+  function animateCount(el){
+    var to=parseInt(el.getAttribute('data-to'),10);
+    var dur=1100,start=null;
+    function step(ts){
+      if(start===null)start=ts;
+      var p=Math.min((ts-start)/dur,1);
+      var eased=1-Math.pow(1-p,3);
+      el.textContent=Math.round(eased*to);
+      if(p<1)requestAnimationFrame(step);
+      else el.textContent=to;
+    }
+    requestAnimationFrame(step);
+  }
+  var co=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){animateCount(e.target);co.unobserve(e.target);}
+    });
+  },{threshold:.6});
+  document.querySelectorAll('.count').forEach(function(el){co.observe(el);});
+
+  // parallax steam + hero bg via rAF
+  var ctaBg=document.querySelector('.cta .bg img');
+  var steams=document.querySelectorAll('.steam');
+  var ticking=false,lastY=0;
+  function update(){
+    var y=lastY;
+    steams.forEach(function(s,i){s.style.marginTop=(y*(0.05+i*0.03))+'px';});
+    var cta=document.querySelector('.cta');
+    if(ctaBg&&cta){
+      var rect=cta.getBoundingClientRect();
+      var off=(rect.top-window.innerHeight)*-0.06;
+      ctaBg.style.transform='translateY('+off+'px)';
+    }
+    ticking=false;
+  }
+  window.addEventListener('scroll',function(){
+    lastY=window.scrollY;
+    if(!ticking){requestAnimationFrame(update);ticking=true;}
+  },{passive:true});
+  update();
+})();
+</script>
+</body>
+</html>
