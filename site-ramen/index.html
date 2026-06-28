@@ -246,6 +246,22 @@ section{position:relative}
 .btn-line:hover{transform:translateY(-4px) scale(1.03)}
 .btn .tnum{font-family:'Oswald',sans-serif;font-size:21px}
 
+/* quick booker */
+.quickbook{max-width:760px;margin:0 auto 30px;background:rgba(10,10,10,.86);border:2px solid #0a0a0a;border-radius:16px;padding:22px clamp(18px,3vw,26px);box-shadow:0 18px 50px rgba(0,0,0,.4);backdrop-filter:blur(3px)}
+.qb-kicker{font-family:'Oswald',sans-serif;letter-spacing:.22em;font-size:12px;color:var(--yellow);margin-bottom:14px}
+.qb-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.2fr auto;gap:12px;align-items:end}
+.qb-fld{display:flex;flex-direction:column;gap:6px;text-align:left}
+.qb-fld>span{font-size:11px;font-weight:700;letter-spacing:.06em;color:#c9c3b7}
+.qb-fld select{appearance:none;width:100%;background:#161616;border:1px solid #2c2c2c;border-radius:9px;color:var(--cream);font-family:inherit;font-size:14px;font-weight:700;padding:11px 12px;cursor:pointer;transition:.15s}
+.qb-fld select:hover{border-color:var(--yellow)}
+.qb-fld select:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(224,40,46,.2)}
+.qb-go{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;background:var(--yellow);color:var(--ink);font-weight:900;font-size:15px;letter-spacing:.02em;padding:12px 22px;border-radius:9px;text-decoration:none;transition:transform .2s cubic-bezier(.16,1,.3,1),box-shadow .2s;box-shadow:0 8px 22px rgba(245,197,24,.3)}
+.qb-go:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 12px 30px rgba(245,197,24,.42)}
+@media(max-width:760px){
+  .qb-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .qb-go{grid-column:1 / -1;padding:14px}
+}
+
 /* ====== FOOTER ====== */
 footer{background:#070707;border-top:3px solid var(--red);padding:60px clamp(18px,5vw,40px) 30px}
 .foot-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}
@@ -293,6 +309,7 @@ footer{background:#070707;border-top:3px solid var(--red);padding:60px clamp(18p
     <a href="#menu" class="nav-link">メニュー</a>
     <a href="#atmo" class="nav-link">店内</a>
     <a href="#access" class="nav-link">アクセス</a>
+    <a href="reserve.html" class="nav-link">宴会予約</a>
     <a href="tel:0300000000" class="tel-btn nav-link">03-0000-0000</a>
   </nav>
   <button class="menu-toggle" id="toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
@@ -527,10 +544,29 @@ footer{background:#070707;border-top:3px solid var(--red);padding:60px clamp(18p
   <div class="bg"><img src="https://images.unsplash.com/photo-1591814468924-caf88d1232e1?q=80&w=1600&auto=format&fit=crop" alt="ラーメン"></div>
   <div class="wrap">
     <h2 class="reveal">さあ、轟こう。</h2>
-    <p class="reveal" data-delay="1">行列の混雑状況は、お電話または並び状況のチェックから。一杯の感動を、ぜひ店で。</p>
-    <div class="cta-btns reveal" data-delay="2">
+    <p class="reveal" data-delay="1">歓送迎会・宴会・団体のお席は、ネットで24時間かんたん予約。ラーメン1杯はもちろん予約不要、並んでどうぞ。</p>
+
+    <div class="quickbook reveal" data-delay="2">
+      <div class="qb-kicker">QUICK RESERVATION &mdash; 宴会・団体席</div>
+      <div class="qb-grid">
+        <label class="qb-fld"><span>日付</span><select id="qbDate"></select></label>
+        <label class="qb-fld"><span>時間</span><select id="qbTime"></select></label>
+        <label class="qb-fld"><span>人数</span><select id="qbParty"></select></label>
+        <label class="qb-fld"><span>お席</span>
+          <select id="qbSeat">
+            <option value="おまかせ">おまかせ</option>
+            <option value="テーブル">テーブル</option>
+            <option value="カウンター">カウンター</option>
+            <option value="座敷（団体）">座敷（団体）</option>
+          </select>
+        </label>
+        <a id="qbGo" class="qb-go" href="reserve.html">空席を見て進む →</a>
+      </div>
+    </div>
+
+    <div class="cta-btns reveal" data-delay="3">
       <a href="tel:0300000000" class="btn btn-tel">電話する <span class="tnum">03-0000-0000</span></a>
-      <a href="#" class="btn btn-line">並びを確認する</a>
+      <a href="reserve.html" class="btn btn-line">宴会席を予約する</a>
     </div>
   </div>
 </section>
@@ -631,6 +667,37 @@ footer{background:#070707;border-top:3px solid var(--red);padding:60px clamp(18p
     if(!ticking){requestAnimationFrame(update);ticking=true;}
   },{passive:true});
   update();
+
+  // ===== quick booker (top-page) =====
+  var DOW=['日','月','火','水','木','金','土'];
+  var base=new Date();base.setHours(0,0,0,0);
+  var TIMES=['11:30','12:00','12:30','13:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00'];
+  var qbDate=document.getElementById('qbDate');
+  var qbTime=document.getElementById('qbTime');
+  var qbParty=document.getElementById('qbParty');
+  var qbSeat=document.getElementById('qbSeat');
+  var qbGo=document.getElementById('qbGo');
+  if(qbDate&&qbGo){
+    var added=0,off=0;
+    while(added<21&&off<40){
+      var d=new Date(base.getFullYear(),base.getMonth(),base.getDate()+off);off++;
+      if(d.getDay()===3)continue; // 水曜定休
+      var v=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+      var o=document.createElement('option');
+      o.value=v;o.textContent=(d.getMonth()+1)+'/'+d.getDate()+'('+DOW[d.getDay()]+')';
+      qbDate.appendChild(o);added++;
+    }
+    TIMES.forEach(function(t){var o=document.createElement('option');o.value=t;o.textContent=t;qbTime.appendChild(o);});
+    qbTime.value='18:00';
+    for(var n=2;n<=20;n++){var o=document.createElement('option');o.value=n;o.textContent=n+'名';qbParty.appendChild(o);}
+    qbParty.value='4';
+    function buildUrl(){
+      var p=new URLSearchParams({date:qbDate.value,time:qbTime.value,party:qbParty.value,seat:qbSeat.value});
+      qbGo.href='reserve.html?'+p.toString();
+    }
+    [qbDate,qbTime,qbParty,qbSeat].forEach(function(el){el.addEventListener('change',buildUrl);});
+    buildUrl();
+  }
 })();
 </script>
 </body>

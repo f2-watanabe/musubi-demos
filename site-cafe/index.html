@@ -177,6 +177,19 @@ footer a:hover{color:#fff}
 .foot-links{display:flex;gap:26px;flex-wrap:wrap}
 .copy{border-top:1px solid rgba(255,255,255,.14);padding-top:22px;font-size:.78rem;color:rgba(255,255,255,.55)}
 
+.quickbar{margin-top:-60px;position:relative;z-index:6;padding:0 0 90px}
+.qb-card{background:#fff;border-radius:34px;box-shadow:0 26px 60px rgba(122,86,64,.2);padding:26px clamp(20px,3vw,34px);display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.qb-head{flex:1 1 100%;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.qb-head .tag{margin:0}
+.qb-head b{font-family:"Baloo 2";font-weight:800;color:var(--milk-brown-d);font-size:1.05rem}
+.qb-field{display:flex;flex-direction:column;gap:7px;flex:1 1 130px}
+.qb-field label{font-size:.74rem;font-weight:700;letter-spacing:.04em;color:var(--milk-brown)}
+.qb-field input,.qb-field select{font-family:inherit;font-weight:600;font-size:.95rem;color:var(--ink);background:var(--cream);border:1px solid var(--line);border-radius:50px;padding:13px 16px;transition:.2s var(--ease-pop)}
+.qb-field input:focus,.qb-field select:focus{outline:none;border-color:var(--terracotta);box-shadow:0 0 0 3px rgba(217,140,106,.16)}
+.qb-go{flex:1 1 150px;background:var(--terracotta);color:#fff;font-family:"Baloo 2";font-weight:700;font-size:1rem;padding:15px 24px;border-radius:50px;border:0;cursor:pointer;box-shadow:0 8px 0 rgba(93,64,48,.3);transition:transform .35s var(--ease-pop),box-shadow .35s}
+.qb-go:hover{transform:translateY(-3px) rotate(-1deg);box-shadow:0 11px 0 rgba(93,64,48,.26)}
+@media(max-width:680px){.quickbar{margin-top:-30px}.qb-field,.qb-go{flex:1 1 100%}}
+
 @media(max-width:860px){
   nav{position:fixed;inset:0 0 0 auto;width:74vw;max-width:320px;flex-direction:column;justify-content:center;background:var(--cream);box-shadow:-20px 0 60px rgba(122,86,64,.2);transform:translateX(100%);transition:transform .5s var(--ease-pop);gap:30px;z-index:120}
   nav.open{transform:none}
@@ -203,7 +216,7 @@ footer a:hover{color:#fff}
     <a href="#menu">メニュー</a>
     <a href="#gallery">ギャラリー</a>
     <a href="#access">アクセス</a>
-    <a href="#" class="nav-cta">テイクアウト予約</a>
+    <a href="reserve.html" class="nav-cta">ネット予約</a>
   </nav>
   <button class="burger" id="burger" aria-label="メニュー"><span></span><span></span><span></span></button>
 </header>
@@ -226,7 +239,7 @@ footer a:hover{color:#fff}
     <p class="lead">焼きたてのパンと、ていねいに淹れた一杯。朝8時から、ゆっくり過ごせるカフェです。</p>
     <div class="hero-btns">
       <a href="#menu" class="btn btn-primary">メニューを見る ☕</a>
-      <a href="#" class="btn btn-ghost">テイクアウト予約 🥐</a>
+      <a href="reserve.html" class="btn btn-ghost">ネット予約 🥐</a>
     </div>
   </div>
 
@@ -243,6 +256,48 @@ footer a:hover{color:#fff}
   </div>
 
   <div class="scroll-hint"><span>SCROLL</span><span class="line"></span></div>
+</section>
+
+<!-- ===== QUICK BOOK ===== -->
+<section class="quickbar">
+  <div class="wrap">
+    <div class="qb-card reveal">
+      <div class="qb-head">
+        <span class="tag">Quick Reserve</span>
+        <b>かんたんネット予約 — 空席を見ながら24時間OK</b>
+      </div>
+      <div class="qb-field">
+        <label for="qbDate">日付</label>
+        <input type="date" id="qbDate">
+      </div>
+      <div class="qb-field">
+        <label for="qbTime">時間</label>
+        <select id="qbTime">
+          <option value="">指定なし</option>
+          <option>08:00</option><option>09:00</option><option>10:00</option>
+          <option selected>11:00</option><option>12:00</option><option>13:00</option>
+          <option>14:00</option><option>15:00</option><option>16:00</option><option>17:00</option>
+        </select>
+      </div>
+      <div class="qb-field">
+        <label for="qbParty">人数</label>
+        <select id="qbParty">
+          <option>1</option><option selected>2</option><option>3</option><option>4</option>
+          <option>5</option><option>6</option><option>7</option><option>8</option>
+        </select>
+      </div>
+      <div class="qb-field">
+        <label for="qbSeat">お席</label>
+        <select id="qbSeat">
+          <option value="おまかせ">おまかせ</option>
+          <option value="テーブル">テーブル</option>
+          <option value="カウンター">カウンター</option>
+          <option value="テラス">テラス</option>
+        </select>
+      </div>
+      <button class="qb-go" id="qbGo">空席を見る →</button>
+    </div>
+  </div>
 </section>
 
 <!-- ===== ABOUT ===== -->
@@ -405,7 +460,7 @@ footer a:hover{color:#fff}
     <p>焼きたてのうちに。テイクアウトのご予約はお電話で承ります。</p>
     <a href="tel:0300000000" class="phone-big">📞 03-0000-0000</a>
     <div class="cta-btns" style="margin-top:26px">
-      <a href="#" class="btn btn-primary">テイクアウト予約 🥐</a>
+      <a href="reserve.html" class="btn btn-primary">ネット予約 🥐</a>
       <a href="#menu" class="btn btn-ghost">メニューを見る ☕</a>
     </div>
   </div>
@@ -455,6 +510,18 @@ function loop(){
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
+
+const qbGo=document.getElementById('qbGo');
+qbGo.addEventListener('click',()=>{
+  const p=new URLSearchParams();
+  const d=document.getElementById('qbDate').value;
+  const t=document.getElementById('qbTime').value;
+  if(d)p.set('date',d);
+  if(t)p.set('time',t);
+  p.set('party',document.getElementById('qbParty').value);
+  p.set('seat',document.getElementById('qbSeat').value);
+  location.href='reserve.html?'+p.toString();
+});
 </script>
 </body>
 </html>
