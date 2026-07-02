@@ -59,6 +59,16 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-02 ・ サイトビルダーAI入力をGoogleマップ(Places API)連携で強化＋地図embedをキー不要で自動生成</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: サイトビルダーのAI下書き生成に Google Maps Platform の Places API(New) を統合。店名＋エリアの検索語から、公式の店名・住所・電話・営業時間・Google評価・座標・クチコミ抜粋を取得してAIの参照情報に合流。あわせて住所/座標から地図の <code>access.map_embed</code> をキー不要の埋め込みURL(<code>?q=…&amp;output=embed</code>)で自動生成。</li>
+<li><strong>Why</strong>: 基本情報の手入力負担を減らし、住所・電話・営業時間の精度を公式データで担保する要望。地図もこれまで手貼りだった embed URL を自動化。</li>
+<li><strong>How</strong>（キー分離）: 渡されたAPIキーはチャット露出＝漏洩扱いとし<strong>要ローテーション</strong>。技術的に<strong>サーバ専用キー1本</strong>で完結する構成を採用（Places＋Geocodingは全てサーバ実行）。ブラウザ・公開サイトにはキーを一切渡さない（公開サイトの地図はキー不要のembed URLのまま）。Places写真はメディアURLにキーが乗り公開HTMLへ露出するため、AI-fillの画像候補には<strong>含めない</strong>（画像は従来通りスクレイプ候補のみ）。</li>
+<li><strong>How</strong>（実装）: <code>musubi-admin/lib/places.ts</code> 新規（<code>places:searchText</code>＋FieldMask、<code>mapEmbed()</code> はキー不要URL純関数）。<code>app/builder/ai-fill/route.ts</code> に <code>placeQuery</code> を追加しPlaces情報をプロンプト先頭へ、生成後に公式住所・電話・座標で確定上書き。<code>components/BuilderEditor.tsx</code> にGoogleマップ検索語の入力欄を追加。<code>.env.example</code> にサーバキーの制限方針を明記。</li>
+<li><strong>Result</strong>: 実キーで Places 疎通確認（渋谷の実店舗で店名・住所・電話・営業時間・座標を取得）。<code>tsc --noEmit</code>／<code>next lint</code> 通過。<code>GOOGLE_MAPS_SERVER_KEY</code> はローカル <code>.env.local</code>(gitignore済)に暫定保管、本番はVercel環境変数。<strong>コード変更は <code>musubi-admin</code>（push未・ユーザー指示時に反映）</strong>。</li>
+<li><strong>証跡</strong>: <code>musubi-admin</code>(<code>lib/places.ts</code>・<code>app/builder/ai-fill/route.ts</code>・<code>components/BuilderEditor.tsx</code>・<code>.env.example</code>)。要ローテーション: 露出したGMPキーはGCPコンソールで再発行し「API制限=Places(New)＋Geocoding／アプリ制限=なし」を設定。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-06-29 ・ 要件定義書・方式設計書・課題管理表を整備（多観点エージェントレビュー）＋webhook認証スキップ漏れ修正</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: Musubi 事業システムの設計ドキュメントを作成・精査し、課題管理表に集約。(1)要件定義書（IPA非機能要求グレード準拠・機能/非機能・確定/未決）、(2)方式設計書（IPA基本設計準拠・システム構成/配置/業務フロー/ER/DFD/シーケンス/画面遷移の図）、(3)課題管理表（IPA準拠・45課題）。あわせて発見した実バグ <code>/api/stripe/webhook</code> の middleware 認証スキップ漏れを修正。ハブ(<code>musubi-demos</code>)に3点のPDFを掲載。</li>
