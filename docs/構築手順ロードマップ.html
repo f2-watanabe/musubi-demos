@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja"><head>
+<script src="../auth.js"></script>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>環境構築ロードマップ — Musubi</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -252,5 +253,69 @@ details.logentry>summary:hover{color:var(--acc)}
 <li><span class="bx"></span><span>同じ手順で2店舗目を、前回より短時間で立ち上げられる（量産性の確認）。</span></li>
 </ul>
 <p>ここまで到達したら、営業で獲得した顧客を本番投入してスケールフェーズへ移る。</p>
+<hr>
+<h1>事業再構築フェーズ（2026-07・飲食店特化）</h1>
+<p>環境構築（Phase 0–7）で道具は揃ったが実顧客ゼロのため、「稼げるサービス」への再構築を行う。</p>
+<p>ターゲットを<strong>食べログ掲載 × Google高評価 × 公式サイト無しの飲食店</strong>に特化し、受注導線・テンプレ品質・GBP実投稿・商品設計を刷新する。他業種はカスタム（個別見積）でスポット対応。金額は据え置き（初期5/10/15万・月額5,000/15,000/20,000円）。</p>
+<h2>Phase R0 ・ GBP live 疎通確認（最優先）</h2>
+<p><strong>目的</strong>: 口コミ実投稿の前提となる GBP API の実疎通を確認し、アカウント/ロケーションIDを確定する。</p>
+<p><strong>手順</strong></p>
+<ul class="task">
+<li><span class="bx"></span><span><code>gbp-review-reply</code> で <code>npm run auth</code> を実行し OAuth 認可（token.json 取得）← <strong>ユーザー操作待ち（ブラウザ認可が必要）</strong></span></li>
+<li><span class="bx"></span><span>API から <code>GBP_ACCOUNT_ID</code> / <code>GBP_LOCATION_ID</code> を取得し <code>.env</code> に設定</span></li>
+<li><span class="bx"></span><span><code>GBP_MODE=live</code> で実 location の listReviews 成功を確認</span></li>
+</ul>
+<p><strong>受け入れ基準</strong>: 実店舗 1 location の口コミ一覧が live で取得できる。</p>
+<h2>Phase R1 ・ 価格・商品の飲食特化再パッケージ</h2>
+<p><strong>目的</strong>: 金額据え置きのまま、プラン内容・訴求を飲食店の意思決定単位に再定義する。</p>
+<p><strong>手順</strong></p>
+<ul class="task">
+<li class="done"><span class="bx">✓</span><span>価格表（<code>price_sheet.py</code>）: プラン特典を飲食特化（Google口コミ表示・食べログ/Instagram導線・送客手数料0円予約・季節LP）＋カスタム枠（他業種スポット・保守任意）追記</span></li>
+<li class="done"><span class="bx">✓</span><span>提案資料（<code>proposal_decks.py</code>）: 飲食店主向けに刷新（公式の受け皿・手数料削減・Before/After・出典付き統計のみ使用）</span></li>
+<li class="done"><span class="bx">✓</span><span><code>利益試算の前提と根拠.md</code> に商品パッケージ前提（§0）を追記</span></li>
+<li class="done"><span class="bx">✓</span><span>pptx 再生成 → PDF 化 → <code>musubi-demos/pdf/</code> 差し替え</span></li>
+<li class="done"><span class="bx">✓</span><span><code>musubi-admin/lib/plans.ts</code> 整合確認（プラン名・金額のみのため変更不要）</span></li>
+</ul>
+<p><strong>受け入れ基準</strong>: 価格表・提案資料が飲食特化文言で再生成でき、金額・特典がアプリ側と一致。数値は全て出典付きか「試算」明記。</p>
+<p>→ <strong>達成（2026-07-03）</strong>。PDF 実描画確認済（レイアウト崩れなし・TableCheck 2022 出典表記あり）。</p>
+<h2>Phase R2 ・ テンプレ強化（飲食4系統＋汎用＋単一ソース化）</h2>
+<p><strong>目的</strong>: 売り物の見た目を受注水準に引き上げ、テンプレの二重管理を解消する。</p>
+<p><strong>手順</strong></p>
+<ul class="task">
+<li><span class="bx"></span><span>restaurant テンプレの正を一本化（admin <code>lib/templates/src</code> → <code>04_サイトテンプレート/</code> へ逆輸入、<code>sync_templates.py</code> で pages.json 生成）</span></li>
+<li><span class="bx"></span><span>飲食共通セクション追加: Google口コミ抜粋（実データのみ）・食べログ/Instagram/マップ導線・2部制営業時間・メニュー写真グリッド</span></li>
+<li><span class="bx"></span><span>musubi-demos の sushi / cafe / ramen デモをテンプレ昇格（content.json 化）</span></li>
+<li><span class="bx"></span><span>汎用 generic テンプレ新設（他業種スポット用）</span></li>
+<li><span class="bx"></span><span><code>aiFill.ts</code> スキーマ拡張＋builder テンプレ選択に登録</span></li>
+</ul>
+<p><strong>受け入れ基準</strong>: 飲食4＋generic の5テンプレが <code>build_site.py</code> と admin builder の両方でビルドできる。口コミは実データが無ければ非表示。</p>
+<h2>Phase R3 ・ 受注導線（本体LP＋先作りデモ営業）</h2>
+<p><strong>目的</strong>: 「Musubi 自身の公式サイトが無い」状態を解消し、営業を仕組み化する。</p>
+<p><strong>手順</strong></p>
+<ul class="task">
+<li><span class="bx"></span><span><code>07_マーケサイト/</code> に musubiweb.com 本体LP新設（課題訴求→デモ→料金→FAQ→相談フォーム）→ Cloudflare Pages <code>musubi-www</code> 公開＋apex/www 割当</span></li>
+<li><span class="bx"></span><span>先作りデモパイプライン <code>musubi-admin/scripts/demo-pipeline.ts</code>（Places→AI流し込み→デモ公開→CSV に demo_url 追記。noindex＋デモ注記必須）</span></li>
+<li><span class="bx"></span><span>migration <code>0008_leads_demo.sql</code>（leads に demo_url / demo_project）＋ CRM 画面にデモURL表示</span></li>
+<li><span class="bx"></span><span><code>05_業務手順書/先作りデモ営業手順.md</code> 新設（商談終了時のデモ削除まで）</span></li>
+</ul>
+<p><strong>受け入れ基準</strong>: LP が公開されフォーム送信できる。CSV 1行から1コマンドでデモURLが生成され CRM に記録される。</p>
+<h2>Phase R4 ・ GBP 実投稿の本番接続</h2>
+<p><strong>目的</strong>: 口コミ返信を「承認＝投稿待ちキュー」から実投稿まで通し、月額の中核価値を完成させる。</p>
+<p><strong>手順</strong></p>
+<ul class="task">
+<li><span class="bx"></span><span>refresh_token を Vercel env <code>GBP_REFRESH_TOKEN</code> に保管（Internal audience・無期限。token 取得関数は差し替え可能に分離）</span></li>
+<li><span class="bx"></span><span><code>musubi-admin/lib/gbp.ts</code> 新設（gbp-review-reply の v4 実装を TS 移植）</span></li>
+<li><span class="bx"></span><span>cron <code>sync-reviews</code>（listReviews → upsert）/ cron <code>post-replies</code>（<strong>approved のみ</strong>投稿・投稿前 validateDraft 再実行・成功で posted）</span></li>
+<li><span class="bx"></span><span><code>vercel.json</code> cron 追加（プラン制限内で頻度設計）</span></li>
+</ul>
+<p><strong>受け入れ基準</strong>: 実店舗1件で 取得→下書き→ポータル承認→実投稿→GBP画面に返信表示 の一周。approved 以外が投稿される経路が無い。</p>
+<h2>Phase R5 ・ 資料・デモ・ハブ再構成</h2>
+<p><strong>目的</strong>: 見せる面（ハブ・デモ・資料）を飲食特化の商品構成に揃える。</p>
+<p><strong>手順</strong></p>
+<ul class="task">
+<li><span class="bx"></span><span><code>musubi-demos/index.html</code> 再構成（飲食デモ最上段・本体LPリンク・新価格表PDF）</span></li>
+<li><span class="bx"></span><span><code>02_デモサイト</code> の billing / builder デモ画面を新価格・新テンプレ選択に整合（<code>build_admin.py</code>）</span></li>
+</ul>
+<p><strong>受け入れ基準</strong>: ハブから新LP・全テンプレ・新価格表に到達できる。旧価格の表示が残らない。</p>
 <p class="note">🧭 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
 </div></body></html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja"><head>
+<script src="../auth.js"></script>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>環境構築ログ（証跡） — Musubi</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -59,46 +60,19 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
-<details class="logentry"><summary>2026-07-02 ・ サイトビルダーAI入力をGoogleマップ(Places API)連携で強化＋地図embedをキー不要で自動生成</summary><div class="logbody">
+<details class="logentry"><summary>2026-07-03 ・ 事業再構築フェーズ開始＋R1 価格・商品の飲食特化再パッケージ</summary><div class="logbody">
 <ul>
-<li><strong>What</strong>: サイトビルダーのAI下書き生成に Google Maps Platform の Places API(New) を統合。店名＋エリアの検索語から、公式の店名・住所・電話・営業時間・Google評価・座標・クチコミ抜粋を取得してAIの参照情報に合流。あわせて住所/座標から地図の <code>access.map_embed</code> をキー不要の埋め込みURL(<code>?q=…&amp;output=embed</code>)で自動生成。</li>
-<li><strong>Why</strong>: 基本情報の手入力負担を減らし、住所・電話・営業時間の精度を公式データで担保する要望。地図もこれまで手貼りだった embed URL を自動化。</li>
-<li><strong>How</strong>（キー分離）: 渡されたAPIキーはチャット露出＝漏洩扱いとし<strong>要ローテーション</strong>。技術的に<strong>サーバ専用キー1本</strong>で完結する構成を採用（Places＋Geocodingは全てサーバ実行）。ブラウザ・公開サイトにはキーを一切渡さない（公開サイトの地図はキー不要のembed URLのまま）。Places写真はメディアURLにキーが乗り公開HTMLへ露出するため、AI-fillの画像候補には<strong>含めない</strong>（画像は従来通りスクレイプ候補のみ）。</li>
-<li><strong>How</strong>（実装）: <code>musubi-admin/lib/places.ts</code> 新規（<code>places:searchText</code>＋FieldMask、<code>mapEmbed()</code> はキー不要URL純関数）。<code>app/builder/ai-fill/route.ts</code> に <code>placeQuery</code> を追加しPlaces情報をプロンプト先頭へ、生成後に公式住所・電話・座標で確定上書き。<code>components/BuilderEditor.tsx</code> にGoogleマップ検索語の入力欄を追加。<code>.env.example</code> にサーバキーの制限方針を明記。</li>
-<li><strong>Result</strong>: 実キーで Places 疎通確認（渋谷の実店舗で店名・住所・電話・営業時間・座標を取得）。<code>tsc --noEmit</code>／<code>next lint</code> 通過。<code>GOOGLE_MAPS_SERVER_KEY</code> はローカル <code>.env.local</code>(gitignore済)に暫定保管、本番はVercel環境変数。<strong>コード変更は <code>musubi-admin</code>（push未・ユーザー指示時に反映）</strong>。</li>
-<li><strong>証跡</strong>: <code>musubi-admin</code>(<code>lib/places.ts</code>・<code>app/builder/ai-fill/route.ts</code>・<code>components/BuilderEditor.tsx</code>・<code>.env.example</code>)。要ローテーション: 露出したGMPキーはGCPコンソールで再発行し「API制限=Places(New)＋Geocoding／アプリ制限=なし」を設定。</li>
-</ul>
-</div></details>
-<details class="logentry"><summary>2026-06-29 ・ 要件定義書・方式設計書・課題管理表を整備（多観点エージェントレビュー）＋webhook認証スキップ漏れ修正</summary><div class="logbody">
-<ul>
-<li><strong>What</strong>: Musubi 事業システムの設計ドキュメントを作成・精査し、課題管理表に集約。(1)要件定義書（IPA非機能要求グレード準拠・機能/非機能・確定/未決）、(2)方式設計書（IPA基本設計準拠・システム構成/配置/業務フロー/ER/DFD/シーケンス/画面遷移の図）、(3)課題管理表（IPA準拠・45課題）。あわせて発見した実バグ <code>/api/stripe/webhook</code> の middleware 認証スキップ漏れを修正。ハブ(<code>musubi-demos</code>)に3点のPDFを掲載。</li>
-<li><strong>Why</strong>: 大枠が固まったため要件・方式を公的フォーマット(IPA)で言語化し、検討漏れ・未検討を可視化して合意形成と今後の意思決定の土台にする要望。</li>
-<li><strong>How</strong>（多観点レビュー）: 設計文書ごとに複数のレビューエージェントを並列起動して相互レビュー。要件定義=6観点(法務/セキュリティ/運用SRE/事業/UX・SEO/データ)＋IPA準拠/全ページ精査/ステータス網羅、方式設計=IPA準拠監査/図表欠落/技術正確性/デザイン可読性。指摘を<strong>実コードで検証</strong>して統合（例: 検証エージェントの「ハッシュ=MD5」「構文=<code>{{#when}}</code>」は誤りと判定し、実コード <code>cfPages.ts</code>=blake3・<code>render.ts</code>=<code>{{#if}}</code> を採用。RLSは「reservations以外Dashboard依存」が誤りで、コアテーブルは <code>09_データ基盤/0002_rls.sql</code> 等で定義済み＝reservationsがポリシー欠落、と訂正）。</li>
-<li><strong>How</strong>（webhook修正）: <code>musubi-admin/lib/supabase/middleware.ts</code> は <code>/api/cron/*</code> と <code>/api/reserve/*</code> のみ認証スキップで、<code>/api/stripe/webhook</code> が未スキップ＝未認証POSTが <code>/login</code> へ307リダイレクトされ Webhook が機能しない潜在バグ。<code>/api/stripe/</code> のスキップ分岐を追加（署名検証で自衛）。<code>tsc</code> 通過。課題管理表 ISS-03 を「済」に更新。</li>
-<li><strong>Result</strong>: 要件定義書(32頁)・方式設計書(31頁)・課題管理表(8頁・45課題)をハブに掲載。各要件/方式に確定/仕掛/検討漏れの状態を色分け。実コード照合で事実誤りを修正。<strong>webhook修正は <code>musubi-admin</code> コミット（push未・本番反映はユーザー指示時）</strong>。docs(<code>local-web-sales</code>)＋ハブ(<code>musubi-demos</code>)は push。</li>
-<li><strong>証跡</strong>: <code>local-web-sales</code>(<code>06_スクリプト/requirements_deck.py</code>・<code>design_spec_deck.py</code>・<code>issues_deck.py</code>)、<code>musubi-demos</code>(<code>pdf/要件定義書.pdf</code>・<code>方式設計書.pdf</code>・<code>課題管理表.pdf</code>・<code>index.html</code>)、<code>musubi-admin</code>(<code>lib/supabase/middleware.ts</code>)。残課題は課題管理表 ISS-01〜45。</li>
-</ul>
-</div></details>
-<details class="logentry"><summary>2026-06-29 ・ サイトビルダーを4フェーズ拡張（テンプレ置換／画像アップロード／AI入力／ネット予約バックエンド）</summary><div class="logbody">
-<ul>
-<li><strong>What</strong>: <code>musubi-admin</code> の <code>/builder</code> を顧客要望どおり「テンプレ選択→文字・画像を入力→サイト完成、リアルタイムプレビュー、管理画面からデプロイ、ドメインは musubiweb.com サブドメイン」の実用形へ。4フェーズで実装。(P1)builder のテンプレをプロジェクトハブ最新の「さくら亭」（トップ＋予約画面）に置換。(P2)画像アップロード（持ち込み画像の埋め込み）。(P3)URL・テキストから AI が入力項目を自動生成。(P4)ネット予約バックエンド（リアルタイム在庫型）。</li>
-<li><strong>Why</strong>: builder の旧テンプレは単一ページの簡易版。ハブのさくら亭が最新（予約画面付き）なので、それをテンプレ化したい。基本情報を手入力するのが面倒→ありもの（食べログ・Googleマップ・既存サイト等）の URL を渡せば AI が下書きする。画像が URL 指定のみ→持ち込み画像を直接アップロードしたい。予約はデモのフェイク（空き枠・送信とも乱数）だったので実バックエンドが必要。</li>
-<li><strong>How（P1 テンプレ置換）</strong>: さくら亭 <code>index.html</code>(483行)＋<code>reserve.html</code>(769行) を <code>{{ }}</code>/<code>{{#each}}</code>/<code>{{#if}}</code> でパラメータ化（実ソースを外科的に置換するスクリプトで CSS を無改変維持・置換漏れ0を機械検査）。レンダリングエンジンに文字列配列要素用 <code>{{this}}</code> 対応を追加。予約画面は <strong>config 駆動</strong>に改修＝コース／時間／席／定休日／お通し代／キャンセルポリシーを <code>content.reserve</code> から生成（注入 JSON を <code>&lt;script&gt;</code> に埋め込み）。テンプレ実体は <code>lib/templates/src/restaurant.{index,reserve}.html</code>→<code>restaurant.pages.json</code> にバンドル。<code>buildSite</code> を複数ページ対応。両ページをヘッドレス Chrome で実描画スクショ検証（カレンダー・席・コース・お通し代の動作確認）。</li>
-<li><strong>How（P2 画像アップロード）</strong>: Supabase Storage の公開バケット <code>site-assets</code> を作成。<code>/builder/upload</code> がファイルを受け取り公開 URL を返す。フォームの各画像項目に「画像をアップロード」ボタン→アップロード後 URL を自動セット→プレビュー即反映。Storage への保存と公開 URL 取得を実 API で確認。</li>
-<li><strong>How（P3 AI入力）</strong>: <code>/builder/ai-fill</code> が参考 URL を取得（HTML 除去）＋自由テキストを Claude（<code>claude-sonnet-4-6</code>）に渡し、tool 強制で <code>content.json</code> を構造化出力。画像は発明させず seed を維持してマージ。実 API で良質な日本語生成（店名・メニュー・宴会コース＋献立）を確認。</li>
-<li><strong>How（P4 ネット予約・在庫型）</strong>: <code>reservations</code> テーブル＋<code>book_reservation</code> RPC（スロット単位のアドバイザリロックで二重予約＝オーバーブッキングを防止）。<code>/api/reserve/availability</code>（月＝日別ステータス／日＝スロット別残席）・<code>/api/reserve/book</code>（在庫チェック→RPC挿入→確認/通知メール）。これらは公開サイト（<code>&lt;sub&gt;.musubiweb.com</code>）から叩くため CORS 開放＋middleware で認証スキップ（store は site_project で検証）。予約画面 JS を API 駆動化（在庫取得・予約 POST）。<code>api_base</code>/<code>store</code> が未注入のとき（プレビュー）はローカルのデモ動作にフォールバック＝管理画面プレビューは実 DB に触れず、デプロイ時のみ実バックエンド。管理側に <code>/reservations</code>（店舗別の予約一覧・取消）を追加。</li>
-<li><strong>セキュリティ</strong>（コミット/プッシュのレビュー指摘を都度対応）: upload/ai-fill に認証チェック追加。画像はクライアント MIME を信用せず拡張子 allowlist から Content-Type を決定（SVG 除外で stored XSS 回避）。ai-fill の URL 取得に SSRF ガード＝DNS 解決して私的/予約 IP（localhost・10/8・169.254 メタデータ等）を拒否＋リダイレクト追従しない。予約のメール本文はユーザー入力を HTML エスケープ。<code>cancelReservation</code> の IDOR 対策＝認証必須化＋RLS で可視な店舗のみ・<code>store_id</code> でスコープ。</li>
-<li><strong>Result</strong>: 全フェーズ <code>tsc --noEmit</code>／<code>npm run build</code> exit 0。レンダリング（残プレースホルダ0）・画像アップロード・AI 生成・両モード（プレビュー/デプロイ）の config を実検証。<code>musubi-admin</code> master に push 済。<strong>要ユーザー作業（P4 有効化）</strong>＝(1)DDL <code>supabase/migrations/0001_reservations.sql</code> を適用、(2)Vercel env <code>SITE_API_BASE</code>＝admin の公開 URL を設定→Redeploy、(3)各店を <code>/builder</code> で再デプロイ（新2ページ・実予約モード化）、(4)任意で <code>content.reserve.notify_email</code> に予約通知先。<strong>未検証＝予約の本番 E2E</strong>（migration 適用後にユーザーと実施予定）。</li>
-<li><strong>証跡</strong>: <code>musubi-admin</code> コミット <code>0a6cffc</code>(P1)／<code>54463a0</code>(P2)／<code>a7f802e</code>(P3)／<code>26f9e89</code>(P4)／<code>716f83a</code>(IDOR修正)。主要ファイル＝<code>lib/render.ts</code>・<code>lib/buildSite.ts</code>・<code>lib/templates/</code>・<code>lib/aiFill.ts</code>・<code>lib/reserve.ts</code>・<code>app/builder/{upload,ai-fill}/route.ts</code>・<code>app/api/reserve/{availability,book}/route.ts</code>・<code>app/reservations/</code>・<code>supabase/migrations/0001_reservations.sql</code>・<code>components/BuilderEditor.tsx</code>。</li>
-</ul>
-</div></details>
-<details class="logentry"><summary>2026-06-28 ・ サイトビルダーにリアルタイムプレビュー＋ブラウザからCloudflare Pagesデプロイ・musubiweb.com DNSをCloudflareへ移管</summary><div class="logbody">
-<ul>
-<li><strong>What</strong>: <code>/builder</code> を「入力が即プレビューに反映され、そのまま管理画面から公開（デプロイ）できる」形に。テンプレのレンダリングエンジン（Python の <code>build_site.py</code> 相当）を TypeScript に移植し、ブラウザ（プレビュー）とサーバ（デプロイ）で共用。あわせて公開先ドメイン <code>musubiweb.com</code> の DNS を Squarespace から Cloudflare へ移管。</li>
-<li><strong>Why</strong>: 旧 builder は content.json をテキスト編集＋公開は CLI だった。要望は「入力が即反映」「管理画面からデプロイ」「musubiweb.com のサブドメイン」。各店ごとに <code>&lt;sub&gt;.musubiweb.com</code> を管理画面から自動発行するには、サブドメインの CNAME を API で張れる必要があり、Squarespace は DNS API もワイルドカードも実質不可だったため Cloudflare に移管。</li>
-<li><strong>How</strong>: <code>lib/render.ts</code>（<code>{{ }}</code>/<code>{{#each}}</code>/<code>{{#if}}</code>、isomorphic）。<code>BuilderEditor.tsx</code>＝全項目フォーム＋配列項目の追加/並替/削除、<code>iframe srcDoc</code> でライブプレビュー。<code>lib/cfPages.ts</code>＝Cloudflare Pages の direct-upload を wrangler 準拠で実装（ファイルハッシュ＝<code>blake3(base64(content)+拡張子)</code> を <code>@noble/hashes</code> で算出→upload-token→check-missing→upload→upsert-hashes→deployment）。<code>attachSubdomain</code>＝Pages の独自ドメイン割当＋ゾーンに CNAME 作成。DNS 移管は既存レコード（Squarespace 主サイトの A×4・www・Google Workspace の MX/SPF/DKIM/DMARC）を Cloudflare に複製してから NS 切替（メール無断絶を死守）。</li>
-<li><strong>Result</strong>: テスト店 <code>sakura-tei</code> を実デプロイし <code>https://sakura-tei.musubiweb.com</code> で <strong>HTTP200・SSL 証明書有効・実レンダリング結果の配信</strong>を外部から実証。グローバル DNS 伝播も確認（一部リゾルバのキャッシュ起因の遅延は通常動作）。デプロイに必要な Cloudflare トークン類は Vercel env に格納（値は記さない）。パスワードゲートはハブのトップページ限定に変更。</li>
-<li><strong>証跡</strong>: <code>musubi-admin</code> コミット <code>3e143ea</code>（builder 本実装）／<code>1f8d4b8</code>（ゲート限定）。DNS は <code>musubiweb.com</code> を Cloudflare 管理（NS＝emma/miguel.ns.cloudflare.com）。</li>
+<li><strong>What</strong>: (1) 事業を「食べログ掲載×Google高評価×公式サイト無しの飲食店」特化に再構築する方針を決定し、ロードマップに「事業再構築フェーズ（R0–R5）」章を新設。(2) R1 として価格・商品を飲食特化に再パッケージ（金額据え置き）。価格表・提案資料の pptx を刷新し PDF をハブへ差し替え。(3) R0（GBP live 疎通）はユーザーのブラウザ認可待ちで着手保留。</li>
+<li><strong>Why</strong>: Phase 0–7 で技術基盤は完成したが実顧客ゼロ・初受注前。棚卸しの結果、ボトルネックは技術ではなく受注獲得のため、ターゲットを飲食店に絞り商品・見せ方・導線を刷新する判断（ユーザー決定）。金額は初受注前で実売上への影響がないため据え置き、内容のみ再定義。</li>
+<li><strong>How</strong>:</li>
+<li>ロードマップ末尾に事業再構築フェーズ（R0 GBP疎通 / R1 価格再パッケージ / R2 テンプレ強化 / R3 受注導線 / R4 GBP実投稿 / R5 資料・ハブ）を追記。既存 Phase 0–7 の番号と衝突させない R 系番号。</li>
+<li><code>price_sheet.py</code>: プラン特典を飲食特化（Google口コミ表示・食べログ/Instagram導線・送客手数料0円のネット予約・季節LP）に書き換え、「カスタム（個別お見積り）＝飲食店以外・スポット制作・保守任意」枠をスライド1と機能比較に追加。</li>
+<li><code>proposal_decks.py</code>: 提案資料を飲食店主向けに刷新（「評価は高い。でも、受け皿がない。」→ 送客手数料の課題 → 公式サイト導入後の Before/After）。統計は出典確認済の TableCheck 2022（Google 86.1% vs グルメサイト 61.3%）のみ、出典併記で掲載。</li>
+<li><code>利益試算の前提と根拠.md</code> に §0「商品パッケージの前提（飲食店特化・2026年7月改定）」を追記（ターゲット定義・プラン表・訴求軸2本）。</li>
+<li>venv の python-pptx で pptx 再生成 → LibreOffice headless で PDF 化 → <code>musubi-demos/pdf/</code> の サービス価格表.pdf / 提案資料.pdf を差し替え。</li>
+<li><code>musubi-admin/lib/plans.ts</code> はプラン名・金額のみ保持で飲食文言を含まないため変更不要と確認（金額一致）。</li>
+<li><strong>Result</strong>: 価格表 3 スライド・提案資料とも再生成成功。PDF 実描画を目視確認（カスタム枠のレイアウト崩れなし・出典表記あり）。数値の捏造なし（回収ライン方式・出典付き統計のみ）。食べログは「併用＋リンク導線」の位置づけで敵視表現なし。</li>
+<li><strong>証跡</strong>: <code>06_スクリプト/price_sheet.py</code>・<code>06_スクリプト/proposal_decks.py</code>・<code>01_提案・設計資料/利益試算の前提と根拠.md</code>・<code>01_提案・設計資料/*.pptx</code>・<code>musubi-demos/pdf/サービス価格表.pdf</code>・<code>musubi-demos/pdf/提案資料.pdf</code>。</li>
 </ul>
 </div></details>
 <details class="logentry"><summary>2026-06-28 ・ 管理アプリ画面群をデモ準拠で本実装＋レポート自動公開＋ログイン刷新＋webhook修正</summary><div class="logbody">
