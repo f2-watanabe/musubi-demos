@@ -60,6 +60,15 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-04 ・ musubiweb.com 本番切替＋LP糸SVG修正＋汎用テンプレのライブデモ公開</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: (1) musubiweb.com / www.musubiweb.com の DNS を Cloudflare Pages <code>musubi-www</code> に切替（apex CNAME・www CNAME・proxied、メール系 MX/TXT は不変更）。本体LPが独自ドメインで公開状態に。(2) LP の節ラベル横の糸SVG（縦線＋輪）が首吊り縄に見えるとの指摘を受け、輪なしのS字波形に修正（7箇所）。(3) 汎用テンプレ（generic）のライブデモ <code>site-generic</code>（そら写真室）を build_site.py で生成しハブへ公開。LPの汎用カードを「画面例のみ」からデモリンクに変更。</li>
+<li><strong>Why</strong>: LP公開の最終工程（R3）。独自ドメインでの配信が受注導線の前提。SVGは印象を損なう意匠だったため即時修正。</li>
+<li><strong>How</strong>: DNS切替は dns-switch.sh（Pages API domain add＋DNSレコード差し替え）をユーザーが実行。apex CNAME は既に musubi-www.pages.dev 向きで作成済みだったため www の差し替えのみ実施された。切替後 https://musubiweb.com / www とも HTTP 200・新LP配信を実確認。SVG は <code>M12 2 q-8 7 0 14 q8 7 0 14 q-8 7 0 14</code>（波形・輪なし）に置換し、新旧を headless Chrome スクショで比較確認。</li>
+<li><strong>Result</strong>: https://musubiweb.com で新LP配信中（タイトル・新SVG 7箇所・site-generic リンクを配信HTMLで確認）。ハブに業種汎用のライブデモが1件追加。</li>
+<li><strong>証跡</strong>: local-web-sales commit <code>c2411c5</code>、musubi-demos commit <code>daa2130</code>、本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-03 ・ 商品定義変更＋LP全面リデザイン＋ドメイン移管手順書＋sakura-tei復旧</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) 商品定義変更=ロゴ制作を全商品から廃止・「5/10/15ページ」表記を「縦長1ページ完結型＋ネット予約ページ」の内容ベースに全面書き換え・「一番人気/人気No.1」→「おすすめ」（実顧客ゼロのため捏造回避）。価格表/提案資料/営業・テレアポトーク/README/利益試算/ヒアリングシート/billingデモを一斉修正し pptx→PDF 再生成。(2) 本体LPを全面リデザインし公開（「結ぶ。」を軸にした没入型ヒーロー＋テンプレ5種の実ビルド・実スクショによる作品ショーケース＋Formspree実フォーム）。(3) <code>05_業務手順書/独自ドメイン運用・移管手順.md</code> 新設（取得→割当→期限三重管理→解約時移管3パターン＋案内文テンプレ）。(4) migration 0008/0009 を本番適用（ユーザー承認後・3列の存在を実確認）。(5) Vercel cron を daily 1本に統合（Hobby 2件制限対応・実挙動テスト済）。(6) 消滅していた sakura-tei.pages.dev を復旧再デプロイ（HTTP200）。</li>
