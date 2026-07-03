@@ -262,7 +262,9 @@ details.logentry>summary:hover{color:var(--acc)}
 <p><strong>手順</strong></p>
 <ul class="task">
 <li class="done"><span class="bx">✓</span><span><code>gbp-review-reply</code> で <code>npm run auth</code> を実行し OAuth 認可（token.json 取得）← 2026-07-03 ユーザー実施。refresh_token grant での access_token 取得成功（TOKEN_OK）</span></li>
-<li><span class="bx"></span><span>GBP API アクセス申請の完了 ← Cloud Console 実測で Requests per minute=0（調整不可）を確認（スクショ 2026-07-03）。申請フォームは途中まで進行中（ユーザー継続）。<strong>ビジネスプロフィールの「オーナー確認」も未完＝併せて完了要</strong></span></li>
+<li class="done"><span class="bx">✓</span><span>GBP API アクセス申請の提出（2026-07-03）← サポートケース <strong>ID 1-4601000041294</strong>。審査 7〜10 営業日の案内。Cloud Console 実測で Requests per minute=0（調整不可）=承認待ちを確認済</span></li>
+<li><span class="bx"></span><span>GBP API 審査承認（外部・7〜10営業日）→ 承認後: ID確定→live疎通→実投稿E2E</span></li>
+<li><span class="bx"></span><span>ビジネスプロフィールの<strong>オーナー確認</strong>（ヘルプ画面上部バナーで未完表示）← 未完だと審査・投稿反映に影響しうるため完了推奨（ユーザー操作）</span></li>
 <li class="done"><span class="bx">✓</span><span>migration 0008（leads.demo_url/demo_project）・0009（reviews.gbp_review_name）を本番適用（2026-07-03）← information_schema で3列の存在を実確認</span></li>
 <li><span class="bx"></span><span>API から <code>GBP_ACCOUNT_ID</code> / <code>GBP_LOCATION_ID</code> を取得し <code>.env</code> に設定 ← <strong>ブロック: accounts.list が RESOURCE_EXHAUSTED（Requests per minute）。初回リクエスト・70秒後再試行とも同エラー＝クォータ0固定＝GBP API 利用申請が未承認</strong>（OAuth は正常）。承認されるとクォータが付与され通る</span></li>
 <li><span class="bx"></span><span><code>GBP_MODE=live</code> で実 location の listReviews 成功を確認 ← 上記待ち</span></li>
