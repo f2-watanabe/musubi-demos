@@ -60,6 +60,23 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-03 ・ R2〜R5 実装（テンプレ5種＋全箇所カスタマイズ＋本体LP＋先作りデモ＋GBP実投稿コード＋ハブ再構成）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 事業再構築フェーズの実装本体を1日で完了。(1) R2=テンプレ正の一本化＋飲食テンプレ4系統（restaurant/sushi/cafe/ramen）＋汎用 generic＋飲食共通セクション（Google口コミ抜粋・食べログ/Instagram/マップ導線・2部制営業時間・メニュー写真グリッド）。(2) 追加要件=全テンプレの <code>theme</code> 標準キー（色・フォント上書き）と <code>custom_head/custom_css/custom_html</code> 自由注入枠、builder の JSON 直接編集、<strong>custom モード（テンプレ不使用・生HTML入稿）</strong>。(3) R3=musubiweb.com 本体LP制作（未デプロイ）＋先作りデモ営業パイプライン <code>demo-pipeline.ts</code>＋leads demo列 migration＋営業手順書。(4) R4=GBP実投稿の本番接続コード（lib/gbp.ts・sync-reviews / post-replies cron）。(5) R5=ハブ再構成＋デモ画面の価格整合。</li>
+<li><strong>Why</strong>: 飲食店特化の「稼げるサービス」化。売り物の見た目（テンプレ）・受注導線（LP・先作りデモ）・月額中核価値（口コミ実投稿）・見せ面（ハブ）を一気に商品水準へ引き上げる。カスタマイズ機構はユーザー追加要件（「あらゆる箇所をカスタマイズ・テンプレ不使用も考慮」）。</li>
+<li><strong>How</strong>:</li>
+<li>テンプレ正の一本化: admin <code>lib/templates/src</code> を <code>04_サイトテンプレート/</code> へ逆輸入し src/ を削除。<code>06_スクリプト/sync_templates.py</code> 新設（04→pages.json 生成・--check 付き）。<code>build_site.py</code> の <code>{{this}}</code> 非互換バグ修正で <strong>Python/TS 両レンダラの出力バイト一致</strong>を確認。</li>
+<li>テンプレ昇格: musubi-demos のハードコードHTML（sushi/cafe/ramen）を restaurant 互換スキーマでプレースホルダ化（subagent 並列）。generic は beauty ベースで業種語彙除去。記法制約（{{#if}} 入れ子禁止・{{#each}} 内 {{#if}} 禁止）を README 化。</li>
+<li>カスタマイズ: theme 6キー（accent/accent_dark/bg/ink/font_head/font_body）を各テンプレの内部CSS変数へマッピング（暗色系 sushi/ramen は bg=背景・ink=文字に意味対応）。font-family 直書きを全テンプレ var() 化。custom_* は &lt;/head&gt;・&lt;/body&gt; 直前に {{#if}} 注入枠（レンダラ非エスケープを利用）。5テンプレ×4変種=32ビルド警告ゼロ＋スクリーンショット目視（accent 変更反映・theme 削除で素の見た目）。</li>
+<li>builder: siteSchema に「テーマ」「上級カスタマイズ」セクション追加。「詳細JSON」タブを controlled 化し不正 JSON は保存不可。custom モード= <code>content.pages[]{path,html}</code> を<strong>無加工出力</strong>（buildPages 冒頭分岐・プレビュー/デプロイ/DL 全経路共通）。テンプレ切替は confirm・AI下書きは custom で非表示。TEMPLATE_DEFS 6種（5テンプレ＋custom）・seed は example 由来（reviews は捏造回避のため seed に含めない・リンクは空文字）。</li>
+<li>LP: <code>07_マーケサイト/index.html</code> 単一HTML（Hero/課題4つ/86.1%統計=TableCheck 2022 出典併記/制作例さくら亭/料金3プラン+カスタム/月額の中身/FAQ7問/相談フォーム）。数値はこの統計のみ・偽実績なし。フォームは <code>{{FORM_ENDPOINT}}</code> プレースホルダ（Formspree 確定待ち）。1280/390px スクショ検証。</li>
+<li>先作りデモ: <code>musubi-admin/scripts/demo-pipeline.ts</code>（places→aiFill→buildSite→cfPages を import。--query/--csv/--delete/--dry-run。noindex＋デモ注記バナー必須注入。日本語店名は sha1 先頭8桁 slug）。--dry-run で実店舗1件生成実証（Places 実データ・注入確認）。Places の曖昧一致（浦安店→一之江店）を確認し「公開前ブラウザ確認」を手順書に明記。<code>0008_leads_demo.sql</code> 作成（<strong>未適用</strong>）。</li>
+<li>GBP: <code>lib/gbp.ts</code>（refresh_token grant を fetch 直・メモリキャッシュ・ページネーション・star enum変換）。cron <code>sync-reviews</code>（upsert・既存 status 巻き戻しなし・GBP側返信済は posted 取込）/ <code>post-replies</code>（<strong>status=&#x27;approved&#x27; かつ draft_reply 非NULL のみ</strong>・投稿前 validateDraft 再実行・update に approved ガードでレース安全）。postReply 呼び出しが全コードで1箇所のみであることを grep 確認。<code>0009_gbp_sync.sql</code>（gbp_review_name 1列・<strong>未適用</strong>）。</li>
+<li>ハブ/デモ: musubi-demos index を飲食テンプレ最上段・業態ラベル・デザイン見本節降格・資料文言更新（相対リンク42件実在確認）。build_admin.py で billing（プラン定義カード）/builder（テンプレ6択）のみ再生成（他7画面差分ゼロ）。</li>
+<li><strong>Result</strong>: local-web-sales / musubi-admin / musubi-demos 全コミット済（アプリは push せず・docs 2リポも push は指示待ち）。musubi-admin <code>npx tsc --noEmit</code>・<code>npm run build</code> 通過。<strong>残タスク（外部/ユーザー待ち）</strong>: (1) R0=GBP OAuth 認可（<code>npm run auth</code>）→ GBP_ACCOUNT_ID/LOCATION_ID 確定 → live 疎通 → GBP_REFRESH_TOKEN を Vercel env へ。(2) migration 0008/0009 の本番適用（SUPABASE_ACCESS_TOKEN 必要。<strong>0008 適用前に admin を push すると /crm がエラーになるため順序厳守</strong>）。(3) <strong>Vercel Hobby の cron 2件制限</strong>＝既存2＋新2で4件のため Pro 化 or cron 統合の判断。(4) LP の Formspree エンドポイント確定→ <code>musubi-www</code> デプロイ＋apex 割当。(5) 実デプロイ系の未検証（demo-pipeline 実デプロイ・--delete、custom モードの実公開）。</li>
+<li><strong>証跡</strong>: local-web-sales <code>556ad19</code>(R2基盤)・<code>e460101</code>(LP)・<code>520fdc5</code>(テンプレ3種+手順書+0008)・<code>2df7fa7</code>(0009)・<code>2208df2</code>(デモ画面)・<code>83af0d0</code>(theme/custom)、musubi-admin <code>81ef6e2</code>・<code>e668f32</code>・<code>30fad43</code>・<code>76d24f1</code>、musubi-demos <code>ee1194c</code>・<code>5edc270</code>。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-03 ・ 事業再構築フェーズ開始＋R1 価格・商品の飲食特化再パッケージ</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) 事業を「食べログ掲載×Google高評価×公式サイト無しの飲食店」特化に再構築する方針を決定し、ロードマップに「事業再構築フェーズ（R0–R5）」章を新設。(2) R1 として価格・商品を飲食特化に再パッケージ（金額据え置き）。価格表・提案資料の pptx を刷新し PDF をハブへ差し替え。(3) R0（GBP live 疎通）はユーザーのブラウザ認可待ちで着手保留。</li>

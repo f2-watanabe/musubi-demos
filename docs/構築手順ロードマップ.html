@@ -282,39 +282,43 @@ details.logentry>summary:hover{color:var(--acc)}
 <p><strong>目的</strong>: 売り物の見た目を受注水準に引き上げ、テンプレの二重管理を解消する。</p>
 <p><strong>手順</strong></p>
 <ul class="task">
-<li><span class="bx"></span><span>restaurant テンプレの正を一本化（admin <code>lib/templates/src</code> → <code>04_サイトテンプレート/</code> へ逆輸入、<code>sync_templates.py</code> で pages.json 生成）</span></li>
-<li><span class="bx"></span><span>飲食共通セクション追加: Google口コミ抜粋（実データのみ）・食べログ/Instagram/マップ導線・2部制営業時間・メニュー写真グリッド</span></li>
-<li><span class="bx"></span><span>musubi-demos の sushi / cafe / ramen デモをテンプレ昇格（content.json 化）</span></li>
-<li><span class="bx"></span><span>汎用 generic テンプレ新設（他業種スポット用）</span></li>
-<li><span class="bx"></span><span><code>aiFill.ts</code> スキーマ拡張＋builder テンプレ選択に登録</span></li>
+<li class="done"><span class="bx">✓</span><span>restaurant テンプレの正を一本化（admin <code>lib/templates/src</code> → <code>04_サイトテンプレート/</code> へ逆輸入、<code>sync_templates.py</code> で pages.json 生成）← 両レンダラ（build_site.py / render.ts）の出力バイト一致を確認。build_site.py の <code>{{this}}</code> 非互換バグも修正</span></li>
+<li class="done"><span class="bx">✓</span><span>飲食共通セクション追加: Google口コミ抜粋（実データのみ）・食べログ/Instagram/マップ導線・2部制営業時間・メニュー写真グリッド ← aiFill は口コミを AI 生成せず Places 実データで上書き</span></li>
+<li class="done"><span class="bx">✓</span><span>musubi-demos の sushi / cafe / ramen デモをテンプレ昇格（content.json 化）← 各 example ビルドで未解決プレースホルダ警告ゼロ・スクリーンショット目視</span></li>
+<li class="done"><span class="bx">✓</span><span>汎用 generic テンプレ新設（他業種スポット用）</span></li>
+<li class="done"><span class="bx">✓</span><span><code>aiFill.ts</code> スキーマ拡張＋builder テンプレ選択に登録 ← TEMPLATE_DEFS 6種（5テンプレ＋custom）</span></li>
+<li class="done"><span class="bx">✓</span><span>【追加要件】全テンプレに <code>theme</code> 標準キー（accent/accent_dark/bg/ink/font_head/font_body → 各テンプレ内部CSS変数へマッピング）と <code>custom_head</code> / <code>custom_css</code> / <code>custom_html</code> 自由注入枠</span></li>
+<li class="done"><span class="bx">✓</span><span>【追加要件】builder に「テーマ」「上級カスタマイズ」フォーム・JSON直接編集モード（不正JSONは保存不可）・<strong>custom モード（テンプレ不使用・生HTML入稿→無加工で公開）</strong></span></li>
 </ul>
 <p><strong>受け入れ基準</strong>: 飲食4＋generic の5テンプレが <code>build_site.py</code> と admin builder の両方でビルドできる。口コミは実データが無ければ非表示。</p>
+<p>→ <strong>達成（2026-07-03）</strong>。5テンプレ×4変種（既定/テーマ変更/テーマ削除/custom_css）＝32ビルド警告ゼロ、admin <code>npm run build</code> 通過。</p>
 <h2>Phase R3 ・ 受注導線（本体LP＋先作りデモ営業）</h2>
 <p><strong>目的</strong>: 「Musubi 自身の公式サイトが無い」状態を解消し、営業を仕組み化する。</p>
 <p><strong>手順</strong></p>
 <ul class="task">
-<li><span class="bx"></span><span><code>07_マーケサイト/</code> に musubiweb.com 本体LP新設（課題訴求→デモ→料金→FAQ→相談フォーム）→ Cloudflare Pages <code>musubi-www</code> 公開＋apex/www 割当</span></li>
-<li><span class="bx"></span><span>先作りデモパイプライン <code>musubi-admin/scripts/demo-pipeline.ts</code>（Places→AI流し込み→デモ公開→CSV に demo_url 追記。noindex＋デモ注記必須）</span></li>
-<li><span class="bx"></span><span>migration <code>0008_leads_demo.sql</code>（leads に demo_url / demo_project）＋ CRM 画面にデモURL表示</span></li>
-<li><span class="bx"></span><span><code>05_業務手順書/先作りデモ営業手順.md</code> 新設（商談終了時のデモ削除まで）</span></li>
+<li class="done"><span class="bx">✓</span><span><code>07_マーケサイト/</code> に musubiweb.com 本体LP新設（課題訴求→デモ→料金→FAQ→相談フォーム）← 1280px/390px スクリーンショット検証済</span></li>
+<li><span class="bx"></span><span>LP を Cloudflare Pages <code>musubi-www</code> へ公開＋apex/www 割当 ← <strong>フォームの Formspree エンドポイント（<code>{{FORM_ENDPOINT}}</code>）確定待ち。</strong>確定後にデプロイ</span></li>
+<li class="done"><span class="bx">✓</span><span>先作りデモパイプライン <code>musubi-admin/scripts/demo-pipeline.ts</code>（Places→AI流し込み→デモ公開→CSV に demo_url 追記。noindex＋デモ注記必須）← --dry-run で実店舗1件の生成実証（Places実データ・noindex・注記バナー確認）。Places の曖昧一致があるため公開前ブラウザ確認を手順書に明記</span></li>
+<li class="done"><span class="bx">✓</span><span>migration <code>0008_leads_demo.sql</code> 作成＋ CRM 画面にデモURL列 ← <strong>本番適用は未</strong>（SUPABASE_ACCESS_TOKEN 必要）。適用まで /crm は demo_url 列不存在でエラーになるため、admin の本番反映（push）前に必ず適用</span></li>
+<li class="done"><span class="bx">✓</span><span><code>05_業務手順書/先作りデモ営業手順.md</code> 新設（商談終了時のデモ削除まで）</span></li>
 </ul>
 <p><strong>受け入れ基準</strong>: LP が公開されフォーム送信できる。CSV 1行から1コマンドでデモURLが生成され CRM に記録される。</p>
 <h2>Phase R4 ・ GBP 実投稿の本番接続</h2>
 <p><strong>目的</strong>: 口コミ返信を「承認＝投稿待ちキュー」から実投稿まで通し、月額の中核価値を完成させる。</p>
 <p><strong>手順</strong></p>
 <ul class="task">
-<li><span class="bx"></span><span>refresh_token を Vercel env <code>GBP_REFRESH_TOKEN</code> に保管（Internal audience・無期限。token 取得関数は差し替え可能に分離）</span></li>
-<li><span class="bx"></span><span><code>musubi-admin/lib/gbp.ts</code> 新設（gbp-review-reply の v4 実装を TS 移植）</span></li>
-<li><span class="bx"></span><span>cron <code>sync-reviews</code>（listReviews → upsert）/ cron <code>post-replies</code>（<strong>approved のみ</strong>投稿・投稿前 validateDraft 再実行・成功で posted）</span></li>
-<li><span class="bx"></span><span><code>vercel.json</code> cron 追加（プラン制限内で頻度設計）</span></li>
+<li><span class="bx"></span><span>refresh_token を Vercel env <code>GBP_REFRESH_TOKEN</code> に保管（Internal audience・無期限。token 取得関数は差し替え可能に分離）← <strong>R0 の OAuth 認可（ユーザー操作）待ち</strong></span></li>
+<li class="done"><span class="bx">✓</span><span><code>musubi-admin/lib/gbp.ts</code> 新設（gbp-review-reply の v4 実装を TS 移植）← fetch 直の refresh_token grant・メモリキャッシュ・ページネーション対応</span></li>
+<li class="done"><span class="bx">✓</span><span>cron <code>sync-reviews</code>（listReviews → upsert）/ cron <code>post-replies</code>（<strong>approved のみ</strong>投稿・投稿前 validateDraft 再実行・成功で posted）← postReply 呼び出しは post-replies の1箇所のみ、クエリは status=&#x27;approved&#x27; 限定を grep 確認。migration <code>0009_gbp_sync.sql</code>（reviews.gbp_review_name 1列）作成・<strong>未適用</strong></span></li>
+<li class="done"><span class="bx">✓</span><span><code>vercel.json</code> cron 追加（sync 01:00 / post 02:00 日次）← <strong>注意: Vercel Hobby は cron 2件制限。既存2件＋新2件=4件のためデプロイ前に Pro 化 or cron 統合の判断が必要</strong></span></li>
 </ul>
 <p><strong>受け入れ基準</strong>: 実店舗1件で 取得→下書き→ポータル承認→実投稿→GBP画面に返信表示 の一周。approved 以外が投稿される経路が無い。</p>
 <h2>Phase R5 ・ 資料・デモ・ハブ再構成</h2>
 <p><strong>目的</strong>: 見せる面（ハブ・デモ・資料）を飲食特化の商品構成に揃える。</p>
 <p><strong>手順</strong></p>
 <ul class="task">
-<li><span class="bx"></span><span><code>musubi-demos/index.html</code> 再構成（飲食デモ最上段・本体LPリンク・新価格表PDF）</span></li>
-<li><span class="bx"></span><span><code>02_デモサイト</code> の billing / builder デモ画面を新価格・新テンプレ選択に整合（<code>build_admin.py</code>）</span></li>
+<li class="done"><span class="bx">✓</span><span><code>musubi-demos/index.html</code> 再構成（飲食テンプレ最上段・業態ラベル・デザイン見本節へ降格・新価格表PDF）← 本体LPリンクは公開後に追加（未デプロイのため未掲載）。相対リンク42件の実在全数確認</span></li>
+<li class="done"><span class="bx">✓</span><span><code>02_デモサイト</code> の billing / builder デモ画面を新価格・新テンプレ選択に整合（<code>build_admin.py</code>）← 再生成差分は billing/builder の2ファイルのみ</span></li>
 </ul>
 <p><strong>受け入れ基準</strong>: ハブから新LP・全テンプレ・新価格表に到達できる。旧価格の表示が残らない。</p>
 <p class="note">🧭 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
