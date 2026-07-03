@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>そら写真室 | 浦安・新浦安の家族写真・記念写真スタジオ</title>
+<meta name="description" content="浦安・新浦安エリアの小さな写真スタジオ「そら写真室」。家族写真・七五三・プロフィール撮影。自然光のアトリエで、ありのままの一枚を。ご予約はお電話・フォームから。">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Noto+Serif+JP:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#23251f; --soft:#5f6459; --line:#e2e4dc; --line-d:#d2d6cc;
+  --paper:#f8f7f3; --mist:#eef0ea;
+  --green:#40614e; --green-d:#2f4a3b; --green-soft:#dce5dd;
+  --muted:#9aa094;
+  --font-head:"Noto Serif JP",serif; --font-body:"Noto Sans JP",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);font-weight:400;color:var(--ink);background:var(--paper);line-height:1.9;-webkit-font-smoothing:antialiased;overflow-x:hidden;letter-spacing:.02em}
+.serif{font-family:var(--font-head)}
+img{display:block;width:100%;height:100%;object-fit:cover}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+.section{padding:104px 0}
+.eyebrow{font-family:"Jost",sans-serif;font-size:12px;letter-spacing:.42em;color:var(--green);font-weight:500;text-transform:uppercase;margin-bottom:16px}
+.sec-title{font-family:var(--font-head);font-size:clamp(26px,4.4vw,38px);font-weight:500;letter-spacing:.06em;line-height:1.5}
+.sec-en{font-family:"Jost",sans-serif;font-size:13px;color:var(--muted);letter-spacing:.24em;text-transform:uppercase;margin-top:10px}
+.center{text-align:center}
+.js .reveal{opacity:0;transform:translateY(32px);transition:opacity 1s cubic-bezier(.16,.84,.24,1),transform 1s cubic-bezier(.16,.84,.24,1)}
+.js .reveal.in{opacity:1;transform:none}
+
+/* header */
+.head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:22px 30px;transition:background .5s,padding .5s,box-shadow .5s}
+.head.scrolled{background:rgba(248,247,243,.92);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line);padding:14px 30px}
+.brand{display:flex;align-items:center;gap:13px;color:#fff;transition:color .5s}
+.head.scrolled .brand{color:var(--ink)}
+.brand .mark{width:42px;height:42px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;
+  font-family:var(--font-head);font-weight:500;font-size:19px;flex:none;opacity:.95}
+.brand b{font-family:var(--font-head);font-size:19px;font-weight:500;letter-spacing:.12em}
+.brand small{display:block;font-family:"Jost",sans-serif;font-size:9px;letter-spacing:.38em;opacity:.7;margin-top:2px;text-transform:uppercase}
+.head-cta{display:flex;gap:11px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;letter-spacing:.1em;
+  padding:13px 26px;border-radius:2px;transition:.3s;white-space:nowrap}
+.btn-primary{background:var(--green);color:#fff}
+.btn-primary:hover{background:var(--green-d)}
+.btn-ghost{border:1px solid rgba(255,255,255,.55);color:#fff}
+.head.scrolled .btn-ghost{border-color:var(--line-d);color:var(--ink)}
+.btn-ghost:hover{background:rgba(255,255,255,.14)}
+.head.scrolled .btn-ghost:hover{background:var(--mist)}
+
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;color:#fff;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:-2}
+.hero-bg img{transform:scale(1.08);animation:slowzoom 15s ease-out forwards}
+@keyframes slowzoom{to{transform:scale(1)}}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(110deg,rgba(24,30,26,.56) 0%,rgba(24,30,26,.24) 55%,rgba(24,30,26,.06) 100%)}
+.hero-inner{max-width:620px}
+.badge{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.34);
+  backdrop-filter:blur(6px);padding:8px 17px;border-radius:999px;font-size:12.5px;font-weight:400;letter-spacing:.05em;margin-bottom:26px}
+.badge .stars{color:#e7cb9a;letter-spacing:2px}
+.hero h1{font-family:var(--font-head);font-size:clamp(34px,6.6vw,58px);font-weight:500;line-height:1.44;letter-spacing:.08em;
+  text-shadow:0 2px 40px rgba(0,0,0,.3)}
+.hero p.lead{margin-top:24px;font-size:clamp(14px,2.2vw,16.5px);font-weight:300;max-width:480px;line-height:2.1;text-shadow:0 1px 14px rgba(0,0,0,.4)}
+.hero-actions{display:flex;gap:13px;margin-top:38px;flex-wrap:wrap}
+.scroll-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);font-family:"Jost",sans-serif;font-size:10px;letter-spacing:.4em;opacity:.85;writing-mode:vertical-rl}
+
+/* about */
+.about{display:grid;grid-template-columns:.95fr 1.05fr;gap:64px;align-items:center}
+.about-photos{position:relative;aspect-ratio:1/1.05}
+.about-photos .p1{position:absolute;width:74%;aspect-ratio:3/4;top:0;left:0;overflow:hidden;box-shadow:0 30px 60px rgba(40,50,44,.16)}
+.about-photos .p2{position:absolute;width:52%;aspect-ratio:1/1;bottom:0;right:0;overflow:hidden;border:8px solid var(--paper);box-shadow:0 24px 46px rgba(40,50,44,.14)}
+.about-photos::before{content:"";position:absolute;width:62%;height:62%;right:-6%;top:-5%;background:var(--green-soft);z-index:-1}
+.about p.body{margin-top:26px;color:var(--soft);font-size:15px;line-height:2.2;font-weight:300}
+.about .sign{margin-top:30px;font-size:13px;color:var(--muted);letter-spacing:.1em}
+.about .sign b{font-family:var(--font-head);font-size:21px;color:var(--ink);display:block;letter-spacing:.14em;margin-top:4px;font-weight:500}
+
+/* features */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:58px;border:1px solid var(--line);background:var(--line)}
+.feat{background:var(--paper);padding:48px 36px;transition:.4s}
+.feat:hover{background:#fff}
+.feat .no{font-family:"Jost",sans-serif;font-size:13px;color:var(--green);letter-spacing:.3em;font-weight:500}
+.feat h3{font-family:var(--font-head);font-size:20px;margin:18px 0 14px;letter-spacing:.06em;font-weight:500}
+.feat p{font-size:13.5px;color:var(--soft);line-height:2;font-weight:300}
+
+/* services */
+.services{background:var(--mist)}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+.svc{background:#fff;border:1px solid var(--line);overflow:hidden;transition:.35s}
+.svc:hover{transform:translateY(-4px);box-shadow:0 22px 44px rgba(40,50,44,.1)}
+.svc-photo{aspect-ratio:4/3;overflow:hidden}
+.svc-photo img{transition:transform .8s cubic-bezier(.16,.84,.24,1)}
+.svc:hover .svc-photo img{transform:scale(1.06)}
+.svc-body{padding:20px 22px 24px}
+.svc-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.svc h4{font-family:var(--font-head);font-size:17px;font-weight:500;letter-spacing:.04em}
+.svc .price{font-family:"Jost",sans-serif;color:var(--green);font-size:16px;font-weight:500;white-space:nowrap;letter-spacing:.04em}
+.svc p{font-size:12.5px;color:var(--soft);margin-top:8px;line-height:1.8;font-weight:300}
+.svc-note{text-align:center;margin-top:44px;font-size:12.5px;color:var(--muted);letter-spacing:.08em}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:210px;gap:12px;margin-top:56px}
+.gallery div{overflow:hidden}
+.gallery img{transition:transform 1s cubic-bezier(.16,.84,.24,1);filter:saturate(.96)}
+.gallery div:hover img{transform:scale(1.07)}
+.gallery .tall{grid-row:span 2}.gallery .wide{grid-column:span 2}
+
+/* reviews */
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+.rev-card{background:#fff;border:1px solid var(--line);padding:28px 26px;display:flex;flex-direction:column;gap:12px}
+.rev-stars{color:var(--green);font-family:"Jost",sans-serif;font-size:14px;letter-spacing:2px;font-weight:500}
+.rev-card blockquote{font-size:13.5px;color:var(--soft);line-height:2;flex:1;font-weight:300}
+.rev-card figcaption{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.rev-note{text-align:center;margin-top:26px;font-size:11.5px;color:var(--muted);letter-spacing:.08em}
+
+/* access */
+.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:46px;margin-top:0;align-items:start}
+.access dl{display:grid;grid-template-columns:88px 1fr;gap:15px 20px;font-size:14.5px;margin-top:28px}
+.access dt{color:var(--muted);font-weight:300;letter-spacing:.1em}
+.access dd{line-height:1.8}
+.hours{margin-top:26px;border-top:1px solid var(--line)}
+.hours .row{display:flex;justify-content:space-between;padding:12px 2px;border-bottom:1px solid var(--line);font-size:14px}
+.hours .row span:first-child{color:var(--muted);letter-spacing:.1em;font-weight:300}
+.hours .row b{font-weight:500}
+.ext-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.ext-link{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:500;letter-spacing:.06em;
+  padding:10px 18px;border-radius:999px;border:1px solid var(--line-d);color:var(--ink);transition:.25s;background:#fff}
+.ext-link:hover{border-color:var(--green);color:var(--green);transform:translateY(-1px)}
+.ext-link svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+.map{overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3.4;background:var(--mist)}
+.map iframe{width:100%;height:100%;border:0;filter:grayscale(.3) contrast(1.02)}
+
+/* contact */
+.contact{background:var(--green-d);color:#e9efe9}
+.contact .eyebrow{color:#a9c2ae}.contact .sec-title{color:#fff}
+.contact .sec-en{color:#8aa591}
+.contact .lead{text-align:center;color:#c2d1c4;font-size:14px;margin-top:14px;font-weight:300}
+.tel-line{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:30px}
+.tel-line .ic{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.1);display:grid;place-items:center;flex:none}
+.tel-line .n{font-family:"Jost",sans-serif;font-size:28px;font-weight:400;letter-spacing:.04em;line-height:1.1;color:#fff}
+.tel-line small{display:block;font-size:11px;color:#a9c2ae;letter-spacing:.16em}
+.cform{max-width:640px;margin:38px auto 0;display:grid;gap:15px;position:relative}
+.cform .row2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.cform input,.cform textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);border-radius:2px;padding:15px 17px;color:#fff;font-family:inherit;font-size:14px}
+.cform input::placeholder,.cform textarea::placeholder{color:#8fa896}
+.cform input:focus,.cform textarea:focus{outline:none;border-color:#a9c2ae;background:rgba(255,255,255,.1)}
+.cform textarea{min-height:120px;resize:vertical}
+.cform .hp{position:absolute;left:-9999px}
+.cform button{margin-top:6px;width:100%;justify-content:center;padding:17px;font-size:14px;border:none;cursor:pointer;font-family:inherit;background:#fff;color:var(--green-d)}
+.cform button:hover{background:var(--green-soft)}
+.cform .note{text-align:center;font-size:12px;color:#8fa896;margin-top:4px}
+@media(max-width:680px){.cform .row2{grid-template-columns:1fr}}
+
+/* footer */
+footer{background:var(--ink);color:#a3a89d;padding:70px 0 128px;text-align:center}
+footer .fb{display:flex;align-items:center;gap:13px;justify-content:center;color:#fff;margin-bottom:20px}
+footer .fb .mark{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.5);display:grid;place-items:center;font-family:var(--font-head);font-size:21px}
+footer .fb b{font-family:var(--font-head);font-size:21px;letter-spacing:.16em;font-weight:500}
+footer .fnav{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;font-family:"Jost",sans-serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin:22px 0}
+footer .fnav a:hover{color:#fff}
+footer .cp{font-size:11px;color:#767b70;letter-spacing:.1em;margin-top:28px}
+
+/* mobile sticky bar */
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;background:#fff;box-shadow:0 -4px 24px rgba(0,0,0,.1)}
+.mbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px 0;font-size:11.5px;font-weight:500;letter-spacing:.08em}
+.mbar a.call{color:var(--ink)}
+.mbar a.form{background:var(--green);color:#fff}
+.mbar svg{width:19px;height:19px}
+
+@media(max-width:880px){
+  .section{padding:72px 0}
+  .head{padding:18px 22px}
+  .head-cta .btn-ghost{display:none}
+  .about,.access-grid{grid-template-columns:1fr}
+  .about-photos{aspect-ratio:4/3;max-width:440px;margin:0 auto}
+  .feat-grid{grid-template-columns:1fr}
+  .svc-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .rev-grid{grid-template-columns:1fr;gap:14px}
+  .gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}
+  .mbar{display:flex}
+  .head-cta .btn-primary{padding:11px 18px}
+}
+@media(max-width:520px){
+  .gallery .wide{grid-column:span 2}.gallery .tall{grid-row:span 1}
+  .svc-grid{grid-template-columns:1fr}
+}
+</style>
+<style>:root{--green:#40614e;--green-d:#2f4a3b;--paper:#f8f7f3;--ink:#23251f;--font-head:"Noto Serif JP",serif;--font-body:"Noto Sans JP",sans-serif}</style>
+
+
+</head>
+<body>
+
+<header class="head" id="head">
+  <a href="#top" class="brand">
+    <span class="mark">空</span>
+    <span><b>そら写真室</b><small>SORA PHOTO STUDIO</small></span>
+  </a>
+  <nav class="head-cta">
+    <a href="#access" class="btn btn-ghost">ご案内</a>
+    <a href="#contact" class="btn btn-primary">お問い合わせ</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-bg"><img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1600&auto=format&fit=crop" alt=""></div>
+  <div class="wrap hero-inner">
+    <div class="badge"><span class="stars">★★★★★</span> Google口コミ 4.9 ・ 浦安／新浦安</div>
+    <h1>いつかの宝物になる、<br>今日を残す。</h1>
+    <p class="lead">自然光あふれる小さなアトリエで、飾らない表情をゆっくりと。<br>家族の節目に寄り添う、まちの写真室です。</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-primary">お問い合わせ・ご予約</a>
+      <a href="#services" class="btn btn-ghost">サービスを見る</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap about">
+    <div class="about-photos reveal">
+      <div class="p1"><img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?q=80&w=900&auto=format&fit=crop" alt=""></div>
+      <div class="p2"><img src="https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?q=80&w=700&auto=format&fit=crop" alt=""></div>
+    </div>
+    <div class="reveal">
+      <div class="eyebrow">About</div>
+      <h2 class="sec-title">急かさない、つくらない。<br>その人らしい一枚を。</h2>
+      <p class="body">そら写真室は、浦安の住宅街にある一日三組限定のアトリエです。<br>撮影はいつも、おしゃべりから。緊張がほどけて、ふっとこぼれた表情こそ、いちばんの宝物だと思うから。<br>七五三やお宮参りの記念写真から、お仕事用のプロフィールまで。何年か先に見返したとき、その日の空気ごとよみがえる写真をお渡しします。</p>
+      <div class="sign">フォトグラファー<b>青山 そら</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0" id="feature">
+  <div class="wrap">
+    <div class="reveal center">
+      <div class="eyebrow">Our Promise</div>
+      <h2 class="sec-title">わたしたちが、大切にしていること。</h2>
+      <p class="sec-en">three promises</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal"><div class="no">01</div><h3>一日三組の貸切アトリエ</h3><p>他のお客さまと重ならない完全予約制。小さなお子さまのペースに合わせて、時間に追われず撮影できます。</p></div>
+      <div class="feat reveal"><div class="no">02</div><h3>自然光のやわらかな写り</h3><p>大きな窓から入る光を活かした、白壁と木の床のスタジオ。強いライトが苦手な方やお子さまも安心です。</p></div>
+      <div class="feat reveal"><div class="no">03</div><h3>全データお渡し</h3><p>撮影した写真はセレクト後、レタッチ済みの全データをお渡し。焼き増しやアルバム作成も自由にどうぞ。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section services" id="services">
+  <div class="wrap">
+    <div class="reveal center">
+      <div class="eyebrow">Services</div>
+      <h2 class="sec-title">サービス・料金</h2>
+      <p class="sec-en">services &amp; price</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc reveal"><div class="svc-photo"><img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=600&auto=format&fit=crop" alt="家族写真プラン" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="svc-body"><div class="svc-top"><h4>家族写真プラン</h4><span class="price">¥16,500</span></div><p>60分・データ30枚以上。ご自宅用の記念に。</p></div></div>
+      <div class="svc reveal"><div class="svc-photo"><img src="https://images.unsplash.com/photo-1476703993599-0035a21b17a9?q=80&w=600&auto=format&fit=crop" alt="七五三・お宮参り" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="svc-body"><div class="svc-top"><h4>七五三・お宮参り</h4><span class="price">¥22,000</span></div><p>90分・データ40枚以上。着物での撮影に対応。</p></div></div>
+      <div class="svc reveal"><div class="svc-photo"><img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?q=80&w=600&auto=format&fit=crop" alt="プロフィール撮影" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="svc-body"><div class="svc-top"><h4>プロフィール撮影</h4><span class="price">¥11,000</span></div><p>40分・データ10枚。名刺・SNS・転職用に。</p></div></div>
+      <div class="svc reveal"><div class="svc-photo"><img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=600&auto=format&fit=crop" alt="ニューボーンフォト" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="svc-body"><div class="svc-top"><h4>ニューボーンフォト</h4><span class="price">¥19,800</span></div><p>生後3週間頃まで。ご自宅への出張も可能。</p></div></div>
+      <div class="svc reveal"><div class="svc-photo"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop" alt="証明写真（就活・受験）" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="svc-body"><div class="svc-top"><h4>証明写真（就活・受験）</h4><span class="price">¥3,300</span></div><p>焼き増し用データ付き。その場でお渡し。</p></div></div>
+      <div class="svc reveal"><div class="svc-photo"><img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?q=80&w=600&auto=format&fit=crop" alt="出張撮影（行事・式典）" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="svc-body"><div class="svc-top"><h4>出張撮影（行事・式典）</h4><span class="price">¥27,500〜</span></div><p>運動会・発表会・イベントへ伺います。</p></div></div>
+    </div>
+    <p class="svc-note">表示は税込価格です ・ 土日祝は +¥2,200 ・ 衣装持ち込み自由（更衣室あり）</p>
+  </div>
+</section>
+
+<section class="section" id="gallery">
+  <div class="wrap">
+    <div class="reveal center">
+      <div class="eyebrow">Gallery</div>
+      <h2 class="sec-title">ギャラリー</h2>
+      <p class="sec-en">gallery</p>
+    </div>
+    <div class="gallery reveal">
+      <div class="tall"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=700&auto=format&fit=crop" alt="" loading="lazy"></div>
+      <div class="wide"><img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=900&auto=format&fit=crop" alt="" loading="lazy"></div>
+      <div class=""><img src="https://images.unsplash.com/photo-1476703993599-0035a21b17a9?q=80&w=500&auto=format&fit=crop" alt="" loading="lazy"></div>
+      <div class=""><img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?q=80&w=500&auto=format&fit=crop" alt="" loading="lazy"></div>
+      <div class="wide"><img src="https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?q=80&w=900&auto=format&fit=crop" alt="" loading="lazy"></div>
+      <div class=""><img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=500&auto=format&fit=crop" alt="" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="reviews" style="padding-top:0">
+  <div class="wrap">
+    <div class="reveal center">
+      <div class="eyebrow">Voice</div>
+      <h2 class="sec-title">お客さまの声</h2>
+      <p class="sec-en">Googleの口コミより （2026年6月時点）</p>
+    </div>
+    <div class="rev-grid">
+      <figure class="rev-card reveal"><div class="rev-stars">★ 5</div><blockquote>人見知りの娘が最後は笑って走り回っていました。急かされない雰囲気のおかげで、家族全員の自然な表情が残せました。</blockquote><figcaption>S. Tanaka さん</figcaption></figure>
+      <figure class="rev-card reveal"><div class="rev-stars">★ 5</div><blockquote>転職用のプロフィール写真をお願いしました。表情の作り方まで丁寧に教えてもらえて、仕上がりも大満足です。</blockquote><figcaption>R. Kimura さん</figcaption></figure>
+      <figure class="rev-card reveal"><div class="rev-stars">★ 4</div><blockquote>七五三で利用。着付け後の移動も考慮して時間を組んでくれました。データが多くて祖父母にも喜ばれました。</blockquote><figcaption>A. Mori さん</figcaption></figure>
+    </div>
+    <p class="rev-note">出典：Google マップの口コミ</p>
+  </div>
+</section>
+
+<section class="section" id="access">
+  <div class="wrap">
+    <div class="access-grid">
+      <div class="access reveal">
+        <div class="eyebrow">Access</div>
+        <h2 class="sec-title">アクセス・ご案内</h2>
+        <dl>
+          <dt>住所</dt><dd>〒279-0000<br>千葉県浦安市当代島2-4-6 そらビル1F</dd>
+          <dt>最寄り</dt><dd>東京メトロ東西線「浦安駅」北口より徒歩5分</dd>
+          <dt>駐車場</dt><dd>専用駐車場1台・近隣にコインパーキングあり</dd>
+          <dt>電話</dt><dd><a href="tel:0470000000" style="color:var(--green);font-weight:500">047-000-0000</a></dd>
+        </dl>
+        <div class="hours">
+          <div class="row"><span>営業時間</span><b>10:00 – 18:00（最終受付 16:30）</b></div>
+          <div class="row"><span>定休日</span><b>毎週水曜日・第2木曜</b></div>
+          <div class="row"><span>ご予約</span><b>完全予約制（一日三組限定）</b></div>
+          <div class="row"><span>お支払い</span><b>各種カード・電子マネー・QR決済可</b></div>
+        </div>
+        <div class="ext-links">
+          <a class="ext-link" href="https://www.instagram.com/sora_photo_urayasu/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>Instagram</a>
+          <a class="ext-link" href="https://www.google.com/maps?q=%E6%B5%A6%E5%AE%89%E9%A7%85" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Google マップ</a>
+        </div>
+      </div>
+      <div class="map reveal">
+        <iframe src="https://www.google.com/maps?q=%E6%B5%A6%E5%AE%89%E9%A7%85&output=embed" loading="lazy" title="地図"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact" id="contact">
+  <div class="wrap">
+    <div class="reveal center">
+      <div class="eyebrow">Contact</div>
+      <h2 class="sec-title">お問い合わせ・ご予約</h2>
+      <p class="lead">お電話またはフォームから、お気軽にご相談ください。</p>
+    </div>
+    <div class="tel-line reveal">
+      <span class="ic">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a9c2ae" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </span>
+      <a href="tel:0470000000"><span class="n">047-000-0000</span><small>お問い合わせ・ご予約</small></a>
+    </div>
+    <form class="cform reveal" action="https://formspree.io/f/xxxxxxxx" method="POST">
+      <div class="row2">
+        <input type="text" name="お名前" placeholder="お名前" required>
+        <input type="tel" name="電話番号" placeholder="電話番号" required>
+      </div>
+      <input type="text" name="ご希望日時" placeholder="ご希望の日時（任意）">
+      <input type="text" name="ご希望内容" placeholder="ご希望のサービス・プラン（任意）">
+      <textarea name="お問い合わせ内容" placeholder="ご相談内容・ご質問など"></textarea>
+      <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off">
+      <input type="hidden" name="_subject" value="そら写真室 サイトからのお問い合わせ">
+      <button type="submit" class="btn">送信する</button>
+      <p class="note">送信後、担当より折り返しご連絡します。通常1営業日以内。</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fb"><span class="mark">空</span><b>そら写真室</b></div>
+    <nav class="fnav">
+      <a href="#about">About</a><a href="#services">Services</a><a href="#gallery">Gallery</a><a href="#access">Access</a><a href="#contact">Contact</a>
+    </nav>
+    <p class="cp">© 2026 SORA PHOTO STUDIO. ※これは制作デモ用のサンプルサイトです（口コミ・数値もサンプル）。</p>
+  </div>
+</footer>
+
+<nav class="mbar">
+  <a href="tel:0470000000" class="call">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    電話する
+  </a>
+  <a href="#contact" class="form">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v13H8l-4 4z"/><path d="M8 9h8M8 12.5h5"/></svg>
+    フォームで相談
+  </a>
+</nav>
+
+<script>
+document.documentElement.classList.add('js');
+const head=document.getElementById('head');
+addEventListener('scroll',()=>head.classList.toggle('scrolled',scrollY>40));
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.16});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+function ev(n,p){if(window.gtag)gtag('event',n,p||{})}
+document.querySelectorAll('a[href^="tel:"]').forEach(a=>a.addEventListener('click',()=>ev('phone_tap',{phone:a.getAttribute('href').replace('tel:','')})));
+document.querySelectorAll('form').forEach(f=>f.addEventListener('submit',()=>ev('contact_submit',{form_id:f.getAttribute('action')||'contact'})));
+</script>
+
+</body>
+</html>
