@@ -261,10 +261,11 @@ details.logentry>summary:hover{color:var(--acc)}
 <p><strong>目的</strong>: 口コミ実投稿の前提となる GBP API の実疎通を確認し、アカウント/ロケーションIDを確定する。</p>
 <p><strong>手順</strong></p>
 <ul class="task">
-<li><span class="bx"></span><span><code>gbp-review-reply</code> で <code>npm run auth</code> を実行し OAuth 認可（token.json 取得）← <strong>ユーザー操作待ち（ブラウザ認可が必要）</strong></span></li>
-<li><span class="bx"></span><span>API から <code>GBP_ACCOUNT_ID</code> / <code>GBP_LOCATION_ID</code> を取得し <code>.env</code> に設定</span></li>
-<li><span class="bx"></span><span><code>GBP_MODE=live</code> で実 location の listReviews 成功を確認</span></li>
+<li class="done"><span class="bx">✓</span><span><code>gbp-review-reply</code> で <code>npm run auth</code> を実行し OAuth 認可（token.json 取得）← 2026-07-03 ユーザー実施。refresh_token grant での access_token 取得成功（TOKEN_OK）</span></li>
+<li><span class="bx"></span><span>API から <code>GBP_ACCOUNT_ID</code> / <code>GBP_LOCATION_ID</code> を取得し <code>.env</code> に設定 ← <strong>ブロック: accounts.list が RESOURCE_EXHAUSTED（Requests per minute）。初回リクエスト・70秒後再試行とも同エラー＝クォータ0固定＝GBP API 利用申請が未承認</strong>（OAuth は正常）。承認されるとクォータが付与され通る</span></li>
+<li><span class="bx"></span><span><code>GBP_MODE=live</code> で実 location の listReviews 成功を確認 ← 上記待ち</span></li>
 </ul>
+<p><strong>次のアクション（ユーザー）</strong>: GBP API 申請ステータスの確認。申請時の返信メール（Google Business Profile API アクセス申請）を確認、未返信なら https://support.google.com/business/contact/api_default から問い合わせ。Cloud Console → API とサービス → mybusinessaccountmanagement.googleapis.com → 割り当て で Requests per minute が 0 のままか確認できる（project 361193620042）。</p>
 <p><strong>受け入れ基準</strong>: 実店舗 1 location の口コミ一覧が live で取得できる。</p>
 <h2>Phase R1 ・ 価格・商品の飲食特化再パッケージ</h2>
 <p><strong>目的</strong>: 金額据え置きのまま、プラン内容・訴求を飲食店の意思決定単位に再定義する。</p>
