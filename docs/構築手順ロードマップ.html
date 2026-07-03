@@ -311,7 +311,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li><span class="bx"></span><span>refresh_token を Vercel env <code>GBP_REFRESH_TOKEN</code> に保管（Internal audience・無期限。token 取得関数は差し替え可能に分離）← <strong>R0 の OAuth 認可（ユーザー操作）待ち</strong></span></li>
 <li class="done"><span class="bx">✓</span><span><code>musubi-admin/lib/gbp.ts</code> 新設（gbp-review-reply の v4 実装を TS 移植）← fetch 直の refresh_token grant・メモリキャッシュ・ページネーション対応</span></li>
 <li class="done"><span class="bx">✓</span><span>cron <code>sync-reviews</code>（listReviews → upsert）/ cron <code>post-replies</code>（<strong>approved のみ</strong>投稿・投稿前 validateDraft 再実行・成功で posted）← postReply 呼び出しは post-replies の1箇所のみ、クエリは status=&#x27;approved&#x27; 限定を grep 確認。migration <code>0009_gbp_sync.sql</code>（reviews.gbp_review_name 1列）作成・<strong>未適用</strong></span></li>
-<li class="done"><span class="bx">✓</span><span><code>vercel.json</code> cron 追加（sync 01:00 / post 02:00 日次）← <strong>注意: Vercel Hobby は cron 2件制限。既存2件＋新2件=4件のためデプロイ前に Pro 化 or cron 統合の判断が必要</strong></span></li>
+<li class="done"><span class="bx">✓</span><span><code>vercel.json</code> cron を Hobby 2件制限内に統合（2026-07-03）← <code>/api/cron/daily</code>（0 1 * * * ・ cost-alert→sync-reviews→generate-drafts→post-replies を直列実行・GBP env 未設定ステップは skipped で続行・失敗ステップがあっても後続継続）＋ <code>/api/cron/ingest-ga4</code>（月次）の計2件。旧 route は手動実行用に残置。実挙動テスト済（401/実行順/skip/失敗継続）。注: daily は maxDuration=300（Fluid Compute 前提・60s 制限環境なら要調整）</span></li>
 </ul>
 <p><strong>受け入れ基準</strong>: 実店舗1件で 取得→下書き→ポータル承認→実投稿→GBP画面に返信表示 の一周。approved 以外が投稿される経路が無い。</p>
 <h2>Phase R5 ・ 資料・デモ・ハブ再構成</h2>
