@@ -262,6 +262,8 @@ details.logentry>summary:hover{color:var(--acc)}
 <p><strong>手順</strong></p>
 <ul class="task">
 <li class="done"><span class="bx">✓</span><span><code>gbp-review-reply</code> で <code>npm run auth</code> を実行し OAuth 認可（token.json 取得）← 2026-07-03 ユーザー実施。refresh_token grant での access_token 取得成功（TOKEN_OK）</span></li>
+<li><span class="bx"></span><span>GBP API アクセス申請の完了 ← Cloud Console 実測で Requests per minute=0（調整不可）を確認（スクショ 2026-07-03）。申請フォームは途中まで進行中（ユーザー継続）。<strong>ビジネスプロフィールの「オーナー確認」も未完＝併せて完了要</strong></span></li>
+<li class="done"><span class="bx">✓</span><span>migration 0008（leads.demo_url/demo_project）・0009（reviews.gbp_review_name）を本番適用（2026-07-03）← information_schema で3列の存在を実確認</span></li>
 <li><span class="bx"></span><span>API から <code>GBP_ACCOUNT_ID</code> / <code>GBP_LOCATION_ID</code> を取得し <code>.env</code> に設定 ← <strong>ブロック: accounts.list が RESOURCE_EXHAUSTED（Requests per minute）。初回リクエスト・70秒後再試行とも同エラー＝クォータ0固定＝GBP API 利用申請が未承認</strong>（OAuth は正常）。承認されるとクォータが付与され通る</span></li>
 <li><span class="bx"></span><span><code>GBP_MODE=live</code> で実 location の listReviews 成功を確認 ← 上記待ち</span></li>
 </ul>
@@ -298,7 +300,8 @@ details.logentry>summary:hover{color:var(--acc)}
 <p><strong>手順</strong></p>
 <ul class="task">
 <li class="done"><span class="bx">✓</span><span><code>07_マーケサイト/</code> に musubiweb.com 本体LP新設（課題訴求→デモ→料金→FAQ→相談フォーム）← 1280px/390px スクリーンショット検証済</span></li>
-<li><span class="bx"></span><span>LP を Cloudflare Pages <code>musubi-www</code> へ公開＋apex/www 割当 ← <strong>フォームの Formspree エンドポイント（<code>{{FORM_ENDPOINT}}</code>）確定待ち。</strong>確定後にデプロイ</span></li>
+<li class="done"><span class="bx">✓</span><span>LP を Cloudflare Pages <code>musubi-www</code> へ公開（2026-07-03）← Formspree <code>f/xykqlyvw</code> 設定・https://musubi-www.pages.dev HTTP200・フォーム配線を実確認</span></li>
+<li><span class="bx"></span><span>apex/www を LP へ割当 ← <strong>DNS変更のユーザー承認待ち</strong>（apex A×4=Squarespace残骸削除→CNAME musubi-www.pages.dev・www差し替え。メール系レコードは不変更）</span></li>
 <li class="done"><span class="bx">✓</span><span>先作りデモパイプライン <code>musubi-admin/scripts/demo-pipeline.ts</code>（Places→AI流し込み→デモ公開→CSV に demo_url 追記。noindex＋デモ注記必須）← --dry-run で実店舗1件の生成実証（Places実データ・noindex・注記バナー確認）。Places の曖昧一致があるため公開前ブラウザ確認を手順書に明記</span></li>
 <li class="done"><span class="bx">✓</span><span>migration <code>0008_leads_demo.sql</code> 作成＋ CRM 画面にデモURL列 ← <strong>本番適用は未</strong>（SUPABASE_ACCESS_TOKEN 必要）。適用まで /crm は demo_url 列不存在でエラーになるため、admin の本番反映（push）前に必ず適用</span></li>
 <li class="done"><span class="bx">✓</span><span><code>05_業務手順書/先作りデモ営業手順.md</code> 新設（商談終了時のデモ削除まで）</span></li>
