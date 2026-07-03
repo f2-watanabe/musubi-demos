@@ -60,6 +60,18 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-03 ・ 商品定義変更＋LP全面リデザイン＋ドメイン移管手順書＋sakura-tei復旧</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: (1) 商品定義変更=ロゴ制作を全商品から廃止・「5/10/15ページ」表記を「縦長1ページ完結型＋ネット予約ページ」の内容ベースに全面書き換え・「一番人気/人気No.1」→「おすすめ」（実顧客ゼロのため捏造回避）。価格表/提案資料/営業・テレアポトーク/README/利益試算/ヒアリングシート/billingデモを一斉修正し pptx→PDF 再生成。(2) 本体LPを全面リデザインし公開（「結ぶ。」を軸にした没入型ヒーロー＋テンプレ5種の実ビルド・実スクショによる作品ショーケース＋Formspree実フォーム）。(3) <code>05_業務手順書/独自ドメイン運用・移管手順.md</code> 新設（取得→割当→期限三重管理→解約時移管3パターン＋案内文テンプレ）。(4) migration 0008/0009 を本番適用（ユーザー承認後・3列の存在を実確認）。(5) Vercel cron を daily 1本に統合（Hobby 2件制限対応・実挙動テスト済）。(6) 消滅していた sakura-tei.pages.dev を復旧再デプロイ（HTTP200）。</li>
+<li><strong>Why</strong>: ユーザー要件「LPはもっと印象付ける唯一無二のデザイン」「できないことは書かない・書くなら実装する」「ロゴ制作はやらない」。ページ数表記は現実装（1ページ完結型+予約ページ）と不一致だったため内容ベースに統一（ユーザー選択）。</li>
+<li><strong>How</strong>:</li>
+<li>LP: frontend-design 指針で再設計。深緑の暗幕ヒーローに巨大明朝「結ぶ。」スプリット文字アニメ・結び糸SVG線描（Google検索∞公式サイト∞手数料0円予約）・縦書きラベル8幕構成・横スクロール作品ギャラリー（5テンプレをbuild_site.pyで実ビルド→headless Chromeで実スクショ化、PC/スマホ枠合成・架空店デモ注記付き）。JS無効/reduced-motionでも全閲覧可。CDPで1280/390px全スライス目視・禁止語grep合格。</li>
+<li>発見と対処: sakura-tei.pages.dev が NXDOMAIN（Pages プロジェクトがアカウントから消滅していた・原因不明）→ sites/sakura-tei から同名プロジェクト再作成・再デプロイで復旧。LPの和食デモリンクはハブ側 site/ に変更済み。cafe/ramen テンプレのモバイル nav スコープバグ（メディアクエリ内 nav{} が下部固定バーにも適用され約100pxの帯）を発見・修正し sync で admin へ反映。<code>wrangler pages domain add</code> が実在しないコマンドと判明し publish_site.sh コメントとロードマップを Pages API 記載に修正。</li>
+<li>cron統合: <code>/api/cron/daily</code> が cost-alert→sync-reviews→generate-drafts→post-replies を直列実行（既存route の GET を合成Requestで呼ぶ・GBP env未設定ステップは skipped で続行・失敗しても後続継続）。vercel.json は daily＋ingest-ga4 の2件に。ダミーenvのローカル実サーバで 401/実行順/skip/失敗継続を実測。</li>
+<li><strong>Result</strong>: LP公開=https://musubi-www.pages.dev （新版タイトル・アセット10点配信を実URL確認）。musubiweb.com apex/www の割当は<strong>DNS変更のユーザー承認待ち</strong>（apex A×4=Squarespace残骸削除+CNAME化の承認）。GBP API アクセス申請は提出済（ケース 1-4601000041294・審査7〜10営業日）＋ビジネスプロフィールのオーナー確認が未完（ユーザー対応中）。禁止語（ロゴ制作/一番人気/◯ページ）残存ゼロを grep 実証。</li>
+<li><strong>証跡</strong>: local-web-sales <code>939b9cf</code>（商品定義）・<code>f8d5509</code>（ドメイン手順書+誤記修正）・<code>e191e26</code>（LPリデザイン+テンプレfix）、musubi-admin <code>78743db</code>（cron統合）・<code>d3706ff</code>（pages.json同期）、musubi-demos <code>f8cf29b</code>（PDF）。適用済migration: 0008/0009。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-03 ・ R2〜R5 実装（テンプレ5種＋全箇所カスタマイズ＋本体LP＋先作りデモ＋GBP実投稿コード＋ハブ再構成）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 事業再構築フェーズの実装本体を1日で完了。(1) R2=テンプレ正の一本化＋飲食テンプレ4系統（restaurant/sushi/cafe/ramen）＋汎用 generic＋飲食共通セクション（Google口コミ抜粋・食べログ/Instagram/マップ導線・2部制営業時間・メニュー写真グリッド）。(2) 追加要件=全テンプレの <code>theme</code> 標準キー（色・フォント上書き）と <code>custom_head/custom_css/custom_html</code> 自由注入枠、builder の JSON 直接編集、<strong>custom モード（テンプレ不使用・生HTML入稿）</strong>。(3) R3=musubiweb.com 本体LP制作（未デプロイ）＋先作りデモ営業パイプライン <code>demo-pipeline.ts</code>＋leads demo列 migration＋営業手順書。(4) R4=GBP実投稿の本番接続コード（lib/gbp.ts・sync-reviews / post-replies cron）。(5) R5=ハブ再構成＋デモ画面の価格整合。</li>
