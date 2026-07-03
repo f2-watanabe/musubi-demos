@@ -69,6 +69,15 @@ details.logentry>summary:hover{color:var(--acc)}
 <li><strong>証跡</strong>: local-web-sales commit <code>c2411c5</code>、musubi-demos commit <code>daa2130</code>、本エントリ。</li>
 </ul>
 </div></details>
+<details class="logentry"><summary>2026-07-04 ・ デモハブを demo.musubiweb.com へサブドメイン化</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 公開デモハブ（musubi-demos・テンプレ見本＋管理/ポータルデモ）を <code>f2-watanabe.github.io/musubi-demos/</code> から <code>demo.musubiweb.com</code> へ移行。LP作品ショーケース5件のリンク・READMEの公開デモURLを新ドメインに更新。</li>
+<li><strong>Why</strong>: ユーザー要望「デモサイトはサブドメインにして欲しい」。github.io URLよりブランドドメインの方が営業提示時の信頼感が高い。</li>
+<li><strong>How</strong>: GitHub Pages側は <code>PUT /repos/f2-watanabe/musubi-demos/pages</code> で cname 設定（リポジトリ直下に CNAME ファイル自動生成）。DNS側は Cloudflare に <code>demo.musubiweb.com</code> CNAME → <code>f2-watanabe.github.io</code>（検証を確実に通すため proxied:false で作成）をユーザーが実行。伝播確認後、LP内の絶対URL（<code>f2-watanabe.github.io/musubi-demos/...</code>）5箇所と README を <code>demo.musubiweb.com/...</code> に一括置換し musubi-www へ再デプロイ。</li>
+<li><strong>Result</strong>: https://demo.musubiweb.com でハブ配信を確認。LP・READMEの参照先が新ドメインに統一。</li>
+<li><strong>証跡</strong>: musubi-demos commit <code>b0268fd</code>（CNAME）、local-web-sales README・07_マーケサイト/index.html 更新、本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-03 ・ 商品定義変更＋LP全面リデザイン＋ドメイン移管手順書＋sakura-tei復旧</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) 商品定義変更=ロゴ制作を全商品から廃止・「5/10/15ページ」表記を「縦長1ページ完結型＋ネット予約ページ」の内容ベースに全面書き換え・「一番人気/人気No.1」→「おすすめ」（実顧客ゼロのため捏造回避）。価格表/提案資料/営業・テレアポトーク/README/利益試算/ヒアリングシート/billingデモを一斉修正し pptx→PDF 再生成。(2) 本体LPを全面リデザインし公開（「結ぶ。」を軸にした没入型ヒーロー＋テンプレ5種の実ビルド・実スクショによる作品ショーケース＋Formspree実フォーム）。(3) <code>05_業務手順書/独自ドメイン運用・移管手順.md</code> 新設（取得→割当→期限三重管理→解約時移管3パターン＋案内文テンプレ）。(4) migration 0008/0009 を本番適用（ユーザー承認後・3列の存在を実確認）。(5) Vercel cron を daily 1本に統合（Hobby 2件制限対応・実挙動テスト済）。(6) 消滅していた sakura-tei.pages.dev を復旧再デプロイ（HTTP200）。</li>
