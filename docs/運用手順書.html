@@ -35,6 +35,8 @@ th{background:#eef3f0;font-weight:700}
 hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 a{color:var(--acc)}
 blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px;margin:12px 0;color:var(--sub);font-size:13.5px}
+img.shot{display:block;max-width:100%;height:auto;margin:14px 0 6px;border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+p:has(>img.shot){margin:16px 0}
 details.logentry{border:1px solid var(--line);border-radius:10px;background:#fbfaf7;margin:10px 0;overflow:hidden}
 details.logentry>summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
 details.logentry>summary::-webkit-details-marker{display:none}
@@ -83,6 +85,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>オーナーが LP を見て、料金プランを選び「このプランで申し込む」または相談フォームから送信する。</li>
 <li>フォームには「相談する／申し込む」の種別、プラン、店名、担当者名、メール、電話、相談内容を入力。</li>
 </ol>
+<p><img class="shot" src="../assets/manual/01-lp-form.png" alt="LPの申込・相談フォーム。店名・連絡先を送るだけで開始できる" loading="lazy"></p>
 <p><strong>システムの挙動</strong>:</p>
 <ul>
 <li>申し込み（apply）の場合: CRM にリード登録 → ポータルアカウントの招待メールを自動送信 → 運営に通知メール。</li>
@@ -103,6 +106,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>招待メールの「パスワードを設定する」リンクを開く。</li>
 <li><code>/welcome</code> でパスワード（8文字以上）を設定 → <code>/home</code>（ポータルトップ）が表示される。</li>
 </ol>
+<p><img class="shot" src="../assets/manual/05-portal-home.png" alt="顧客ポータルのホーム。進行ステータスカードで今どの段階かが分かる" loading="lazy"></p>
 <p><strong>確認ポイント</strong>:</p>
 <ul>
 <li>パスワード設定後、portal <code>/home</code> に進行ステータスカード（「申込受付」段がハイライト）が表示される。</li>
@@ -117,6 +121,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>商談日程は必要に応じてメール・電話で調整（⚠️ 自社対応: 商談予約カレンダーは今フェーズ未実装）。</li>
 <li>リードの店舗名をクリックして案件詳細（<code>/stores/[店舗ID]</code>）を開く。ここが1案件の作業ハブ。</li>
 </ol>
+<p><img class="shot" src="../assets/manual/02-crm.png" alt="管理アプリの営業リスト。リード一覧・ステータス・「顧客」列・顧客化ボタン" loading="lazy"></p>
 <p><strong>確認ポイント</strong>:</p>
 <ul>
 <li><code>/crm</code> に「顧客」列が表示され、顧客化済みは案件ステータスのバッジと <code>/stores</code> リンクが出る。</li>
@@ -130,6 +135,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>プランを確認し、支払方法（カード／銀行振込）、特記事項、制作期間・検収・更新回数・解約予告・移管手数料を入力。</li>
 <li>「顧客へ提示」ボタンを押す。</li>
 </ol>
+<p><img class="shot" src="../assets/manual/03-store-contract.png" alt="管理アプリの案件詳細にある契約条件フォーム。ここで条件を決めて顧客へ提示する" loading="lazy"></p>
 <p><strong>システムの挙動</strong>:</p>
 <ul>
 <li>契約条件を案件に保存し、顧客へ「契約書をお送りしました」メールを送信。</li>
@@ -148,6 +154,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <ol>
 <li>契約書の全文を確認し、「内容に同意して申し込む」を押す。</li>
 </ol>
+<p><img class="shot" src="../assets/manual/04-portal-contract.png" alt="顧客ポータルの契約書画面。内容を確認して同意ボタンから申し込む" loading="lazy"></p>
 <p><strong>システムの挙動</strong>:</p>
 <ul>
 <li>案件のステータスが「契約済み（contracted）」になり、合意日時（agreed_at）を記録。</li>
@@ -167,6 +174,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>ロゴ・写真・メニュー等の素材をアップロード（jpg/png/webp/pdf/zip・1ファイル20MBまで）。</li>
 <li>「提出する」を押す。</li>
 </ol>
+<p><img class="shot" src="../assets/manual/06-portal-hearing.png" alt="顧客ポータルのヒアリングシート入力画面" loading="lazy"></p>
 <p><strong>システムの挙動</strong>:</p>
 <ul>
 <li>提出すると案件ステータスが「ヒアリング中（hearing）」に進み、運営に通知メール。</li>
@@ -177,6 +185,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>提出後、portal <code>/home</code> の進行が「ヒアリング中」に進む。</li>
 <li>admin <code>/stores/[店舗ID]</code> のヒアリングセクションに回答が整形表示され、素材がダウンロードリンク付きで一覧される。</li>
 </ul>
+<p><img class="shot" src="../assets/manual/07-store-hearing.png" alt="管理アプリ側のヒアリング回答表示と素材セクション。顧客の回答とアップロード素材を確認できる" loading="lazy"></p>
 <hr>
 <h2>7. 制作・サイト公開</h2>
 <p><strong>誰が</strong>: スタッフ</p>
@@ -216,6 +225,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>前提3点（契約合意・プレビュー承認・サイト公開）がすべて満たされると納品ボタンが有効になる。</li>
 <li>支払方法に応じて「Stripeを使わない（銀行振込）」のチェックを選び、納品ボタンを押す。</li>
 </ol>
+<p><img class="shot" src="../assets/manual/09-store-delivery.png" alt="管理アプリの納品アクション。契約合意・プレビュー承認・サイト公開の3条件が揃うと「納品する（trial 30日サブスク開始）」が押せる" loading="lazy"></p>
 <p><strong>システムの挙動</strong>:</p>
 <ul>
 <li>カード決済の場合: Stripe サブスクリプションを <strong>30日間の無料トライアル付き</strong>で開始（初月無料・課金起点は納品日）。契約（contracts）を有効で記録。</li>
@@ -238,6 +248,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>口コミ返信: 新着 Google 口コミに AI が返信の下書きを生成 → 顧客がポータルで承認 → 投稿。⚠️ 自社対応: 実投稿には GBP API の利用承認が必要（承認前は下書き生成まで）。</li>
 <li>連絡: 案件詳細（admin）とポータル（portal）のメッセージ機能で顧客と往復。送信時は相手に通知メール。</li>
 </ol>
+<p><img class="shot" src="../assets/manual/08-portal-messages.png" alt="顧客ポータルのメッセージ画面。運営とのやり取りがスレッドで残る" loading="lazy"></p>
 <p><strong>確認ポイント</strong>:</p>
 <ul>
 <li>portal <code>/report</code>・<code>/reviews</code>・<code>/messages</code> が表示される。</li>
@@ -259,6 +270,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <ol>
 <li>確認ダイアログで解約を実行する。</li>
 </ol>
+<p><img class="shot" src="../assets/manual/10-store-closing.png" alt="管理アプリの解約処理セクション。サブドメイン削除か独自ドメイン移管を選んで解約する（運用中のときのみ表示）" loading="lazy"></p>
 <p><strong>システムの挙動</strong>:</p>
 <ul>
 <li>有効な Stripe サブスクリプションを解約（振込契約は契約記録のみ解約）。契約（contracts）を解約済みに更新。</li>
