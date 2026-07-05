@@ -35,6 +35,8 @@ th{background:#eef3f0;font-weight:700}
 hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 a{color:var(--acc)}
 blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px;margin:12px 0;color:var(--sub);font-size:13.5px}
+img.shot{display:block;max-width:100%;height:auto;margin:14px 0 6px;border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+p:has(>img.shot){margin:16px 0}
 details.logentry{border:1px solid var(--line);border-radius:10px;background:#fbfaf7;margin:10px 0;overflow:hidden}
 details.logentry>summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
 details.logentry>summary::-webkit-details-marker{display:none}
@@ -60,6 +62,15 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-05 ・ 運用手順書に実画面スクリーンショットを追加</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 運用手順書（申込→クロージング）の各ステップに、実際の管理アプリ・ポータル・LPの画面キャプチャ10枚を「この画面のここ」と分かる形で埋め込み、ハブに反映。</li>
+<li><strong>Why</strong>: ユーザー要望「手順書は画像も一緒に載せてくれるとわかりやすい」。</li>
+<li><strong>How</strong>: 使い捨てのスタッフ・顧客アカウントと1店舗分のシードデータ（各ステップの状態を再現）を service key で作成し、Playwright で本番アプリにログインして10画面（LP申込フォーム／CRM／契約条件フォーム／ポータル契約書・ホーム・ヒアリング・メッセージ／管理アプリのヒアリング回答・納品アクション・解約処理）を撮影。撮影後にシードと使い捨てアカウントを全削除。画像は <code>musubi-demos/assets/manual/</code> に配置。<code>build_docs.py</code> を Markdown 画像記法（<code><img class="shot" src="src" alt="alt" loading="lazy"></code>）対応に拡張（<code>!</code> を link より先に処理・<code>img.shot</code> スタイル追加）。</li>
+<li><strong>Result</strong>: https://demo.musubiweb.com/docs/運用手順書.html に画像10枚が表示（HTML の img 変換・画像配信ともに 200 確認）。本番データへのシードは撮影後クリーンアップ済み（残存0を実確認）。</li>
+<li><strong>証跡</strong>: local-web-sales <code>4658f77</code>（手順書画像埋込+build_docs画像対応・push済）、musubi-demos <code>ba955e8</code>（画像+HTML・push済）、対応表 <code>.superpowers/sdd/screenshots-report.md</code>、本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-05 ・ クロージング（解約後処理）実装＋運用手順書・自社タスク資料をハブ公開</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 申込〜納品〜運用の後段、<strong>解約→クロージング（サブドメイン削除 or 独自ドメイン移管）→status=closed</strong> を admin から一連で行う <code>closeProject</code> を実装。従来バラバラだった（サブスク解約＝contracts のみ／サイト削除＝別／status 手動）ものを1フローに統合。あわせて全工程を1ステップずつ実機能に対応づけた <code>運用手順書_申込からクロージングまで.md</code> と、外部・手作業が必要な事項を集約した <code>自社タスク一覧_手動対応事項.md</code> を作成し、ハブに掲載。</li>
