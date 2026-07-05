@@ -60,6 +60,15 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-05 ・ クロージング（解約後処理）実装＋運用手順書・自社タスク資料をハブ公開</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 申込〜納品〜運用の後段、<strong>解約→クロージング（サブドメイン削除 or 独自ドメイン移管）→status=closed</strong> を admin から一連で行う <code>closeProject</code> を実装。従来バラバラだった（サブスク解約＝contracts のみ／サイト削除＝別／status 手動）ものを1フローに統合。あわせて全工程を1ステップずつ実機能に対応づけた <code>運用手順書_申込からクロージングまで.md</code> と、外部・手作業が必要な事項を集約した <code>自社タスク一覧_手動対応事項.md</code> を作成し、ハブに掲載。</li>
+<li><strong>Why</strong>: ユーザー要望「今申込みが入ったらクロージング（ドメイン削除／移管）まで流れでできるようにする」「全工程を手順書でなぞって最後まで到達できるか確認」「自社の手動対応事項を別資料に」「資料は全てハブで見れるように」。</li>
+<li><strong>How</strong>: <code>lib/closeProject.ts</code> の <code>closeProjectCore</code>（依存注入でテスト可能）に本体を切り出し、<code>app/stores/[id]/actions.ts</code> の <code>closeProject</code> server action が Stripe/Cloudflare/Supabase を注入して呼ぶ。処理順=有効契約の Stripe サブスク解約（振込契約は記録のみ）→ サブドメイン削除（Cloudflare Pages プロジェクト+CNAME 削除・site_domain/site_project/last_deployed_at を null）or 独自ドメイン移管フラグ → projects.status=&#x27;closed&#x27;（note に closed_at/closing_type 記録）→ 顧客へ案内メール。誤操作防止=独自ドメイン顧客は「サブドメイン削除」を選べない（<code>isSubdomainSite</code> でサフィックス偽装耐性のある判定）、サイト削除失敗時は status を closed にしない、二重処理ガード。レビューで Important 修正（削除後に site_project を残すと公開予約API/GA4 cron が削除済みサイトを掴む→クリア／メール送信を best-effort 化）。build_docs.py を拡張し 05_業務手順書 の md もハブ docs に生成。</li>
+<li><strong>Result</strong>: musubi-admin push・Vercel 反映済み。admin vitest 42 PASS。運用手順書・自社タスク一覧を https://demo.musubiweb.com/docs/ に公開（ハブ index からリンク・HTTP 200 確認）。これで申込→クロージングの全工程が admin/portal 上に存在し、手順書でなぞれる状態。<strong>残=ユーザーによる本番ブラウザE2E一周</strong>（手順書の各「確認ポイント」を実際に満たすか。⚠️自社対応マーク箇所は <code>自社タスク一覧_手動対応事項.md</code> 参照）。</li>
+<li><strong>証跡</strong>: musubi-admin <code>5c6efa9</code>→<code>c65f5b0</code>（closeProject+fix・push済）、local-web-sales <code>13af85b</code>（手順書2本+build_docs拡張・push済）、musubi-demos <code>a5b752d</code>（ハブ掲載・push済）、本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-05 ・ P2〜P5実装（案件進行管理・ヒアリング・メッセージ・契約・納品まで一気通貫）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 申込後の全工程をシステム化。(G1) migration 0009=ヒアリング回答（hearing_responses）・メッセージ（messages）・素材ストレージ（materials バケット）を RLS 付きで新設。(G2) admin 案件詳細ページ <code>/stores/[id]</code>=ステータス変更・preview_url・契約表示・各工程のハブ。(G3) portal <code>/home</code> 進行ステータスカード（申込受付→ヒアリング→制作→ご確認→公開の5段表示＋次にやること導線）。(G4) portal ヒアリングシート入力（既存シート10セクションを構造化）＋素材アップロード（Storage RLS で自店プレフィックス限定）＋admin 結線。(G5) メッセージ機能（portal↔admin スレッド・通知メール・既読）。(G6) 契約フロー=ひな形78行を差込テンプレ化した印刷用契約書＋portal「同意して申し込む」で agreed_at 記録（当面の PDF+メール合意の実装形）。(G7) 納品フロー=portal プレビュー承認→admin 納品アクション（前提3点=契約合意・承認・サイト公開を検証）→Stripe trial 30日サブスク開始（初月無料・納品日起点）／振込顧客は Stripe スキップで手動記録。</li>
