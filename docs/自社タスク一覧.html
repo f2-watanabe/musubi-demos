@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>自社タスク一覧（手動対応事項） — Musubi</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22262f;--acc:#127b66;--verm:#b5402e;--gold:#c8893f;--bg:#f6f4ef;--line:#e8e2d6;--sub:#6f6a60;--muted:#8b8578}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.85}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 90px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.top a{font-size:13px;color:var(--acc);text-decoration:none;font-weight:700}
+.brand{display:flex;align-items:center;gap:10px;margin:14px 0 26px}
+.brand .mk{width:40px;height:40px;object-fit:contain;display:block}
+.brand b{font-size:16px;letter-spacing:.03em}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:.16em}
+h1{font-size:27px;margin:6px 0 14px;letter-spacing:.01em}
+h2{font-size:20px;margin:34px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 8px;color:var(--acc)}
+p{margin:10px 0;font-size:14.5px}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}
+li{font-size:14.5px;margin:5px 0}
+ul.task{list-style:none;padding-left:2px}
+ul.task li{display:flex;gap:10px;align-items:flex-start}
+ul.task .bx{flex:none;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--muted);margin-top:3px;display:grid;place-items:center;font-size:12px;color:#fff}
+ul.task li.done .bx{background:var(--acc);border-color:var(--acc)}
+ul.task li.done span{color:var(--sub)}
+strong{font-weight:700}
+code{background:#efece4;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+pre{background:#fbfaf7;border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow:auto;margin:14px 0}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.6;white-space:pre}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+th{background:#eef3f0;font-weight:700}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+a{color:var(--acc)}
+blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px;margin:12px 0;color:var(--sub);font-size:13.5px}
+details.logentry{border:1px solid var(--line);border-radius:10px;background:#fbfaf7;margin:10px 0;overflow:hidden}
+details.logentry>summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+details.logentry>summary::-webkit-details-marker{display:none}
+details.logentry>summary::before{content:"▶";font-size:10px;color:var(--acc);transition:transform .15s}
+details.logentry[open]>summary::before{transform:rotate(90deg)}
+details.logentry[open]>summary{border-bottom:1px solid var(--line);background:#f2efe7}
+details.logentry>summary:hover{color:var(--acc)}
+.logbody{padding:4px 18px 16px}
+.logbody h2{border-top:none;padding-top:0;margin-top:14px}
+.note{margin-top:46px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+@media print{.top,.brand{display:none}body{background:#fff}.wrap{padding:0}h2{break-after:avoid}}
+</style></head>
+<body><div class="wrap">
+<div class="top"><a href="../index.html">← デモ一覧に戻る</a></div>
+<div class="brand"><img class="mk" src="../assets/musubi-mark.png" alt="Musubi"><span><b>Musubi</b><small>環境構築ドキュメント</small></span></div>
+<h1>自社タスク一覧 — 手動対応が必要な事項</h1>
+<p><code>運用手順書_申込からクロージングまで.md</code> の中で、コード（管理アプリ／ポータル）だけでは完結せず、外部サービスの設定や手作業が必要な事項をまとめています。運用開始前に上段（初回設定）を、日々の運用で下段（都度対応）を確認してください。</p>
+<p>値そのもの（APIキー・トークン・パスワード）はこのファイルに書きません。保管場所（Vercel 環境変数・各サービスのダッシュボード等）だけを記します。</p>
+<hr>
+<h2>A. 初回設定（運用開始前に一度）</h2>
+<h3>A-1. Stripe（サブスク課金）</h3>
+<ul>
+<li><strong>本番キーの用意とモード確認</strong>: 納品時のサブスク開始に本番の <code>STRIPE_SECRET_KEY</code> を使う。現在、料金プラン（price）は <strong>テストモード</strong>で作成済み（Vercel の <code>STRIPE_PRICE_LIGHT/STANDARD/PREMIUM</code>）。本番運用時は次のどちらかに揃える:</li>
+<li>テストで通す間: 本番 <code>STRIPE_SECRET_KEY</code> もテストモードのキーにする。</li>
+<li>本番課金する時: <code>musubi-admin/scripts/stripe_setup.mjs</code> を <strong>ライブキー</strong>で実行してライブの price を作り、Vercel の <code>STRIPE_PRICE_*</code> を差し替える。</li>
+<li>※キーとpriceのモードがずれると、納品時のサブスク作成が失敗します。</li>
+<li><strong>Webhook の設定</strong>: <code>STRIPE_WEBHOOK_SECRET</code> が未設定。Stripe ダッシュボードで Webhook エンドポイントを <code>https://musubi-admin-two.vercel.app/api/stripe/webhook</code> に向けて作成し、署名シークレットを Vercel 環境変数 <code>STRIPE_WEBHOOK_SECRET</code> に設定する。これがないと入金・失敗ステータスがアプリに同期されません（サブスク作成自体は動作します）。</li>
+<li>保管場所: Stripe ダッシュボード、Vercel（musubi-admin）環境変数。</li>
+</ul>
+<h3>A-2. メール（Resend）</h3>
+<ul>
+<li>設定済み（対応不要）。送信ドメイン <code>send.musubiweb.com</code> は検証済み、Supabase 認証メール（招待）も Resend 経由。招待メールが迷惑メール／プロモーションタブに入る場合があるため、顧客には「Musubi からのメールを確認してください」と案内すると親切。</li>
+</ul>
+<h3>A-3. Googleビジネスプロフィール（GBP）</h3>
+<ul>
+<li><strong>API 利用承認</strong>: 口コミへの返信を自動投稿するには GBP API の利用承認が必要（申請中／承認待ち）。承認が下りるまでは、口コミ返信は「AI下書き生成 → ポータルで承認」まで動作し、実投稿は手動（下書きをコピーして GBP に貼り付け）で運用する。</li>
+<li>承認後: リフレッシュトークン等を Vercel 環境変数に設定し、自動投稿を有効化する。</li>
+<li>保管場所: Google Cloud / GBP のケース、Vercel 環境変数。</li>
+</ul>
+<h3>A-4. ドメイン基盤（Cloudflare）</h3>
+<ul>
+<li>サブドメイン運用（<code>&lt;店舗&gt;.musubiweb.com</code>）は管理アプリの公開・削除操作で自動化済み。</li>
+<li>保管場所: Cloudflare ダッシュボード、Vercel 環境変数（<code>CLOUDFLARE_API_TOKEN</code>／<code>ACCOUNT_ID</code>／<code>ZONE_ID</code>／<code>SITE_BASE_DOMAIN</code>）。</li>
+</ul>
+<hr>
+<h2>B. 案件ごとに都度対応</h2>
+<h3>B-1. 商談の日程調整（手順書ステップ3）</h3>
+<ul>
+<li>商談予約カレンダーは今フェーズ未実装。日程はメール・電話で調整する。</li>
+</ul>
+<h3>B-2. 独自ドメインの紐付け（手順書ステップ7）</h3>
+<ul>
+<li>顧客が独自ドメインを使う場合、Cloudflare での紐付けは手作業。<code>独自ドメイン運用・移管手順.md</code> に従う。</li>
+<li>サブドメイン運用（<code>&lt;店舗&gt;.musubiweb.com</code>）のみなら自動なので対応不要。</li>
+</ul>
+<h3>B-3. 口コミの実投稿（手順書ステップ10）</h3>
+<ul>
+<li>GBP API 承認が下りるまでは、承認済みの返信下書きを手動で GBP に投稿する。</li>
+</ul>
+<h3>B-4. 解約時の独自ドメイン移管（手順書ステップ11）</h3>
+<ul>
+<li>「独自ドメイン移管」を選んだ場合の実作業は手動。管理アプリの解約処理画面に表示されるチェックリスト、および <code>独自ドメイン運用・移管手順.md</code>（パターンA: ドメインごと顧客へ移管）に従う:</li>
+<li>レジストラでの移管申請</li>
+<li>ネームサーバの確認</li>
+<li>Cloudflare ゾーンの移管または顧客アカウントへの移行</li>
+<li>移管手数料の請求</li>
+<li>「サブドメイン削除」を選んだ場合は、削除は管理アプリが自動で行う（手作業なし）。</li>
+</ul>
+<hr>
+<h2>C. 今フェーズ未実装（今後の検討事項）</h2>
+<p>運用は回せるが、まだ手作業または未対応の領域。優先度に応じて次フェーズで実装を検討:</p>
+<ul>
+<li>商談予約カレンダー（顧客が空き枠を選ぶ）</li>
+<li>顧客サイトのネット予約（内部データベース）</li>
+<li>未入金時の自動リマインド（決済失敗 → リマインド → 猶予 → 一時停止）</li>
+<li>ポータルのプラン別機能ロック（プラン限定機能の出し分け）</li>
+<li>申込フォームのスパム対策強化（レート制限・CAPTCHA。現状は隠しフィールドによる簡易対策）</li>
+<li>領収書・適格請求書の発行（現状は非対応）</li>
+</ul>
+<p class="note">✅ 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
+</div></body></html>

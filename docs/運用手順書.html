@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>運用手順書（申込→クロージング） — Musubi</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22262f;--acc:#127b66;--verm:#b5402e;--gold:#c8893f;--bg:#f6f4ef;--line:#e8e2d6;--sub:#6f6a60;--muted:#8b8578}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.85}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 90px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.top a{font-size:13px;color:var(--acc);text-decoration:none;font-weight:700}
+.brand{display:flex;align-items:center;gap:10px;margin:14px 0 26px}
+.brand .mk{width:40px;height:40px;object-fit:contain;display:block}
+.brand b{font-size:16px;letter-spacing:.03em}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:.16em}
+h1{font-size:27px;margin:6px 0 14px;letter-spacing:.01em}
+h2{font-size:20px;margin:34px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 8px;color:var(--acc)}
+p{margin:10px 0;font-size:14.5px}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}
+li{font-size:14.5px;margin:5px 0}
+ul.task{list-style:none;padding-left:2px}
+ul.task li{display:flex;gap:10px;align-items:flex-start}
+ul.task .bx{flex:none;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--muted);margin-top:3px;display:grid;place-items:center;font-size:12px;color:#fff}
+ul.task li.done .bx{background:var(--acc);border-color:var(--acc)}
+ul.task li.done span{color:var(--sub)}
+strong{font-weight:700}
+code{background:#efece4;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+pre{background:#fbfaf7;border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow:auto;margin:14px 0}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.6;white-space:pre}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+th{background:#eef3f0;font-weight:700}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+a{color:var(--acc)}
+blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px;margin:12px 0;color:var(--sub);font-size:13.5px}
+details.logentry{border:1px solid var(--line);border-radius:10px;background:#fbfaf7;margin:10px 0;overflow:hidden}
+details.logentry>summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+details.logentry>summary::-webkit-details-marker{display:none}
+details.logentry>summary::before{content:"▶";font-size:10px;color:var(--acc);transition:transform .15s}
+details.logentry[open]>summary::before{transform:rotate(90deg)}
+details.logentry[open]>summary{border-bottom:1px solid var(--line);background:#f2efe7}
+details.logentry>summary:hover{color:var(--acc)}
+.logbody{padding:4px 18px 16px}
+.logbody h2{border-top:none;padding-top:0;margin-top:14px}
+.note{margin-top:46px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+@media print{.top,.brand{display:none}body{background:#fff}.wrap{padding:0}h2{break-after:avoid}}
+</style></head>
+<body><div class="wrap">
+<div class="top"><a href="../index.html">← デモ一覧に戻る</a></div>
+<div class="brand"><img class="mk" src="../assets/musubi-mark.png" alt="Musubi"><span><b>Musubi</b><small>環境構築ドキュメント</small></span></div>
+<h1>運用手順書 — 申込からクロージングまで</h1>
+<p>Musubi（飲食店向け公式サイト制作・月額運用）の1顧客のライフサイクルを、申込からクロージング（解約・ドメイン処理）まで通しで実施するための手順書です。各ステップに「誰が」「どの画面で」「何をするか」「システムの挙動」「確認ポイント」を記載しています。</p>
+<p>このドキュメント自体が、テスト（1周まわして最後まで到達できるか）のチェックリストを兼ねています。手作業や外部サービスでの対応が必要な箇所は「⚠️ 自社対応」と記し、詳細は <code>自社タスク一覧_手動対応事項.md</code> に集約しています。</p>
+<ul>
+<li>管理アプリ（admin）: https://musubi-admin-two.vercel.app （スタッフのみ・ログイン必要）</li>
+<li>顧客ポータル（portal）: https://musubi-portal.vercel.app （顧客のみ）</li>
+<li>LP: https://musubiweb.com</li>
+</ul>
+<hr>
+<h2>フロー全体像</h2>
+<pre><code>集客 → 申込 → 商談 → 契約提示 → 契約同意 → ヒアリング/素材 → 制作 → 公開
+  → プレビュー承認 → 納品(課金開始) → 運用(レポート/口コミ/連絡) → 解約 → クロージング</code></pre>
+<p>案件の状態は admin の案件詳細画面（<code>/stores/[店舗ID]</code>）で1本のステータスとして管理されます。ステータスと顧客向け表示名の対応:</p>
+<ul>
+<li>applied = 申込受付 / meeting = ご相談中 / contracted = 契約済み / hearing = ヒアリング中 / production = 制作中 / review = ご確認待ち / published = 公開中 / suspended = 一時停止 / cancelled・closed = 解約</li>
+</ul>
+<hr>
+<h2>0. 事前準備（初回のみ・自社対応）</h2>
+<p>運用開始前に、以下が設定済みであることを確認します。詳細は <code>自社タスク一覧_手動対応事項.md</code>。</p>
+<ul>
+<li>⚠️ 自社対応: Stripe 本番キーの用意（サブスク課金に使用。作成済みの料金プラン（price）と同じモードのキーであること）</li>
+<li>⚠️ 自社対応: Stripe Webhook の設定（入金状況の同期用）</li>
+<li>⚠️ 自社対応: 独自ドメインを扱う場合の Cloudflare 設定・レジストラ手続き</li>
+<li>⚠️ 自社対応: Googleビジネスプロフィール（GBP）API の利用承認（口コミ返信の自動投稿に必要）</li>
+</ul>
+<hr>
+<h2>1. 集客・申込</h2>
+<p><strong>誰が</strong>: 見込み客（飲食店オーナー）</p>
+<p><strong>画面</strong>: LP（https://musubiweb.com）</p>
+<ol>
+<li>オーナーが LP を見て、料金プランを選び「このプランで申し込む」または相談フォームから送信する。</li>
+<li>フォームには「相談する／申し込む」の種別、プラン、店名、担当者名、メール、電話、相談内容を入力。</li>
+</ol>
+<p><strong>システムの挙動</strong>:</p>
+<ul>
+<li>申し込み（apply）の場合: CRM にリード登録 → ポータルアカウントの招待メールを自動送信 → 運営に通知メール。</li>
+<li>相談（consult）の場合: CRM にリード登録 → 運営に通知メール（アカウント発行はなし）。</li>
+<li>同じメールで再送信しても重複リードは作らず、既存リードにまとめる。</li>
+</ul>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>admin <code>/crm</code> に「申込」または「相談」ステータスのリードが表示される。</li>
+<li>申込の場合、オーナーに「【Musubi】ポータルへのご招待」メールが届く（迷惑メール/プロモーションタブも確認）。</li>
+<li>運営（ALERT_EMAIL）に「【Musubi】新規申込/相談」メールが届く。</li>
+</ul>
+<hr>
+<h2>2. ポータルアカウント発行</h2>
+<p><strong>誰が</strong>: 見込み客</p>
+<p><strong>画面</strong>: 招待メール → portal <code>/welcome</code></p>
+<ol>
+<li>招待メールの「パスワードを設定する」リンクを開く。</li>
+<li><code>/welcome</code> でパスワード（8文字以上）を設定 → <code>/home</code>（ポータルトップ）が表示される。</li>
+</ol>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>パスワード設定後、portal <code>/home</code> に進行ステータスカード（「申込受付」段がハイライト）が表示される。</li>
+<li>以降 email + パスワードで <code>/login</code> からログインできる。</li>
+</ul>
+<hr>
+<h2>3. 商談・顧客化・案件着手</h2>
+<p><strong>誰が</strong>: スタッフ</p>
+<p><strong>画面</strong>: admin <code>/crm</code> → <code>/stores/[店舗ID]</code></p>
+<ol>
+<li><code>/crm</code> で該当リードを確認。相談のみのリードは商談後に「顧客化」ボタンで顧客（store + 案件）に変換する。※申込経由はこの時点で store と案件が作成済み。</li>
+<li>商談日程は必要に応じてメール・電話で調整（⚠️ 自社対応: 商談予約カレンダーは今フェーズ未実装）。</li>
+<li>リードの店舗名をクリックして案件詳細（<code>/stores/[店舗ID]</code>）を開く。ここが1案件の作業ハブ。</li>
+</ol>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li><code>/crm</code> に「顧客」列が表示され、顧客化済みは案件ステータスのバッジと <code>/stores</code> リンクが出る。</li>
+<li>案件詳細に店舗情報・案件パネル・契約・ヒアリング・素材・メッセージ・納品・解約の各セクションがある。</li>
+</ul>
+<hr>
+<h2>4. 契約条件の提示</h2>
+<p><strong>誰が</strong>: スタッフ</p>
+<p><strong>画面</strong>: admin <code>/stores/[店舗ID]</code>「契約条件」フォーム</p>
+<ol>
+<li>プランを確認し、支払方法（カード／銀行振込）、特記事項、制作期間・検収・更新回数・解約予告・移管手数料を入力。</li>
+<li>「顧客へ提示」ボタンを押す。</li>
+</ol>
+<p><strong>システムの挙動</strong>:</p>
+<ul>
+<li>契約条件を案件に保存し、顧客へ「契約書をお送りしました」メールを送信。</li>
+<li>初期制作費はキャンペーンにより0円で契約書に表記される。金額は税込表記。</li>
+</ul>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>顧客に契約書案内メールが届く。</li>
+<li>印刷用契約書（<code>/stores/[店舗ID]/contract</code>）がブラウザ印刷でPDF化できる。</li>
+<li>制作期間・検収・解約予告などが空欄や0では登録できない（最低1以上が強制される）。</li>
+</ul>
+<hr>
+<h2>5. 契約同意（顧客）</h2>
+<p><strong>誰が</strong>: 顧客</p>
+<p><strong>画面</strong>: portal <code>/contract</code>（<code>/home</code> の導線から）</p>
+<ol>
+<li>契約書の全文を確認し、「内容に同意して申し込む」を押す。</li>
+</ol>
+<p><strong>システムの挙動</strong>:</p>
+<ul>
+<li>案件のステータスが「契約済み（contracted）」になり、合意日時（agreed_at）を記録。</li>
+<li>顧客と運営の双方に確認メールを送信（法的合意の記録）。</li>
+</ul>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>同意後、portal <code>/home</code> の進行が「契約済み」に進む。</li>
+<li>※既に状態が進んでいる等で同意が反映されない場合、「契約に同意しました」メールは送られず、顧客にはやり直しを促すエラーが出る（誤った合意記録を防ぐ設計）。</li>
+</ul>
+<hr>
+<h2>6. ヒアリング・素材回収（顧客）</h2>
+<p><strong>誰が</strong>: 顧客</p>
+<p><strong>画面</strong>: portal <code>/hearing</code></p>
+<ol>
+<li>ヒアリングシート（店舗基本情報・強み・ターゲット・掲載内容・予約/問合せ・デザイン希望・素材・ドメイン・GBP・連絡先の10セクション）に記入。途中保存可。</li>
+<li>ロゴ・写真・メニュー等の素材をアップロード（jpg/png/webp/pdf/zip・1ファイル20MBまで）。</li>
+<li>「提出する」を押す。</li>
+</ol>
+<p><strong>システムの挙動</strong>:</p>
+<ul>
+<li>提出すると案件ステータスが「ヒアリング中（hearing）」に進み、運営に通知メール。</li>
+<li>素材は店舗ごとの専用フォルダに保存され、他店からは見えない。</li>
+</ul>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>提出後、portal <code>/home</code> の進行が「ヒアリング中」に進む。</li>
+<li>admin <code>/stores/[店舗ID]</code> のヒアリングセクションに回答が整形表示され、素材がダウンロードリンク付きで一覧される。</li>
+</ul>
+<hr>
+<h2>7. 制作・サイト公開</h2>
+<p><strong>誰が</strong>: スタッフ</p>
+<p><strong>画面</strong>: admin <code>/stores/[店舗ID]</code> → <code>/builder?store=[店舗ID]</code></p>
+<ol>
+<li>ヒアリング内容・素材をもとにサイトを制作（builder でテンプレート選択・内容編集・テーマ調整）。</li>
+<li>builder から公開（Cloudflare Pages へデプロイ）。サブドメイン（<code>&lt;店舗&gt;.musubiweb.com</code>）が割り当てられ、store の site_domain が設定される。</li>
+<li>⚠️ 自社対応: 独自ドメインを使う場合は Cloudflare での紐付けが別途手作業（<code>独自ドメイン運用・移管手順.md</code> 参照）。</li>
+<li>案件詳細でステータスを「制作中（production）」に更新し、<code>preview_url</code>（確認用URL）を設定 → ステータスを「ご確認待ち（review）」にする。</li>
+</ol>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>公開後、<code>&lt;店舗&gt;.musubiweb.com</code>（または独自ドメイン）で実際にサイトが表示される。</li>
+<li>案件詳細の納品前提チェックで「サイト公開」が満たされる（site_domain が設定される）。</li>
+</ul>
+<hr>
+<h2>8. プレビュー承認（顧客）</h2>
+<p><strong>誰が</strong>: 顧客</p>
+<p><strong>画面</strong>: portal <code>/home</code>（ご確認待ちのとき）</p>
+<ol>
+<li><code>/home</code> の「プレビューを確認する」からサイトを確認し、「プレビューを承認する」を押す。</li>
+</ol>
+<p><strong>システムの挙動</strong>:</p>
+<ul>
+<li>承認記録（preview_approved_at）を立て、運営に通知メール。公開（ステータス変更）は運営側の納品操作で行う。</li>
+</ul>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>承認後、portal に「承認済み・公開をお待ちください」と表示される。</li>
+<li>admin の納品前提チェックで「プレビュー承認」が満たされる。</li>
+</ul>
+<hr>
+<h2>9. 納品・課金開始</h2>
+<p><strong>誰が</strong>: スタッフ</p>
+<p><strong>画面</strong>: admin <code>/stores/[店舗ID]</code>「納品」セクション</p>
+<ol>
+<li>前提3点（契約合意・プレビュー承認・サイト公開）がすべて満たされると納品ボタンが有効になる。</li>
+<li>支払方法に応じて「Stripeを使わない（銀行振込）」のチェックを選び、納品ボタンを押す。</li>
+</ol>
+<p><strong>システムの挙動</strong>:</p>
+<ul>
+<li>カード決済の場合: Stripe サブスクリプションを <strong>30日間の無料トライアル付き</strong>で開始（初月無料・課金起点は納品日）。契約（contracts）を有効で記録。</li>
+<li>銀行振込の場合: Stripe を使わず契約を有効で記録。</li>
+<li>案件ステータスを「公開中（published）」にし、納品日（delivered_at）を記録。顧客へ納品完了メール（サイトURL・ポータル案内）を送信。</li>
+<li>既に納品済み・有効契約ありの場合は二重納品・二重課金しない（ガードあり）。</li>
+</ul>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>⚠️ 自社対応: この手順を実際に通すには本番の Stripe キーがトライアル料金（price）と同じモードであることが必要。</li>
+<li>納品後、portal <code>/home</code> が「公開中」になり、顧客に納品完了メールが届く。</li>
+<li>admin <code>/billing</code> に有効な契約（トライアル中／有効）が表示される。</li>
+</ul>
+<hr>
+<h2>10. 運用（月次）</h2>
+<p><strong>誰が</strong>: スタッフ・システム</p>
+<p><strong>画面</strong>: admin・portal</p>
+<ol>
+<li>月次レポート: GA4 から前月のアクセス・予約・問合せ等を自動集計し、ポータルに公開＋顧客へ通知（毎月自動）。</li>
+<li>口コミ返信: 新着 Google 口コミに AI が返信の下書きを生成 → 顧客がポータルで承認 → 投稿。⚠️ 自社対応: 実投稿には GBP API の利用承認が必要（承認前は下書き生成まで）。</li>
+<li>連絡: 案件詳細（admin）とポータル（portal）のメッセージ機能で顧客と往復。送信時は相手に通知メール。</li>
+</ol>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>portal <code>/report</code>・<code>/reviews</code>・<code>/messages</code> が表示される。</li>
+<li>メッセージが双方向で届き、既読が反映される。</li>
+</ul>
+<hr>
+<h2>11. 解約・クロージング</h2>
+<p><strong>誰が</strong>: スタッフ（顧客はメール・電話で解約を申し出る）</p>
+<p><strong>画面</strong>: admin <code>/stores/[店舗ID]</code>「解約処理」セクション</p>
+<ol>
+<li>顧客からの解約申し出を受けたら、案件詳細の解約処理セクションを開く（運用中＝公開中／一時停止のときのみ表示）。</li>
+<li>クロージング方法を選ぶ:</li>
+</ol>
+<ul>
+<li><strong>サブドメイン削除</strong>: <code>&lt;店舗&gt;.musubiweb.com</code> で運用している場合。サイトを停止し、サブドメインを削除する。</li>
+<li><strong>独自ドメイン移管</strong>: 顧客の独自ドメインで運用している場合。サイトは削除せず、ドメインを顧客へ引き継ぐ（手順は画面のチェックリストに従い手作業）。</li>
+<li>※独自ドメイン運用中は「サブドメイン削除」は選べない（他社ドメインの誤削除を防ぐため）。</li>
+</ul>
+<ol>
+<li>確認ダイアログで解約を実行する。</li>
+</ol>
+<p><strong>システムの挙動</strong>:</p>
+<ul>
+<li>有効な Stripe サブスクリプションを解約（振込契約は契約記録のみ解約）。契約（contracts）を解約済みに更新。</li>
+<li>サブドメイン削除の場合: Cloudflare Pages プロジェクトとサブドメインを削除し、site_domain をクリア。</li>
+<li>独自ドメイン移管の場合: サイトは残し、移管手続き待ちのフラグを立てる。</li>
+<li>案件ステータスを「解約（closed）」にし、解約日時を記録。顧客へ解約案内メール（方法に応じて内容を出し分け）を送信。</li>
+</ul>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>⚠️ 自社対応: 独自ドメイン移管の実作業（レジストラ移管申請・ネームサーバ確認・Cloudflareゾーン移管・移管手数料請求）は手動。画面のチェックリストと <code>独自ドメイン運用・移管手順.md</code> パターンA に従う。</li>
+<li>解約後、Stripe ダッシュボードでサブスクが解約されている。</li>
+<li>サブドメイン削除の場合、<code>&lt;店舗&gt;.musubiweb.com</code> が表示されなくなる。</li>
+<li>顧客に解約案内メールが届く。</li>
+<li>案件が「解約」ステータスになり、CRM・案件一覧から状態が確認できる。</li>
+</ul>
+<hr>
+<h2>テスト実施メモ</h2>
+<p>1周まわして各ステップの「確認ポイント」がすべて満たされれば、申込からクロージングまで通しで機能していることになります。詰まった箇所・改善したい点は、ステップ番号とともに記録して共有してください。</p>
+<p>⚠️ 自社対応マークの箇所は、コード側では完結せず、外部サービスでの設定や手作業が必要です。テスト前に <code>自社タスク一覧_手動対応事項.md</code> を確認してください。</p>
+<p class="note">🔄 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
+</div></body></html>
