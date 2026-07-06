@@ -64,7 +64,8 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>本番課金する時: <code>musubi-admin/scripts/stripe_setup.mjs</code> を <strong>ライブキー</strong>で実行してライブの price を作り、Vercel の <code>STRIPE_PRICE_*</code> を差し替える。</li>
 <li>※キーとpriceのモードがずれると、納品時のサブスク作成が失敗します。</li>
 <li><strong>Webhook の設定</strong>: <code>STRIPE_WEBHOOK_SECRET</code> が未設定。Stripe ダッシュボードで Webhook エンドポイントを <code>https://musubi-admin-two.vercel.app/api/stripe/webhook</code> に向けて作成し、署名シークレットを Vercel 環境変数 <code>STRIPE_WEBHOOK_SECRET</code> に設定する。これがないと入金・失敗ステータスがアプリに同期されません（サブスク作成自体は動作します）。</li>
-<li>保管場所: Stripe ダッシュボード、Vercel（musubi-admin）環境変数。</li>
+<li><strong>顧客のカード登録（Billing Portal）</strong>: 顧客ポータルの「お支払い」タブ（<code>/pay</code>）は Stripe の Customer Portal（Billing Portal）を使ってカード登録・変更を行う。これを動かすには、<strong>musubi-portal 側の Vercel 環境変数にも <code>STRIPE_SECRET_KEY</code></strong>（admin と同一 Stripe アカウントのキー）を設定し、かつ <strong>Stripe ダッシュボードで Customer Portal を有効化</strong>しておく必要がある。どちらか未構成だと <code>/pay</code> でのセッション作成が失敗する。※本対応は実施済み。</li>
+<li>保管場所: Stripe ダッシュボード、Vercel（musubi-admin・musubi-portal）環境変数。</li>
 </ul>
 <h3>A-2. メール（Resend）</h3>
 <ul>
@@ -79,13 +80,14 @@ details.logentry>summary:hover{color:var(--acc)}
 <h3>A-4. ドメイン基盤（Cloudflare）</h3>
 <ul>
 <li>サブドメイン運用（<code>&lt;店舗&gt;.musubiweb.com</code>）は管理アプリの公開・削除操作で自動化済み。</li>
+<li>公開時の Cloudflare Pages プロジェクト名は、内部で <code>musubi-&lt;サブドメイン&gt;</code> に自動で一意化されるため、顧客のサブドメイン名（例: <code>test</code>）は自由に付けてよい。以前は汎用的な名前だと <code>*.pages.dev</code> の衝突で公開に失敗することがあったが、この自動一意化により解消済み。</li>
 <li>保管場所: Cloudflare ダッシュボード、Vercel 環境変数（<code>CLOUDFLARE_API_TOKEN</code>／<code>ACCOUNT_ID</code>／<code>ZONE_ID</code>／<code>SITE_BASE_DOMAIN</code>）。</li>
 </ul>
 <hr>
 <h2>B. 案件ごとに都度対応</h2>
-<h3>B-1. 商談の日程調整（手順書ステップ3）</h3>
+<h3>B-1. 打ち合わせの日程調整（手順書ステップ3）</h3>
 <ul>
-<li>商談予約カレンダーは今フェーズ未実装。日程はメール・電話で調整する。</li>
+<li>打ち合わせ予約は実装済み（C節参照）。管理アプリ <code>/meetings</code> で空き枠を作成しておくと、ログイン済み顧客はポータル <code>/meeting</code> から予約できる。未ログインのリードとはメール・電話で調整する。</li>
 </ul>
 <h3>B-2. 独自ドメインの紐付け（手順書ステップ7）</h3>
 <ul>
@@ -109,7 +111,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <h2>C. 実装済み（2026-07-05 追加）</h2>
 <p>以下は当初「未実装」だったが実装済み:</p>
 <ul>
-<li><strong>商談予約カレンダー</strong>: 管理アプリ <code>/meetings</code> で空き枠を作成、顧客はポータル <code>/meeting</code> から空き枠を選んで予約。二重予約は排他制御で防止、予約RPCはアプリログイン＋DB権限の二重防御。確定時に双方へメール。</li>
+<li><strong>打ち合わせ予約カレンダー</strong>: 管理アプリ <code>/meetings</code> で空き枠を作成、顧客はポータル <code>/meeting</code> から空き枠を選んで予約。二重予約は排他制御で防止、予約RPCはアプリログイン＋DB権限の二重防御。確定時に双方へメール。</li>
 <li><strong>顧客サイトのネット予約（内部データベース）</strong>: 飲食テンプレート（restaurant/cafe/sushi）は予約フォームが内部予約API（/api/reserve）に直結済み。空き枠は管理アプリのサイト制作（builder）の予約設定で編集、予約一覧・キャンセルは <code>/reservations</code>。</li>
 <li><strong>未入金時の自動リマインド（dunning）</strong>: 決済失敗で当日リマインドメール＋3日の猶予、猶予超過で日次バッチがサイトを一時停止、入金確認で自動復帰。</li>
 <li><strong>ポータルのプラン別機能ロック</strong>: ライトプランは口コミAI返信・月次レポートを非提供（「スタンダードプラン以上でご利用いただけます」表示）。画面・サーバー両方でロック。</li>
@@ -117,7 +119,7 @@ details.logentry>summary:hover{color:var(--acc)}
 </ul>
 <h2>D. 今フェーズ未実装（今後の検討事項）</h2>
 <ul>
-<li>商談予約の未ログイン（リード）向け公開予約ページ（現状はポータルログイン済み顧客向け）</li>
+<li>打ち合わせ予約の未ログイン（リード）向け公開予約ページ（現状はポータルログイン済み顧客向け）</li>
 <li>口コミAI返信の実投稿（GBP API 承認待ち。承認までは下書き生成→手動投稿）</li>
 <li>領収書・適格請求書の発行（現状は非対応・非インボイス事業者前提）</li>
 <li>申込フォームの CAPTCHA（現状は隠しフィールド＋IPレート制限）</li>
