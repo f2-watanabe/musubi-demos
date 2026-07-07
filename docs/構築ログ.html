@@ -62,6 +62,21 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-07 ・ 機能拡張9項目＋管理/顧客ポータルUI全面刷新</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: フィードバック9項目の実装と、両アプリのUI全面刷新。</li>
+<li><strong>エディタ強化</strong>: 直接編集画面が全ページ（予約ページ含む）を対象に。配列項目（メニュー/ギャラリー/コース）の追加/削除、予約受付設定の構造化フォーム、<code>withCtx</code> 適用でプレビュー正常化。旧 BuilderEditor（死コード）削除。</li>
+<li><strong>AI</strong>: (a) 編集画面に「AIで下書きを作成」（ヒアリング回答＋参考URL→content生成・1段階取消）。(b) <strong>テンプレ無しの生HTMLをAI生成</strong>し編集領域を <code>data-edit</code>/<code>data-edit-img</code> でマーク→インライン編集（<code>/builder/ai-generate</code>・<code>lib/aiGenerate</code>・<code>lib/editableHtml</code>）。XSSゲートは正規表現→<strong>sanitize-html allowlist</strong> に強化（無引用符属性・エンコードスキーム等のバイパスをテストで封鎖）、data-edit ID は一意化。</li>
+<li><strong>フロー</strong>: 契約後はヒアリング入力を顧客に出さず読み取り化（データは admin 保持）。</li>
+<li><strong>決済ゲート</strong>: 契約合意を「カード登録済み or 銀行振込選択」まで無効化。Stripe顧客を早期作成（<code>stores.stripe_customer_id</code>・migration 0023）→契約前にカード登録可、納品時に既存顧客を再利用。webhook の契約ルックアップを active 限定に修正（顧客再利用で dunning が壊れるバグを解消）、顧客作成を原子化。口座振替（自動引き落とし）は Stripe JP 制約で未対応。</li>
+<li><strong>顧客セルフ編集</strong>: 納品後、顧客ポータルで自店サイトを<strong>文字/画像のみ</strong>編集。公開は admin 認証API（顧客トークン検証＋IDORガード）に委譲し、<strong>月更新回数上限</strong>（プラン別・premium無制限）を原子的に判定、公開前に版をバックアップ（<code>site_versions</code>・migration 0024/0025）して復元可能。構造変更はプレミアム＝運営依頼。</li>
+<li><strong>UI全面刷新（claude design 志向）</strong>: 両アプリの globals.css を暖色トークン（bg#f6f4ee/card#fffdfa/acc#0e7c63、角丸14/二段影）で再構築、コンポーネント（ボタン/カード/バッジ/テーブル/入力/ステージレール/ヒーロー/通知ベル）とシェル（AdminShellサイドバー/PortalNav）を刷新。全ページに適用し、DB/インフラ名・内部用語・捏造数値・冗長パネルを削除。デザインレビューで検出したフォーカスリング不可視（WCAG 2.4.7）・<code>--muted</code> コントラストAA割れ（3.6→5.3:1）・ログイン緑のトークン不一致・共有CSSのドリフトを修正。</li>
+<li><strong>Why</strong>: 実運用に耐える機能と、業務アプリとして恥ずかしくない見た目へ。特に決済ゲート・公開回数制限・XSSゲートは課金/セキュリティ整合性に直結。</li>
+<li><strong>How</strong>: サブエージェントで項目ごとに実装→レビュー→修正（決済ゲートの dunning 破綻・顧客公開の上限非原子・AI-HTML の XSS バイパスは、いずれもレビューで検出し修正）。migration 0023/0024/0025 は本番 Supabase に適用済み（スキーマ検証済み）。両リポ <code>npx tsc --noEmit</code>／<code>npm run build</code> exit 0、admin <code>npx vitest run</code> 126件PASS。</li>
+<li><strong>Result</strong>: 全コミット済み・本番反映（push）。<strong>外部設定（ユーザー実施済み）</strong>: portal Vercel の <code>STRIPE_SECRET_KEY</code>＋Stripe Customer Portal 有効化（顧客カード登録に必須）。<strong>残</strong>: 実ブラウザでの通し受入（申込→…→顧客編集/公開）と、AI生成サイトの実挙動確認。</li>
+<li><strong>証跡</strong>: migration 0023/0024/0025、admin（エディタ/AI/決済/公開API/UI 各コミット）、portal（顧客編集/契約ゲート/UI 各コミット）。設計は <code>設計_エディタ強化・AI生成・顧客編集・決済ゲート_2026-07-07.md</code>。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-06 ・ UXフィードバック対応（ベル/ボタン/エディタ完全化/ヒアリング全面改訂/決済導線/公開エラー）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 本番反映後のユーザーフィードバックを一括対応。(1) <strong>通知ベル再デザイン</strong>=絵文字→インラインSVGベルアイコン・相対時刻・外側クリックで閉じる・上品な未読バッジ（admin/portal 統一）。(2) <strong>押下フィードバック</strong>=フォーム送信の生ボタン12件を <code>SubmitButton</code>（送信中表示）化＋<code>.btn</code> に押下感CSS。(3) <strong>サイト編集の完全化</strong>=直接編集画面（<code>/builder/[store]/edit</code>）で「編集できない箇所が多い」を解消——<code>renderEditable</code> を拡張し <code>#each</code> 配列項目（メニュー/ギャラリー/特徴/コース等）を <code>data-edit=&quot;arrayKey.i.field&quot;</code> でインライン編集可に、配列内画像も対応。旧フォーム画面（<code>/builder?store=</code>）の非ビジュアル設定（テンプレ選択・サブドメイン・テーマ・上級 custom_head/css/html・サイト削除）を編集画面の<strong>設定ドロワー</strong>へ集約し、<code>/builder</code> は店舗ピッカー化＋旧URLはリダイレクト。custom テンプレ切替時の警告＋pages seed も復元。(4) <strong>ヒアリングシート全面改訂</strong>=記入者（飲食店オーナー）目線の2エージェント議論を統合。危険/重複3項目削除（<code>billing_method</code>＝カード番号誤入力の危険＆契約側と重複／<code>contract_plan</code>／<code>existing_photo_detail</code>）、複合3項目を分割（営業時間↔定休日・席数↔駐車場・開業年↔ストーリー）、強み3連質問を1つに統合、専門用語を平易化（流入経路・ドメイン・GBP等）、不足5項目追加（店主名・最寄駅・店内決済手段・仮メニュー・予約ルール）、条件分岐（ロゴなし時に形式欄を隠す）・任意フラグ（進捗%から除外）・ヒント文の仕組みを型に追加。(5) <strong>決済導線の新設</strong>=顧客がカードを登録する場所が存在せず trial 後に決済失敗する欠落を解消。<strong>Stripe Billing Portal</strong> 方式で portal に「お支払い」タブ＋<code>/pay</code> ページ＋<code>openBillingPortal</code> を新設（active 契約の <code>stripe_customer_id</code> を service client で解決→Billing Portal セッション作成→リダイレクト。未登録段階は案内のみ）。(6) <strong>公開エラーの原因特定</strong>=「デプロイに失敗しました：upload-token 取得失敗」で Cloudflare の実エラーを握り潰していたのを表面化する修正（<code>cfPages.ts</code>。token 権限/プロジェクト不存在を切り分け可能に）。</li>
