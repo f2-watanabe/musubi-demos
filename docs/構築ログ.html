@@ -62,6 +62,20 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-10 ・ 汎用ライン拡張（中小企業・個人・イベント案件対応）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 飲食特化の3プランに加え、コーポレート・個人/クリエイター・イベント/プロモ案件を「汎用ライン＝カスタムプラン（個別見積）」として受注できるようにする一式を実装。</li>
+<li><strong>設計・資料</strong>: 設計書・実装計画を作成（<code>01_提案・設計資料/汎用ライン拡張設計_2026-07-10.md</code>・<code>実装計画_汎用ライン拡張.md</code>）。利益試算に §7 汎用ライン（個人向け含む3レンジ）を追加（<code>3153ac7</code>）。汎用ライン運用手順書を新規作成（申込〜Stripe個別Price作成〜公開〜月次運用〜解約までの7章＋イベントサイト必須要素チェックリスト12項目、<code>2ad24e6</code>＋レビュー反映 <code>4e0a226</code>）。</li>
+<li><strong>LP</strong>: <code>07_マーケサイト/business.html</code> を新設、<code>index.html</code> に nav/フッター導線2行を追加（フォームは既存 <code>/api/apply</code> を流用、<code>kind=consult</code> 固定）。<code>6d704c6</code>。</li>
+<li><strong>musubi-admin（DB）</strong>: migration <code>0026_custom_plan.sql</code> で <code>contracts.plan_type</code> enum に <code>&#x27;custom&#x27;</code> を追加（<code>d5022aa</code>）。レビューで <code>custom_price_id</code> カラムを冗長と判定し廃止、既存 <code>stripe_price_id</code> を使う設計に変更（<code>e4f1fe5</code>）。<strong>本番Supabaseへ適用済み</strong>（<code>apply_migration.mjs</code>・project <code>hsyhiiqrrtrbxexqyixi</code>）、適用後 enum 値 <code>light/standard/premium/custom</code> の4値を実確認。</li>
+<li><strong>musubi-admin（課金）</strong>: custom プランの課金実装（<code>resolvePriceId()</code> 拡張・billing UI に Price ID 入力欄・dashboard の MRR 計算を <code>contracts.monthly_fee</code> の実額参照に修正）。<code>c3c7450</code>＋<code>d3c0ae9</code>。</li>
+<li><strong>パワパフ案件</strong>: Flapper（有限会社アディクト）The Powerpuff Girls POPUP STORE「ガールズの休日」向けに、<code>sites/ppg-popup/</code> へ HEARING.md とモックを作成（対象は2026年9月次回開催。IP制約遵守でキャラ素材はグレープレースホルダ）。</li>
+<li><strong>Why</strong>: 飲食以外（中小企業・個人・イベント）の案件を個別見積で受けられる体制を整え、パワパフ案件を含む具体的な引き合いに対応するため。</li>
+<li><strong>How</strong>: 各タスクをサブエージェント実装＋レビューゲート（fix 計3回）で実施。migration は本番適用後に enum 値を実確認。両リポとも <code>npx tsc --noEmit</code>／<code>npm run build</code> 通過、admin <code>npx vitest run</code> 132件PASS。</li>
+<li><strong>Result</strong>: 各タスクの実装・ドキュメント整備・migration本番適用まで完了。<strong>受け入れ基準の残</strong>: custom プランのテストモードでの実サブスク作成、business.html の実疎通確認、パワパフモックの先方承認は未実施（デプロイ／打ち合わせ実施時に確認予定）。「済」とはしていない。</li>
+<li><strong>証跡</strong>: local-web-sales <code>b0914fb</code>〜<code>6d704c6</code>（設計〜実装計画〜利益試算〜手順書〜LP）、musubi-admin <code>d5022aa</code>〜<code>d3c0ae9</code>（migration〜課金実装）、<code>sites/ppg-popup/</code>（git管理外）。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-07 ・ 機能拡張9項目＋管理/顧客ポータルUI全面刷新</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: フィードバック9項目の実装と、両アプリのUI全面刷新。</li>

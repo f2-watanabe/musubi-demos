@@ -329,5 +329,19 @@ details.logentry>summary:hover{color:var(--acc)}
 <li class="done"><span class="bx">✓</span><span><code>02_デモサイト</code> の billing / builder デモ画面を新価格・新テンプレ選択に整合（<code>build_admin.py</code>）← 再生成差分は billing/builder の2ファイルのみ</span></li>
 </ul>
 <p><strong>受け入れ基準</strong>: ハブから新LP・全テンプレ・新価格表に到達できる。旧価格の表示が残らない。</p>
+<h2>Phase R6 ・ 汎用ライン拡張（中小企業・個人・イベント案件対応）</h2>
+<p><strong>目的</strong>: 飲食特化の3プランに加え、コーポレート・個人/クリエイター・イベント/プロモ案件を「汎用ライン＝カスタムプラン（個別見積）」として受注できるようにする。</p>
+<p><strong>手順</strong></p>
+<ul class="task">
+<li class="done"><span class="bx">✓</span><span>利益試算ドキュメントに汎用ライン（個人向け含む3レンジ）の節を追加 ← <code>01_提案・設計資料/利益試算の前提と根拠.md</code> §7</span></li>
+<li class="done"><span class="bx">✓</span><span>汎用ライン運用手順書を新規作成（申込〜Stripe個別Price作成〜公開〜月次運用〜解約までの全7章＋イベントサイト必須要素チェックリスト12項目）← <code>05_業務手順書/汎用ライン運用手順書.md</code></span></li>
+<li class="done"><span class="bx">✓</span><span><code>07_マーケサイト/business.html</code> を新設、<code>index.html</code> に nav/フッター導線を追加（フォームは既存 <code>/api/apply</code> を流用・<code>kind=consult</code> 固定）</span></li>
+<li class="done"><span class="bx">✓</span><span><code>musubi-admin</code>: migration <code>0026_custom_plan.sql</code>（<code>contracts.plan_type</code> enum に <code>&#x27;custom&#x27;</code> を追加）← レビューで <code>custom_price_id</code> カラムを冗長と判定し廃止、既存 <code>stripe_price_id</code> を使用する設計に変更。<strong>本番Supabaseへ適用済み</strong>、enum 4値（light/standard/premium/custom）を実確認</span></li>
+<li class="done"><span class="bx">✓</span><span><code>musubi-admin</code>: custom プランの課金実装（<code>resolvePriceId()</code> 拡張・billing UI に Price ID 入力欄・dashboard の MRR 計算を <code>contracts.monthly_fee</code> の実額参照に修正）← <code>npx vitest run</code> 132件PASS・<code>npm run build</code> 通過</span></li>
+<li class="done"><span class="bx">✓</span><span>パワパフ案件（Flapper=有限会社アディクト、The Powerpuff Girls POPUP STORE「ガールズの休日」）ヒアリングシート＋モックを作成 ← <code>sites/ppg-popup/</code>（git管理外運用。対象は2026年9月次回開催、IP制約遵守でキャラ素材はグレープレースホルダ）</span></li>
+<li class="done"><span class="bx">✓</span><span>ロードマップ・構築ログ更新、<code>build_docs.py</code> の <code>DOCS</code> に汎用ライン運用手順書を追加してハブ再生成</span></li>
+</ul>
+<p><strong>受け入れ基準</strong>: custom プランでテストモードのサブスク作成が成功する・<code>business.html</code> が公開され実疎通できる・パワパフモックが先方承認を得る。</p>
+<p>→ <strong>未達（2026-07-10 時点）</strong>。実装・本番migration適用・ドキュメント整備までは完了。custom プランのテストモード実サブスク作成と business.html の実疎通、パワパフモックの先方承認は、デプロイ／打ち合わせ実施時に別途確認する。</p>
 <p class="note">🧭 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
 </div></body></html>

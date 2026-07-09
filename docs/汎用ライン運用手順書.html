@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>汎用ライン運用手順書（企業・イベント案件） — Musubi</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22262f;--acc:#127b66;--verm:#b5402e;--gold:#c8893f;--bg:#f6f4ef;--line:#e8e2d6;--sub:#6f6a60;--muted:#8b8578}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.85}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 90px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.top a{font-size:13px;color:var(--acc);text-decoration:none;font-weight:700}
+.brand{display:flex;align-items:center;gap:10px;margin:14px 0 26px}
+.brand .mk{width:40px;height:40px;object-fit:contain;display:block}
+.brand b{font-size:16px;letter-spacing:.03em}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:.16em}
+h1{font-size:27px;margin:6px 0 14px;letter-spacing:.01em}
+h2{font-size:20px;margin:34px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 8px;color:var(--acc)}
+p{margin:10px 0;font-size:14.5px}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}
+li{font-size:14.5px;margin:5px 0}
+ul.task{list-style:none;padding-left:2px}
+ul.task li{display:flex;gap:10px;align-items:flex-start}
+ul.task .bx{flex:none;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--muted);margin-top:3px;display:grid;place-items:center;font-size:12px;color:#fff}
+ul.task li.done .bx{background:var(--acc);border-color:var(--acc)}
+ul.task li.done span{color:var(--sub)}
+strong{font-weight:700}
+code{background:#efece4;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+pre{background:#fbfaf7;border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow:auto;margin:14px 0}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.6;white-space:pre}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+th{background:#eef3f0;font-weight:700}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+a{color:var(--acc)}
+blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px;margin:12px 0;color:var(--sub);font-size:13.5px}
+img.shot{display:block;max-width:100%;height:auto;margin:14px 0 6px;border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+p:has(>img.shot){margin:16px 0}
+details.logentry{border:1px solid var(--line);border-radius:10px;background:#fbfaf7;margin:10px 0;overflow:hidden}
+details.logentry>summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+details.logentry>summary::-webkit-details-marker{display:none}
+details.logentry>summary::before{content:"▶";font-size:10px;color:var(--acc);transition:transform .15s}
+details.logentry[open]>summary::before{transform:rotate(90deg)}
+details.logentry[open]>summary{border-bottom:1px solid var(--line);background:#f2efe7}
+details.logentry>summary:hover{color:var(--acc)}
+.logbody{padding:4px 18px 16px}
+.logbody h2{border-top:none;padding-top:0;margin-top:14px}
+.note{margin-top:46px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+@media print{.top,.brand{display:none}body{background:#fff}.wrap{padding:0}h2{break-after:avoid}}
+</style></head>
+<body><div class="wrap">
+<div class="top"><a href="../index.html">← デモ一覧に戻る</a></div>
+<div class="brand"><img class="mk" src="../assets/musubi-mark.png" alt="Musubi"><span><b>Musubi</b><small>環境構築ドキュメント</small></span></div>
+<h1>汎用ライン運用手順書（企業・個人・イベント/プロモ案件）</h1>
+<p>飲食3プラン（ライト/スタンダード/プレミアム）とは別枠の<strong>汎用ライン＝カスタムプラン</strong>の受注〜クロージングまでの手順書です。対象は飲食以外のコーポレートサイト・個人/クリエイターサイト・イベント/プロモーション（ポップアップストア等の期間限定サイト含む）。</p>
+<p>商品定義（呼称・見積レンジ・飲食ラインとの違い）の正は <code>01_提案・設計資料/利益試算の前提と根拠.md</code> §7 です。金額の考え方はそこを必ず参照し、本書では数値を書き写すのみで独自に変更しません。基盤システム（admin / portal / Stripe / Cloudflare Pages）は飲食ラインと共通で、<code>運用手順書_申込からクロージングまで.md</code> の該当ステップを流用できる箇所は「飲食と共通」と明記します。個別見積・個別 Stripe Price 作成・手組み制作など、汎用ライン特有の分岐だけをこの手順書で詳述します。</p>
+<ul>
+<li>管理アプリ（admin）: https://musubi-admin-two.vercel.app （スタッフのみ・ログイン必要）</li>
+<li>顧客ポータル（portal）: https://musubi-portal.vercel.app （顧客のみ）</li>
+<li>Stripe ダッシュボード: https://dashboard.stripe.com</li>
+</ul>
+<hr>
+<h2>フロー全体像</h2>
+<pre><code>申込 → ヒアリング → 見積・契約 → Stripe Price 作成 → 制作 → プレビュー承認
+  → 公開 → 課金開始 → 月次運用 → 会期終了/解約処理</code></pre>
+<p>飲食ラインと同じく、案件の進行は admin の案件詳細画面（<code>/stores/[店舗ID]</code>）のステージレールで管理します。汎用ラインでは以下の3点が飲食と異なります。</p>
+<ol>
+<li>契約前に「見積」という工程が独立して発生する（飲食は定価3プランのため見積工程がない）。</li>
+<li>課金開始前に、契約ごとの Stripe Price を個別に作成する工程が挟まる（飲食は共通の3プランPriceを使い回す）。</li>
+<li>制作がテンプレ+AI生成ではなく custom モード／手組みになる。</li>
+</ol>
+<hr>
+<h2>1. 申込受付</h2>
+<p><strong>誰が</strong>: 見込み客（企業担当者・個人事業主・イベント主催者）</p>
+<p><strong>画面</strong>: マーケサイトの企業・イベント向けページ、または紹介経由</p>
+<ol>
+<li>マーケサイトの企業・イベント向けページ（LP <code>https://musubiweb.com</code> の企業・イベント向け導線）の相談フォームから問い合わせが入るか、既存顧客・取引先からの紹介で話が来る。</li>
+<li>フォーム経由の場合は飲食の相談リードと同じ経路で admin <code>/crm</code> にリードとして登録される（種別は「相談」扱い。汎用ラインは定価プランを持たないため「申込」種別は使わない）。</li>
+<li>紹介経由など、フォームを通らずに話が来た場合は、スタッフが admin <code>/crm</code> から手動でリード（または直接 store）を作成する。会社名・団体名、担当者名、連絡先、案件概要（イベント名・会期・予算感が分かれば記載）を登録する。</li>
+</ol>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>admin <code>/crm</code> にリードが表示される（フォーム経由・手動登録のいずれでも）。</li>
+<li>案件概要欄に「汎用ライン案件」であることが分かるメモを残す（担当が交代しても飲食案件と混同しないため）。</li>
+</ul>
+<hr>
+<h2>2. ヒアリング</h2>
+<p><strong>誰が</strong>: スタッフ（顧客への聞き取りは対面・オンライン打ち合わせ・メールのいずれでも可）</p>
+<p><strong>画面</strong>: 打ち合わせ（対面/オンライン）＋ admin 案件詳細のメモ欄</p>
+<p>飲食用のヒアリングシート（portal <code>/hearing</code>）は予約・メニュー等の飲食店固有項目が中心のため汎用ラインでは使いません。代わりに、以下の項目を打ち合わせ（対面・オンライン・メールのいずれか）で手動ヒアリングし、admin 案件詳細のメモ欄または別途ヒアリング記録ファイルに残します。</p>
+<ol>
+<li><strong>目的・ターゲット</strong> — サイトを何のために作るか（採用広報・商品プロモ・イベント告知・ポートフォリオ等）、見せたい相手は誰か。</li>
+<li><strong>会期・公開希望日</strong> — イベント/プロモ案件は会期（開始日必須・終了日 or 順次開催）を最優先で確認する。会期が決まっている案件は納期がすべてに優先する。</li>
+<li><strong>掲載内容</strong> — ページ構成の希望（会社概要・実績・アクセス・商品一覧・グッズ情報等、案件の性質に応じて）。</li>
+<li><strong>支給素材の一覧と権利状態</strong> — ロゴ・写真・原稿・キャラクター素材等、何を先方が支給するか、権利処理が済んでいるかを1点ずつ確認する。版権キャラクター等を扱う案件では「権利処理済み素材の支給」を必ず契約条件に明記するため、この段階で漏れなく洗い出す。当方でキャラクター素材やロゴの生成・流用は行わない。</li>
+<li><strong>SNS連携</strong> — 掲載する公式SNSアカウント、サイトからのリンク要否。</li>
+<li><strong>参考サイト</strong> — デザイン・構成のイメージに近い既存サイトを2〜3例挙げてもらう。</li>
+<li><strong>会期後のサイト扱い</strong> — イベント/プロモ案件は会期終了後にサイトをどうするか（閉鎖／アーカイブとして残す／通常サイトとして継続）を契約前にこの時点で方向性を握っておく（最終決定は3章の契約時)。</li>
+<li><strong>月額保守に含める作業</strong> — 保守に何を含めるか（軽微な文言修正・画像差し替えの回数、レポート要否等）を確認し、月額の見積根拠にする。</li>
+</ol>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>上記8項目がすべて聞き取れている（特に会期・支給素材の権利状態は見積・契約に直結するため未確認のまま次工程に進まない）。</li>
+<li>ヒアリング内容を admin 案件詳細のメモまたはヒアリング記録ファイルに文書化し、見積担当が読めば追加確認なしで見積を組めるレベルの粒度にする。</li>
+</ul>
+<hr>
+<h2>3. 見積・契約</h2>
+<p><strong>誰が</strong>: スタッフ</p>
+<p><strong>画面</strong>: 社内（見積書作成）→ admin <code>/stores/[店舗ID]</code>「契約条件」フォーム → portal <code>/contract</code></p>
+<ol>
+<li><code>利益試算の前提と根拠.md</code> §7 の算式で見積を組み立てる。</li>
+</ol>
+<ul>
+<li>初期制作費 = 想定工数 × 時間単価 + 外部実費（ドメイン・素材購入費等）</li>
+<li>月額保守 = ホスティング・軽微修正・レポート等、2章で確認した保守範囲に応じて設定</li>
+<li>参考レンジ（案件ごとに調整。上振れ・下振れは工数次第で可）:</li>
+<li>イベント/プロモ LP: 初期 10〜30万円、月額 5,000〜15,000円</li>
+<li>コーポレートサイト: 初期 15〜50万円、月額 10,000〜20,000円</li>
+<li>個人・クリエイターサイト: 初期 5〜15万円、月額 3,000〜10,000円</li>
+</ul>
+<ol>
+<li>見積額が固まったら、先方に金額・内容を提示し、合意を得る。</li>
+<li>合意後、<code>05_業務手順書/制作申込書兼契約書_ひな形.md</code> を流用して契約書を作成する。プラン欄は「カスタム」とし、初期制作費・月額・支払方法・制作期間・検収期限・最低利用期間・解約予告期間を案件に合わせて記入する。ひな形のプラン欄はライト/スタンダード/プレミアムのチェックボックスのみのため、カスタム案件では選択肢を二重取り消し線等で無効化し、余白に「カスタム（個別見積・見積書 No.◯◯）」と記載する。版権素材がある場合は、7章（著作権・データの帰属）または特記事項に「権利処理済み素材の支給は甲（依頼主）の責任とし、乙（制作者）は当該素材の生成・複製を行わない」旨を明記する。</li>
+<li>契約書の内容を admin <code>/stores/[店舗ID]</code>「契約条件」フォームにも入力し（プラン欄は custom、金額・支払方法・制作期間等は上記契約書と一致させる）、「顧客へ提示」を押す。顧客は portal <code>/contract</code> で内容を確認し、「内容に同意して申し込む」を押すと契約済み（contracted）に進む。この工程は飲食ラインと共通の画面・挙動を使う。</li>
+</ol>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>契約書（書面）と admin 契約条件フォームの金額・期間が一致している。</li>
+<li>版権素材がある案件は、契約書に権利処理済み素材の支給条件が明記されている。</li>
+<li>portal 側で顧客が契約に同意し、案件ステータスが「契約済み」に進んでいる。</li>
+</ul>
+<hr>
+<h2>4. Stripe Price 作成（個別見積対応）</h2>
+<p><strong>誰が</strong>: スタッフ</p>
+<p><strong>画面</strong>: Stripe ダッシュボード → admin <code>/stores/[店舗ID]</code>「契約条件」または billing 画面</p>
+<p>飲食ラインは共通の3プランPriceを使い回しますが、汎用ラインは案件ごとに金額が異なるため、契約が固まった段階でその契約専用の Stripe Price を作成します。</p>
+<ol>
+<li>Stripe ダッシュボードで商品「Musubi カスタム」（既存になければ先に商品として作成）を開く。</li>
+<li>その商品配下に、この契約の月額保守料に対応する新しい Price を作成する。種別は「継続的（Recurring）」、請求間隔は「月次」、金額は3章で確定した月額保守料（税込）を設定する。</li>
+<li>作成した Price の ID（<code>price_</code> で始まる文字列）を控える。</li>
+<li>admin の契約画面で custom プラン＋この Price ID を登録する。以後、この契約のサブスクリプション作成時にはこの Price ID が使われる。</li>
+</ol>
+<p>   ※ admin の custom プラン登録機能は実装予定。実装されるまでは Price ID を案件メモ等に控え、サブスク作成は Stripe ダッシュボードから手動で行う。</p>
+<ol>
+<li>初期制作費（初回のみの費用）はサブスクリプションに含めず、Stripe の Invoice（単発請求）機能で別途発行する。支払方法が銀行振込の契約では、Invoice の代わりに契約書記載の振込条件に従い直接請求する。</li>
+</ol>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>Stripe ダッシュボードに、この契約専用の月額 Price が「Musubi カスタム」商品配下に作成されている。</li>
+<li>Price ID を admin の契約情報に控えており、他契約の Price と取り違えていない（契約ごとに Price が1対1で対応する）。</li>
+<li>初期制作費の請求（Invoice または振込）を別途手配済み、または手配予定が決まっている。</li>
+</ul>
+<hr>
+<h2>5. 制作・公開</h2>
+<p><strong>誰が</strong>: スタッフ</p>
+<p><strong>画面</strong>: admin <code>/stores/[店舗ID]</code> → <code>/builder/[店舗ID]/edit</code></p>
+<ol>
+<li>ヒアリングで確認した素材・内容が揃ったら、案件詳細から制作を開始する（飲食ラインと同じ「今やること」ヒーローの導線を使う）。</li>
+<li>汎用ラインはテンプレ＋AI生成ではなく <strong>custom モード／手組み</strong> で制作する。デザインは案件ごとの訴求・ブランドに合わせて個別に組む（イベント案件は末尾の付録チェックリストを構成の基準にする）。</li>
+<li><code>/builder/[店舗ID]/edit</code> の直接編集画面、または手組みの HTML/CSS を用意して差し替える。テキスト・画像の直接編集機能は飲食ラインと共通。</li>
+<li>画面右上の「設定」ドロワーでサブドメイン・テーマを設定する。独自ドメインを使う契約の場合は <code>独自ドメイン運用・移管手順.md</code> に従い Cloudflare 側の紐付けを別途行う。</li>
+<li>「保存して公開」でサブドメインを確定し Cloudflare Pages へデプロイする。版権素材を扱う案件は、公開前に先方の監修・確認フローがある場合、そのフローを経てから公開する。</li>
+<li>プレビューが整ったら「プレビューを顧客へ」を押す。案件ステータスが「ご確認待ち」に進み、顧客は portal <code>/home</code> からプレビューを確認・承認する（この工程は飲食と共通）。</li>
+</ol>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>公開後、サブドメイン（または独自ドメイン）で実際にサイトが表示される。</li>
+<li>イベント/プロモ案件は付録チェックリストの各項目が抜けなく反映されている。</li>
+<li>版権素材を扱う案件は、公開前に先方の監修・許諾が取れていることを確認済み。</li>
+<li>顧客がプレビューを承認し、admin の納品前提チェックが揃っている。</li>
+</ul>
+<hr>
+<h2>6. 課金開始・月次運用</h2>
+<p><strong>誰が</strong>: スタッフ</p>
+<p><strong>画面</strong>: admin <code>/stores/[店舗ID]</code>「納品」セクション → portal <code>/pay</code></p>
+<ol>
+<li>契約合意・プレビュー承認・サイト公開の3条件が揃ったら、admin の納品ボタンでサブスクリプションを開始する。この操作自体は飲食ラインと共通だが、汎用ラインでは4章で登録した custom Price ID がサブスクリプションに使われる。</li>
+<li>カード決済の契約は、飲食と同じくトライアル付きでサブスクリプションが開始し、顧客に portal <code>/pay</code> でのカード登録を案内する。銀行振込の契約は Stripe を使わず契約記録のみで運用する。</li>
+<li>月次運用の中身は、飲食ラインの「口コミAI返信＋月次レポート」固定ではなく、<strong>3章の契約時に定義した内容</strong>（軽微な文言修正の回数、レポートの要否、更新代行の範囲等）に従う。契約書・admin のメモに記載した保守範囲を都度参照し、範囲外の依頼は追加見積とする。</li>
+<li>未入金対応（決済失敗時のリマインド〜自動一時停止〜復帰）は飲食ラインと同じ仕組みがそのまま動く。</li>
+</ol>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>admin <code>/billing</code> に有効な契約（custom Price を使用）が表示される。</li>
+<li>顧客への納品完了メール・カード登録案内が届いている（カード決済の場合）。</li>
+<li>月次の保守作業が契約時定義の範囲内で実施されている。</li>
+</ul>
+<hr>
+<h2>7. 会期終了・解約処理</h2>
+<p><strong>誰が</strong>: スタッフ（顧客はメール・電話で解約や会期終了後の扱いを申し出る）</p>
+<p><strong>画面</strong>: admin <code>/stores/[店舗ID]</code>「解約処理」セクション</p>
+<ol>
+<li>期間限定サイト（イベント/プロモ案件）は、2章のヒアリングおよび3章の契約時点で決めた会期終了後の扱い（閉鎖／アーカイブとして残す／通常サイトとして月額継続）を、会期終了のタイミングで実行する。</li>
+</ol>
+<ul>
+<li><strong>閉鎖</strong>する場合: admin の解約処理セクションから通常の解約フローを実施し、サブスクリプションを解約する。サブドメイン運用なら「サブドメイン削除」を選ぶ。</li>
+<li><strong>アーカイブとして残す</strong>場合: サイトは削除せず、サブスクリプションのみ解約する（月額保守は終了するが閲覧は可能な状態を残す旨を契約時の合意に基づき運用する）。</li>
+<li><strong>通常サイトとして継続</strong>する場合: 解約処理は行わず、6章の月次運用にそのまま移行する。</li>
+</ul>
+<ol>
+<li>通常の解約申し出（会期に関係なく契約終了の依頼）を受けた場合は、飲食ラインと同じ解約処理フロー（サブドメイン削除／独自ドメイン移管の選択、確認ダイアログでの実行）に従う。</li>
+<li>独自ドメインの移管を伴う場合は <code>独自ドメイン運用・移管手順.md</code> パターンAに従い、レジストラ移管・ネームサーバ確認・Cloudflareゾーン移管・移管手数料請求を手動で行う。</li>
+</ol>
+<p><strong>確認ポイント</strong>:</p>
+<ul>
+<li>会期終了後の扱いが契約時の合意どおりに実行されている(閉鎖/アーカイブ/継続のいずれか)。</li>
+<li>解約する場合、Stripe ダッシュボードでサブスクリプションが解約されている。</li>
+<li>サブドメイン削除の場合、該当サブドメインが表示されなくなっている。</li>
+<li>顧客に解約・会期終了後の扱いについての案内が届いている。</li>
+</ul>
+<hr>
+<h2>付録: イベント告知サイト必須要素チェックリスト</h2>
+<p>実在するポップアップストア/イベント告知サイト3例の分析から抽出した、制作・検収時に確認する必須要素一覧です。5章の制作時に構成の土台とし、公開前の検収でも1点ずつ満たしているか確認します。</p>
+<ol>
+<li><strong>Hero</strong> — イベント名・キービジュアル・キャッチコピーがファーストビューに揃っている。</li>
+<li><strong>会期</strong> — 開始日は必須。終了日、または「順次開催」等の表記。</li>
+<li><strong>会場</strong> — 店舗名・住所。複数拠点で開催する場合は一覧化されている。</li>
+<li><strong>営業時間</strong> — 通常の営業時間に加え、初日・最終日等の特別日の例外が明記されている。</li>
+<li><strong>入場方式</strong> — フリー入場／抽選／先着のいずれか、予約が必要な場合は予約導線が用意されている。</li>
+<li><strong>グッズ一覧</strong> — カテゴリ別に整理され、税込価格が明記されている。</li>
+<li><strong>ノベルティ／購入特典</strong> — 条件・内容・数量上限・終了条件の3点セットが揃っている（いずれか欠けると問い合わせ対応が増える）。</li>
+<li><strong>購入制限</strong> — お一人様/1会計あたりの上限点数が明記されている。</li>
+<li><strong>注意事項</strong> — 返品・交換不可、取り置き不可、画像はイメージである旨等の免責事項が明記されている。</li>
+<li><strong>SNSリンク</strong> — 最新情報の告知先（公式SNSアカウント）へのリンクがある。</li>
+<li><strong>問い合わせ先</strong> — 主催・運営への問い合わせ手段が明記されている。</li>
+<li><strong>著作権・協力表記</strong> — フッターに主催・協力ブランド名が正しい表記で掲載されている（版権キャラクターを扱う案件は先方指定の表記ルールに厳密に従う）。</li>
+</ol>
+<hr>
+<h2>テスト実施メモ</h2>
+<p>案件を1件通しで運用する際は、各章の「確認ポイント」を上から順に満たせるかで進行を確認してください。特に4章（Stripe Price 作成)は飲食ラインにない工程のため、Price ID の控え忘れ・契約との紐付け誤りがないよう注意します。詰まった箇所・改善したい点はステップ番号とともに記録して共有してください。</p>
+<p class="note">🏢 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
+</div></body></html>
