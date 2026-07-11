@@ -343,5 +343,14 @@ details.logentry>summary:hover{color:var(--acc)}
 </ul>
 <p><strong>受け入れ基準</strong>: custom プランでテストモードのサブスク作成が成功する・<code>business.html</code> が公開され実疎通できる・パワパフモックが先方承認を得る。</p>
 <p>→ <strong>未達（2026-07-10 時点）</strong>。実装・本番migration適用・ドキュメント整備までは完了。custom プランのテストモード実サブスク作成と business.html の実疎通、パワパフモックの先方承認は、デプロイ／打ち合わせ実施時に別途確認する。</p>
+<p><strong>続き（2026-07-12）: event テンプレ＋顧客セルフ編集</strong></p>
+<ul class="task">
+<li class="done"><span class="bx">✓</span><span><code>04_サイトテンプレート/event/</code>（index.html・content.example.json・README.md）を新設。パワパフ案件モック（<code>sites/ppg-popup/</code>）のテンプレ化。Playwright で元モックとの同等性実証済み（レンダラの <code>{{#each}}</code> 入れ子不可・ループ内 <code>{{#if}}</code> 不可の制約により goods を featured/genres/items のフラット構成に変更）</span></li>
+<li class="done"><span class="bx">✓</span><span><code>musubi-admin</code>: <code>lib/siteSchema.ts</code> をテンプレ別スキーマ辞書に一般化（restaurant 等は参照等価性を単体テストで確認＝出力不変）＋ <code>EVENT_SCHEMA</code>（url/select型・derive・hiddenKeys）＋ <code>TemplateDef</code> に &#x27;event&#x27; 登録</span></li>
+<li class="done"><span class="bx">✓</span><span><code>musubi-portal</code>: <code>StructuredEditor.tsx</code>（リスト編集フォーム）＋ <code>SiteEditor.tsx</code> にタブ切替を追加。event のみ顧客向けフォームスキーマを開放し、生SVG/生HTML項目は顧客スキーマから隠蔽（admin側は従来どおり編集可）</span></li>
+<li class="done"><span class="bx">✓</span><span>Task 4: admin <code>npx vitest run</code> 150/150 PASS・両リポ <code>npm run build</code> exit 0 を再実行して確認、両リポ <code>git status</code> クリーン確認、汎用ライン運用手順書に event テンプレのセルフ編集可否を追記</span></li>
+</ul>
+<p><strong>受け入れ基準</strong>: admin/portal のテスト・ビルドが通過し、event テンプレで顧客がポータルからリスト単位の自己編集ができる状態。</p>
+<p>→ <strong>コード上の受け入れ基準は達成</strong>（テスト・ビルドとも PASS）。<strong>未達（2026-07-12 時点）</strong>: 認証つき実ブラウザ E2E（admin builder での event テンプレ実操作・portal ログインでのリスト編集実操作）は、Task 3 作業中の <code>.env.local</code> 事故（詳細は構築ログ）により本トラック全体を通じて未実施。事故後 <code>.env.local</code> は復元済みを確認したが、本タスクのスコープでは dev サーバを要する回帰確認を対象外としたため次回に持ち越し。</p>
 <p class="note">🧭 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
 </div></body></html>
