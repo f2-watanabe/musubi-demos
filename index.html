@@ -5,207 +5,375 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Musubi プロジェクトハブ</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#22262f;--acc:#127b66;--verm:#b5402e;--gold:#c8893f;--bg:#f6f4ef;--line:#e8e2d6;--sub:#6f6a60;--muted:#8b8578}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
-.wrap{max-width:960px;margin:0 auto;padding:56px 24px 80px}
-.brand{display:flex;align-items:center;gap:12px;margin-bottom:34px}
-.brand .mk{width:44px;height:44px;border-radius:11px;background:var(--acc);display:grid;place-items:center;color:#fff;font-weight:700;font-size:22px}
-.brand b{font-size:19px;letter-spacing:.04em}
-.brand small{display:block;font-size:11px;color:var(--muted);letter-spacing:.18em}
-h1{font-size:30px;letter-spacing:.02em;margin-bottom:10px}
-.lead{color:var(--sub);font-size:15px;line-height:1.8;margin-bottom:34px}
-.tag{display:inline-block;font-size:12px;font-weight:700;color:var(--acc);background:#e8f3ef;border-radius:20px;padding:5px 13px;margin-bottom:24px}
-.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
-.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 24px;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:.2s;box-shadow:0 1px 0 rgba(0,0,0,.02)}
-.card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(40,30,20,.12);border-color:#d9cdb6}
-.card .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:22px;color:#fff;margin-bottom:16px}
-.card.c1 .ic{background:var(--verm)}.card.c2 .ic{background:var(--acc)}.card.c3 .ic{background:var(--gold)}
-.card h3{font-size:18px;margin-bottom:8px}
-.card p{font-size:13px;color:var(--sub);line-height:1.75;flex:1}
-.card .who{font-size:11.5px;color:var(--muted);margin-top:14px;letter-spacing:.04em}
-.card .go{margin-top:16px;font-size:13px;font-weight:700;color:var(--acc)}
-.card.c1 .go{color:var(--verm)}.card.c3 .go{color:var(--gold)}
-.sub2{grid-column:1/-1;display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
-.sub2 a{font-size:12.5px;color:var(--sub);text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:20px;padding:7px 14px}
-.sub2 a:hover{border-color:var(--acc);color:var(--acc)}
-.pdf{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.pdf a{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:14px 16px;text-decoration:none;color:var(--ink);font-size:13.5px;font-weight:500}
-.pdf a:hover{border-color:var(--verm);color:var(--verm);box-shadow:0 6px 16px rgba(40,30,20,.08)}
-.note{margin-top:40px;font-size:12px;color:var(--muted);line-height:1.8;border-top:1px solid var(--line);padding-top:20px}
-.tablewrap{overflow-x:auto}
+:root{
+  --paper:#F7F2E6; --paper-2:#FDFBF4; --paper-3:#EFE8D6;
+  --line:#E2D9C0; --line-soft:#EAE2CB;
+  --ink:#2A2620; --ink-soft:#6E6552; --ink-faint:#9C9380;
+  --green:#1E4B3D; --green-deep:#12332A; --green-soft:#DCE7DE; --green-line:#3E6E5C;
+  --amber:#C1592E; --amber-soft:#F1DDCB; --amber-deep:#A44823;
+  --ok:#2F6B4F; --ok-soft:#DCEBE1;
+  --warn:#B57A1F; --warn-soft:#F3E6CC;
+  --r-card:20px; --r-btn:999px; --r-input:12px; --r-sm:10px;
+  --shadow-card:0 14px 34px -22px rgba(30,22,10,.45);
+  --shadow-pop:0 20px 44px -18px rgba(20,16,8,.32);
+  --font-display:"Shippori Mincho B1",serif;
+  --font-body:"Noto Sans JP","Zen Kaku Gothic New",sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;font-family:var(--font-body);background:var(--paper);color:var(--ink);line-height:1.7;letter-spacing:.01em;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+button{font:inherit}
+
+.mk{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:999px;flex:none;background:var(--green);color:var(--paper-2);font-family:var(--font-display);font-size:17px;font-weight:700;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 18px;border-radius:var(--r-btn);font-size:13px;font-weight:700;letter-spacing:.02em;border:1px solid transparent;transition:transform .15s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease;white-space:nowrap}
+.btn-gho{background:transparent;color:var(--green);border-color:var(--green-line)}
+.btn-gho:hover{background:var(--green-soft)}
+
+.tag{display:inline-block;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:var(--r-btn);background:var(--green-soft);color:var(--green-deep);letter-spacing:.03em}
+
+.badge{font-size:11px;font-weight:700;border-radius:var(--r-btn);padding:3px 10px}
+.badge-ok{background:var(--ok-soft);color:var(--ok)}
+.badge-warn{background:var(--warn-soft);color:var(--warn)}
+
+/* ---------- app shell ---------- */
+.app{display:flex;min-height:100dvh}
+.hb{display:none}
+.hb-label{display:none;align-items:center;justify-content:center;width:38px;height:38px;border-radius:var(--r-sm);background:var(--paper-3);cursor:pointer;flex:none}
+.overlay{display:none}
+
+.side{
+  width:264px;flex:none;background:var(--green-deep);color:var(--paper);
+  display:flex;flex-direction:column;padding:22px 16px 20px;
+  position:sticky;top:0;height:100dvh;overflow-y:auto;z-index:20;
+}
+.side .brand{display:flex;align-items:center;gap:12px;padding:6px 8px 22px}
+.side .brand b{display:block;font-family:var(--font-display);font-size:17px;font-weight:700;color:#fff}
+.side .brand small{display:block;font-size:10px;letter-spacing:.16em;color:var(--amber-soft);margin-top:2px}
+
+.side-tag{margin:0 8px 18px;font-size:11px;font-weight:700;color:var(--amber-soft);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-btn);padding:5px 12px;display:inline-flex;width:fit-content}
+
+.snav{display:flex;flex-direction:column;gap:2px;flex:1;overflow-y:auto}
+.snav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--r-sm);font-size:13.5px;font-weight:500;color:rgba(247,242,230,.72);transition:background-color .18s ease,color .18s ease}
+.snav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.snav .ic{flex:none;width:18px;height:18px;display:flex;align-items:center;justify-content:center;opacity:.9}
+.snav .ic svg{width:17px;height:17px}
+
+.side-foot{border-top:1px solid rgba(255,255,255,.1);padding-top:14px;margin-top:10px;font-size:11.5px;color:rgba(247,242,230,.55);line-height:1.6}
+
+.main{flex:1;min-width:0}
+.top{display:flex;align-items:center;gap:16px;padding:18px 40px;background:var(--paper-2);border-bottom:1px solid var(--line-soft);position:sticky;top:0;z-index:10}
+.top h1{font-family:var(--font-display);font-size:19px;font-weight:700;margin:0;color:var(--ink)}
+.top .sp{flex:1}
+.top a.homelink{font-size:12.5px;font-weight:700;color:var(--green)}
+
+.wrap{padding:0 40px 70px;max-width:1120px}
+
+/* ---------- sections ---------- */
+.hero{padding:44px 0 8px}
+.hero .lead{color:var(--ink-soft);font-size:15px;line-height:1.85;margin:14px 0 18px;max-width:66ch}
+.hero .home-cta{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--green);font-size:14.5px}
+.hero .home-cta:hover{color:var(--green-deep);text-decoration:underline}
+
+.sect{padding:38px 0 6px;border-top:1px solid var(--line-soft);scroll-margin-top:92px}
+.sect:first-of-type{border-top:none}
+.sect h2{font-family:var(--font-display);font-size:21px;font-weight:700;margin:0 0 8px;color:var(--ink)}
+.sect .desc{color:var(--ink-soft);font-size:13.5px;line-height:1.8;margin-bottom:16px}
+
+/* pill link list */
+.linklist{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.linklist a{font-size:12.5px;font-weight:600;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r-btn);padding:8px 16px;transition:border-color .18s ease,color .18s ease,box-shadow .18s ease}
+.linklist a:hover{border-color:var(--green);color:var(--green);box-shadow:var(--shadow-card)}
+.linklist .grp-label{font-size:11.5px;color:var(--ink-faint);align-self:center;font-weight:600}
+
+/* card grid (screen demo) */
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px}
+.card{background:var(--paper-2);border:1px solid var(--line-soft);border-radius:var(--r-card);padding:26px 24px;display:flex;flex-direction:column;box-shadow:var(--shadow-card);transition:transform .18s ease,box-shadow .18s ease}
+a.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-pop)}
+.card .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:21px;color:#fff;margin-bottom:16px}
+.card.c1 .ic{background:var(--amber)}
+.card.c2 .ic{background:var(--green)}
+.card.c3 .ic{background:var(--ok)}
+.card h3{font-family:var(--font-display);font-size:17px;font-weight:700;margin:0 0 8px;color:var(--ink)}
+.card p{font-size:13px;color:var(--ink-soft);line-height:1.8;flex:1;margin:0}
+.card .who{font-size:11px;color:var(--ink-faint);margin-top:14px;letter-spacing:.03em}
+.card .go{margin-top:14px;font-size:13px;font-weight:700;color:var(--green)}
+.card.c1 .go{color:var(--amber)}
+.card.c3 .go{color:var(--ok)}
+
+/* file list (pdf / docs) */
+.filelist{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.filelist a{display:flex;align-items:center;gap:10px;background:var(--paper-2);border:1px solid var(--line-soft);border-radius:var(--r-input);padding:13px 16px;font-size:13.5px;font-weight:500;color:var(--ink);transition:border-color .18s ease,color .18s ease,box-shadow .18s ease}
+.filelist a:hover{border-color:var(--amber);color:var(--amber-deep);box-shadow:var(--shadow-card)}
+
+/* cost table */
+.tablewrap{overflow-x:auto;border-radius:var(--r-card);background:var(--paper-2);border:1px solid var(--line-soft);box-shadow:var(--shadow-card)}
 table.cost{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
-.cost th{text-align:left;color:var(--muted);font-weight:600;font-size:12px;padding:9px 10px;border-bottom:1px solid var(--line)}
-.cost td{padding:10px 10px;border-bottom:1px solid var(--line)}
+.cost th{text-align:left;color:var(--ink-faint);font-weight:600;font-size:11.5px;padding:12px 16px;border-bottom:1px solid var(--line-soft)}
+.cost td{padding:12px 16px;border-bottom:1px solid var(--line-soft)}
+.cost tr:last-child td{border-bottom:none}
 .cost td.r{text-align:right;white-space:nowrap}
-.cost .sm{color:var(--muted);font-size:11px;margin-left:3px}
-.badge{font-size:11px;font-weight:700;border-radius:20px;padding:3px 10px}
-.badge.nec{background:#e7f6ee;color:var(--acc)}
-.badge.grow{background:#fdf3e4;color:var(--gold)}
+.cost .sm{color:var(--ink-faint);font-size:11px;margin-left:3px}
 .costsum{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
-.sumcard{background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px 18px}
-.sumcard .l{font-size:12px;color:var(--muted)}
-.sumcard .v{font-size:21px;font-weight:700;margin:4px 0;letter-spacing:.01em}
-.sumcard .n{font-size:11.5px;color:var(--sub);line-height:1.6}
-@media(max-width:760px){.costsum{grid-template-columns:1fr}}
-@media(max-width:760px){.pdf{grid-template-columns:1fr}}
-@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.sumcard{background:var(--paper-2);border:1px solid var(--line-soft);border-radius:var(--r-card);padding:18px 20px;box-shadow:var(--shadow-card)}
+.sumcard .l{font-size:11.5px;color:var(--ink-faint)}
+.sumcard .v{font-family:var(--font-display);font-size:21px;font-weight:700;margin:4px 0;color:var(--green)}
+.sumcard .n{font-size:11.5px;color:var(--ink-soft);line-height:1.6}
+
+.note{margin-top:46px;font-size:11.5px;color:var(--ink-faint);line-height:1.8;border-top:1px solid var(--line-soft);padding-top:20px 0 0}
+
+/* ---------- mobile ---------- */
+@media (max-width:860px){
+  .side{position:fixed;left:0;top:0;transform:translateX(-104%);transition:transform .28s cubic-bezier(.16,1,.3,1);box-shadow:var(--shadow-pop)}
+  .hb-label{display:flex}
+  .top{padding:14px 18px}
+  .top h1{font-size:16.5px}
+  .wrap{padding:0 18px 56px}
+  .hero{padding:28px 0 6px}
+  .overlay{display:block;position:fixed;inset:0;background:rgba(20,16,8,.35);opacity:0;pointer-events:none;transition:opacity .24s ease;z-index:15}
+  #nav-toggle:checked ~ .side{transform:translateX(0)}
+  #nav-toggle:checked ~ .overlay{opacity:1;pointer-events:auto}
+  .grid{grid-template-columns:1fr}
+  .costsum{grid-template-columns:1fr}
+}
+@media (max-width:480px){
+  .filelist{grid-template-columns:1fr}
+  .top{padding:12px 14px}
+  .wrap{padding:0 14px 48px}
+  .sect{padding:30px 0 6px}
+  .card{padding:20px 18px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important;animation:none!important}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="brand"><img src="assets/musubi-logo.png" alt="Musubi" style="height:48px;display:block"><span><small>PROJECT HUB</small></span></div>
-  <span class="tag">パートナー共有用</span>
-  <h1>プロジェクトハブ</h1>
-  <p class="lead">Musubiの事業デモ・提案資料・環境構築の記録・運用コストを1か所に。Google高評価×Web未保有の飲食店向け事業。スマホ／PCどちらからでも閲覧できます。</p>
-  <p style="margin:0 0 14px"><a href="https://musubi-www.pages.dev/" style="font-weight:700">→ Musubi 本体サイト（サービスLP・料金・相談フォーム）</a></p>
-  <h2 style="font-size:20px;margin:30px 0 6px">運用リンク（本番システム・手順書）</h2>
-  <p style="color:var(--sub);font-size:13px;margin-bottom:14px">申込からクロージングまでを実際に回すための本番アプリと手順書。管理アプリ・顧客ポータルはログインが必要です。</p>
-  <div class="sub2">
-    <a href="https://musubiweb.com/">🌐 本体LP（申込・相談）</a>
-    <a href="https://admin.musubiweb.com/">🛠 管理アプリ（本番・要ログイン）</a>
-    <a href="https://portal.musubiweb.com/">👤 顧客ポータル（本番・要ログイン）</a>
-  </div>
-  <div class="sub2" style="margin-top:12px">
-    <a href="docs/運用手順書.html">🔄 運用手順書（申込→クロージング・画面付き）</a>
-    <a href="docs/自社タスク一覧.html">✅ 自社タスク一覧（手動対応事項）</a>
-    <a href="docs/汎用ライン運用手順書.html">🏢 汎用ライン運用手順書（企業・イベント案件）</a>
-  </div>
-  <h2 style="font-size:20px;margin:42px 0 6px">ポータル全面刷新 デザイン案（選定中）</h2>
-  <p style="color:var(--sub);font-size:13px;margin-bottom:14px">管理アプリ・顧客ポータルのデザイン刷新モック3案。各案とも 管理ログイン / 管理ダッシュボード / 顧客ホーム の3画面。</p>
-  <div class="sub2">
-    <a href="redesign/a/index.html">🅰 案A｜ミニマル&エディトリアル（余白とタイポ、罫線主体）</a>
-    <a href="redesign/b/index.html">🅱 案B｜モダンSaaS（Linear/Stripe系の精緻ダッシュボード）</a>
-    <a href="redesign/c/index.html">🅲 案C｜クラフト&ウォーム（深緑×生成り、和の結びモチーフ）★採用</a>
-    <a href="redesign/c/layouts/index.html">📐 案C 構成パターン比較（横タブ / サイドバー / カードハブ）</a>
-  </div>
-  <h2 style="font-size:20px;margin:42px 0 6px">飲食店向けサイトテンプレート</h2>
-  <p style="color:var(--sub);font-size:13px;margin-bottom:14px">業態別テンプレートで制作する公開サイトのデモ。すべてスマホ最適化・ネット予約導線付き。</p>
-  <div class="sub2">
-    <a href="site/index.html">和食・居酒屋｜さくら亭（restaurant）</a>
-    <a href="site-sushi/index.html">鮨・割烹｜一心（sushi）</a>
-    <a href="site-cafe/index.html">カフェ｜hinata（cafe）</a>
-    <a href="site-ramen/index.html">ラーメン｜轟（ramen）</a>
-  </div>
-  <div class="sub2" style="margin-top:12px">
-    <span style="font-size:12px;color:var(--muted);align-self:center">参考デザイン・共通画面:</span>
-    <a href="site-italian/index.html">イタリアン（Sole）※参考デザイン</a>
-    <a href="site/reserve.html">🗓 ネット予約画面</a>
-    <a href="site/sitemap.html">📐 飲食店サイト構成案</a>
-  </div>
-  <h2 style="font-size:20px;margin:42px 0 6px">業種汎用（スポット制作）</h2>
-  <p style="color:var(--sub);font-size:13px;margin-bottom:14px">飲食以外の業種は汎用テンプレート（generic）によるスポット制作で個別対応。以下は制作実例のデモ。</p>
-  <div class="sub2">
-    <a href="site-generic/index.html">写真室｜そら写真室（generic）</a>
-    <a href="site-beauty/index.html">美容室（Lumière）</a>
-  </div>
-  <h2 style="font-size:20px;margin:42px 0 6px">デザインバリエーション見本</h2>
-  <p style="color:var(--sub);font-size:13px;margin-bottom:14px">同一業態でのデザイン方向性の見本（予約画面付）。提案時のトーン合わせに使用。</p>
-  <div class="sub2">
-    <a href="site-minimal/index.html">ミニマル（ÉCRU）</a>
-    <a href="site-editorial/index.html">エディトリアル（ÉCLAT）</a>
-    <a href="site-luxe/index.html">ラグジュアリー（Étoile）</a>
-    <a href="site-natural/index.html">ナチュラル（実和）</a>
-    <a href="site-bold/index.html">ボールド（TANE）</a>
-  </div>
-  <h2 style="font-size:20px;margin:42px 0 14px">画面デモ（3種）</h2>
-  <div class="grid">
-    <a class="card c1" href="site/index.html">
-      <span class="ic">🍶</span>
-      <h3>公開サイト</h3>
-      <p>お店のお客様（来店客）が見るサイト。★評価・メニュー・写真・24時間ネット予約。スマホ最適化。飲食店の業態別テンプレで量産。</p>
-      <span class="who">利用者: 来店客・見込み客</span>
-      <span class="go">サイトを見る →</span>
-    </a>
-    <a class="card c2" href="admin/dashboard.html">
-      <span class="ic">▤</span>
-      <h3>管理アプリ</h3>
-      <p>運営側の管理画面。営業リスト・サイト制作・口コミ返信AI・請求・レポートを一元管理。</p>
-      <span class="who">利用者: 運営（自分・パートナー）</span>
-      <span class="go">管理画面を見る →</span>
-    </a>
-    <a class="card c3" href="portal/home.html">
-      <span class="ic">◔</span>
-      <h3>顧客ポータル</h3>
-      <p>店舗オーナー用。自店の成果・月次レポートの閲覧、口コミ返信の承認をここで。</p>
-      <span class="who">利用者: 店舗オーナー（顧客）</span>
-      <span class="go">ポータルを見る →</span>
-    </a>
-    <div class="sub2">
-      <span style="font-size:12px;color:var(--muted);align-self:center">管理アプリの各画面:</span>
-      <a href="admin/dashboard.html">ダッシュボード</a>
-      <a href="admin/crm.html">営業リスト</a>
-      <a href="admin/builder.html">サイト制作</a>
-      <a href="admin/reviews.html">口コミ返信AI</a>
-      <a href="admin/billing.html">請求・サブスク</a>
-      <a href="admin/report.html">レポート</a>
-      <a href="admin/login.html">ログイン（モック）</a>
+<div class="app">
+  <input type="checkbox" id="nav-toggle" class="hb">
+  <aside class="side">
+    <div class="brand"><span class="mk">結</span><span><b>Musubi</b><small>PROJECT HUB</small></span></div>
+    <span class="side-tag">パートナー共有用</span>
+    <nav class="snav">
+      <a href="#top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg></span>トップ</a>
+      <a href="#ops"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 15l6-6M9 8.5h6a3 3 0 0 1 0 6M15 15.5H9a3 3 0 0 1 0-6"/></svg></span>運用リンク</a>
+      <a href="#redesign"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 4a4 4 0 0 0 0 8 4 4 0 0 1 0 8"/></svg></span>デザイン刷新案</a>
+      <a href="#templates"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10l8-6 8 6M6 9v10h12V9"/></svg></span>飲食テンプレート</a>
+      <a href="#generic"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="7" width="17" height="13" rx="2"/><path d="M8 7V5.5A2.5 2.5 0 0 1 10.5 3h3A2.5 2.5 0 0 1 16 5.5V7"/></svg></span>業種汎用</a>
+      <a href="#variations"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="4.2"/><circle cx="16" cy="8" r="4.2"/><circle cx="12" cy="16" r="4.2"/></svg></span>デザイン見本</a>
+      <a href="#demo"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4.5" width="18" height="12" rx="1.5"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="12" y1="16.5" x2="12" y2="20"/></svg></span>画面デモ</a>
+      <a href="#materials"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5V8h4"/></svg></span>資料（PDF）</a>
+      <a href="#procedures"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="14" y2="18"/></svg></span>運用手順</a>
+      <a href="#infra"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20M17 6.5c0-1.9-2.2-3-5-3s-5 1.4-5 3 2.2 2.6 5 3 5 1.1 5 3-2.2 3-5 3-5-1.1-5-3"/></svg></span>環境構築ドキュメント</a>
+      <a href="#cost"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16.5" cy="14.5" r="1.4"/></svg></span>運用コスト</a>
+    </nav>
+    <div class="side-foot">Musubi（仮称・未法人）<br>local-web-sales プロジェクト</div>
+  </aside>
+  <label for="nav-toggle" class="overlay" aria-hidden="true"></label>
+
+  <div class="main">
+    <header class="top">
+      <label for="nav-toggle" class="hb-label" aria-label="メニューを開く">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </label>
+      <h1>プロジェクトハブ</h1>
+      <div class="sp"></div>
+    </header>
+
+    <div class="wrap">
+      <section id="top" class="hero">
+        <h2 style="font-family:var(--font-display);font-size:28px;font-weight:700;margin:0">プロジェクトハブ</h2>
+        <p class="lead">Musubiの事業デモ・提案資料・環境構築の記録・運用コストを1か所に。Google高評価×Web未保有の飲食店向け事業。スマホ／PCどちらからでも閲覧できます。</p>
+        <a class="home-cta" href="https://musubi-www.pages.dev/">→ Musubi 本体サイト（サービスLP・料金・相談フォーム）</a>
+      </section>
+
+      <section id="ops" class="sect">
+        <h2>運用リンク（本番システム・手順書）</h2>
+        <p class="desc">申込からクロージングまでを実際に回すための本番アプリと手順書。管理アプリ・顧客ポータルはログインが必要です。</p>
+        <div class="linklist">
+          <a href="https://musubiweb.com/">🌐 本体LP（申込・相談）</a>
+          <a href="https://admin.musubiweb.com/">🛠 管理アプリ（本番・要ログイン）</a>
+          <a href="https://portal.musubiweb.com/">👤 顧客ポータル（本番・要ログイン）</a>
+        </div>
+        <div class="linklist">
+          <a href="docs/運用手順書.html">🔄 運用手順書（申込→クロージング・画面付き）</a>
+          <a href="docs/自社タスク一覧.html">✅ 自社タスク一覧（手動対応事項）</a>
+          <a href="docs/汎用ライン運用手順書.html">🏢 汎用ライン運用手順書（企業・イベント案件）</a>
+        </div>
+      </section>
+
+      <section id="redesign" class="sect">
+        <h2>ポータル全面刷新 デザイン案（選定中）</h2>
+        <p class="desc">管理アプリ・顧客ポータルのデザイン刷新モック3案。各案とも 管理ログイン / 管理ダッシュボード / 顧客ホーム の3画面。</p>
+        <div class="linklist">
+          <a href="redesign/a/index.html">🅰 案A｜ミニマル&エディトリアル（余白とタイポ、罫線主体）</a>
+          <a href="redesign/b/index.html">🅱 案B｜モダンSaaS（Linear/Stripe系の精緻ダッシュボード）</a>
+          <a href="redesign/c/index.html">🅲 案C｜クラフト&ウォーム（深緑×生成り、和の結びモチーフ）★採用</a>
+          <a href="redesign/c/layouts/index.html">📐 案C 構成パターン比較（横タブ / サイドバー / カードハブ）</a>
+        </div>
+      </section>
+
+      <section id="templates" class="sect">
+        <h2>飲食店向けサイトテンプレート</h2>
+        <p class="desc">業態別テンプレートで制作する公開サイトのデモ。すべてスマホ最適化・ネット予約導線付き。</p>
+        <div class="linklist">
+          <a href="site/index.html">和食・居酒屋｜さくら亭（restaurant）</a>
+          <a href="site-sushi/index.html">鮨・割烹｜一心（sushi）</a>
+          <a href="site-cafe/index.html">カフェ｜hinata（cafe）</a>
+          <a href="site-ramen/index.html">ラーメン｜轟（ramen）</a>
+        </div>
+        <div class="linklist">
+          <span class="grp-label">参考デザイン・共通画面:</span>
+          <a href="site-italian/index.html">イタリアン（Sole）※参考デザイン</a>
+          <a href="site/reserve.html">🗓 ネット予約画面</a>
+          <a href="site/sitemap.html">📐 飲食店サイト構成案</a>
+        </div>
+      </section>
+
+      <section id="generic" class="sect">
+        <h2>業種汎用（スポット制作）</h2>
+        <p class="desc">飲食以外の業種は汎用テンプレート（generic）によるスポット制作で個別対応。以下は制作実例のデモ。</p>
+        <div class="linklist">
+          <a href="site-generic/index.html">写真室｜そら写真室（generic）</a>
+          <a href="site-beauty/index.html">美容室（Lumière）</a>
+        </div>
+      </section>
+
+      <section id="variations" class="sect">
+        <h2>デザインバリエーション見本</h2>
+        <p class="desc">同一業態でのデザイン方向性の見本（予約画面付）。提案時のトーン合わせに使用。</p>
+        <div class="linklist">
+          <a href="site-minimal/index.html">ミニマル（ÉCRU）</a>
+          <a href="site-editorial/index.html">エディトリアル（ÉCLAT）</a>
+          <a href="site-luxe/index.html">ラグジュアリー（Étoile）</a>
+          <a href="site-natural/index.html">ナチュラル（実和）</a>
+          <a href="site-bold/index.html">ボールド（TANE）</a>
+        </div>
+      </section>
+
+      <section id="demo" class="sect">
+        <h2>画面デモ（3種）</h2>
+        <p class="desc" style="margin-bottom:18px">利用者ごとの画面を実際に触って確認できます。</p>
+        <div class="grid">
+          <a class="card c1" href="site/index.html">
+            <span class="ic">🍶</span>
+            <h3>公開サイト</h3>
+            <p>お店のお客様（来店客）が見るサイト。★評価・メニュー・写真・24時間ネット予約。スマホ最適化。飲食店の業態別テンプレで量産。</p>
+            <span class="who">利用者: 来店客・見込み客</span>
+            <span class="go">サイトを見る →</span>
+          </a>
+          <a class="card c2" href="admin/dashboard.html">
+            <span class="ic">▤</span>
+            <h3>管理アプリ</h3>
+            <p>運営側の管理画面。営業リスト・サイト制作・口コミ返信AI・請求・レポートを一元管理。</p>
+            <span class="who">利用者: 運営（自分・パートナー）</span>
+            <span class="go">管理画面を見る →</span>
+          </a>
+          <a class="card c3" href="portal/home.html">
+            <span class="ic">◔</span>
+            <h3>顧客ポータル</h3>
+            <p>店舗オーナー用。自店の成果・月次レポートの閲覧、口コミ返信の承認をここで。</p>
+            <span class="who">利用者: 店舗オーナー（顧客）</span>
+            <span class="go">ポータルを見る →</span>
+          </a>
+        </div>
+        <div class="linklist">
+          <span class="grp-label">管理アプリの各画面:</span>
+          <a href="admin/dashboard.html">ダッシュボード</a>
+          <a href="admin/crm.html">営業リスト</a>
+          <a href="admin/builder.html">サイト制作</a>
+          <a href="admin/reviews.html">口コミ返信AI</a>
+          <a href="admin/billing.html">請求・サブスク</a>
+          <a href="admin/report.html">レポート</a>
+          <a href="admin/login.html">ログイン（モック）</a>
+        </div>
+        <div class="linklist">
+          <span class="grp-label">顧客ポータルの各画面:</span>
+          <a href="portal/home.html">成果ホーム</a>
+          <a href="portal/reviews.html">口コミ承認</a>
+          <a href="portal/report.html">月次レポート</a>
+        </div>
+      </section>
+
+      <section id="materials" class="sect">
+        <h2>資料（PDF・スマホで閲覧）</h2>
+        <p class="desc">タップでPDFを開きます。提案・営業・設計の各資料。</p>
+        <div class="filelist">
+          <a href="pdf/サービス価格表.pdf">💴 サービス価格表（飲食店向け）</a>
+          <a href="pdf/ドメインの選び方ガイド.pdf">🌐 ドメインの選び方ガイド（サブ／独自・解約時）</a>
+          <a href="pdf/提案資料.pdf">📑 提案資料（飲食店向け）</a>
+          <a href="pdf/市場データ資料.pdf">📊 データで見るネット集客（2024–2025）</a>
+          <a href="pdf/営業トークスクリプト.pdf">🗣 営業トークスクリプト（対面・訪問）</a>
+          <a href="pdf/テレアポトークスクリプト.pdf">📞 テレアポトークスクリプト（電話アポ取り）</a>
+          <a href="pdf/Web制作販売事業_ロードマップ.pdf">🗺 事業ロードマップ</a>
+          <a href="pdf/サイト制作・運用ロードマップ.pdf">🛠 制作・運用ロードマップ</a>
+          <a href="pdf/システム全体構成図.pdf">🧩 システム全体構成図</a>
+          <a href="pdf/要件定義書.pdf">📝 要件定義書（機能・非機能／確定・未決）</a>
+          <a href="pdf/方式設計書.pdf">🏗 方式設計書（基本設計・システム方式）</a>
+          <a href="pdf/課題管理表.pdf">📋 課題管理表（要件・方式の課題集約／IPA）</a>
+          <a href="pdf/管理アプリ画面デモ.pdf">▤ 管理アプリ 画面デモ</a>
+          <a href="pdf/顧客ポータル画面デモ.pdf">◔ 顧客ポータル 画面デモ</a>
+          <a href="pdf/公開サイト画面デモ.pdf">🍶 公開サイト 画面デモ</a>
+        </div>
+      </section>
+
+      <section id="procedures" class="sect">
+        <h2>運用手順（社内）</h2>
+        <p class="desc">申込からクロージングまでの実務フローと、手動で対応すべき事項。</p>
+        <div class="filelist">
+          <a href="docs/運用手順書.html">🔄 運用手順書（申込→クロージング）</a>
+          <a href="docs/自社タスク一覧.html">✅ 自社タスク一覧（手動対応事項）</a>
+          <a href="docs/汎用ライン運用手順書.html">🏢 汎用ライン運用手順書（企業・イベント案件）</a>
+        </div>
+      </section>
+
+      <section id="infra" class="sect">
+        <h2>環境構築ドキュメント（社内）</h2>
+        <p class="desc">プラットフォーム構築の手順と証跡。あとから振り返れるように記録しています。</p>
+        <div class="filelist">
+          <a href="docs/構築手順ロードマップ.html">🧭 構築手順ロードマップ（細粒度）</a>
+          <a href="docs/構築ログ.html">📋 構築ログ（証跡・随時更新）</a>
+          <a href="docs/環境変数一覧と登録手順.html">🔑 環境変数一覧と登録手順</a>
+        </div>
+      </section>
+
+      <section id="cost" class="sect">
+        <h2>運用コスト（月額の目安）</h2>
+        <p class="desc">事業を回すためのランニングコスト。立ち上げ期は無料枠を活用して最小限、店舗数が増えたらProへ。金額は概算（$1≒¥150換算・税別、為替/プランで変動）。</p>
+        <div class="tablewrap">
+        <table class="cost">
+          <thead><tr><th>サービス</th><th>用途</th><th class="r">月額の目安</th><th>区分</th></tr></thead>
+          <tbody>
+            <tr><td>Google Workspace</td><td>会社メール（admin@musubiweb.com）・Business Starter 1ユーザー</td><td class="r">¥950</td><td><span class="badge badge-ok">必須</span></td></tr>
+            <tr><td>独自ドメイン</td><td>musubiweb.com</td><td class="r">約¥128<span class="sm">（年¥1,540）</span></td><td><span class="badge badge-ok">必須</span></td></tr>
+            <tr><td>Cloudflare Pages</td><td>顧客サイトの公開ホスティング</td><td class="r">無料</td><td><span class="badge badge-ok">必須</span></td></tr>
+            <tr><td>Anthropic API</td><td>口コミ返信のAI生成（原価）</td><td class="r">従量 約¥数百〜数千</td><td><span class="badge badge-ok">必須</span></td></tr>
+            <tr><td>Stripe</td><td>月額・初期費の決済</td><td class="r">固定費0<span class="sm">（手数料3.6%）</span></td><td><span class="badge badge-ok">必須</span></td></tr>
+            <tr><td>GA4 / UptimeRobot / GBP API</td><td>解析・死活監視・口コミ取得</td><td class="r">無料</td><td><span class="badge badge-ok">必須</span></td></tr>
+            <tr><td>Vercel</td><td>管理アプリ・API・定期実行</td><td class="r">無料→Pro 約¥3,000</td><td><span class="badge badge-warn">成長時</span></td></tr>
+            <tr><td>Supabase</td><td>DB・認証・ストレージ</td><td class="r">無料→Pro 約¥3,750</td><td><span class="badge badge-warn">成長時</span></td></tr>
+            <tr><td>Resend</td><td>通知・レポートのメール送信</td><td class="r">無料→有料 約¥3,000</td><td><span class="badge badge-warn">成長時</span></td></tr>
+          </tbody>
+        </table>
+        </div>
+        <div class="costsum">
+          <div class="sumcard"><div class="l">立ち上げ期（無料枠フル活用）</div><div class="v">月 約¥1,100〜2,000</div><div class="n">Workspace¥950＋ドメイン¥128＋AI原価。ほかは無料枠で吸収</div></div>
+          <div class="sumcard"><div class="l">本番運用期（Pro一式）</div><div class="v">月 約¥11,000前後＋従量</div><div class="n">Vercel/Supabase/Resend Pro＋AI生成・決済手数料</div></div>
+        </div>
+      </section>
+
+      <p class="note">※ デモ画面・資料はサンプルです（実データなし）。運用コストは概算。<br>Musubi（仮称・未法人） / local-web-sales プロジェクト</p>
     </div>
-    <div class="sub2">
-      <span style="font-size:12px;color:var(--muted);align-self:center">顧客ポータルの各画面:</span>
-      <a href="portal/home.html">成果ホーム</a>
-      <a href="portal/reviews.html">口コミ承認</a>
-      <a href="portal/report.html">月次レポート</a>
-    </div>
   </div>
-  <h2 style="font-size:20px;margin:42px 0 6px">資料（PDF・スマホで閲覧）</h2>
-  <p style="color:var(--sub);font-size:13px;margin-bottom:18px">タップでPDFを開きます。提案・営業・設計の各資料。</p>
-  <div class="pdf">
-    <a href="pdf/サービス価格表.pdf">💴 サービス価格表（飲食店向け）</a>
-    <a href="pdf/ドメインの選び方ガイド.pdf">🌐 ドメインの選び方ガイド（サブ／独自・解約時）</a>
-    <a href="pdf/提案資料.pdf">📑 提案資料（飲食店向け）</a>
-    <a href="pdf/市場データ資料.pdf">📊 データで見るネット集客（2024–2025）</a>
-    <a href="pdf/営業トークスクリプト.pdf">🗣 営業トークスクリプト（対面・訪問）</a>
-    <a href="pdf/テレアポトークスクリプト.pdf">📞 テレアポトークスクリプト（電話アポ取り）</a>
-    <a href="pdf/Web制作販売事業_ロードマップ.pdf">🗺 事業ロードマップ</a>
-    <a href="pdf/サイト制作・運用ロードマップ.pdf">🛠 制作・運用ロードマップ</a>
-    <a href="pdf/システム全体構成図.pdf">🧩 システム全体構成図</a>
-    <a href="pdf/要件定義書.pdf">📝 要件定義書（機能・非機能／確定・未決）</a>
-    <a href="pdf/方式設計書.pdf">🏗 方式設計書（基本設計・システム方式）</a>
-    <a href="pdf/課題管理表.pdf">📋 課題管理表（要件・方式の課題集約／IPA）</a>
-    <a href="pdf/管理アプリ画面デモ.pdf">▤ 管理アプリ 画面デモ</a>
-    <a href="pdf/顧客ポータル画面デモ.pdf">◔ 顧客ポータル 画面デモ</a>
-    <a href="pdf/公開サイト画面デモ.pdf">🍶 公開サイト 画面デモ</a>
-  </div>
-  <h2 style="font-size:20px;margin:42px 0 6px">運用手順（社内）</h2>
-  <p style="color:var(--sub);font-size:13px;margin-bottom:18px">申込からクロージングまでの実務フローと、手動で対応すべき事項。</p>
-  <div class="pdf">
-    <a href="docs/運用手順書.html">🔄 運用手順書（申込→クロージング）</a>
-    <a href="docs/自社タスク一覧.html">✅ 自社タスク一覧（手動対応事項）</a>
-    <a href="docs/汎用ライン運用手順書.html">🏢 汎用ライン運用手順書（企業・イベント案件）</a>
-  </div>
-  <h2 style="font-size:20px;margin:42px 0 6px">環境構築ドキュメント（社内）</h2>
-  <p style="color:var(--sub);font-size:13px;margin-bottom:18px">プラットフォーム構築の手順と証跡。あとから振り返れるように記録しています。</p>
-  <div class="pdf">
-    <a href="docs/構築手順ロードマップ.html">🧭 構築手順ロードマップ（細粒度）</a>
-    <a href="docs/構築ログ.html">📋 構築ログ（証跡・随時更新）</a>
-    <a href="docs/環境変数一覧と登録手順.html">🔑 環境変数一覧と登録手順</a>
-  </div>
-  <h2 style="font-size:20px;margin:42px 0 6px">運用コスト（月額の目安）</h2>
-  <p style="color:var(--sub);font-size:13px;margin-bottom:14px">事業を回すためのランニングコスト。立ち上げ期は無料枠を活用して最小限、店舗数が増えたらProへ。金額は概算（$1≒¥150換算・税別、為替/プランで変動）。</p>
-  <div class="tablewrap">
-  <table class="cost">
-    <thead><tr><th>サービス</th><th>用途</th><th class="r">月額の目安</th><th>区分</th></tr></thead>
-    <tbody>
-      <tr><td>Google Workspace</td><td>会社メール（admin@musubiweb.com）・Business Starter 1ユーザー</td><td class="r">¥950</td><td><span class="badge nec">必須</span></td></tr>
-      <tr><td>独自ドメイン</td><td>musubiweb.com</td><td class="r">約¥128<span class="sm">（年¥1,540）</span></td><td><span class="badge nec">必須</span></td></tr>
-      <tr><td>Cloudflare Pages</td><td>顧客サイトの公開ホスティング</td><td class="r">無料</td><td><span class="badge nec">必須</span></td></tr>
-      <tr><td>Anthropic API</td><td>口コミ返信のAI生成（原価）</td><td class="r">従量 約¥数百〜数千</td><td><span class="badge nec">必須</span></td></tr>
-      <tr><td>Stripe</td><td>月額・初期費の決済</td><td class="r">固定費0<span class="sm">（手数料3.6%）</span></td><td><span class="badge nec">必須</span></td></tr>
-      <tr><td>GA4 / UptimeRobot / GBP API</td><td>解析・死活監視・口コミ取得</td><td class="r">無料</td><td><span class="badge nec">必須</span></td></tr>
-      <tr><td>Vercel</td><td>管理アプリ・API・定期実行</td><td class="r">無料→Pro 約¥3,000</td><td><span class="badge grow">成長時</span></td></tr>
-      <tr><td>Supabase</td><td>DB・認証・ストレージ</td><td class="r">無料→Pro 約¥3,750</td><td><span class="badge grow">成長時</span></td></tr>
-      <tr><td>Resend</td><td>通知・レポートのメール送信</td><td class="r">無料→有料 約¥3,000</td><td><span class="badge grow">成長時</span></td></tr>
-    </tbody>
-  </table>
-  </div>
-  <div class="costsum">
-    <div class="sumcard"><div class="l">立ち上げ期（無料枠フル活用）</div><div class="v">月 約¥1,100〜2,000</div><div class="n">Workspace¥950＋ドメイン¥128＋AI原価。ほかは無料枠で吸収</div></div>
-    <div class="sumcard"><div class="l">本番運用期（Pro一式）</div><div class="v">月 約¥11,000前後＋従量</div><div class="n">Vercel/Supabase/Resend Pro＋AI生成・決済手数料</div></div>
-  </div>
-  <p class="note">※ デモ画面・資料はサンプルです（実データなし）。運用コストは概算。<br>Musubi（仮称・未法人） / local-web-sales プロジェクト</p>
 </div>
 </body>
 </html>
