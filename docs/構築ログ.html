@@ -62,6 +62,16 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-12 ・ ポータル招待＆テンプレ seed 復元＋通知メール修理</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: (1) <strong>ポータル招待機能</strong>—admin の store 画面から顧客スタッフを招待。既存ユーザーは email 照合で紐付けのみ（新規作成せず）。store_users テーブルに楽観ロック（version カラム）を追加して並行招待を検出。(2) <strong>テンプレ切替時の seed 読み込みオプション</strong>—<code>builder/select-template</code> 画面に「サンプルデータを読み込む」チェックボックスを実装。event テンプレに切替時に seed の reviews（テスト評価）を既存データ上に overlay するか制御可能に。(3) <strong>通知メール修理</strong>—musubiweb.com の NS を Cloudflare へ切替時に Resend 検証レコード失効を確認。対応として Cloudflare に DKIM・SPF・MX 3レコードを追加し Verified 取得。テスト送信で受信を実確認。(4) <strong>環境変数一覧ドキュメント</strong>—08_環境構築/環境変数一覧と登録手順.md を新規作成し、Vercel/Supabase/Stripe/Resend/Cloudflare/GBP の全変数一覧と登録手順を整備。</li>
+<li><strong>Why</strong>: 顧客スタッフ複数名対応が必須（招待制御）。テンプレ切替時の seed 読み込み選択は event テンプレ顧客が試行段階で捏造データと本データを混ぜたくないため。メール不達は受信リード喪失につながるため即時対応。環境変数管理は新メンバー / 本番構築時の参照用。</li>
+<li><strong>How</strong>: admin の store 詳細ページに「スタッフを招待」セクション（email 入力→ Supabase Auth invite 実行→store_users に user_id 記録）を新設。既存ユーザー検出は <code>auth.users.email</code> で pre-check。楽観ロック（version 照合）を store_users の insert/update に適用し、並行招待時に一方の失敗を検出。テンプレ選択フローに seed 読み込み boolean を追加し、<code>lib/seed.ts</code> で条件分岐（event のみサポート）。Cloudflare DNS ダッシュボードで DKIM/SPF/MX を手動追加（ユーザーが実施）。admin/portal <code>npm run build</code> PASS、vitest 154 PASS。E2E は実ブラウザで admin→招待→portal 受け入れまで実施、既存 restaurant テンプレの回帰も確認。</li>
+<li><strong>Result</strong>: 機能・ドキュメント・メール配信まで完了。実ブラウザ E2E 全通過: consult リード → CRM 顧客化 → event テンプレ選択（seed 読み込みチェック）→ テンプレ切替確認 → ポータル招待 → スタッフが招待メール受信＆新規登録 → 既存ユーザーは紐付けのみ（重複なし）→ 顧客初回設定フロー → リスト編集一式（必須バリデーション・不正URLブロック・genre select・画像アップ・下書き→プレビュー反映・hiddenKeys 編集不可）→ restaurant テンプレ動作確認（回帰）。テストデータは全削除（storage1/projects2/stores2/leads1/auth1 → 0件確認）。</li>
+<li><strong>E2E 判明した制約</strong>: projects.plan が3プラン固定（CHECK 制約＋convertLead 処理）のため顧客化時に custom を選べない（本番運用は可。テスト環境で consult リード→store 作成時に plan 選択肢が light/standard/premium のみ）。テスト環境固有=localhost の Cookie ポート非分離（同一ブラウザで admin と portal を同ポート番号で起動すると Cookie が混雑するため、ブラウザ別や設定で分離が必要）、portal の <code>ADMIN_API_BASE</code> 未設定時にフォールバック（環境変数一覧に記載）。</li>
+<li><strong>証跡</strong>: musubi-admin <code>ae64bda</code>（ポータル招待機能・楽観ロック）・<code>6f11bf7</code>（テンプレ seed オプション）、local-web-sales <code>環境変数一覧と登録手順.md</code> 新設・push 済、本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-12 ・ 汎用ライン拡張（続き）：event テンプレ＋顧客セルフ編集</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: R6（汎用ライン拡張）の続きとして、イベント/ポップアップ案件向けに (1) event テンプレ新設、(2) admin 側のテンプレ登録・編集スキーマ、(3) portal 側の構造化リスト編集フォームを実装。</li>
