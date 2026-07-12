@@ -62,6 +62,23 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-13 ・ 全画面クリック編集エディタ＋ポータル業種出し分け</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 全6タスク（T1〜T6a）＋関連修正を実装。各タスクはレビューを通過。</li>
+<li><strong>T1（CRMのcustomプラン選択）</strong>: admin <code>612e08d</code>。CRM顧客化フローで plan に custom を選択可能に。migration <code>0027</code> で <code>projects.plan</code> の CHECK 制約に <code>custom</code> を追加。<strong>本番Supabaseへ適用済み・制約を実確認済み</strong>。</li>
+<li><strong>T2（ポータル機能メニューの業種出し分け）</strong>: portal <code>e99c498</code>。<code>businessLine</code> を導出し、汎用ライン顧客には口コミ返信・月次レポート・ネット予約のメニューを非表示にする。飲食ラインは表示内容不変。</li>
+<li><strong>T3（DOM注釈+overridesパッチ基盤）</strong>: admin <code>3e33096</code>＋<code>746ab57</code>。描画済みHTMLの全テキスト・全画像・全リンクに安定IDを付与し、テンプレごとの個別対応（スキーマ拡張）なしに編集可能にする基盤。編集内容は <code>content._overrides</code> に保存し、公開・プレビュー時にパッチとして適用。<strong>セキュリティレビューで蓄積型XSS（script/styleタグへのtext注入）を発見・修正</strong>——annotate 由来の許可集合（allowlist）でゲートして封鎖。URL検証も制御文字対応で強化。admin vitest 239件PASS。</li>
+<li><strong>T4（全画面クリック編集エディタ /site/editor）</strong>: portal <code>8541b85</code>＋<code>addfb53</code>。実サイトをiframe表示し、クリックした箇所（該当セクション）の編集リストを表示してテキスト/画像/URLを編集する画面を新設。iframe は <code>sandbox=&quot;allow-scripts&quot;</code>（<code>allow-same-origin</code> なし・別オリジン）で多層防御。</li>
+<li><strong>T5（旧インライン編集の撤去・一本化）</strong>: portal <code>beefd89</code>、admin <code>c109dbe</code>。旧 <code>/site/edit</code>（インライン編集画面）を撤去し <code>/site/editor</code> へリダイレクト。<strong>顧客のセルフ編集は業種テンプレ問わず /site/editor に統一</strong>（event テンプレのリスト編集フォームは、該当セクションクリック時に同画面内で開く形に統合）。管理アプリ（staff）側の builder は別経路のため無影響。</li>
+<li><strong>T6a（公開履歴からの復元UI）</strong>: portal <code>c6c9fc5</code>＋<code>d28d798</code>。全画面エディタに公開履歴からの復元機能を復活。a11y対応（モーダルのフォーカストラップ）込み。</li>
+<li><strong>別途（サイト公開名の自動生成・衝突対策）</strong>: admin <code>3f4a17b</code>。サイト公開名の自動生成＋衝突時リトライ＋予約語拒否＋デプロイ失敗の可視化を実装。<strong>真因</strong>は <code>attachSubdomain</code> 等が Cloudflare API のレスポンス（success フラグ）を未検査だったため、公開失敗が握り潰されてエラーが見えなくなっていたこと。</li>
+<li><strong>実ブラウザE2E</strong>: トークンコストの都合により今回は省略。<strong>実装・レビュー・ビルド検証までで、実ブラウザE2Eは未実施</strong>（正直な記載）。</li>
+<li><strong>Why</strong>: 汎用ライン（custom プラン）の受注実務でCRMからcustomを選べない不便を解消するため（T1）。飲食向けに設計されていたポータルの機能メニューを、汎用ライン顧客に不要な口コミ返信・月次レポート・ネット予約を隠す形に整えるため（T2）。event テンプレ限定だった顧客セルフ編集（構造化リスト）を、全テンプレ共通の「実サイトをクリックして編集」体験に拡張し、テンプレごとの個別スキーマ実装を不要にするため（T3〜T6a）。</li>
+<li><strong>How</strong>: 各タスクをサブエージェントで実装→レビュー→修正のゲートで直列実施。T3 のセキュリティレビューで蓄積型XSSを検出したため、annotate 由来の許可集合ゲートとURL検証（制御文字対応）を追加してから次タスクへ進んだ。admin/portal とも各段階で <code>npm run build</code> 通過を確認。</li>
+<li><strong>Result</strong>: 実装・レビュー・ビルド検証まで完了。<strong>既知の残課題（正直に）</strong>: (1) 実ブラウザE2E未実施。(2) 納品フォームの plan select が custom 案件で light 表示になる（挙動でなく表示のみの問題）。(3) <code>contractTemplate:170</code> の「口コミ・月次レポート含む」という文言が、汎用ライン（口コミ返信・月次レポート非表示）の顧客と不整合を起こす可能性がある。(4) builder 系（admin側の制作画面）は vitest 未カバー。</li>
+<li><strong>証跡</strong>: admin <code>612e08d</code>（T1・migration 0027）、portal <code>e99c498</code>（T2）、admin <code>3e33096</code>+<code>746ab57</code>（T3）、portal <code>8541b85</code>+<code>addfb53</code>（T4）、portal <code>beefd89</code>／admin <code>c109dbe</code>（T5）、portal <code>c6c9fc5</code>+<code>d28d798</code>（T6a）、admin <code>3f4a17b</code>（公開名自動生成）、admin vitest 239件PASS、本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-12 ・ ポータル招待＆テンプレ seed 復元＋通知メール修理</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) <strong>ポータル招待機能</strong>—admin の store 画面から顧客スタッフを招待。既存ユーザーは email 照合で紐付けのみ（新規作成せず）。store_users テーブルに楽観ロック（version カラム）を追加して並行招待を検出。(2) <strong>テンプレ切替時の seed 読み込みオプション</strong>—<code>builder/select-template</code> 画面に「サンプルデータを読み込む」チェックボックスを実装。event テンプレに切替時に seed の reviews（テスト評価）を既存データ上に overlay するか制御可能に。(3) <strong>通知メール修理</strong>—musubiweb.com の NS を Cloudflare へ切替時に Resend 検証レコード失効を確認。対応として Cloudflare に DKIM・SPF・MX 3レコードを追加し Verified 取得。テスト送信で受信を実確認。(4) <strong>環境変数一覧ドキュメント</strong>—08_環境構築/環境変数一覧と登録手順.md を新規作成し、Vercel/Supabase/Stripe/Resend/Cloudflare/GBP の全変数一覧と登録手順を整備。</li>

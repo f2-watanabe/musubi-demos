@@ -352,5 +352,17 @@ details.logentry>summary:hover{color:var(--acc)}
 </ul>
 <p><strong>受け入れ基準</strong>: admin/portal のテスト・ビルドが通過し、event テンプレで顧客がポータルからリスト単位の自己編集ができる状態。</p>
 <p>→ <strong>コード上の受け入れ基準は達成</strong>（テスト・ビルドとも PASS）。<strong>未達（2026-07-12 時点）</strong>: 認証つき実ブラウザ E2E（admin builder での event テンプレ実操作・portal ログインでのリスト編集実操作）は、Task 3 作業中の <code>.env.local</code> 事故（詳細は構築ログ）により本トラック全体を通じて未実施。事故後 <code>.env.local</code> は復元済みを確認したが、本タスクのスコープでは dev サーバを要する回帰確認を対象外としたため次回に持ち越し。</p>
+<p><strong>続き（2026-07-13）: 全画面クリック編集エディタ＋ポータル業種出し分け</strong></p>
+<ul class="task">
+<li class="done"><span class="bx">✓</span><span>T1: CRM 顧客化で custom プラン選択可に（admin <code>612e08d</code>）。migration <code>0027</code> で <code>projects.plan</code> の CHECK 制約に <code>custom</code> を追加。<strong>本番Supabaseへ適用済み・制約実確認済み</strong></span></li>
+<li class="done"><span class="bx">✓</span><span>T2: ポータルの機能メニューを飲食/汎用で出し分け（portal <code>e99c498</code>）。汎用ラインは口コミ返信・月次レポート・ネット予約を非表示、飲食は不変</span></li>
+<li class="done"><span class="bx">✓</span><span>T3: DOM 注釈+overrides パッチ基盤（admin <code>3e33096</code>+<code>746ab57</code>）。描画済みHTMLの全テキスト・全画像・全リンクに安定IDを付与し、テンプレ個別対応なしで編集可能に。セキュリティレビューで蓄積型XSS（script/styleへのtext注入）を検出・封鎖、URL検証も強化。admin vitest 239件PASS</span></li>
+<li class="done"><span class="bx">✓</span><span>T4: 全画面クリック編集エディタ <code>/site/editor</code>（portal <code>8541b85</code>+<code>addfb53</code>）。iframe（<code>sandbox=&quot;allow-scripts&quot;</code>）クリックで該当セクションの編集リストを表示、テキスト/画像/URLを編集</span></li>
+<li class="done"><span class="bx">✓</span><span>T5: 旧インライン編集（<code>/site/edit</code>）を撤去し <code>/site/editor</code> に一本化（portal <code>beefd89</code>、admin <code>c109dbe</code>）。event テンプレのリスト編集フォームも同画面へ統合。staff builder は別経路で無影響</span></li>
+<li class="done"><span class="bx">✓</span><span>T6a: 全画面エディタに公開履歴からの復元UIを実装（portal <code>c6c9fc5</code>+<code>d28d798</code>、a11yフォーカストラップ込み）</span></li>
+<li class="done"><span class="bx">✓</span><span>別途: サイト公開名の自動生成＋衝突リトライ＋予約語拒否＋デプロイ失敗の可視化（admin <code>3f4a17b</code>）。真因は <code>attachSubdomain</code> 等が Cloudflare API の success を未検査で公開失敗を握り潰していたこと</span></li>
+</ul>
+<p><strong>受け入れ基準</strong>: 全業種テンプレ共通で顧客がポータルの全画面エディタからクリック編集でき、公開履歴から復元できる状態。汎用ライン顧客のポータルメニューが業種に応じて出し分けられている。</p>
+<p>→ <strong>コード上の受け入れ基準は達成</strong>（各タスクともレビュー通過・ビルド検証済み）。<strong>未達（2026-07-13 時点）</strong>: 実ブラウザE2Eはトークンコストのため今回未実施。既知の残課題: 納品フォームの plan select が custom 案件で light 表示（表示のみ）／<code>contractTemplate:170</code> の「口コミ・月次レポート含む」文言が汎用顧客と不整合の可能性／builder 系は vitest 未カバー。</p>
 <p class="note">🧭 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
 </div></body></html>
