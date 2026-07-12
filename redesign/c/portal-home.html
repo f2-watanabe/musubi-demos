@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>成果ホーム | Musubi 顧客ポータル（パターンC）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .topnav{
+    background: var(--paper-2); border-bottom: 1px solid var(--line-soft);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .prow{ display: flex; align-items: center; gap: 18px; padding: 13px 32px 10px; }
+  .tn-brand{ display: flex; align-items: center; gap: 12px; flex: none; }
+  .tn-brand .mk{ width: 38px; height: 38px; font-size: 15px; }
+  .tn-brand b{ display: block; font-family: var(--font-display); font-size: 15.5px; font-weight: 700; color: var(--ink); }
+  .tn-brand small{ display: block; font-size: 10.5px; color: var(--ink-soft); letter-spacing: .04em; }
+
+  .tabs{ display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; padding: 0 32px 12px; }
+  .tabs::-webkit-scrollbar{ display: none; }
+  .tabs a{
+    position: relative; flex: none; padding: 9px 16px; border-radius: var(--r-btn);
+    font-size: 13.5px; font-weight: 600; color: var(--ink-soft); white-space: nowrap;
+    transition: background-color .18s ease, color .18s ease;
+  }
+  .tabs a:hover{ background: var(--paper-3); color: var(--ink); }
+  .tabs a.on{ background: var(--green); color: var(--paper-2); }
+  .tabs .bdg{
+    display: inline-flex; align-items: center; justify-content: center; margin-left: 6px;
+    min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px;
+    background: var(--amber); color: #fff; font-size: 10px; font-weight: 700;
+  }
+
+  .sp{ flex: 1; }
+  .prov{ font-size: 11px; color: var(--ink-faint); line-height: 1.5; text-align: right; flex: none; }
+  .bell{ position: relative; width: 36px; height: 36px; border-radius: 50%; background: var(--paper-3);
+    display: flex; align-items: center; justify-content: center; color: var(--ink-soft); flex: none; }
+  .bell .n{ position: absolute; top: -2px; right: -2px; width: 15px; height: 15px; border-radius: 50%;
+    background: var(--amber); color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .av{ width: 36px; height: 36px; border-radius: 50%; background: var(--green); color: var(--paper-2);
+    display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 13px; flex: none; }
+
+  .wrap{ max-width: 1040px; margin: 0 auto; padding: 40px 32px 64px; }
+  .hello{ font-family: var(--font-display); font-size: clamp(22px, 3vw, 28px); font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+  .hello span{ color: var(--green); }
+  .sub{ font-size: 13.5px; color: var(--ink-soft); margin-bottom: 30px; }
+
+  @media (max-width: 860px){
+    .prow{ padding: 12px 18px 8px; }
+    .tabs{ padding: 0 18px 12px; }
+    .prov{ display: none; }
+    .wrap{ padding: 28px 18px 56px; }
+  }
+</style>
+</head>
+<body>
+<header class="topnav">
+  <div class="prow">
+    <div class="tn-brand">
+      <span class="mk">さ</span>
+      <span><b>炭火・地酒 さくら亭</b><small>店舗オーナー ポータル</small></span>
+    </div>
+    <div class="sp"></div>
+    <div class="prov">提供：Musubi<br>サポート 090-0000-0000</div>
+    <div class="bell"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9a6 6 0 0 1 12 0v5l1.6 2.4H4.4L6 14z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg><span class="n">2</span></div>
+    <div class="av">さ</div>
+    <button class="btn btn-gho btn-sm">ログアウト</button>
+  </div>
+  <nav class="tabs">
+    <a class="on" href="#">成果ホーム</a>
+    <a href="#">メッセージ</a>
+    <a href="#">お支払い</a>
+    <a href="#">口コミ承認<span class="bdg">3</span></a>
+    <a href="#">月次レポート</a>
+    <a href="#">自店サイト</a>
+    <a href="#">サイトを編集</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="hello">さくら亭さま、<span>今月の成果</span>です。</div>
+  <div class="sub">2026年6月・サイトの成果をまとめています。詳細は「月次レポート」から。</div>
+
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="l">サイト訪問数</div>
+      <div class="v">486<small> 回</small></div>
+    </div>
+    <div class="kpi">
+      <div class="l">ネット予約</div>
+      <div class="v">—<small> 件</small></div>
+    </div>
+    <div class="kpi">
+      <div class="l">問い合わせ</div>
+      <div class="v">—<small> 件</small></div>
+    </div>
+    <div class="kpi">
+      <div class="l">Google評価</div>
+      <div class="v">★4.6</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>やること <span class="tag">あなたの承認待ち</span></h3>
+    <div class="list">
+      <div class="it">
+        <span class="badge badge-new">3</span>
+        <div class="it-body">口コミへの返信を承認してください<div class="it-sub">AIが返信案を用意済み</div></div>
+        <button class="btn btn-amber btn-sm">確認する</button>
+      </div>
+      <div class="it">
+        <span class="badge badge-ok">✓</span>
+        <div class="it-body">2026年6月の月次レポートが公開されました<div class="it-sub">2026/07/03</div></div>
+        <button class="btn btn-gho btn-sm">見る</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

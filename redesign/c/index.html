@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>パターンC: クラフト&ウォーム | Musubi デザイン刷新案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .wrap{ max-width: 880px; margin: 0 auto; padding: 72px 28px 80px; position: relative; z-index: 1; }
+  .head{ display: flex; align-items: center; gap: 14px; margin-bottom: 40px; }
+  .head b{ font-family: var(--font-display); font-size: 16.5px; font-weight: 700; color: var(--ink); }
+  .head small{ display: block; font-size: 11px; color: var(--ink-soft); letter-spacing: .04em; }
+
+  .eyebrow{
+    font-size: 12px; font-weight: 700; letter-spacing: .26em; color: var(--amber-deep);
+    display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+  }
+  .eyebrow::before{ content: ""; width: 30px; height: 1px; background: var(--amber); }
+  h1{
+    font-family: var(--font-display); font-weight: 700; color: var(--green);
+    font-size: clamp(30px, 5vw, 46px); line-height: 1.4; margin: 0 0 22px;
+  }
+  .concept{ font-size: 15.5px; line-height: 1.95; color: var(--ink-soft); max-width: 62ch; margin: 0 0 12px; }
+
+  .swatches{ display: flex; gap: 10px; margin: 34px 0 48px; }
+  .sw{ flex: 1; height: 46px; border-radius: var(--r-sm); border: 1px solid var(--line-soft); position: relative; }
+  .sw span{ position: absolute; left: 10px; bottom: 8px; font-size: 10.5px; font-weight: 700; }
+
+  .links{ display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .lcard{
+    display: flex; align-items: center; gap: 20px;
+    background: var(--paper-2); border: 1px solid var(--line-soft); border-radius: var(--r-card);
+    padding: 22px 24px; box-shadow: var(--shadow-card);
+    transition: transform .18s ease, box-shadow .2s ease;
+  }
+  .lcard:hover{ transform: translateY(-2px); box-shadow: var(--shadow-pop); }
+  .lcard .n{
+    flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--green-soft); color: var(--green-deep);
+    display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 16px;
+  }
+  .lcard .body{ flex: 1; min-width: 0; }
+  .lcard .body b{ display: block; font-size: 15.5px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .lcard .body span{ font-size: 13px; color: var(--ink-soft); }
+  .lcard .go{ flex: none; color: var(--amber); font-size: 20px; }
+
+  @media (max-width: 480px){
+    .wrap{ padding: 48px 18px 60px; }
+    .lcard{ padding: 18px; gap: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <span class="mk">結</span>
+    <span><b>Musubi</b><small>デザイン刷新モック</small></span>
+  </div>
+
+  <div class="eyebrow">PATTERN C</div>
+  <h1>クラフト&ウォーム</h1>
+  <p class="concept">
+    Musubiの和ブランド（結び・行灯）を現代の管理画面に昇華した方向性。
+    生成りの和紙地に深緑と墨色を基調とし、丸みと結び目のモチーフで手仕事の温かさを添える。
+    飲食店オーナーにも運営スタッフにも親しみやすく、それでいて洗練された佇まい。
+  </p>
+
+  <div class="swatches" aria-hidden="true">
+    <div class="sw" style="background: var(--paper);"><span>和紙</span></div>
+    <div class="sw" style="background: var(--green); color: #fff;"><span>深緑</span></div>
+    <div class="sw" style="background: var(--amber); color: #fff;"><span>行灯</span></div>
+    <div class="sw" style="background: var(--ink); color: var(--paper);"><span>墨</span></div>
+  </div>
+
+  <div class="links">
+    <a class="lcard" href="admin-login.html">
+      <span class="n">1</span>
+      <span class="body"><b>管理アプリ・ログイン</b><span>運営スタッフ向けサインイン画面</span></span>
+      <span class="go">→</span>
+    </a>
+    <a class="lcard" href="admin-dashboard.html">
+      <span class="n">2</span>
+      <span class="body"><b>管理アプリ・ダッシュボード</b><span>KPI・契約プラン内訳・タスク・未返信の口コミ</span></span>
+      <span class="go">→</span>
+    </a>
+    <a class="lcard" href="portal-home.html">
+      <span class="n">3</span>
+      <span class="body"><b>顧客ポータル・成果ホーム</b><span>店舗オーナー向け月次成果とやることリスト</span></span>
+      <span class="go">→</span>
+    </a>
+  </div>
+</div>
+</body>
+</html>

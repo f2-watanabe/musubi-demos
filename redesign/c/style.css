@@ -1,0 +1,191 @@
+/* =========================================================
+   Musubi Redesign / Pattern C: クラフト&ウォーム
+   Forest palette: 深緑(結び) + 生成り(和紙) + 琥珀(行灯)
+   ========================================================= */
+
+:root{
+  --paper:      #F7F2E6;   /* 和紙・本体背景 */
+  --paper-2:    #FDFBF4;   /* カード面（本体より明） */
+  --paper-3:    #EFE8D6;   /* 一段沈んだ面（サイドバー等） */
+  --line:       #E2D9C0;   /* 罫線・区切り */
+  --line-soft:  #EAE2CB;
+
+  --ink:        #2A2620;   /* 本文・墨色 */
+  --ink-soft:   #6E6552;   /* 弱文字 */
+  --ink-faint:  #9C9380;   /* さらに弱い文字 */
+
+  --green:      #1E4B3D;   /* 深緑・構造色（見出し/サイドバー/主要ボタン） */
+  --green-deep: #12332A;   /* 深緑の濃色（サイドバー背景） */
+  --green-soft: #DCE7DE;   /* 緑の淡色面（バッジ等） */
+  --green-line: #3E6E5C;
+
+  --amber:      #C1592E;   /* 行灯・琥珀のアクセント（CTA/強調のみ） */
+  --amber-soft: #F1DDCB;
+  --amber-deep: #A44823;
+
+  --ok:         #2F6B4F;
+  --ok-soft:    #DCEBE1;
+  --warn:       #B57A1F;
+  --warn-soft:  #F3E6CC;
+  --danger:     #B23A2E;
+  --danger-soft:#F4DEDA;
+
+  --r-card: 20px;
+  --r-btn: 999px;
+  --r-input: 12px;
+  --r-sm: 10px;
+
+  --shadow-card: 0 14px 34px -22px rgba(30,22,10,.45);
+  --shadow-pop:  0 20px 44px -18px rgba(20,16,8,.32);
+
+  --font-display: "Shippori Mincho B1", serif;
+  --font-body: "Noto Sans JP", "Zen Kaku Gothic New", sans-serif;
+}
+
+*{ box-sizing: border-box; }
+html{ -webkit-text-size-adjust: 100%; }
+body{
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.7;
+  letter-spacing: .01em;
+  -webkit-font-smoothing: antialiased;
+}
+img{ max-width: 100%; display: block; }
+a{ color: inherit; text-decoration: none; }
+:focus-visible{ outline: 2px solid var(--green); outline-offset: 2px; }
+button{ font: inherit; }
+
+/* subtle warm paper grain, fixed layer, never on scrolling containers */
+body::before{
+  content: "";
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  opacity: .045; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- 結び monogram mark ---------- */
+.mk{
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 999px; flex: none;
+  background: var(--green); color: var(--paper-2);
+  font-family: var(--font-display); font-size: 17px; font-weight: 700;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+
+/* decorative knot / cord line (musubi motif), used sparingly */
+.cord{
+  display: block; width: 100%; height: 34px; overflow: visible;
+}
+.cord path{ fill: none; stroke: var(--amber); stroke-width: 1.6; stroke-linecap: round; opacity: .55; }
+
+/* ---------- buttons ---------- */
+.btn{
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 22px; border-radius: var(--r-btn);
+  font-size: 14px; font-weight: 700; letter-spacing: .02em;
+  border: 1px solid transparent; cursor: pointer;
+  transition: transform .15s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease;
+  white-space: nowrap;
+}
+.btn:active{ transform: translateY(1px) scale(.98); }
+.btn-pri{ background: var(--green); color: var(--paper-2); box-shadow: var(--shadow-card); }
+.btn-pri:hover{ background: var(--green-deep); }
+.btn-amber{ background: var(--amber); color: #fff; box-shadow: 0 14px 28px -16px rgba(193,89,46,.55); }
+.btn-amber:hover{ background: var(--amber-deep); }
+.btn-gho{ background: transparent; color: var(--green); border-color: var(--green-line); }
+.btn-gho:hover{ background: var(--green-soft); }
+.btn-sm{ padding: 8px 16px; font-size: 13px; }
+.btn-block{ width: 100%; }
+
+/* ---------- form fields ---------- */
+.field{ display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+.field label{ font-size: 13px; font-weight: 700; color: var(--ink); }
+.inwrap{ position: relative; display: flex; align-items: center; }
+.inwrap .ic{ position: absolute; left: 14px; color: var(--ink-faint); display: flex; }
+.inp{
+  width: 100%; padding: 12px 14px 12px 42px; border-radius: var(--r-input);
+  border: 1.5px solid var(--line); background: var(--paper-2); color: var(--ink);
+  font-size: 14.5px; font-family: var(--font-body);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.inp::placeholder{ color: var(--ink-faint); }
+.inp:focus{ border-color: var(--green); box-shadow: 0 0 0 3px var(--green-soft); outline: none; }
+.helper{ font-size: 12.5px; color: var(--ink-soft); }
+.err-box{
+  padding: 12px 16px; border-radius: var(--r-sm); margin-bottom: 18px;
+  background: var(--danger-soft); color: var(--danger-deep, #7a281f); font-size: 13.5px; font-weight: 600;
+  border: 1px solid rgba(178,58,46,.25);
+}
+
+/* ---------- cards ---------- */
+.card{
+  background: var(--paper-2); border-radius: var(--r-card);
+  border: 1px solid var(--line-soft);
+  padding: 26px 26px 24px; box-shadow: var(--shadow-card);
+  margin-bottom: 20px;
+}
+.card h3{
+  margin: 0 0 16px; font-size: 15.5px; font-weight: 700; color: var(--ink);
+  display: flex; align-items: center; gap: 10px;
+}
+.tag{
+  font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: var(--r-btn);
+  background: var(--green-soft); color: var(--green-deep);
+}
+
+/* badges */
+.badge{ font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: var(--r-btn); }
+.badge-ok{ background: var(--ok-soft); color: var(--ok); }
+.badge-warn{ background: var(--warn-soft); color: var(--warn); }
+.badge-danger{ background: var(--danger-soft); color: var(--danger); }
+.badge-new{ background: var(--amber); color: #fff; }
+
+/* dot */
+.dot{ width: 8px; height: 8px; border-radius: 50%; flex: none; align-self: flex-start; margin-top: 7px; }
+.dot-r{ background: var(--danger); }
+.dot-o{ background: var(--warn); }
+.dot-g{ background: var(--ok); }
+
+/* ---------- KPI grid ---------- */
+.kpi-grid{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+.kpi{
+  background: var(--paper-2); border: 1px solid var(--line-soft); border-radius: var(--r-card);
+  padding: 20px 20px 18px; box-shadow: var(--shadow-card);
+}
+.kpi .l{ font-size: 12.5px; color: var(--ink-soft); font-weight: 600; margin-bottom: 10px; }
+.kpi .v{ font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--green); line-height: 1.15; }
+.kpi .v small{ font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--ink-soft); }
+.kpi .d{ margin-top: 8px; font-size: 12px; color: var(--ink-faint); }
+
+@media (max-width: 900px){
+  .kpi-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px){
+  .kpi-grid{ grid-template-columns: 1fr 1fr; gap: 10px; }
+  .kpi{ padding: 16px 14px; }
+  .kpi .v{ font-size: 24px; }
+}
+
+/* ---------- list / items ---------- */
+.list{ display: flex; flex-direction: column; }
+.it{
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 0; border-top: 1px solid var(--line-soft);
+}
+.it > .badge:first-child{ align-self: flex-start; margin-top: 2px; }
+.it:first-child{ border-top: none; padding-top: 4px; }
+.it-body{ flex: 1; min-width: 0; }
+.it-body b{ font-weight: 700; }
+.it-sub{ font-size: 12.5px; color: var(--ink-soft); margin-top: 3px; }
+.empty{ color: var(--ink-faint); font-size: 13.5px; padding: 10px 0; }
+
+/* stars */
+.stars{ color: var(--amber); letter-spacing: 1px; }
+.stars-empty{ color: var(--line); letter-spacing: 1px; }
+
+/* utility */
+.muted{ color: var(--ink-soft); }
+.sr-only{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
