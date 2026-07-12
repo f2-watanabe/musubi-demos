@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>成果ホーム ー Musubi Redesign A</title>
+<meta name="description" content="Musubi 顧客ポータル 成果ホーム画面 パターンA モック（飲食版）" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="style.css" />
+<style>
+  body {
+    background: var(--paper);
+  }
+  .topbar {
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: var(--header-h);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .brand .mark {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 16px;
+  }
+  .brand b {
+    display: block;
+    font-size: 14px;
+  }
+  .brand small {
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .tabs {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    overflow-x: auto;
+    flex: 1;
+    min-width: 0;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tabs a {
+    font-size: 13.5px;
+    color: var(--ink2);
+    padding: 10px 0;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .tabs a:hover {
+    color: var(--ink);
+  }
+  .tabs a.on {
+    color: var(--ink);
+    font-weight: 700;
+    border-bottom-color: var(--acc);
+  }
+  .topbar .right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .bell {
+    width: 19px;
+    height: 19px;
+    color: var(--ink2);
+  }
+  .bell svg {
+    width: 100%;
+    height: 100%;
+  }
+  .av {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-family: var(--font-display);
+  }
+  .logout {
+    font-size: 12.5px;
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 3px;
+    color: var(--muted);
+  }
+  .logout:hover {
+    color: var(--ink);
+    text-decoration-color: var(--ink);
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 48px 32px 100px;
+  }
+  .hello {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  .hello em {
+    font-style: italic;
+    color: var(--acc);
+  }
+  .sub {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin-bottom: 40px;
+  }
+
+  /* stage rail */
+  .stage-block {
+    padding-bottom: 40px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--line);
+  }
+  .stage-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 26px;
+  }
+  .stage-head h3 {
+    font-size: 15px;
+    margin: 0;
+    font-weight: 700;
+  }
+  .rail {
+    display: flex;
+    align-items: center;
+  }
+  .rail .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    position: relative;
+  }
+  .rail .step .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--line-strong);
+    z-index: 1;
+  }
+  .rail .step.done .dot,
+  .rail .step.current .dot {
+    background: var(--acc);
+  }
+  .rail .step .lbl {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .rail .step.current .lbl {
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .rail .step::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: -50%;
+    width: 100%;
+    height: 1px;
+    background: var(--line-strong);
+    z-index: 0;
+  }
+  .rail .step:first-child::before {
+    display: none;
+  }
+  .rail .step.done::before {
+    background: var(--acc);
+  }
+
+  /* next action hero */
+  .next {
+    border: 1px solid var(--ink);
+    padding: 30px 34px;
+    margin-bottom: 44px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .next .body {
+    flex: 1;
+    min-width: 220px;
+  }
+  .next .eyebrow {
+    font-size: 11.5px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .next h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+    margin: 0 0 8px;
+    line-height: 1.5;
+  }
+  .next p {
+    font-size: 13px;
+    color: var(--ink2);
+    margin: 0;
+  }
+
+  .kpi-block {
+    padding: 44px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .todo-block {
+    padding-top: 44px;
+  }
+
+  @media (max-width: 900px) {
+    .tabs {
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .topbar-inner {
+      height: auto;
+      padding: 14px 20px;
+      gap: 10px 20px;
+      flex-wrap: wrap;
+    }
+    .brand small {
+      display: none;
+    }
+    .tabs {
+      order: 3;
+      flex-basis: 100%;
+      gap: 20px;
+    }
+    .right {
+      margin-left: auto;
+    }
+    .wrap {
+      padding: 32px 20px 72px;
+    }
+    .stat-strip {
+      grid-template-columns: 1fr 1fr;
+    }
+    .stat:nth-child(2n) {
+      border-left: 1px solid var(--line);
+      padding-left: 20px;
+    }
+    .stat:nth-child(2n+1) {
+      border-left: none;
+      padding-left: 0;
+    }
+    .stat:nth-child(3),
+    .stat:nth-child(4) {
+      margin-top: 20px;
+    }
+    .rail .lbl {
+      display: none;
+    }
+    .next {
+      padding: 24px 22px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="mark">結</span>
+      <span>
+        <b>炭火焼鳥 とり忠</b>
+        <small>店舗オーナー ポータル</small>
+      </span>
+    </div>
+    <nav class="tabs">
+      <a class="on" href="portal-home.html">成果ホーム</a>
+      <a href="#">メッセージ</a>
+      <a href="#">お支払い</a>
+      <a href="#">口コミ承認 <span style="color: var(--acc);">3</span></a>
+      <a href="#">月次レポート</a>
+      <a href="#">自店サイト</a>
+      <a href="#">サイトを編集</a>
+    </nav>
+    <div class="right">
+      <span class="bell" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.7 21a2 2 0 0 1-3.4 0" />
+        </svg>
+      </span>
+      <span class="av">と</span>
+      <a class="logout" href="#">ログアウト</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hello">炭火焼鳥 とり忠さま、<em>今月の成果</em>です。</div>
+  <div class="sub">2026年6月 ・ サイトの成果をまとめています。詳細は「月次レポート」から。</div>
+
+  <section class="stage-block">
+    <div class="stage-head">
+      <h3>進行状況</h3>
+      <span class="tag tag-live">運用中</span>
+    </div>
+    <div class="rail">
+      <div class="step done"><span class="dot"></span><span class="lbl">申込</span></div>
+      <div class="step done"><span class="dot"></span><span class="lbl">打ち合わせ</span></div>
+      <div class="step done"><span class="dot"></span><span class="lbl">契約</span></div>
+      <div class="step done"><span class="dot"></span><span class="lbl">制作</span></div>
+      <div class="step current"><span class="dot"></span><span class="lbl">公開中</span></div>
+    </div>
+  </section>
+
+  <div class="next">
+    <div class="body">
+      <div class="eyebrow">NEXT ACTION</div>
+      <h2>サイトのトップ画像を更新しました。内容をご確認ください。</h2>
+      <p>店内の新しい写真に差し替えています。公開前に一度ご確認をお願いします。</p>
+    </div>
+    <a class="btn btn-primary" href="#">内容を確認する</a>
+  </div>
+
+  <section class="kpi-block">
+    <div class="stat-strip">
+      <div class="stat">
+        <div class="l">サイト訪問数</div>
+        <div class="v">842<small> 回</small></div>
+      </div>
+      <div class="stat">
+        <div class="l">ネット予約</div>
+        <div class="v">—<small> 件</small></div>
+      </div>
+      <div class="stat">
+        <div class="l">問い合わせ</div>
+        <div class="v">—<small> 件</small></div>
+      </div>
+      <div class="stat">
+        <div class="l">Google評価</div>
+        <div class="v">★4.6</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="todo-block">
+    <div class="sec-head">
+      <h3>やること</h3>
+      <span class="cap">あなたの承認待ち</span>
+    </div>
+    <div class="rows">
+      <div class="row">
+        <div class="body">
+          <div class="title">口コミへの返信を承認してください</div>
+          <div class="sub">AIが返信案を用意済み ・ 3件</div>
+        </div>
+        <a class="btn btn-sm btn-primary" href="#">確認する</a>
+      </div>
+      <div class="row">
+        <div class="body">
+          <div class="title">2026年6月の月次レポートが公開されました</div>
+          <div class="sub">2026/07/03</div>
+        </div>
+        <a class="btn btn-sm btn-ghost" href="#">見る</a>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

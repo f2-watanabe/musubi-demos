@@ -1,0 +1,443 @@
+/* ============================================================
+   Musubi redesign — Pattern A: ミニマル & エディトリアル
+   Shared tokens & components across admin / portal mocks.
+   ============================================================ */
+
+:root {
+  --paper: #faf9f5;
+  --paper-raised: #ffffff;
+  --panel-dark: #17140f;
+  --panel-dark2: #211d16;
+
+  --ink: #17140f;
+  --ink2: #4a463d;
+  --muted: #918b7c;
+
+  --line: #e3ddce;
+  --line-strong: #cec6b0;
+  --line-on-dark: rgba(250, 249, 245, 0.18);
+
+  --acc: #0e6b52;
+  --acc-ink: #ffffff;
+  --acc-soft: #eef2ea;
+
+  --danger: #a8402c;
+  --warn: #a97a1f;
+
+  --font-display: "Zen Old Mincho", serif;
+  --font-sans: "Zen Kaku Gothic New", sans-serif;
+
+  --nav-w: 236px;
+  --header-h: 76px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+.serif {
+  font-family: var(--font-display);
+}
+
+em {
+  font-style: italic;
+}
+
+/* ---------- generic layout helpers ---------- */
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+
+.hr-strong {
+  border: none;
+  border-top: 1px solid var(--line-strong);
+  margin: 0;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 20px;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border-radius: 2px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn-primary:hover {
+  background: var(--acc);
+  border-color: var(--acc);
+  color: #fff;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  padding: 0 4px;
+  height: auto;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--line-strong);
+}
+
+.btn-ghost:hover {
+  background: transparent;
+  color: var(--acc);
+  text-decoration-color: var(--acc);
+}
+
+.btn-sm {
+  height: 34px;
+  padding: 0 14px;
+  font-size: 12.5px;
+}
+
+/* ---------- status text (semantic only, no decorative dots) ---------- */
+
+.tag {
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.tag-live { color: var(--acc); }
+.tag-warm { color: var(--warn); }
+.tag-new { color: var(--ink2); }
+.tag-off { color: var(--muted); }
+.tag-danger { color: var(--danger); }
+
+/* ---------- form elements (underline style) ---------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 26px;
+}
+
+.field label {
+  font-size: 12.5px;
+  color: var(--ink2);
+  letter-spacing: 0.03em;
+}
+
+.field input {
+  font-family: var(--font-sans);
+  font-size: 15.5px;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line-strong);
+  padding: 8px 2px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.field input::placeholder {
+  color: var(--muted);
+}
+
+.field input:focus {
+  border-bottom-color: var(--acc);
+}
+
+.field-error input {
+  border-bottom-color: var(--danger);
+}
+
+.error-msg {
+  font-size: 13px;
+  color: var(--danger);
+  margin: -8px 0 22px;
+}
+
+/* ---------- KPI / stat strip ---------- */
+
+.stat-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.stat {
+  padding: 22px 26px;
+  border-left: 1px solid var(--line);
+}
+
+.stat:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.stat .l {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.stat .v {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 2.6vw, 2.5rem);
+  line-height: 1.1;
+  color: var(--ink);
+  font-feature-settings: "palt";
+}
+
+.stat .v small {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--muted);
+  margin-left: 2px;
+}
+
+.stat .d {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--ink2);
+}
+
+/* ---------- section heading ---------- */
+
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.sec-head h3 {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+.sec-head .cap {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.section {
+  padding: 40px 0;
+}
+
+/* ---------- list rows (dividers, not boxed cards) ---------- */
+
+.rows {
+  border-top: 1px solid var(--line);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.row .body {
+  flex: 1;
+  min-width: 0;
+}
+
+.row .title {
+  font-size: 14.5px;
+  color: var(--ink);
+}
+
+.row .sub {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.row .num {
+  font-family: var(--font-display);
+  font-size: 20px;
+  min-width: 28px;
+}
+
+.empty {
+  padding: 28px 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ---------- table ---------- */
+
+.etable {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.etable td,
+.etable th {
+  white-space: nowrap;
+}
+
+.etable .name {
+  white-space: normal;
+}
+
+.etable thead th {
+  text-align: left;
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  padding: 0 14px 12px 0;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.etable tbody td {
+  padding: 15px 14px 15px 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.etable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.etable .name {
+  color: var(--ink);
+}
+
+.etable .muted-cell {
+  color: var(--muted);
+}
+
+/* ---------- plan breakdown bars ---------- */
+
+.barset {
+  display: flex;
+  align-items: flex-end;
+  gap: 28px;
+  height: 150px;
+  padding-top: 10px;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.barcol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.barcol .val {
+  font-family: var(--font-display);
+  font-size: 17px;
+}
+
+.barcol .fill {
+  width: 34px;
+  background: var(--ink);
+}
+
+.barcol.acc .fill {
+  background: var(--acc);
+}
+
+.barcol .lbl {
+  font-size: 12px;
+  color: var(--muted);
+  font-style: normal;
+}
+
+/* ---------- scoped skip link ---------- */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 10px 16px;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  left: 12px;
+  top: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ダッシュボード ー Musubi Redesign A</title>
+<meta name="description" content="Musubi 管理コンソール ダッシュボード画面 パターンA モック" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="style.css" />
+<style>
+  body {
+    background: var(--paper);
+  }
+  .app {
+    display: grid;
+    grid-template-columns: var(--nav-w) 1fr;
+    min-height: 100dvh;
+  }
+
+  /* ---- sidebar ---- */
+  .side {
+    min-width: 0;
+    border-right: 1px solid var(--line);
+    padding: 30px 26px;
+    display: flex;
+    flex-direction: column;
+  }
+  .side .brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 40px;
+  }
+  .side .mark {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 16px;
+  }
+  .side .brand b {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 15.5px;
+    font-weight: 500;
+  }
+  .side .brand small {
+    display: block;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .side nav {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line);
+  }
+  .side nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 4px 13px 14px;
+    font-size: 13.5px;
+    color: var(--ink2);
+    border-bottom: 1px solid var(--line);
+    border-left: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .side nav a:hover {
+    color: var(--ink);
+  }
+  .side nav a.on {
+    color: var(--ink);
+    font-weight: 700;
+    border-left-color: var(--acc);
+    background: linear-gradient(90deg, var(--acc-soft), transparent 60%);
+  }
+  .side nav a .ic {
+    font-family: var(--font-display);
+    font-size: 13px;
+    width: 16px;
+    color: var(--muted);
+    text-align: center;
+  }
+  .side nav a.on .ic {
+    color: var(--acc);
+  }
+  .side .foot {
+    margin-top: auto;
+    padding-top: 20px;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+  }
+  .side .foot .logout {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 3px;
+  }
+  .side .foot .logout:hover {
+    color: var(--ink);
+    text-decoration-color: var(--ink);
+  }
+
+  /* ---- main ---- */
+  .main {
+    min-width: 0;
+  }
+  .top {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 26px 40px;
+    border-bottom: 1px solid var(--line);
+  }
+  .top h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 24px;
+    margin: 0;
+  }
+  .top .sp {
+    flex: 1;
+  }
+  .bell {
+    width: 20px;
+    height: 20px;
+    color: var(--ink2);
+  }
+  .bell svg {
+    width: 100%;
+    height: 100%;
+  }
+  .av {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12.5px;
+    font-family: var(--font-display);
+  }
+  .wrap {
+    padding: 36px 40px 80px;
+  }
+  .crumb {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 30px;
+  }
+
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 56px;
+    padding: 44px 0;
+    border-top: 1px solid var(--line);
+    margin-top: 6px;
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+  }
+
+  @media (max-width: 1080px) {
+    .grid2 {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .app {
+      grid-template-columns: 1fr;
+    }
+    .side {
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+      padding: 20px 24px;
+    }
+    .side .brand {
+      margin-bottom: 18px;
+    }
+    .side nav {
+      flex-direction: row;
+      overflow-x: auto;
+      border-top: none;
+      gap: 2px;
+    }
+    .side nav a {
+      border-bottom: none;
+      border-left: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      padding: 8px 12px;
+    }
+    .side nav a.on {
+      background: none;
+      border-bottom-color: var(--acc);
+    }
+    .side .foot {
+      display: none;
+    }
+    .top {
+      padding: 18px 24px;
+    }
+    .wrap {
+      padding: 26px 24px 60px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .stat-strip {
+      grid-template-columns: 1fr 1fr;
+    }
+    .stat:nth-child(3) {
+      border-left: none;
+      padding-left: 0;
+      margin-top: 20px;
+    }
+    .stat:nth-child(2n+1) {
+      border-left: none;
+      padding-left: 0;
+    }
+    .stat:nth-child(2n) {
+      border-left: 1px solid var(--line);
+      padding-left: 20px;
+    }
+    .barset {
+      gap: 14px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <span class="mark">結</span>
+      <span>
+        <b>Musubi</b>
+        <small>ADMIN CONSOLE</small>
+      </span>
+    </div>
+    <nav>
+      <a class="on" href="admin-dashboard.html"><span class="ic">◧</span>ダッシュボード</a>
+      <a href="#"><span class="ic">≡</span>営業リスト</a>
+      <a href="#"><span class="ic">◷</span>打ち合わせ予約</a>
+      <a href="#"><span class="ic">◎</span>顧客管理</a>
+      <a href="#"><span class="ic">▤</span>サイト制作</a>
+      <a href="#"><span class="ic">▦</span>ネット予約</a>
+      <a href="#"><span class="ic">★</span>口コミ返信AI</a>
+      <a href="#"><span class="ic">¥</span>請求・サブスク</a>
+      <a href="#"><span class="ic">◈</span>コストモニタ</a>
+      <a href="#"><span class="ic">◔</span>レポート</a>
+      <a href="#"><span class="ic">⚙</span>設定</a>
+    </nav>
+    <div class="foot">
+      渡辺 / オーナー
+      <br />
+      <a class="logout" href="#">ログアウト</a>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <h1>ダッシュボード</h1>
+      <div class="sp"></div>
+      <span class="bell" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.7 21a2 2 0 0 1-3.4 0" />
+        </svg>
+      </span>
+      <span class="av">渡</span>
+    </header>
+
+    <div class="wrap">
+      <div class="crumb">運営 / ダッシュボード</div>
+
+      <section class="stat-strip">
+        <div class="stat">
+          <div class="l">稼働顧客</div>
+          <div class="v">42<small> 件</small></div>
+          <div class="d">登録 58 店</div>
+        </div>
+        <div class="stat">
+          <div class="l">MRR（月次経常収益）</div>
+          <div class="v">¥1,268,000</div>
+          <div class="d">稼働契約 42 件</div>
+        </div>
+        <div class="stat">
+          <div class="l">営業リード</div>
+          <div class="v">27<small> 件</small></div>
+          <div class="d">受注 9 / 打ち合わせ 6</div>
+        </div>
+        <div class="stat">
+          <div class="l">未返信の口コミ</div>
+          <div class="v">11<small> 件</small></div>
+          <div class="d">下書き済 7</div>
+        </div>
+      </section>
+
+      <section class="grid2">
+        <div>
+          <div class="sec-head">
+            <h3>契約プラン内訳</h3>
+          </div>
+          <div class="barset">
+            <div class="barcol">
+              <span class="val">18</span>
+              <span class="fill" style="height: 62%"></span>
+              <em class="lbl">ライト</em>
+            </div>
+            <div class="barcol acc">
+              <span class="val">16</span>
+              <span class="fill" style="height: 55%"></span>
+              <em class="lbl">スタンダード</em>
+            </div>
+            <div class="barcol">
+              <span class="val">7</span>
+              <span class="fill" style="height: 24%"></span>
+              <em class="lbl">プレミアム</em>
+            </div>
+            <div class="barcol">
+              <span class="val">1</span>
+              <span class="fill" style="height: 4%"></span>
+              <em class="lbl">その他</em>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sec-head">
+            <h3>今月のタスク</h3>
+          </div>
+          <div class="rows">
+            <div class="row">
+              <div class="body">
+                <div class="title">未入金の請求対応</div>
+                <div class="sub">2 件</div>
+              </div>
+              <span class="tag tag-danger">要対応</span>
+            </div>
+            <div class="row">
+              <div class="body">
+                <div class="title">未返信の口コミ</div>
+                <div class="sub">4 件 AI下書き待ち</div>
+              </div>
+              <span class="tag tag-warm">未対応</span>
+            </div>
+            <div class="row">
+              <div class="body">
+                <div class="title">口コミ返信の承認</div>
+                <div class="sub">7 件 下書き済</div>
+              </div>
+              <span class="tag tag-live">承認待ち</span>
+            </div>
+            <div class="row">
+              <div class="body">
+                <div class="title">打ち合わせ中リードのフォロー</div>
+                <div class="sub">6 件</div>
+              </div>
+              <span class="tag tag-warm">対応中</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" style="border-top: 1px solid var(--line); padding-top: 44px;">
+        <div class="sec-head">
+          <h3>未返信の口コミ</h3>
+        </div>
+        <div class="rows">
+          <div class="row">
+            <div class="body">
+              <b>炭火焼鳥 とり忠</b>
+              <span class="tag" style="color: var(--warn); margin-left: 8px;">★★★★☆</span>
+              <div class="sub">「もつ鍋がとても美味しかったです。また行きます。」</div>
+            </div>
+            <a class="btn btn-sm btn-primary" href="#">AIで返信を作成</a>
+          </div>
+          <div class="row">
+            <div class="body">
+              <b>三代目 蕎麦処 縁</b>
+              <span class="tag" style="color: var(--warn); margin-left: 8px;">★★★☆☆</span>
+              <div class="sub">「接客はよかったが待ち時間が長かった。」</div>
+            </div>
+            <a class="btn btn-sm btn-primary" href="#">AIで返信を作成</a>
+          </div>
+          <div class="row">
+            <div class="body">
+              <b>Trattoria Sole</b>
+              <span class="tag" style="color: var(--warn); margin-left: 8px;">★★★★★</span>
+              <div class="sub">「記念日のディナーで利用。雰囲気が最高でした。」</div>
+            </div>
+            <a class="btn btn-sm btn-primary" href="#">AIで返信を作成</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" style="border-top: 1px solid var(--line); padding-top: 44px;">
+        <div class="sec-head">
+          <h3>顧客管理（サイト・連携設定）</h3>
+          <span class="cap">営業状況の管理は営業リスト側で行います</span>
+        </div>
+        <div class="table-scroll">
+          <table class="etable">
+            <thead>
+              <tr>
+                <th>店名</th>
+                <th>案件</th>
+                <th>公開サイト</th>
+                <th>GBP location</th>
+                <th>GA4 property</th>
+                <th>登録</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><b>炭火焼鳥 とり忠</b></td>
+                <td><span class="tag tag-live">運用中</span></td>
+                <td>toricyu.musubiweb.com</td>
+                <td class="muted-cell">loc-3391822</td>
+                <td class="muted-cell">GA4-88213</td>
+                <td class="muted-cell">2025/11</td>
+              </tr>
+              <tr>
+                <td class="name"><b>三代目 蕎麦処 縁</b></td>
+                <td><span class="tag tag-warm">契約中</span></td>
+                <td>soba-en.musubiweb.com</td>
+                <td class="muted-cell">loc-2207714</td>
+                <td class="muted-cell">GA4-70455</td>
+                <td class="muted-cell">2026/02</td>
+              </tr>
+              <tr>
+                <td class="name"><b>Trattoria Sole</b></td>
+                <td><span class="tag tag-live">運用中</span></td>
+                <td>trattoria-sole.musubiweb.com</td>
+                <td class="muted-cell">loc-9910034</td>
+                <td class="muted-cell">GA4-33871</td>
+                <td class="muted-cell">2025/08</td>
+              </tr>
+              <tr>
+                <td class="name"><b>美容室 CIEL</b></td>
+                <td><span class="tag tag-new">打ち合わせ</span></td>
+                <td class="muted-cell">—</td>
+                <td class="muted-cell">—</td>
+                <td class="muted-cell">—</td>
+                <td class="muted-cell">2026/06</td>
+              </tr>
+              <tr>
+                <td class="name"><b>焼肉 牛べえ</b></td>
+                <td><span class="tag tag-off">解約</span></td>
+                <td class="muted-cell">—</td>
+                <td class="muted-cell">loc-5583201</td>
+                <td class="muted-cell">—</td>
+                <td class="muted-cell">2024/12</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+</body>
+</html>
