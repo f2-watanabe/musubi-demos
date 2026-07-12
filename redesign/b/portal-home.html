@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>成果ホーム｜Musubi顧客ポータル — Pattern B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ic-bell" viewBox="0 0 24 24"><path d="M6 10a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 14 6 10Z"/><path d="M10 19a2 2 0 0 0 4 0"/></symbol>
+    <symbol id="ic-check" viewBox="0 0 24 24"><path d="M5 13l4.5 4.5L19 8"/></symbol>
+  </defs>
+</svg>
+
+<header class="ptop">
+  <div class="ptop-row">
+    <div class="pbrand">
+      <span class="mk">さ</span>
+      <span><b>炭火・地酒 さくら亭</b><small>店舗オーナー ポータル</small></span>
+    </div>
+    <nav class="ptabs">
+      <a class="on" href="portal-home.html">成果ホーム</a>
+      <a href="#">メッセージ</a>
+      <a href="#">お支払い</a>
+      <a href="#">口コミ承認<span class="count-pill" style="margin-left:6px">3</span></a>
+      <a href="#">月次レポート</a>
+      <a href="#">自店サイト</a>
+      <a href="#">サイトを編集</a>
+    </nav>
+    <div class="psp"></div>
+    <div class="pprov">提供：Musubi<br>サポート 090-0000-0000</div>
+    <button class="bellbtn" aria-label="通知">
+      <svg class="icon"><use href="#ic-bell"/></svg>
+      <span class="count-pill">2</span>
+    </button>
+    <div class="av" style="background:var(--accent-ink)">さ</div>
+    <form onsubmit="return false;">
+      <button class="psub" type="submit">ログアウト</button>
+    </form>
+  </div>
+</header>
+
+<div class="pwrap">
+  <div class="hello">炭火・地酒 さくら亭さま、<span>今月の成果</span>です。</div>
+  <div class="psubtext">2026年6月 ・ サイトの成果をまとめています。詳細は「月次レポート」から。</div>
+
+  <div class="card section-gap">
+    <h3>進行状況 <span class="tag">運用中</span></h3>
+    <div class="rail">
+      <div class="railstep done"><span class="dot"><svg class="icon" style="width:12px;height:12px;stroke-width:2.6;color:#fff"><use href="#ic-check"/></svg></span><span class="lbl">申込</span></div>
+      <div class="railstep done"><span class="dot"><svg class="icon" style="width:12px;height:12px;stroke-width:2.6;color:#fff"><use href="#ic-check"/></svg></span><span class="lbl">打ち合わせ</span></div>
+      <div class="railstep done"><span class="dot"><svg class="icon" style="width:12px;height:12px;stroke-width:2.6;color:#fff"><use href="#ic-check"/></svg></span><span class="lbl">契約</span></div>
+      <div class="railstep done"><span class="dot"><svg class="icon" style="width:12px;height:12px;stroke-width:2.6;color:#fff"><use href="#ic-check"/></svg></span><span class="lbl">ヒアリング</span></div>
+      <div class="railstep done"><span class="dot"><svg class="icon" style="width:12px;height:12px;stroke-width:2.6;color:#fff"><use href="#ic-check"/></svg></span><span class="lbl">制作</span></div>
+      <div class="railstep done"><span class="dot"><svg class="icon" style="width:12px;height:12px;stroke-width:2.6;color:#fff"><use href="#ic-check"/></svg></span><span class="lbl">確認</span></div>
+      <div class="railstep now"><span class="dot">7</span><span class="lbl">公開・運用</span></div>
+    </div>
+  </div>
+
+  <div class="grid4">
+    <div class="kpi">
+      <div class="l">サイト訪問数</div>
+      <div class="v num">482<small>回</small></div>
+    </div>
+    <div class="kpi">
+      <div class="l">ネット予約</div>
+      <div class="v">—<small>件</small></div>
+    </div>
+    <div class="kpi">
+      <div class="l">問い合わせ</div>
+      <div class="v">—<small>件</small></div>
+    </div>
+    <div class="kpi">
+      <div class="l">Google評価</div>
+      <div class="v num">★4.6</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>やること <span class="tag">あなたの承認待ち</span></h3>
+    <div class="list">
+      <div class="it">
+        <span class="badge danger" style="min-width:22px;justify-content:center">3</span>
+        <div class="it-body">
+          <div class="it-title">口コミへの返信を承認してください</div>
+          <div class="it-sub">AIが返信案を用意済み</div>
+        </div>
+        <a class="btn pri sm" href="#">確認する</a>
+      </div>
+      <div class="it">
+        <span class="chk"><svg class="icon"><use href="#ic-check"/></svg></span>
+        <div class="it-body">
+          <div class="it-title">2026年6月の月次レポートが公開されました</div>
+          <div class="it-sub">2026/07/05</div>
+        </div>
+        <a class="btn gho sm" href="#">見る</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
