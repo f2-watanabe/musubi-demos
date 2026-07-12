@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>顧客ポータル ナビ構成比較 | Musubi デザイン刷新（パターンC）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .wrap{ max-width: 880px; margin: 0 auto; padding: 60px 28px 80px; position: relative; z-index: 1; }
+  .head{ display: flex; align-items: center; gap: 14px; margin-bottom: 34px; }
+  .head b{ font-family: var(--font-display); font-size: 16.5px; font-weight: 700; color: var(--ink); }
+  .head small{ display: block; font-size: 11px; color: var(--ink-soft); letter-spacing: .04em; }
+  .head .back{ margin-left: auto; font-size: 12.5px; font-weight: 600; color: var(--ink-soft); }
+  .head .back:hover{ color: var(--green); }
+
+  .eyebrow{
+    font-size: 12px; font-weight: 700; letter-spacing: .26em; color: var(--amber-deep);
+    display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+  }
+  .eyebrow::before{ content: ""; width: 30px; height: 1px; background: var(--amber); }
+  h1{
+    font-family: var(--font-display); font-weight: 700; color: var(--green);
+    font-size: clamp(26px, 4.5vw, 38px); line-height: 1.4; margin: 0 0 18px;
+  }
+  .concept{ font-size: 15px; line-height: 1.9; color: var(--ink-soft); max-width: 62ch; margin: 0 0 40px; }
+
+  .cards{ display: flex; flex-direction: column; gap: 16px; }
+  .lcard{
+    display: block; background: var(--paper-2); border: 1px solid var(--line-soft); border-radius: var(--r-card);
+    padding: 24px 26px 22px; box-shadow: var(--shadow-card);
+    transition: transform .18s ease, box-shadow .2s ease;
+  }
+  .lcard:hover{ transform: translateY(-2px); box-shadow: var(--shadow-pop); }
+  .lcard .hd{ display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+  .lcard .n{
+    flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--green-soft); color: var(--green-deep);
+    display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 15px;
+  }
+  .lcard h2{ margin: 0; font-size: 16.5px; font-weight: 700; color: var(--ink); }
+  .lcard .fit{ font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: var(--r-btn); background: var(--amber-soft); color: var(--amber-deep); margin-left: auto; white-space: nowrap; }
+  .lcard p{ margin: 0; font-size: 13.5px; line-height: 1.85; color: var(--ink-soft); }
+  .lcard .go{ display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 13px; font-weight: 700; color: var(--green); }
+
+  .reco{
+    margin-top: 32px; background: var(--green-soft); border: 1px solid var(--green-line);
+    border-radius: var(--r-card); padding: 22px 24px;
+  }
+  .reco h3{ margin: 0 0 8px; font-size: 13.5px; font-weight: 700; color: var(--green-deep); }
+  .reco p{ margin: 0; font-size: 13.5px; line-height: 1.85; color: var(--ink); }
+
+  @media (max-width: 480px){
+    .wrap{ padding: 40px 18px 56px; }
+    .lcard{ padding: 20px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <span class="mk">結</span>
+    <span><b>Musubi</b><small>デザイン刷新モック / パターンC</small></span>
+    <a class="back" href="../index.html">← パターンC概要</a>
+  </div>
+
+  <div class="eyebrow">PORTAL NAVIGATION</div>
+  <h1>顧客ポータルのナビ構成、3パターン比較</h1>
+  <p class="concept">
+    デザイン方向（案C クラフト&ウォーム）は決定済み。ここでは見た目ではなく「構成」——ホーム画面のナビ・レイアウトの型——を3通り試作した。
+    コンテンツ（KPI・やること・7機能）はすべて共通。ナビの組み方だけを比較できる。
+  </p>
+
+  <div class="cards">
+    <a class="lcard" href="layout-1-toptabs.html">
+      <div class="hd"><span class="n">1</span><h2>横タブ型（現行踏襲）</h2><span class="fit">移行コスト最小</span></div>
+      <p>上部に7つの水平タブを並べる、現行の踏襲構成。実装済みの <code>portal-home.html</code> とほぼ同一で、店舗オーナーの学習コストがかからない。
+      一方でタブ数が多く、スマホでは横スクロールが発生し、後方のタブ（自店サイト・サイトを編集）が画面外に隠れやすい。</p>
+      <span class="go">見る →</span>
+    </a>
+
+    <a class="lcard" href="layout-2-sidebar.html">
+      <div class="hd"><span class="n">2</span><h2>サイドバー型</h2><span class="fit">運営側と統一感</span></div>
+      <p>PCは左サイドバーに機能一覧とサイト制作の進行ステージを常時表示。モバイルはハンバーガーからドロワー展開。
+      管理アプリ（admin）と同じ骨格になり運営スタッフの理解は速いが、「サイドバー」という概念自体が非IT層の店舗オーナーには馴染みが薄い場合がある。</p>
+      <span class="go">見る →</span>
+    </a>
+
+    <a class="lcard" href="layout-3-hub.html">
+      <div class="hd"><span class="n">3</span><h2>カードハブ型</h2><span class="fit">スマホ最優先</span></div>
+      <p>ナビをほぼ排し、ホームに大きな機能カード（サイトを見る/編集する・契約とお支払い・メッセージ・成果）を並べて入口にする。
+      モバイルは下部固定タブ4つ（ホーム/編集/メッセージ/その他）。非IT層のスマホ利用が多い前提で「迷わない」ことを最優先した構成。</p>
+      <span class="go">見る →</span>
+    </a>
+  </div>
+
+  <div class="reco">
+    <h3>推奨</h3>
+    <p>
+      ③ カードハブ型を推奨する。顧客の主用途は月1回程度の成果確認と口コミ承認で、利用頻度・IT習熟度ともに低いスマホ中心のライトユーザー。
+      タブ名を読んで機能を探す横タブ型・サイドバー型よりも、大きなカードから直感的に選ばせる構成の方が迷いが少ない。
+      運営側との画面統一感を重視するなら②サイドバー型も次点として有力。
+    </p>
+  </div>
+</div>
+</body>
+</html>
