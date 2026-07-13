@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>環境の使い分け（本番とテスト） — Musubi</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22262f;--acc:#127b66;--verm:#b5402e;--gold:#c8893f;--bg:#f6f4ef;--line:#e8e2d6;--sub:#6f6a60;--muted:#8b8578}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.85}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 90px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.top a{font-size:13px;color:var(--acc);text-decoration:none;font-weight:700}
+.brand{display:flex;align-items:center;gap:10px;margin:14px 0 26px}
+.brand .mk{width:40px;height:40px;object-fit:contain;display:block}
+.brand b{font-size:16px;letter-spacing:.03em}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:.16em}
+h1{font-size:27px;margin:6px 0 14px;letter-spacing:.01em}
+h2{font-size:20px;margin:34px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 8px;color:var(--acc)}
+p{margin:10px 0;font-size:14.5px}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}
+li{font-size:14.5px;margin:5px 0}
+ul.task{list-style:none;padding-left:2px}
+ul.task li{display:flex;gap:10px;align-items:flex-start}
+ul.task .bx{flex:none;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--muted);margin-top:3px;display:grid;place-items:center;font-size:12px;color:#fff}
+ul.task li.done .bx{background:var(--acc);border-color:var(--acc)}
+ul.task li.done span{color:var(--sub)}
+strong{font-weight:700}
+code{background:#efece4;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+pre{background:#fbfaf7;border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow:auto;margin:14px 0}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.6;white-space:pre}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+th{background:#eef3f0;font-weight:700}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+a{color:var(--acc)}
+blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px;margin:12px 0;color:var(--sub);font-size:13.5px}
+img.shot{display:block;max-width:100%;height:auto;margin:14px 0 6px;border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+p:has(>img.shot){margin:16px 0}
+details.logentry{border:1px solid var(--line);border-radius:10px;background:#fbfaf7;margin:10px 0;overflow:hidden}
+details.logentry>summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+details.logentry>summary::-webkit-details-marker{display:none}
+details.logentry>summary::before{content:"▶";font-size:10px;color:var(--acc);transition:transform .15s}
+details.logentry[open]>summary::before{transform:rotate(90deg)}
+details.logentry[open]>summary{border-bottom:1px solid var(--line);background:#f2efe7}
+details.logentry>summary:hover{color:var(--acc)}
+.logbody{padding:4px 18px 16px}
+.logbody h2{border-top:none;padding-top:0;margin-top:14px}
+.note{margin-top:46px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+@media print{.top,.brand{display:none}body{background:#fff}.wrap{padding:0}h2{break-after:avoid}}
+</style></head>
+<body><div class="wrap">
+<div class="top"><a href="../index.html">← デモ一覧に戻る</a></div>
+<div class="brand"><img class="mk" src="../assets/musubi-mark.png" alt="Musubi"><span><b>Musubi</b><small>環境構築ドキュメント</small></span></div>
+<h1>環境の使い分け（本番とテスト）</h1>
+<p>作成: 2026-07-13。musubi-admin / musubi-portal の開発・動作確認で「今どちらの環境を触っているか」を迷わないための早見表。事実の源は <code>環境変数一覧と登録手順.md</code>（テスト環境節）と各リポの <code>.env.development.local</code>。</p>
+<h2>2環境の一覧</h2>
+<table><thead><tr><th></th><th>本番</th><th>テスト（musubi-test）</th></tr></thead><tbody><tr><td>Supabase project</td><td><code>hsyhiiqrrtrbxexqyixi</code>（Tokyo）</td><td><code>vqflyyoexsxqcfajwoxv</code>（ap-northeast-1）</td></tr><tr><td>管理アプリ URL</td><td>https://admin.musubiweb.com</td><td>ローカル <code>npm run dev</code>（http://localhost:3000）</td></tr><tr><td>顧客ポータル URL</td><td>https://portal.musubiweb.com</td><td>ローカル <code>npm run dev</code>（http://localhost:3001）</td></tr><tr><td>環境変数の出どころ</td><td>Vercel Environment Variables（Production）</td><td>各リポの <code>.env.development.local</code>（git 管理外）</td></tr><tr><td>Stripe</td><td>本番キー（<code>sk_live_...</code>）で決済が実際に走る</td><td>未設定＝実質 no-op（決済系 API を叩いても何も起きない）</td></tr><tr><td>メール送信（Resend）</td><td>有効。実際に送信される</td><td>未設定＝送信されない</td></tr><tr><td>Cloudflare Pages デプロイ</td><td>有効。実際に顧客サイトが公開される</td><td>未設定＝実行不可（builder からのデプロイは本番のみ）</td></tr><tr><td>データ</td><td>ユーザーの実データ</td><td>seed 投入済みのテストデータのみ</td></tr></tbody></table>
+<h2>使い分けルール</h2>
+<ul>
+<li><strong>開発・動作確認・E2E は必ずテスト環境。</strong> 本番環境は実データのみを扱う場所であり、テストデータを作らない。</li>
+<li>切り替えは特別な操作を要しない。musubi-admin / musubi-portal ともに <code>.env.development.local</code> を置いてあり、Next.js は <code>next dev</code> 実行時に <code>.env.local</code> より優先してこちらを読み込む仕様。したがって <strong>ローカルで <code>npm run dev</code> を起動するだけで自動的にテスト環境（musubi-test）に向く。</strong> <code>next build</code> や本番実行では <code>.env.development.local</code> を読まないため、本番の挙動には一切影響しない。</li>
+<li>本番 URL（admin.musubiweb.com / portal.musubiweb.com）に対して動作確認目的でテストアカウント作成・ダミー店舗登録などは行わない。</li>
+</ul>
+<h2>テスト環境の入り方</h2>
+<ol>
+<li><code>cd musubi-admin &amp;&amp; npm run dev</code>（ポート3000）／別ターミナルで <code>cd musubi-portal &amp;&amp; npm run dev</code>（ポート3001）</li>
+<li>ブラウザで http://localhost:3000 （管理アプリ）または http://localhost:3001 （ポータル）を開く</li>
+<li>テストアカウントでログイン</li>
+</ol>
+<ul>
+<li>staff アカウント: <code>staff-test@musubiweb.com</code></li>
+<li>オーナーアカウント: <code>owner-test@musubiweb.com</code>（対象店舗: <code>test</code>）</li>
+<li>パスワードは両アカウントとも <code>musubi-admin/.env.development.local</code> 冒頭コメント参照</li>
+</ul>
+<h2>migration の適用順序</h2>
+<p>新しい migration は必ずテスト → 本番の順で適用する。</p>
+<ol>
+<li>まずテスト環境に適用: <code>apply_migration.mjs --ref=vqflyyoexsxqcfajwoxv &lt;migrationファイル&gt;</code></li>
+<li>テスト環境（ローカル dev）で動作確認</li>
+<li>問題なければ本番に適用: <code>apply_migration.mjs --ref=hsyhiiqrrtrbxexqyixi &lt;migrationファイル&gt;</code>（<strong>本番適用はユーザー承認必須</strong>）</li>
+</ol>
+<p><code>apply_migration.mjs</code> は <code>06_スクリプト/apply_migration.mjs</code>。Supabase Management API 経由で SQL を実行するスクリプトで、<code>SUPABASE_ACCESS_TOKEN</code>（セッション限りの手渡し）が必要。</p>
+<h2>テストデータのリセット</h2>
+<p>テスト環境のデータが壊れた・汚れた場合は、テーブルのテストデータ行（<code>leads</code>/<code>stores</code>/<code>projects</code> の name/template が <code>test</code> のもの、および <code>staff_members</code>・auth のテストアカウント）を削除した上で、<code>環境変数一覧と登録手順.md</code> のテスト環境節に記載した seed 手順（staff アカウント作成 → テスト店舗一式 <code>leads</code>/<code>stores</code>/<code>projects</code> → owner アカウント作成）をなぞって再投入する。スキーマ自体（migration 適用状態）は本番と揃っている前提なので、崩れるのは基本的にデータ行のみ。</p>
+<h2>Stripe テストキー未設定について</h2>
+<p>現状 <code>STRIPE_SECRET_KEY</code> / <code>STRIPE_WEBHOOK_SECRET</code> はテスト環境で空欄のため、課金まわりの dev 確認はできない（no-op）。必要になったら Stripe Dashboard をテストモードに切り替えて test キーを発行し、<code>musubi-admin/.env.development.local</code> に追記する。本番キー・本番 price ID とは完全に別物なので混在させない。</p>
+<p class="note">🧪 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
+</div></body></html>

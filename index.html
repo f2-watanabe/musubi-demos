@@ -60,11 +60,23 @@ button{font:inherit}
 
 .side-tag{margin:0 8px 18px;font-size:11px;font-weight:700;color:var(--amber-soft);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-btn);padding:5px 12px;display:inline-flex;width:fit-content}
 
-.snav{display:flex;flex-direction:column;gap:2px;flex:1;overflow-y:auto}
+/* ---------- tree nav ---------- */
+.snav{display:flex;flex-direction:column;gap:1px;flex:1;overflow-y:auto}
 .snav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--r-sm);font-size:13.5px;font-weight:500;color:rgba(247,242,230,.72);transition:background-color .18s ease,color .18s ease}
 .snav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.snav a.active{background:rgba(255,255,255,.12);color:#fff;font-weight:700}
 .snav .ic{flex:none;width:18px;height:18px;display:flex;align-items:center;justify-content:center;opacity:.9}
 .snav .ic svg{width:17px;height:17px}
+
+.tree-cat{border:none}
+.tree-cat>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--r-sm);font-size:13.5px;font-weight:500;color:rgba(247,242,230,.72);transition:background-color .18s ease,color .18s ease}
+.tree-cat>summary::-webkit-details-marker{display:none}
+.tree-cat>summary:hover{background:rgba(255,255,255,.07);color:#fff}
+.tree-cat>summary .chev{margin-left:auto;flex:none;width:14px;height:14px;opacity:.7;transition:transform .18s ease}
+.tree-cat[open]>summary .chev{transform:rotate(90deg)}
+.tree-children{display:flex;flex-direction:column;gap:1px;padding:2px 0 4px 30px}
+.tree-children a{padding:8px 12px;font-size:13px;color:rgba(247,242,230,.62)}
+.tree-children a.active{background:rgba(255,255,255,.12);color:#fff;font-weight:700}
 
 .side-foot{border-top:1px solid rgba(255,255,255,.1);padding-top:14px;margin-top:10px;font-size:11.5px;color:rgba(247,242,230,.55);line-height:1.6}
 
@@ -76,14 +88,15 @@ button{font:inherit}
 
 .wrap{padding:0 40px 70px;max-width:1120px}
 
-/* ---------- sections ---------- */
+/* ---------- sections (single-view: JS toggles [hidden]) ---------- */
+.view[hidden]{display:none}
 .hero{padding:44px 0 8px}
 .hero .lead{color:var(--ink-soft);font-size:15px;line-height:1.85;margin:14px 0 18px;max-width:66ch}
 .hero .home-cta{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--green);font-size:14.5px}
 .hero .home-cta:hover{color:var(--green-deep);text-decoration:underline}
+.hero .grid{margin-top:22px}
 
-.sect{padding:38px 0 6px;border-top:1px solid var(--line-soft);scroll-margin-top:92px}
-.sect:first-of-type{border-top:none}
+.sect{padding:38px 0 6px}
 .sect h2{font-family:var(--font-display);font-size:21px;font-weight:700;margin:0 0 8px;color:var(--ink)}
 .sect .desc{color:var(--ink-soft);font-size:13.5px;line-height:1.8;margin-bottom:16px}
 
@@ -163,18 +176,36 @@ table.cost{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
   <aside class="side">
     <div class="brand"><span class="mk">結</span><span><b>Musubi</b><small>PROJECT HUB</small></span></div>
     <span class="side-tag">パートナー共有用</span>
-    <nav class="snav">
-      <a href="#top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg></span>トップ</a>
-      <a href="#ops"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 15l6-6M9 8.5h6a3 3 0 0 1 0 6M15 15.5H9a3 3 0 0 1 0-6"/></svg></span>運用リンク</a>
-      <a href="#redesign"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 4a4 4 0 0 0 0 8 4 4 0 0 1 0 8"/></svg></span>デザイン刷新案</a>
-      <a href="#templates"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10l8-6 8 6M6 9v10h12V9"/></svg></span>飲食テンプレート</a>
-      <a href="#generic"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="7" width="17" height="13" rx="2"/><path d="M8 7V5.5A2.5 2.5 0 0 1 10.5 3h3A2.5 2.5 0 0 1 16 5.5V7"/></svg></span>業種汎用</a>
-      <a href="#variations"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="4.2"/><circle cx="16" cy="8" r="4.2"/><circle cx="12" cy="16" r="4.2"/></svg></span>デザイン見本</a>
-      <a href="#demo"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4.5" width="18" height="12" rx="1.5"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="12" y1="16.5" x2="12" y2="20"/></svg></span>画面デモ</a>
-      <a href="#materials"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5V8h4"/></svg></span>資料（PDF）</a>
-      <a href="#procedures"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="14" y2="18"/></svg></span>運用手順</a>
-      <a href="#infra"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20M17 6.5c0-1.9-2.2-3-5-3s-5 1.4-5 3 2.2 2.6 5 3 5 1.1 5 3-2.2 3-5 3-5-1.1-5-3"/></svg></span>環境構築ドキュメント</a>
-      <a href="#cost"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16.5" cy="14.5" r="1.4"/></svg></span>運用コスト</a>
+    <nav class="snav" id="tree">
+      <a href="#sec-top" data-sec="sec-top"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg></span>トップ</a>
+
+      <a href="#sec-ops" data-sec="sec-ops"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 15l6-6M9 8.5h6a3 3 0 0 1 0 6M15 15.5H9a3 3 0 0 1 0-6"/></svg></span>運用</a>
+
+      <a href="#sec-redesign" data-sec="sec-redesign"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 4a4 4 0 0 0 0 8 4 4 0 0 1 0 8"/></svg></span>デザイン刷新</a>
+
+      <details class="tree-cat" open>
+        <summary><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10l8-6 8 6M6 9v10h12V9"/></svg></span>サイトテンプレート<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></span></summary>
+        <div class="tree-children">
+          <a href="#sec-templates" data-sec="sec-templates">飲食テンプレート</a>
+          <a href="#sec-generic" data-sec="sec-generic">業種汎用</a>
+          <a href="#sec-variations" data-sec="sec-variations">デザイン見本</a>
+        </div>
+      </details>
+
+      <a href="#sec-demo" data-sec="sec-demo"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4.5" width="18" height="12" rx="1.5"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="12" y1="16.5" x2="12" y2="20"/></svg></span>画面デモ</a>
+
+      <a href="#sec-materials" data-sec="sec-materials"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5V8h4"/></svg></span>資料・PDF</a>
+
+      <details class="tree-cat" open>
+        <summary><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="14" y2="18"/></svg></span>ドキュメント<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></span></summary>
+        <div class="tree-children">
+          <a href="#sec-procedures" data-sec="sec-procedures">運用手順（社内）</a>
+          <a href="#sec-infra" data-sec="sec-infra">環境構築ドキュメント</a>
+          <a href="docs/環境の使い分け.html">環境の使い分け（本番とテスト）</a>
+        </div>
+      </details>
+
+      <a href="#sec-cost" data-sec="sec-cost"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16.5" cy="14.5" r="1.4"/></svg></span>コスト</a>
     </nav>
     <div class="side-foot">Musubi（仮称・未法人）<br>local-web-sales プロジェクト</div>
   </aside>
@@ -190,13 +221,36 @@ table.cost{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
     </header>
 
     <div class="wrap">
-      <section id="top" class="hero">
+      <section id="sec-top" class="view hero">
         <h2 style="font-family:var(--font-display);font-size:28px;font-weight:700;margin:0">プロジェクトハブ</h2>
         <p class="lead">Musubiの事業デモ・提案資料・環境構築の記録・運用コストを1か所に。Google高評価×Web未保有の飲食店向け事業。スマホ／PCどちらからでも閲覧できます。</p>
         <a class="home-cta" href="https://musubi-www.pages.dev/">→ Musubi 本体サイト（サービスLP・料金・相談フォーム）</a>
+        <div class="grid">
+          <a class="card c1" href="site/index.html">
+            <span class="ic">🍶</span>
+            <h3>公開サイト</h3>
+            <p>お店のお客様（来店客）が見るサイト。★評価・メニュー・写真・24時間ネット予約。スマホ最適化。飲食店の業態別テンプレで量産。</p>
+            <span class="who">利用者: 来店客・見込み客</span>
+            <span class="go">サイトを見る →</span>
+          </a>
+          <a class="card c2" href="admin/dashboard.html">
+            <span class="ic">▤</span>
+            <h3>管理アプリ</h3>
+            <p>運営側の管理画面。営業リスト・サイト制作・口コミ返信AI・請求・レポートを一元管理。</p>
+            <span class="who">利用者: 運営（自分・パートナー）</span>
+            <span class="go">管理画面を見る →</span>
+          </a>
+          <a class="card c3" href="portal/home.html">
+            <span class="ic">◔</span>
+            <h3>顧客ポータル</h3>
+            <p>店舗オーナー用。自店の成果・月次レポートの閲覧、口コミ返信の承認をここで。</p>
+            <span class="who">利用者: 店舗オーナー（顧客）</span>
+            <span class="go">ポータルを見る →</span>
+          </a>
+        </div>
       </section>
 
-      <section id="ops" class="sect">
+      <section id="sec-ops" class="view sect">
         <h2>運用リンク（本番システム・手順書）</h2>
         <p class="desc">申込からクロージングまでを実際に回すための本番アプリと手順書。管理アプリ・顧客ポータルはログインが必要です。</p>
         <div class="linklist">
@@ -211,7 +265,7 @@ table.cost{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
         </div>
       </section>
 
-      <section id="redesign" class="sect">
+      <section id="sec-redesign" class="view sect">
         <h2>ポータル全面刷新 デザイン案（選定中）</h2>
         <p class="desc">管理アプリ・顧客ポータルのデザイン刷新モック3案。各案とも 管理ログイン / 管理ダッシュボード / 顧客ホーム の3画面。</p>
         <div class="linklist">
@@ -222,7 +276,7 @@ table.cost{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
         </div>
       </section>
 
-      <section id="templates" class="sect">
+      <section id="sec-templates" class="view sect">
         <h2>飲食店向けサイトテンプレート</h2>
         <p class="desc">業態別テンプレートで制作する公開サイトのデモ。すべてスマホ最適化・ネット予約導線付き。</p>
         <div class="linklist">
@@ -239,7 +293,7 @@ table.cost{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
         </div>
       </section>
 
-      <section id="generic" class="sect">
+      <section id="sec-generic" class="view sect">
         <h2>業種汎用（スポット制作）</h2>
         <p class="desc">飲食以外の業種は汎用テンプレート（generic）によるスポット制作で個別対応。以下は制作実例のデモ。</p>
         <div class="linklist">
@@ -248,7 +302,7 @@ table.cost{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
         </div>
       </section>
 
-      <section id="variations" class="sect">
+      <section id="sec-variations" class="view sect">
         <h2>デザインバリエーション見本</h2>
         <p class="desc">同一業態でのデザイン方向性の見本（予約画面付）。提案時のトーン合わせに使用。</p>
         <div class="linklist">
@@ -260,7 +314,7 @@ table.cost{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
         </div>
       </section>
 
-      <section id="demo" class="sect">
+      <section id="sec-demo" class="view sect">
         <h2>画面デモ（3種）</h2>
         <p class="desc" style="margin-bottom:18px">利用者ごとの画面を実際に触って確認できます。</p>
         <div class="grid">
@@ -304,7 +358,7 @@ table.cost{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
         </div>
       </section>
 
-      <section id="materials" class="sect">
+      <section id="sec-materials" class="view sect">
         <h2>資料（PDF・スマホで閲覧）</h2>
         <p class="desc">タップでPDFを開きます。提案・営業・設計の各資料。</p>
         <div class="filelist">
@@ -326,7 +380,7 @@ table.cost{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
         </div>
       </section>
 
-      <section id="procedures" class="sect">
+      <section id="sec-procedures" class="view sect">
         <h2>運用手順（社内）</h2>
         <p class="desc">申込からクロージングまでの実務フローと、手動で対応すべき事項。</p>
         <div class="filelist">
@@ -336,17 +390,18 @@ table.cost{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
         </div>
       </section>
 
-      <section id="infra" class="sect">
+      <section id="sec-infra" class="view sect">
         <h2>環境構築ドキュメント（社内）</h2>
         <p class="desc">プラットフォーム構築の手順と証跡。あとから振り返れるように記録しています。</p>
         <div class="filelist">
           <a href="docs/構築手順ロードマップ.html">🧭 構築手順ロードマップ（細粒度）</a>
           <a href="docs/構築ログ.html">📋 構築ログ（証跡・随時更新）</a>
           <a href="docs/環境変数一覧と登録手順.html">🔑 環境変数一覧と登録手順</a>
+          <a href="docs/環境の使い分け.html">🧪 環境の使い分け（本番とテスト）</a>
         </div>
       </section>
 
-      <section id="cost" class="sect">
+      <section id="sec-cost" class="view sect">
         <h2>運用コスト（月額の目安）</h2>
         <p class="desc">事業を回すためのランニングコスト。立ち上げ期は無料枠を活用して最小限、店舗数が増えたらProへ。金額は概算（$1≒¥150換算・税別、為替/プランで変動）。</p>
         <div class="tablewrap">
@@ -375,5 +430,37 @@ table.cost{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
     </div>
   </div>
 </div>
+<script>
+(function () {
+  var DEFAULT_SEC = 'sec-top';
+  var views = Array.prototype.slice.call(document.querySelectorAll('.view'));
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('#tree a[data-sec]'));
+  var navToggle = document.getElementById('nav-toggle');
+
+  function currentId() {
+    var id = location.hash.replace('#', '');
+    return document.getElementById(id) ? id : DEFAULT_SEC;
+  }
+
+  function activate(id) {
+    views.forEach(function (v) { v.hidden = v.id !== id; });
+    navLinks.forEach(function (a) {
+      var on = a.getAttribute('data-sec') === id;
+      a.classList.toggle('active', on);
+      if (on) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+      if (on) {
+        var parentDetails = a.closest('details.tree-cat');
+        if (parentDetails) parentDetails.open = true;
+      }
+    });
+    if (navToggle) navToggle.checked = false;
+    window.scrollTo(0, 0);
+  }
+
+  window.addEventListener('hashchange', function () { activate(currentId()); });
+  activate(currentId());
+})();
+</script>
 </body>
 </html>
