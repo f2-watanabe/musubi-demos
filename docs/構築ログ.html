@@ -62,6 +62,30 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-13 ・ フィードバック改修16項目＋セキュリティ強化＋インフラ移行＋高速化＋デザイン全面刷新</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: <code>実装計画_フィードバック改修_2026-07-13.md</code> に基づく一連の改修。5領域にまとめる。</li>
+<li><strong>フィードバック改修16項目</strong>:</li>
+<li><strong>キャンペーンの案件別化</strong>（admin <code>76065d1</code>+fix <code>c5295ae</code>、portal <code>1d6f02a</code>）: <code>CAMPAIGN_INITIAL_FEE_WAIVED</code> の一律適用定数を廃止し、契約提示フォームのチェックボックスで案件ごとに適用可否を terms に保存する方式に変更。初期費用リンクは terms の値を定価より優先。</li>
+<li><strong>Stripe決済登録後の戻り導線</strong>（portal <code>feb6c69</code>）: <code>openBillingPortal</code> の戻り先を <code>/contract</code> <code>/home</code> <code>/pay</code> の許可リストで動的化。</li>
+<li><strong>納品アクションのcustom対応</strong>（admin <code>4946bbb</code>）: custom案件の納品時に月額入力を受け付けてサブスクを作成できるように。既存3プランの挙動は不変。</li>
+<li><strong>プレビューURL自動生成</strong>（admin <code>ddfe280</code>）: デプロイ成功時に <code>preview_url</code> が空なら <code>site_domain</code>／<code>musubi-&lt;site_project&gt;.pages.dev</code> から自動設定。pages.dev フォールバックの接頭辞欠落バグも修正。</li>
+<li><strong>独自ドメイン対応</strong>（admin <code>7d61d78</code>+fix <code>b1d435b</code>、migration <code>0028</code>）: <code>attachCustomDomain</code> で顧客所有ドメインを Cloudflare Pages に追加（自ゾーンDNS作成はしない＝顧客DNS側でCNAME設定）。ドメイン形式検証（musubiweb.com/pages.dev配下は拒否）。</li>
+<li><strong>ポータル出し分け完成</strong>（portal <code>436e4e0</code>、admin <code>a352fd4</code>）: 汎用ライン店舗のhearing非表示・ホームKPI中立化・ログイン文言の<code>?t=b</code>出し分け・招待URLへのパラメータ付与。</li>
+<li><strong>契約書の汎用ライン対応</strong>（admin <code>5a031cc</code>、portal <code>ee3342d</code>）: businessLineで契約書本文を出し分け、汎用ラインの飲食専用文言（口コミ・月次レポート等）を除去。</li>
+<li><strong>メール19箇所刷新</strong>（admin <code>30ff18b</code>+fix <code>6451201</code>、portal <code>582f6fc</code>+fix <code>f562128</code>）: 顧客宛・社内通知メール全種をビジネス文面（宛名・署名・アクションリンク）に統一。宛名バグ・fields構造化・署名出し分けのレビュー指摘も解消。</li>
+<li><strong>全画面エディタ刷新</strong>（admin <code>1009567</code>＝annotate/overrides拡張、portal <code>4274544</code>+fix <code>f4427e7</code>＝単一リスト化）: セクション2階層を廃止し文書出現順の単一リストに統一、iframeクリックとリスト行の双方向連動、ページ内アンカー除外・button labelText・<code>data-img-slot</code>画像スロットに対応。admin側セキュリティレビューでXSS/CSS注入ペイロードを全拒否確認。</li>
+<li><strong>ppg-popup静的化</strong>（lws <code>fb2d09f</code>）: SITE_CONTENTからのinnerHTML生成をやめ、編集対象コンテンツを静的HTMLに直接記述する規約に変更。JSは開閉・切替等の表示トグルのみに縮小。ブラウザスモーク全PASS。</li>
+<li><strong>セキュリティ強化</strong>（admin <code>836b4df</code>+fix <code>530ce30</code>）: middlewareにstaff判定を追加し、未ガードだった server action 14件に <code>requireStaff</code> を横展開。migration <code>0028</code>／<code>0029</code> は本番Supabaseへ適用済み・実確認済み（<code>0028</code>: <code>stores.custom_domain</code>/<code>custom_domain_status</code> 列の存在とRLS 0件を確認。<code>0029</code>: <code>staff_update_own</code> ポリシー追加を確認）。<strong>重要判明</strong>: 本番RLSは元々全面有効だった（リポにmigrationとして記録されていなかっただけで、クロステナントの実害はなし）。<code>0029</code>はその成文化に加え <code>updateMyName</code> の実バグ修正を含む（<code>40ec1d9</code>）。</li>
+<li><strong>インフラ移行</strong>: <code>admin.musubiweb.com</code> / <code>portal.musubiweb.com</code> へ移行。Vercel両プロジェクトにドメイン追加、Cloudflare DNSにAレコード（<code>76.76.21.21</code>、DNS only）、SSL発行・307リダイレクトを確認。Supabase Auth の <code>site_url</code>/<code>uri_allow_list</code> を更新済み（旧 <code>.vercel.app</code> は併存）。<code>PORTAL_URL</code> envを新ドメインに更新。</li>
+<li><strong>高速化</strong>（admin <code>6d0163a</code>+<code>2dba892</code>、portal <code>f17d075</code>+<code>cfe4b3d</code>+<code>b16b979</code>）: Vercelリージョンを <code>hnd1</code> に固定、<code>cache()</code> によるリクエスト内重複排除、独立クエリの並列化、<code>loading.tsx</code> を全画面スケルトンから <code>useLinkStatus</code> タブインジケータ＋300ms遅延プログレスバーに置き換えて画面遷移をスムーズに。</li>
+<li><strong>デザイン全面刷新</strong>（案C「クラフト&amp;ウォーム」×サイドバー型）: <code>musubi-demos</code> に3方向モック（A=ミニマル&amp;エディトリアル <code>a6fdc59</code>、B=モダンSaaS <code>b3c12e5</code>、C=クラフト&amp;ウォーム <code>dd2585b</code>）を作成し、案Cのサイドバー型構成（<code>34fc2fe</code>/<code>8890555</code>/<code>026fde1</code>）で確定。admin（<code>307b6a7</code> 基盤+<code>382fdfc</code> 全ページ+<code>2dae223</code> モバイル調整）・portal（<code>2f935df</code> 基盤+<code>7f6fc8f</code> ログイン+<code>ae19666</code> サイドフッタ復元+<code>8b524f8</code> welcome画面+<code>2cd496e</code> 残存hex置換）の両アプリに全面適用。ハブ（<code>musubi-demos</code>）も同意匠に刷新済み。</li>
+<li><strong>Why</strong>: 実運用フィードバック（キャンペーン運用・custom案件納品・独自ドメイン希望・全画面編集の使い勝手・汎用ラインとの表記不整合等）を解消するため。セキュリティ強化はTask4作業中に発覚したadmin action の認可穴是正。インフラ移行はブランドドメインへの統一。高速化とデザイン刷新はUX全体の底上げ。</li>
+<li><strong>How</strong>: 各タスクをサブエージェントで実装→レビュー→修正のゲートで直列/並行実施。各タスク終了時に vitest + <code>npm run build</code> exit 0 を確認してからコミット。migrationは0028・0029ともメインセッションでのユーザー承認後に適用。</li>
+<li><strong>Result</strong>: フィードバック16項目・セキュリティ強化・インフラ移行・高速化・デザイン全面刷新まで完了。<strong>正直な残課題</strong>: 実ブラウザE2Eはトークンコスト判断で今回省略（実装・レビュー・ビルド検証まで実施）。既知のMinor: 納品フォームのplan selectがcustom案件でlight表示（表示のみ）、<code>contractTemplate.ts</code>の一部文言に将来的な見直し余地、builder系（admin制作画面）はvitest未カバー。admin/portal各リポともbuild通過・working tree clean。push はユーザー指示待ち。</li>
+<li><strong>証跡</strong>: 本コミット。admin <code>76065d1</code>..<code>2dae223</code>、portal <code>feb6c69</code>..<code>2cd496e</code>、lws <code>fb2d09f</code>、demos <code>a6fdc59</code>/<code>b3c12e5</code>/<code>dd2585b</code>/<code>34fc2fe</code>/<code>8890555</code>/<code>026fde1</code>。migration <code>0028</code>/<code>0029</code> 本番適用確認済み。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-13 ・ 全画面クリック編集エディタ＋ポータル業種出し分け</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 全6タスク（T1〜T6a）＋関連修正を実装。各タスクはレビューを通過。</li>

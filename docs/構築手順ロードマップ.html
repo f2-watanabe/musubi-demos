@@ -364,5 +364,24 @@ details.logentry>summary:hover{color:var(--acc)}
 </ul>
 <p><strong>受け入れ基準</strong>: 全業種テンプレ共通で顧客がポータルの全画面エディタからクリック編集でき、公開履歴から復元できる状態。汎用ライン顧客のポータルメニューが業種に応じて出し分けられている。</p>
 <p>→ <strong>コード上の受け入れ基準は達成</strong>（各タスクともレビュー通過・ビルド検証済み）。<strong>未達（2026-07-13 時点）</strong>: 実ブラウザE2Eはトークンコストのため今回未実施。既知の残課題: 納品フォームの plan select が custom 案件で light 表示（表示のみ）／<code>contractTemplate:170</code> の「口コミ・月次レポート含む」文言が汎用顧客と不整合の可能性／builder 系は vitest 未カバー。</p>
+<p><strong>続き（2026-07-13・その2）: フィードバック改修16項目＋セキュリティ強化＋インフラ移行＋高速化＋デザイン全面刷新</strong></p>
+<ul class="task">
+<li class="done"><span class="bx">✓</span><span>キャンペーンの案件別化（admin <code>76065d1</code>+<code>c5295ae</code>、portal <code>1d6f02a</code>）</span></li>
+<li class="done"><span class="bx">✓</span><span>Stripe決済登録後の戻り導線動的化（portal <code>feb6c69</code>）</span></li>
+<li class="done"><span class="bx">✓</span><span>納品アクションのcustom対応（admin <code>4946bbb</code>）</span></li>
+<li class="done"><span class="bx">✓</span><span>プレビューURL自動生成＋pages.dev接頭辞バグ修正（admin <code>ddfe280</code>）</span></li>
+<li class="done"><span class="bx">✓</span><span>独自ドメイン対応（admin <code>7d61d78</code>+<code>b1d435b</code>、migration <code>0028</code> 本番適用済み）</span></li>
+<li class="done"><span class="bx">✓</span><span>ポータル出し分け完成: hearing非表示・ホームKPI中立化・ログイン文言出し分け（portal <code>436e4e0</code>、admin <code>a352fd4</code>）</span></li>
+<li class="done"><span class="bx">✓</span><span>契約書の汎用ライン対応（admin <code>5a031cc</code>、portal <code>ee3342d</code>）</span></li>
+<li class="done"><span class="bx">✓</span><span>メール19箇所刷新（admin <code>30ff18b</code>+<code>6451201</code>、portal <code>582f6fc</code>+<code>f562128</code>）</span></li>
+<li class="done"><span class="bx">✓</span><span>全画面エディタ刷新: annotate/overrides拡張+単一リスト化+双方向連動（admin <code>1009567</code>、portal <code>4274544</code>+<code>f4427e7</code>）</span></li>
+<li class="done"><span class="bx">✓</span><span>ppg-popup静的化（lws <code>fb2d09f</code>）</span></li>
+<li class="done"><span class="bx">✓</span><span>セキュリティ強化: middleware staff判定+requireStaff14件、migration <code>0029</code> 本番適用済み（admin <code>836b4df</code>+<code>530ce30</code>+<code>40ec1d9</code>）。本番RLSは元々全面有効だったと判明（実差分は staff_members updateポリシーのみ）</span></li>
+<li class="done"><span class="bx">✓</span><span>インフラ移行: <code>admin.musubiweb.com</code>/<code>portal.musubiweb.com</code>（Vercelドメイン+Cloudflare DNS+Supabase Auth URL更新+<code>PORTAL_URL</code> env）</span></li>
+<li class="done"><span class="bx">✓</span><span>高速化: <code>hnd1</code>リージョン固定・<code>cache()</code>重複排除・並列化・遷移スムース化（admin <code>6d0163a</code>+<code>2dba892</code>、portal <code>f17d075</code>+<code>cfe4b3d</code>+<code>b16b979</code>）</span></li>
+<li class="done"><span class="bx">✓</span><span>デザイン全面刷新: 案C「クラフト&amp;ウォーム」×サイドバー型（モック3案 <code>a6fdc59</code>/<code>b3c12e5</code>/<code>dd2585b</code>→選定→admin <code>307b6a7</code>+<code>382fdfc</code>+<code>2dae223</code>、portal <code>2f935df</code>+<code>7f6fc8f</code>+<code>ae19666</code>+<code>8b524f8</code>+<code>2cd496e</code>、ハブ <code>026fde1</code>）</span></li>
+</ul>
+<p><strong>受け入れ基準</strong>: フィードバック16項目が解消され、admin/portal双方でbuild・vitestが通過している状態。セキュリティ強化・インフラ移行・デザイン刷新が本番相当まで反映されている。</p>
+<p>→ <strong>コード上の受け入れ基準は達成</strong>（各タスクレビュー通過・build/vitest確認済み、migration 0028/0029本番適用確認済み）。<strong>未達（2026-07-13時点）</strong>: 実ブラウザE2Eは今回省略。既知のMinor: 納品フォームのplan selectがcustom案件でlight表示、builder系はvitest未カバー。全リポともpush未実施（ユーザー指示待ち）。</p>
 <p class="note">🧭 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
 </div></body></html>
