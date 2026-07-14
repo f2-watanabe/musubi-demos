@@ -62,6 +62,22 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-15 ・ エディタ第2波＋複数店舗対応＋GA4計測</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: T18完了後に着手した一連の改修（T19〜T24 + サポート番号）。</li>
+<li><strong>T19 トライアル選択制</strong>（admin <code>1520461</code>、review No issues）: 契約提示のトライアル期間を「デフォルトなし／30日／1〜90日で指定」の選択式に変更。</li>
+<li><strong>T20 admin全画面エディタ</strong>（admin <code>8d970ad</code>、実機検証済）: <code>/builder/[store]/editor</code> を新設し、従来の <code>SiteInlineEditor</code> インライン編集（contentEditable）を撤去。注: siteSchema の clone/arrAt 修正4行が T23 のコミット <code>12c937e</code> に混入（実害なし）。</li>
+<li><strong>T22 開催ステータス自動配色</strong>（lws <code>944b8ad</code>、admin <code>27565f3</code>）: 開催ステータスの文言から色を自動判定。「開催中＝緑」を新設（既存は next=赤／ended=グレー）。Playwright で実証済み。</li>
+<li><strong>T23 GA4共有測定ID自動注入 + eventテンプレgtag</strong>（admin <code>12c937e</code>、lws <code>743e713</code>）: 公開サイトに共有測定IDを本番デプロイ時のみ自動注入し、eventテンプレに gtag を追加。<strong>運用残</strong>: GA4プロパティを作成し測定IDを取得 → Vercel環境変数 <code>GA4_SHARED_MEASUREMENT_ID</code> に登録するまで計測は始まらない（自社タスク一覧に追記）。</li>
+<li><strong>T24 複数店舗・解約後再契約</strong>（portal <code>9401b02</code>+<code>ccdbfd1</code>、admin <code>1d73941</code>+<code>b531b87</code>、review Fix1件対応済）: 1顧客が複数店舗を持てるように、また解約後の再契約に対応。なりすまし申込の封鎖（本人確認・通知）も含む。<strong>migration 0031 は未適用</strong>（ユーザー承認待ち）。適用までは複数店舗の紐付けを試みると明示エラーになる（サイレント失敗にはしていない）。</li>
+<li><strong>サポート番号</strong>（portal <code>b842710</code>）: 080-4345-7171 を tel: リンクとして追加。</li>
+<li><strong>T21 エディタUX v2（中断）</strong>: カードスコープ編集／閲覧モード／同一文言の集約を狙った改修。admin・portal 両リポで着手したが<strong>中断し、未コミットのWIPとして両リポの working tree に残置</strong>。次回再開時は先にこのWIPの扱い（再開/破棄）を確認すること。</li>
+<li><strong>Why</strong>: フィードバック改修16項目（T1〜T18、7/13〜7/14）に続く第2波。エディタのUXを全画面編集に寄せる方針転換（T20/T21）、営業運用上必要になった複数店舗・再契約対応（T24）、アクセス解析基盤の整備（T23）をまとめて実施した。</li>
+<li><strong>How</strong>: 各タスクをサブエージェントで実装 → レビュー → 修正のゲートで実施。T24はレビューでFix1件（内容は各コミット参照）を検出・対応済み。T21は仕様を詰めている途中で優先度を下げ中断。</li>
+<li><strong>Result</strong>: T19/T20/T22/T23/T24 とサポート番号追加は完了。T23はコード実装完了もGA4プロパティ未作成のため計測は未稼働。T24はmigration未適用のためDB上の複数店舗紐付けは未解禁（アプリは明示エラーで安全側に倒している）。T21は未完了・WIP残置。</li>
+<li><strong>証跡</strong>: admin <code>1520461</code>（T19）／<code>8d970ad</code>（T20）／<code>27565f3</code>（T22）／<code>12c937e</code>（T23）／<code>1d73941</code>+<code>b531b87</code>（T24）。lws <code>944b8ad</code>（T22）／<code>743e713</code>（T23）。portal <code>9401b02</code>+<code>ccdbfd1</code>（T24）／<code>b842710</code>（サポート番号）。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-15 ・ プレビュー公開と本番公開の分離（T18）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: builder のサイト公開を「プレビュー公開」と「本番公開」の2段階に分離した。従来は「保存して公開」1本で <code>&lt;店舗&gt;.musubiweb.com</code> の本番ドメインが即座に割り当たっていたため、顧客承認前のサイトが本番URLで公開されてしまう状態だった。</li>
