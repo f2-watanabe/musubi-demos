@@ -62,6 +62,19 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-15 ・ プレビュー公開と本番公開の分離（T18）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: builder のサイト公開を「プレビュー公開」と「本番公開」の2段階に分離した。従来は「保存して公開」1本で <code>&lt;店舗&gt;.musubiweb.com</code> の本番ドメインが即座に割り当たっていたため、顧客承認前のサイトが本番URLで公開されてしまう状態だった。</li>
+<li><strong>プレビュー専用デプロイ</strong>（<code>lib/deploySite.ts</code> の <code>deployPreviewContent</code>）: <code>musubi-preview-&lt;site_project&gt;.pages.dev</code> へ、本番と同一のレンダリングパイプラインでデプロイ。<code>attachSubdomain</code> は呼ばず本番ドメインは割り当てない。各HTMLに noindex meta を注入（<code>lib/noindex.ts</code>、二重挿入なし）し検索エンジンから除外。</li>
+<li><strong><code>projects.preview_url</code> の無条件上書き</strong>（<code>lib/previewUrl.ts</code> の <code>overwritePreviewUrl</code>）: プレビューデプロイが成功するたびに最新のプレビューURLで上書きする。</li>
+<li><strong>ボタン構成</strong>: builder 編集画面（<code>SiteInlineEditor</code>）に「保存してプレビュー公開」を新設し、既存の公開ボタンは「保存して本番公開」に改称。「プレビューを顧客へ」が渡す URL も、本番URLの導出（<code>derivePreviewUrl</code>）ではなく <code>projects.preview_url</code>（＝最新のプレビューデプロイURL）基準に変更（gap fix <code>8ca750d</code>）。案件詳細画面のプレビューURL欄の説明文も「本番公開後のURL」と明記し混同を防止。</li>
+<li><strong>削除の追従</strong>: <code>deleteSite</code>・<code>closeProject</code>（subdomain_delete）で本番Pagesプロジェクトに加えて <code>musubi-preview-&lt;sub&gt;</code> も削除するよう拡張（未作成時のエラーは無視）。</li>
+<li><strong>Why</strong>: 顧客のプレビュー承認より前に本番ドメイン・検索エンジンへ露出してしまう設計は、未完成サイトの誤閲覧・SEO上の重複コンテンツリスクがあった。承認フローと公開ドメイン割り当てのタイミングを一致させるため分離した。</li>
+<li><strong>How</strong>: サブエージェントで実装 → レビュー → 修正のゲートで実施。レビューで「プレビューを顧客へ」が本番URL導出のままになっているギャップを検出し <code>8ca750d</code> で修正。admin vitest 全PASS、<code>npm run build</code> exit 0 を確認。テスト環境（musubi-test）で実ブラウザ実走検証を実施: builder で「保存してプレビュー公開」→ <code>musubi-preview-e2e-test.pages.dev</code> の生成・noindex付与・本番ドメイン未割当を確認 →「プレビューを顧客へ」でポータルに渡る URL がプレビューURLと一致することを確認 → 顧客ポータルでの承認 →「保存して本番公開」でサブドメインが確定し本番URLで表示されることを確認。全項目 PASS。</li>
+<li><strong>Result</strong>: 実装・レビュー・ビルド検証・テスト環境実走検証まで完了。<code>musubi-preview-e2e-test.pages.dev</code> は検証後も閲覧用に残置（実害なし）。運用手順書（申込〜クロージング／汎用ライン）を新フローに合わせて改訂済み（本エントリと同時作業）。admin は未push（コミット済・working tree clean）。</li>
+<li><strong>証跡</strong>: musubi-admin <code>d5437a8</code>（プレビュー専用デプロイ分離）+<code>8ca750d</code>（gap fix）、テスト環境実走検証（<code>musubi-preview-e2e-test.pages.dev</code> 稼働中）、local-web-sales 本エントリ＋運用手順書2件改訂。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-14 ・ GBP API 申請却下（60日要件）と再申請計画</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: GBP API アクセス申請（ケース 1-4601000041294、7/3 提出）が却下された。理由は「申請者メールが、オーナー確認から60日以上経過したビジネスプロフィールのオーナー/管理者であること」の要件未達。</li>

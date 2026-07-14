@@ -192,38 +192,40 @@ details.logentry>summary:hover{color:var(--acc)}
 </ul>
 <p><img class="shot" src="../assets/manual/07-store-hearing.png" alt="管理アプリ側のヒアリング回答表示と素材セクション。顧客の回答とアップロード素材を確認できる" loading="lazy"></p>
 <hr>
-<h2>7. 制作・サイト公開</h2>
+<h2>7. 制作・プレビュー公開</h2>
 <p><strong>誰が</strong>: スタッフ</p>
 <p><strong>画面</strong>: admin <code>/stores/[店舗ID]</code> → <code>/builder/[店舗ID]/edit</code>（直接編集画面）</p>
 <ol>
 <li>ヒアリング回答・素材が揃うと、案件詳細の「今やること」ヒーローに『制作を開始』ボタンが出る（未提出があれば無効化され、不足項目がヒントに表示される）。押すと案件が「制作」段階に進む。</li>
 <li>ヒーローの「サイトを編集」（または <code>/builder</code> の一覧から「直接編集を開く」）で <code>/builder/[店舗ID]/edit</code> を開く。実際のサイト画面がそのまま表示され、本文はクリックしてその場でテキストを書き換え、画像はクリックで差し替えられる。メニューなど繰り返し項目も同様に編集できる。</li>
-<li>画面右上の「設定」ドロワーで、テンプレート選択・サブドメイン・テーマ・上級設定・サイト削除をまとめて行う。</li>
-<li>下部バーの「保存」で下書き保存、「保存して公開」でサブドメインを確定して Cloudflare Pages へデプロイする。サブドメイン（<code>&lt;店舗&gt;.musubiweb.com</code>）が割り当てられ、store の site_domain が設定される。</li>
-<li>⚠️ 自社対応: 独自ドメインを使う場合は Cloudflare での紐付けが別途手作業（<code>独自ドメイン運用・移管手順.md</code> 参照）。</li>
-<li>プレビューが整ったら同じ編集画面の「プレビューを顧客へ」を押す。preview_url が保存され、案件ステータスは自動で「ご確認待ち（review）」に進む（手動でのステータス変更は不要）。</li>
+<li>画面右上の「設定」ドロワーで、テンプレート選択・サブドメイン・テーマ・上級設定・サイト削除をまとめて行う（サイト削除を実行すると、本番用Pagesプロジェクトに加えてプレビュー用Pagesプロジェクトも削除される）。</li>
+<li>下部バーの「保存」で下書き保存、<strong>「保存してプレビュー公開」</strong>で <code>musubi-preview-&lt;店舗&gt;.pages.dev</code> へデプロイする。各ページに noindex を付与して検索エンジンから除外し、本番ドメイン（<code>&lt;店舗&gt;.musubiweb.com</code>）の割り当ては行わない。押すたびに <code>projects.preview_url</code> がこのプレビューURLで上書きされる。</li>
+<li>プレビューが整ったら同じ編集画面の「プレビューを顧客へ」を押す。<code>preview_url</code>（プレビュー専用URL）がポータルへ渡り、案件ステータスは自動で「ご確認待ち（review）」に進む（手動でのステータス変更は不要）。</li>
 </ol>
 <p>※ 旧URL <code>/builder?store=[店舗ID]</code> は <code>/builder/[店舗ID]/edit</code> へ自動リダイレクトされる（後方互換）。</p>
 <p><strong>確認ポイント</strong>:</p>
 <ul>
-<li>公開後、<code>&lt;店舗&gt;.musubiweb.com</code>（または独自ドメイン）で実際にサイトが表示される。</li>
-<li>「プレビューを顧客へ」を押すと案件のステージが「確認」に進み、案件詳細の納品前提チェックで「サイト公開」が満たされる（site_domain が設定される）。</li>
+<li>「保存してプレビュー公開」後、<code>musubi-preview-&lt;店舗&gt;.pages.dev</code> でプレビューが表示される（noindex・本番ドメイン未割当のため一般の検索や <code>&lt;店舗&gt;.musubiweb.com</code> では見えない）。</li>
+<li>「プレビューを顧客へ」を押すと案件のステージが「確認」に進む。</li>
 </ul>
 <hr>
-<h2>8. プレビュー承認（顧客）</h2>
-<p><strong>誰が</strong>: 顧客</p>
-<p><strong>画面</strong>: portal <code>/home</code>（ご確認待ちのとき）</p>
+<h2>8. プレビュー承認（顧客）・本番公開（スタッフ）</h2>
+<p><strong>誰が</strong>: 顧客 → スタッフ</p>
+<p><strong>画面</strong>: portal <code>/home</code>（ご確認待ちのとき）→ admin <code>/builder/[店舗ID]/edit</code></p>
 <ol>
-<li><code>/home</code> の「プレビューを確認する」からサイトを確認し、「プレビューを承認する」を押す。</li>
+<li>顧客が <code>/home</code> の「プレビューを確認する」から <code>musubi-preview-&lt;店舗&gt;.pages.dev</code> のプレビューを確認し、「プレビューを承認する」を押す。</li>
+<li>承認を受けて、スタッフが編集画面に戻り<strong>「保存して本番公開」</strong>を押す。サブドメイン（<code>&lt;店舗&gt;.musubiweb.com</code>）を確定して Cloudflare Pages へ本番デプロイし、store の site_domain が設定される。</li>
+<li>⚠️ 自社対応: 独自ドメインを使う場合は Cloudflare での紐付けが別途手作業（<code>独自ドメイン運用・移管手順.md</code> 参照）。</li>
 </ol>
 <p><strong>システムの挙動</strong>:</p>
 <ul>
-<li>承認記録（preview_approved_at）を立て、運営に通知メール。公開（ステータス変更）は運営側の納品操作で行う。</li>
+<li>承認記録（preview_approved_at）を立て、運営に通知メール。案件ステータスの変更（review→published）は次工程の運営側の納品操作で行う。「保存して本番公開」自体は site_domain を設定するのみで、案件ステータスは変えない。</li>
 </ul>
 <p><strong>確認ポイント</strong>:</p>
 <ul>
 <li>承認後、portal に「承認済み・公開をお待ちください」と表示される。</li>
 <li>admin の納品前提チェックで「プレビュー承認」が満たされる。</li>
+<li>「保存して本番公開」後、<code>&lt;店舗&gt;.musubiweb.com</code>（または独自ドメイン）で実際にサイトが表示され、納品前提チェックの「サイト公開」が満たされる（site_domain が設定される）。</li>
 </ul>
 <hr>
 <h2>9. 納品・課金開始</h2>
@@ -287,7 +289,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <p><strong>システムの挙動</strong>:</p>
 <ul>
 <li>有効な Stripe サブスクリプションを解約（振込契約は契約記録のみ解約）。契約（contracts）を解約済みに更新。</li>
-<li>サブドメイン削除の場合: Cloudflare Pages プロジェクトとサブドメインを削除し、site_domain をクリア。</li>
+<li>サブドメイン削除の場合: Cloudflare Pages プロジェクトとサブドメインを削除し、site_domain をクリア（<code>musubi-preview-&lt;店舗&gt;</code> のプレビュー用Pagesプロジェクトも併せて削除。未作成の場合のエラーは無視）。</li>
 <li>独自ドメイン移管の場合: サイトは残し、移管手続き待ちのフラグを立てる。</li>
 <li>案件ステータスを「解約（closed）」にし、解約日時を記録。顧客へ解約案内メール（方法に応じて内容を出し分け）を送信。</li>
 </ul>
