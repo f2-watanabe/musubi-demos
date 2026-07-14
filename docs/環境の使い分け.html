@@ -55,7 +55,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <h1>環境の使い分け（本番とテスト）</h1>
 <p>作成: 2026-07-13。musubi-admin / musubi-portal の開発・動作確認で「今どちらの環境を触っているか」を迷わないための早見表。事実の源は <code>環境変数一覧と登録手順.md</code>（テスト環境節）と各リポの <code>.env.development.local</code>。</p>
 <h2>2環境の一覧</h2>
-<table><thead><tr><th></th><th>本番</th><th>テスト（musubi-test）</th></tr></thead><tbody><tr><td>Supabase project</td><td><code>hsyhiiqrrtrbxexqyixi</code>（Tokyo）</td><td><code>vqflyyoexsxqcfajwoxv</code>（ap-northeast-1）</td></tr><tr><td>管理アプリ URL</td><td>https://admin.musubiweb.com</td><td>ローカル <code>npm run dev</code>（http://localhost:3000）</td></tr><tr><td>顧客ポータル URL</td><td>https://portal.musubiweb.com</td><td>ローカル <code>npm run dev</code>（http://localhost:3001）</td></tr><tr><td>環境変数の出どころ</td><td>Vercel Environment Variables（Production）</td><td>各リポの <code>.env.development.local</code>（git 管理外）</td></tr><tr><td>Stripe</td><td>本番キー（<code>sk_live_...</code>）で決済が実際に走る</td><td>未設定＝実質 no-op（決済系 API を叩いても何も起きない）</td></tr><tr><td>メール送信（Resend）</td><td>有効。実際に送信される</td><td>未設定＝送信されない</td></tr><tr><td>Cloudflare Pages デプロイ</td><td>有効。実際に顧客サイトが公開される</td><td>未設定＝実行不可（builder からのデプロイは本番のみ）</td></tr><tr><td>データ</td><td>ユーザーの実データ</td><td>seed 投入済みのテストデータのみ</td></tr></tbody></table>
+<table><thead><tr><th></th><th>本番</th><th>テスト（musubi-test）</th></tr></thead><tbody><tr><td>Supabase project</td><td><code>hsyhiiqrrtrbxexqyixi</code>（Tokyo）</td><td><code>vqflyyoexsxqcfajwoxv</code>（ap-northeast-1）</td></tr><tr><td>管理アプリ URL</td><td>https://admin.musubiweb.com</td><td>ローカル <code>npm run dev</code>（http://localhost:3000）</td></tr><tr><td>顧客ポータル URL</td><td>https://portal.musubiweb.com</td><td>ローカル <code>npm run dev</code>（http://localhost:3001）</td></tr><tr><td>環境変数の出どころ</td><td>Vercel Environment Variables（Production）</td><td>各リポの <code>.env.development.local</code>（git 管理外）</td></tr><tr><td>Stripe</td><td>本番キー（<code>sk_live_...</code>）で決済が実際に走る</td><td>未設定＝実質 no-op（決済系 API を叩いても何も起きない）</td></tr><tr><td>メール送信（Resend）</td><td>有効。実際に送信される</td><td>未設定＝送信されない</td></tr><tr><td>Cloudflare Pages デプロイ</td><td>有効。実際に顧客サイトが公開される</td><td>有効（<code>CLOUDFLARE_API_TOKEN</code>/<code>CLOUDFLARE_ACCOUNT_ID</code> は本番と同値、<code>CLOUDFLARE_ZONE_ID</code> は空）。詳細は下記「テスト環境での公開（デプロイ）E2E」節</td></tr><tr><td>データ</td><td>ユーザーの実データ</td><td>seed 投入済みのテストデータのみ</td></tr></tbody></table>
 <h2>使い分けルール</h2>
 <ul>
 <li><strong>開発・動作確認・E2E は必ずテスト環境。</strong> 本番環境は実データのみを扱う場所であり、テストデータを作らない。</li>
@@ -83,6 +83,14 @@ details.logentry>summary:hover{color:var(--acc)}
 <p><code>apply_migration.mjs</code> は <code>06_スクリプト/apply_migration.mjs</code>。Supabase Management API 経由で SQL を実行するスクリプトで、<code>SUPABASE_ACCESS_TOKEN</code>（セッション限りの手渡し）が必要。</p>
 <h2>テストデータのリセット</h2>
 <p>テスト環境のデータが壊れた・汚れた場合は、テーブルのテストデータ行（<code>leads</code>/<code>stores</code>/<code>projects</code> の name/template が <code>test</code> のもの、および <code>staff_members</code>・auth のテストアカウント）を削除した上で、<code>環境変数一覧と登録手順.md</code> のテスト環境節に記載した seed 手順（staff アカウント作成 → テスト店舗一式 <code>leads</code>/<code>stores</code>/<code>projects</code> → owner アカウント作成）をなぞって再投入する。スキーマ自体（migration 適用状態）は本番と揃っている前提なので、崩れるのは基本的にデータ行のみ。</p>
+<h2>テスト環境での公開（デプロイ）E2E</h2>
+<p>2026-07-14 から、テスト環境（<code>musubi-admin/.env.development.local</code>）にも <code>CLOUDFLARE_API_TOKEN</code> / <code>CLOUDFLARE_ACCOUNT_ID</code> を本番と同値で設定済み。<code>CLOUDFLARE_ZONE_ID</code> は空のまま維持しているため、公開（デプロイ）ボタンを含む E2E が可能になった一方、本番ドメインの汚染はない。</p>
+<ul>
+<li>実体は <code>musubi-e2e-test.pages.dev</code> 等の pages.dev デプロイのみ。zone 未設定のため <code>musubiweb.com</code> ゾーンの DNS レコードは作成されず、本番 DNS は非汚染。</li>
+<li>テスト店舗 <code>test</code> の <code>site_project</code> は衝突防止のため <code>e2e-test</code>（決定的命名）に設定済み。</li>
+<li>補足（コード確認済み）: <code>lib/cfPages.ts</code> の <code>attachSubdomain</code> は zone 未設定でも DNS レコード作成だけをスキップし、カスタムドメイン割り当て API 自体は呼ぶ（token/account が本番同値のため）。DNS が無いため実際には解決しないが、CF アカウント上に対象 Pages プロジェクトへ未検証（pending）状態のドメインが紐づく。E2E 後に Pages プロジェクトを削除（admin の削除機能 or CF ダッシュボード）すれば、このドメイン紐付けも一緒に消える。</li>
+<li>編集画面（コンテンツ編集・プレビュー）の確認は Cloudflare 接続なしで常時可能。</li>
+</ul>
 <h2>Stripe テストキー未設定について</h2>
 <p>現状 <code>STRIPE_SECRET_KEY</code> / <code>STRIPE_WEBHOOK_SECRET</code> はテスト環境で空欄のため、課金まわりの dev 確認はできない（no-op）。必要になったら Stripe Dashboard をテストモードに切り替えて test キーを発行し、<code>musubi-admin/.env.development.local</code> に追記する。本番キー・本番 price ID とは完全に別物なので混在させない。</p>
 <p class="note">🧪 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
