@@ -62,6 +62,20 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-16 ・ LPの4本柱再編（触れるデモ搭載）と LINE予約の2段構成実装</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 本体LP（<code>07_マーケサイト/index.html</code>）を「4つの柱」構成に再編し、LP上で実際に触れるデモを搭載した。あわせて顧客サイトの予約導線に LINE 予約を2段構成（スタンダード=LINEかんたん予約／プレミアム=LINE自動予約）で追加した。</li>
+<li><strong>LPリデザイン検討</strong>: awwwards を参照した3方向のモック（A: MONOLOG軸=墨×生成りタイポ主導、B: Allgood軸=AI×人ストーリー、C: Cloudstudio軸=サイト自体がデモ）を <code>10_デザイン/lp-mock-*.html</code> として作成・比較。ユーザー判断で「現行デザイン維持+C案のデモ要素を取り込む」方針に決定。</li>
+<li><strong>LP再編</strong>: ヒーローに口コミAI返信のミニプレビュー（デモ表記付き）と「デモを触ってみる」CTAを追加。旧「ふたつの柱（#monthly）」を「4つの柱（#pillars）」に再編 — ①公式サイト制作 ②口コミAI返信（承認制） ③予約システム（手数料0円） ④月次レポート。柱②④には触れるデモ（口コミ選択→AI返信タイピング表示／月次レポートのミニプレビュー）、柱③には予約カレンダーの触れるデモ（週間◯✕タップ→予約フォームプレビュー反映）を搭載。デモの数値・文面はすべて「デモ」「架空の店のサンプル」と明記し実績と誤認させない。</li>
+<li><strong>LINEかんたん予約（スタンダード）</strong>: 予約テンプレ3種（restaurant/cafe/sushi の <code>reserve.html</code>）に「LINEで予約する」ボタンを追加。日時等の選択内容をプリフィルした <code>line.me/R/oaMessage</code> URLを生成し、店は普段のLINEで受けて手動確定する。musubi-admin 側は <code>siteSchema.ts</code> の「予約：受付設定」に <code>reserve.line_id</code>（任意）を追加し、未設定ならボタン非表示。<code>sync_templates.py</code> で pages.json へ反映済み。既存のネット予約（<code>/api/reserve/*</code>）とは併存。</li>
+<li><strong>LINE自動予約（プレミアム）</strong>: booking-calendar skill（Googleカレンダー連動+GAS+LINE Messaging API）を店舗ごとに配線する運用として整理し、<code>05_業務手順書/LINE自動予約セットアップ手順.md</code> を新設（セットアップ10 STEP・二重予約防止の仕組み・トークン等秘密情報の非残置運用・解約時の撤去手順）。</li>
+<li><strong>LP料金表記の更新</strong>: スタンダードに「LINEかんたん予約」、プレミアムに「LINE自動予約」を追記（いずれも実装・手順書整備の完了後に反映。「できないことは書かない」方針に準拠）。</li>
+<li><strong>Why</strong>: ユーザー要望「デモをヒーローにも載せて大々的にアピール。webサイト制作・AI口コミ・予約システム・月次レポートを柱にアピール」のため（LP再編）。予約導線を飲食店の日常ツールであるLINEに接続し、プラン差別化（かんたん=スタンダード／自動=プレミアム）の根拠を作るため（LINE予約2段構成）。</li>
+<li><strong>How</strong>: モック3案・LP再編・LINE実装・手順書作成をそれぞれサブエージェントに分担し、Playwright での実表示検証（デスクトップ1440px/モバイル375px・デモ操作・横スクロール確認）と musubi-admin のテスト（vitest 429件パス・tsc は既存エラーのみ）を経て確定した。</li>
+<li><strong>Result</strong>: LP は4本柱+触れるデモ3種（口コミAI返信・予約カレンダー・月次レポート）構成で動作確認済み。LINEかんたん予約は <code>reserve.line_id</code> を設定するだけで有効化できる状態。LINE自動予約は手順書に沿って店舗ごとに配線可能な状態。</li>
+<li><strong>証跡</strong>: local-web-sales <code>b5300df</code>（モック3案）・<code>a5ae263</code>（LPデモ2種）・<code>3813a11</code>（テンプレ3種にLINEボタン）・<code>042d0f0</code>（LINE自動予約手順書）・<code>e2a72fb</code>（LP4本柱再編+料金表記）。musubi-admin <code>3fd4fb3</code>（<code>reserve.line_id</code> 追加+pages.json 同期。コミットのみ・未push）。検証: Playwright 実操作確認・vitest 全429件パス。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-15 ・ T26初期費用フローの本番稼働、本番障害の修正、LP刷新の本番反映</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: T26（初期費用決済フロー）を実装から本番稼働まで完了させたほか、本番で発生していたアプリケーションエラーの修正、LP刷新の本番反映、必要な migration 適用と環境変数登録をまとめて実施した。</li>
