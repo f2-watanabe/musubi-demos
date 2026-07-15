@@ -63,7 +63,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>テストで通す間: 本番 <code>STRIPE_SECRET_KEY</code> もテストモードのキーにする。</li>
 <li>本番課金する時: <code>musubi-admin/scripts/stripe_setup.mjs</code> を <strong>ライブキー</strong>で実行してライブの price を作り、Vercel の <code>STRIPE_PRICE_*</code> を差し替える。</li>
 <li>※キーとpriceのモードがずれると、納品時のサブスク作成が失敗します。</li>
-<li><strong>Webhook の設定</strong>: <code>STRIPE_WEBHOOK_SECRET</code> が未設定。Stripe ダッシュボードで Webhook エンドポイントを <code>https://musubi-admin-two.vercel.app/api/stripe/webhook</code> に向けて作成し、署名シークレットを Vercel 環境変数 <code>STRIPE_WEBHOOK_SECRET</code> に設定する。これがないと入金・失敗ステータスがアプリに同期されません（サブスク作成自体は動作します）。</li>
+<li><strong>Webhook の設定</strong>: <code>STRIPE_WEBHOOK_SECRET</code> は登録済み・稼働中です（2026-07-15）。Stripe ダッシュボードの Webhook エンドポイントは <code>https://admin.musubiweb.com/api/stripe/webhook</code> に設定してあり、署名シークレットを Vercel 環境変数 <code>STRIPE_WEBHOOK_SECRET</code> に登録済みです。入金・失敗ステータスの同期、および初期費用のカード決済（Payment Link）完了時の自動 paid 化が動作します。</li>
 <li><strong>顧客のカード登録（Billing Portal）</strong>: 顧客ポータルの「お支払い」タブ（<code>/pay</code>）は Stripe の Customer Portal（Billing Portal）を使ってカード登録・変更を行う。これを動かすには、<strong>musubi-portal 側の Vercel 環境変数にも <code>STRIPE_SECRET_KEY</code></strong>（admin と同一 Stripe アカウントのキー）を設定し、かつ <strong>Stripe ダッシュボードで Customer Portal を有効化</strong>しておく必要がある。どちらか未構成だと <code>/pay</code> でのセッション作成が失敗する。※本対応は実施済み。</li>
 <li>保管場所: Stripe ダッシュボード、Vercel（musubi-admin・musubi-portal）環境変数。</li>
 </ul>
@@ -85,10 +85,10 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>公開時の Cloudflare Pages プロジェクト名は、内部で <code>musubi-&lt;サブドメイン&gt;</code> に自動で一意化されるため、顧客のサブドメイン名（例: <code>test</code>）は自由に付けてよい。以前は汎用的な名前だと <code>*.pages.dev</code> の衝突で公開に失敗することがあったが、この自動一意化により解消済み。</li>
 <li>保管場所: Cloudflare ダッシュボード、Vercel 環境変数（<code>CLOUDFLARE_API_TOKEN</code>／<code>ACCOUNT_ID</code>／<code>ZONE_ID</code>／<code>SITE_BASE_DOMAIN</code>）。</li>
 </ul>
-<h3>A-5. GA4（アクセス解析）【未対応】</h3>
+<h3>A-5. GA4（アクセス解析）【対応済み】</h3>
 <ul>
 <li>コード側は実装済み（T23、2026-07-15）: 公開サイトへの共有測定ID自動注入・eventテンプレのgtagは本番デプロイ時に自動で動く状態。</li>
-<li><strong>未対応タスク</strong>: GA4 共有プロパティの作成と、測定ID（<code>G-XXXXXXX</code>）を Vercel 環境変数 <code>GA4_SHARED_MEASUREMENT_ID</code> に登録する。これが完了するまで、公開サイトへの測定タグは注入されず計測は始まらない。</li>
+<li><strong>対応済み</strong>: GA4 共有プロパティの測定ID（<code>GA4_SHARED_MEASUREMENT_ID</code>）を Vercel 環境変数に登録済み（2026-07-15）。これ以降に公開・再公開したサイトから計測が開始されます。登録前に公開されたままのサイトは、次回の再公開時点から計測対象になります。</li>
 <li>保管場所: Google Analytics（GA4）管理画面、Vercel（musubi-admin）環境変数。</li>
 </ul>
 <hr>

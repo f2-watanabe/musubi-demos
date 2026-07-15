@@ -62,6 +62,20 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-15 ・ T26初期費用フローの本番稼働、本番障害の修正、LP刷新の本番反映</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: T26（初期費用決済フロー）を実装から本番稼働まで完了させたほか、本番で発生していたアプリケーションエラーの修正、LP刷新の本番反映、必要な migration 適用と環境変数登録をまとめて実施した。</li>
+<li><strong>T26 初期費用フローの実装・本番稼働</strong>（admin <code>2c7d817</code>〜<code>ed33931</code>+fix <code>3d6026a</code>、review Fix3件対応済）: migration <code>0032</code> で <code>invoices</code> テーブルに <code>method</code> 列を追加し、<code>contract_id IS NULL</code> の行を初期費用の請求として扱えるようにした。決済方法はカード払いと銀行振込の2通りを用意している。カード払いは Stripe の Payment Link を発行し、metadata に <code>invoice_id</code> と <code>store_id</code> を埋め込むことで、webhook の <code>checkout.session.completed</code> イベントを受けて自動的に入金済み（paid）へ更新される（同一イベントの二重処理を防ぐ冪等化と、metadata の <code>store_id</code> が当該請求の店舗と一致するかの照合を実施済み）。銀行振込は環境変数 <code>BANK_TRANSFER_INFO</code> に設定した口座情報を案内メールに掲載し、入金確認後にスタッフが管理アプリの「入金確認」ボタンを押して確定する運用にしている。また、初期費用が未入金の間は納品アクションを実行できないようにする納品ゲート（<code>isInitialFeePaid</code>）を追加した。無料キャンペーン適用や0円、免除の案件はこのゲートを通過する。初期費用の発生・回収タイミングは契約後から納品前までの間を想定している。</li>
+<li><strong>本番 Application error（Digest 2785383697）の修正</strong>（admin <code>89b2b1f</code>+<code>136f554</code>）: 2件の不具合が原因だった。1件目は、event テンプレート用のスキーマ導出関数が Server Component の境界を越えてクライアントコンポーネントに関数のまま渡ってしまい、シリアライズできずにクラッシュしていたもので、クライアント側でスキーマを再計算する方式に修正した。2件目は、<code>status=&#x27;review&#x27;</code> かつ <code>delivered_at</code> が既に設定済みという残骸データの組み合わせに対して再納品操作を行うと例外が送出されていたもので、<code>isProjectDelivered</code> という共通の納品済み判定ガードを追加して解消した。修正にあたってはテスト用DBに本番と同形のデータを複製して事象を再現したうえで修正を適用し、実機で解消を確認している。</li>
+<li><strong>LP刷新の本番反映</strong>: <code>index.html</code> と <code>business.html</code> を白基調のデザインに刷新し、汎用ラインの料金体系をライト（初期98,000円・月額8,000円）、スタンダード（初期248,000円・月額15,000円、推奨プラン）、プレミアム（初期398,000円・月額25,000円）の定型3プランに整理した（フルオーダーは個別見積のまま）。<code>business.html</code> には FAQ、月額費用に含まれる内容、導入までの流れ、制作例ギャラリーのセクションを新設した。これらを <code>musubiweb.com</code> に本番反映済み。</li>
+<li><strong>migration 0031/0032 の適用</strong>: <code>0031</code>（stores の owner に対する一意制約の撤廃。1つのメールアドレスで複数店舗の運用や解約後の再契約に対応するためのもの）と <code>0032</code>（invoices への method 列追加）を、本番（project <code>hsyhiiqrrtrbxexqyixi</code>）・テスト（project <code>vqflyyoexsxqcfajwoxv</code>）の両方に適用した。</li>
+<li><strong>環境変数の登録</strong>（musubi-admin の Vercel production 環境。値そのものはここに書かない）: <code>STRIPE_WEBHOOK_SECRET</code>（Stripe webhook の署名検証用）、<code>GA4_SHARED_MEASUREMENT_ID</code>（全店舗共有の GA4 プロパティの測定ID。公開サイトへ自動注入される）、<code>BANK_TRANSFER_INFO</code>（銀行振込の案内文に使う口座情報）の3件を登録した。登録後に本番環境を再デプロイし、疎通を確認している。</li>
+<li><strong>Why</strong>: 初期費用の回収手段（カード・振込の両方）と納品前の入金確認を仕組み化する必要があったため（T26）。本番で実際にユーザーに影響していたアプリケーションエラーを解消する必要があったため（障害修正）。LPの料金体系を汎用ラインの定型3プランに揃え、白基調のデザインで信頼感を高めるため（LP刷新）。T24（複数店舗・再契約対応）とT26のコード実装が完了していたにもかかわらず、対応する migration が未適用のままだったため（0031/0032）。webhook・GA4計測・銀行振込案内という3つの機能がコード実装済みでも環境変数が未登録のため稼働していなかったため（環境変数登録）。</li>
+<li><strong>How</strong>: 各タスクをサブエージェントで実装し、レビューと修正のゲートを経てから適用した。T26 はレビューで3件の指摘を受けて対応済み。本番障害の修正は、テスト環境のDBに本番と同形のデータを複製して事象を再現したうえで修正し、実機で検証している。migration 適用は本番・テストの両プロジェクトに対して実施し、環境変数登録後は本番を再デプロイして疎通確認まで行った。</li>
+<li><strong>Result</strong>: T26・本番障害修正・LP刷新・migration 0031/0032・環境変数登録のすべてが完了し、初期費用の決済フローが本番で稼働している状態になった。webhook によるカード決済の自動反映、銀行振込の入金確認フロー、GA4によるアクセス計測がいずれも稼働可能な状態になった。</li>
+<li><strong>証跡</strong>: musubi-admin <code>2c7d817</code>〜<code>ed33931</code>+fix <code>3d6026a</code>（T26）、<code>89b2b1f</code>+<code>136f554</code>（本番障害修正）。migration <code>0031</code>/<code>0032</code> 本番・テスト両プロジェクトへ適用済み。<code>musubiweb.com</code> へのLP本番反映、Vercel production 環境変数3件の登録・再デプロイ・疎通確認、本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-15 ・ エディタ第2波＋複数店舗対応＋GA4計測</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: T18完了後に着手した一連の改修（T19〜T24 + サポート番号）。</li>
