@@ -62,6 +62,22 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-16 ・ エディタ編集体験の全面改善、公開無制限ポリシー、LP調整、business刷新、ポータルマニュアル</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 5系統をまとめて実施。</li>
+<li><strong>フルスクリーンエディタ改善</strong>（admin <code>8937dcc</code>）: (1) aria-hidden・装飾プレースホルダーを編集対象から除外（event テンプレの帯マーキーの個別編集枠と「素材が入ります」系ノイズを解消）。(2) inline HTML を含む data-edit 要素を編集可能に（ヒーローの開催地・日時=hero.next_label が編集不能だった問題を解消）。(3) 開催地・ニュース等の配列カードをクリックするとリスト編集（StructuredEditor）の該当項目へスクロール+ハイライトする橋渡しを新設。(4) パネルの <code>&lt;SPAN&gt;</code> 等のタグ名表示をスキーマ由来の日本語ラベル（例「開催地 1件目・会場の呼び名」）に置換。(5) クリック時はスコープ内の項目のみ表示。vitest 443件パス。</li>
+<li><strong>顧客セルフ公開の無制限化</strong>（admin <code>086afde</code> / portal <code>a334d07</code> 内文言）: ユーザー決定「顧客側での修正はどのプランも無制限。Musubi側の更新対応はライト1回・スタンダード2回・プレミアム3回」。/api/site/publish・/api/site/editable の公開上限判定を撤廃（契約条件 updates_per_month はMusubi側更新対応の回数として存続。既定を light:1/standard:2/premium:3 に変更。旧 premium:無制限）。</li>
+<li><strong>顧客ポータルにマニュアル新設</strong>（portal <code>a334d07</code>）: <code>/help</code> ページ+ナビ「使い方」。章立て=はじめに/ログイン/成果ホーム/口コミ承認/月次レポート/セルフ編集/お支払い/困ったときは。businessLine で飲食専用項を出し分け。tsc/build 通過。</li>
+<li><strong>LP調整</strong>（local-web-sales <code>698ddc2</code>）: ヒーローのデモカード撤去（1カラム復元）・CTA順を「制作例を見る」→「デモを触ってみる」に・デモ見出しを「作って終わりにしない。支える、3つの柱。」に・柱①（公式サイト制作）削除で3本柱化・料金にセルフ編集無制限と更新対応 月1/2/3回を反映。</li>
+<li><strong>business.html 全面刷新</strong>（local-web-sales <code>f88f7a9</code>）: 「速く、安く、結ぶ。」を軸に課題→できること→制作イメージ（デモ4種）→なぜ速く安いか→導入フロー→料金→月額の中身→FAQ→CTA へ再設計。料金既定値は据え置き。</li>
+<li><strong>コストモニタ調査</strong>: 「未接続」が多いのは仕様（実装済みフェッチャは Anthropic と Stripe のみ、他5サービスは TODO(Phase 7)）。Stripe の $5.94 は balance transactions の fee 合計で、テストキー（sk_test）の疑似手数料 — 実請求ではない。本番 Vercel env の <code>STRIPE_SECRET_KEY</code> が test キーのままの疑いあり（要ユーザー確認）。</li>
+<li><strong>Why</strong>: event テンプレの顧客セルフ編集で「リスト編集に辿り着けない・どこを編集中か分からない・装飾が編集対象になる」というユーザー報告のため（エディタ）。修正回数ポリシーの再定義（顧客=無制限/Musubi=1/2/3回）のため（公開無制限）。顧客の自走を助けるため（マニュアル）。LPの訴求整理と企業向けページの弱さ解消のため（LP/business）。</li>
+<li><strong>How</strong>: 調査（読み取り専用エージェント）→実装（sonnet エージェント+直接編集）→ vitest/tsc/next build/Playwright 実表示で検証の順。エディタ改善は portal 共用の annotate 系を変更するため、editable API の route.test を含め全テスト実確認。</li>
+<li><strong>Result</strong>: エディタは「クリック→編集場所が分かる→リスト編集に届く」動線が成立。公開は全プラン無制限で版バックアップ・履歴復元は従来どおり。LP/business は最新ポリシー表記に統一。</li>
+<li><strong>証跡</strong>: musubi-admin <code>8937dcc</code>・<code>086afde</code>、musubi-portal <code>a334d07</code>（いずれもコミットのみ・未push）。local-web-sales <code>698ddc2</code>・<code>f88f7a9</code>。vitest 443/443、portal build 成功、Playwright 375/1440px 確認、本エントリ。</li>
+<li><strong>残タスク</strong>: 価格表・提案資料（<code>01_提案・設計資料</code>/price_sheet.py 系）への修正回数ポリシー同期は未実施。Vercel 本番 <code>STRIPE_SECRET_KEY</code> の live 切替確認はユーザー対応待ち。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-16 ・ LPの4本柱再編（触れるデモ搭載）と LINE予約の2段構成実装</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 本体LP（<code>07_マーケサイト/index.html</code>）を「4つの柱」構成に再編し、LP上で実際に触れるデモを搭載した。あわせて顧客サイトの予約導線に LINE 予約を2段構成（スタンダード=LINEかんたん予約／プレミアム=LINE自動予約）で追加した。</li>
