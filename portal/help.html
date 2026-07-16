@@ -1,0 +1,141 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>炭火・地酒 さくら亭 顧客ポータル</title>
+<style>
+:root{--ink:#22262f;--acc:#127b66;--accd:#0c5a4a;--gold:#c8893f;--verm:#b5402e;
+--bg:#f6f4ef;--card:#fff;--line:#e8e2d6;--muted:#8b8578;--sub:#6f6a60;--green:#1ea86b;--red:#d6453b;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);font-size:14px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.kpi,.card,.field{min-width:0}
+.top{background:#fff;border-bottom:1px solid var(--line);padding:0 30px;display:flex;align-items:center;gap:26px;height:64px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand .mk{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;font-family:serif;font-weight:700;font-size:19px}
+.brand b{font-size:16px;font-weight:700;letter-spacing:.04em}
+.brand small{display:block;font-size:9px;color:var(--muted);letter-spacing:.14em}
+.tabs{display:flex;gap:4px;margin-left:8px}
+.tabs a{padding:9px 15px;font-size:13.5px;color:var(--sub);text-decoration:none;border-radius:9px;display:flex;align-items:center;gap:7px}
+.tabs a.on{background:#eef5f2;color:var(--accd);font-weight:700}
+.tabs a:hover{background:#f1efe9}
+.tabs .bdg{background:var(--verm);color:#fff;font-size:10px;font-weight:700;border-radius:20px;padding:1px 7px}
+.sp{flex:1}
+.prov{font-size:11px;color:var(--muted);text-align:right;line-height:1.4}
+.av{width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+.wrap{max-width:1080px;margin:0 auto;padding:26px 30px}
+.hello{font-size:20px;font-weight:700;margin-bottom:4px}
+.hello span{color:var(--acc)}
+.sub{color:var(--muted);font-size:13px;margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-top:18px}
+.card h3{font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.tag{font-size:11px;font-weight:700;color:var(--acc);background:#e8f3ef;border-radius:20px;padding:3px 10px;margin-left:auto}
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;border-radius:9px;padding:9px 16px;border:0;cursor:pointer;text-decoration:none}
+.btn.pri{background:var(--acc);color:#fff}.btn.gho{background:#fff;border:1.4px solid var(--line);color:var(--ink)}
+.muted{color:var(--muted)}.sm{font-size:12px}
+.toc{display:flex;flex-wrap:wrap;gap:8px}
+.toc a{font-size:12.5px;color:var(--accd);background:#eef5f2;border-radius:20px;padding:6px 13px;text-decoration:none;font-weight:700}
+.toc a:hover{background:#e2efe9}
+.lead{font-size:13.5px;line-height:1.85;color:#3c4150;margin:8px 0}
+.steps{margin:8px 0 8px 4px;padding-left:20px}
+.steps li{font-size:13.5px;line-height:1.85;margin:4px 0;color:#3c4150}
+.note{background:#faf5e8;border:1px solid #ecdfc0;border-radius:10px;padding:12px 15px;margin-top:12px;font-size:13px;line-height:1.8;color:#5a5040}
+.note b{color:var(--gold)}
+.contact{display:flex;gap:10px;margin-top:12px}
+@media(max-width:820px){
+ .top{flex-wrap:wrap;height:auto;padding:10px 16px;gap:8px}
+ .brand{flex:none}.prov{display:none}.av{display:none}
+ .tabs{order:3;width:100%;overflow-x:auto;margin-left:0}
+ .tabs a{white-space:nowrap;padding:8px 12px}
+ .wrap{padding:18px 16px}
+}
+</style></head><body>
+<div class="top">
+ <div class="brand"><span class="mk">櫻</span><span><b>炭火・地酒 さくら亭</b><small>店舗オーナー ポータル</small></span></div>
+ <nav class="tabs"><a href="home.html" class="">成果ホーム</a><a href="reviews.html" class="">口コミ承認 <span class="bdg">2</span></a><a href="report.html" class="">月次レポート</a><a href="site.html" class="">自店サイト</a><a href="help.html" class="on">使い方</a></nav>
+ <div class="sp"></div>
+ <div class="prov">提供：Musubi<br>サポート 090-0000-0000</div>
+ <div class="av">佐</div>
+</div>
+<div class="wrap">
+<div class="hello">ポータルの<span>使い方</span></div>
+<div class="sub">よく使う画面の見方・操作方法をまとめています。</div>
+
+<div class="card">
+ <h3>目次</h3>
+ <nav class="toc">
+  <a href="#intro">はじめに</a>
+  <a href="#login">ログイン・パスワード</a>
+  <a href="#home">成果ホームの見方</a>
+  <a href="#reviews">口コミ返信の承認</a>
+  <a href="#report">月次レポートの見方</a>
+  <a href="#site">サイトのセルフ編集</a>
+  <a href="#pay">お支払い</a>
+  <a href="#contact">困ったときは</a>
+ </nav>
+</div>
+
+<div id="intro" class="card">
+ <h3>はじめに</h3>
+ <p class="lead">Musubi 顧客ポータルは、お店のオーナー様がご自身のWebサイトの成果を確認したり、日々の運用に関わる作業をまとめて行うための管理画面です。</p>
+ <p class="lead">「成果ホーム」でサイトの状況をひと目で確認できるほか、サイトの文章・画像のセルフ編集、お支払い方法の登録・変更、Musubi運営へのご連絡がここから行えます。飲食店向けプランでは、これに加えて口コミへのAI返信の承認や月次レポートの閲覧もご利用いただけます。</p>
+</div>
+
+<div id="login" class="card">
+ <h3>ログイン・パスワード</h3>
+ <p class="lead">ご契約時にお送りする招待メールのリンクから、はじめにログイン用パスワードを設定していただきます。以降は、ログイン画面でご登録のメールアドレスとパスワードを入力してログインしてください。</p>
+ <div class="note"><b>パスワードを忘れてしまった場合</b><br>現在、パスワードの自己再設定は行えません。お手数ですが「困ったときは」に記載の連絡先までご連絡ください。運営側で再設定のご案内をいたします。</div>
+</div>
+
+<div id="home" class="card">
+ <h3>成果ホームの見方</h3>
+ <ul class="steps">
+  <li>ログイン後の最初の画面です。サイト制作の進行状況（契約・制作・運用中）が上部に表示されます。</li>
+  <li>「今やること」には、その時点で対応していただきたい操作（打ち合わせの予約、公開前プレビューの確認など）が案内されます。</li>
+  <li>サイト訪問数・ネット予約・問い合わせ件数・Google評価をKPIカードで確認できます。</li>
+  <li>下部の「やること」欄には、承認待ちの口コミや、公開済みの月次レポートなど、確認が必要な項目がまとめて表示されます。</li>
+ </ul>
+ <p class="lead">サイト公開直前の確認段階では、ここに完成プレビューが表示され、「承認する」ボタンで公開の許可を出せます。</p>
+</div>
+
+<div id="reviews" class="card">
+ <h3>口コミAI返信の承認フロー</h3>
+ <ul class="steps">
+  <li>Googleに口コミが届くと、MusubiのAIがお店に合わせた返信案を自動で用意します。</li>
+  <li>「口コミ承認」を開くと、届いた口コミと返信案が一覧表示されます（承認待ちの件数はタブにバッジで表示されます）。</li>
+  <li>内容を確認し、<b>承認する</b>（AIの返信案のまま投稿待ちにする）・<b>文章を直す</b>（返信案を編集してから保存）・<b>今回はスキップ</b>（この口コミには返信しない）のいずれかを選びます。</li>
+ </ul>
+ <p class="lead">承認すると「投稿待ち」の状態になり、Google連携の準備が整い次第まとめて投稿されます。評価が低い口コミや内容に注意が必要な口コミには「要確認・慎重に」の表示が付きますので、投稿前によくご確認ください。</p>
+</div>
+
+<div id="report" class="card">
+ <h3>月次レポートの見方</h3>
+ <p class="lead">毎月、前月分の実績がまとまり次第「月次レポート」ページに公開されます。公開されると成果ホームの「やること」欄にもお知らせが出ます。</p>
+ <ul class="steps">
+  <li>サイト訪問数・ネット予約・電話タップ数・問い合わせ件数を、前月との増減つきで確認できます。</li>
+  <li>Google評価・口コミ件数・検索/マップでの表示回数・口コミ返信率もあわせて確認できます。</li>
+  <li>その月の口コミ状況（件数・評価・返信率）がコメントとしてまとめられます。</li>
+ </ul>
+</div>
+
+<div id="site" class="card">
+ <h3>サイトのセルフ編集</h3>
+ <p class="lead">サイト公開後は「自店サイト」ページから、公開中のサイトの確認・編集ができます。「サイトを編集」を開くと、専用の編集画面に切り替わります。</p>
+ <ul class="steps">
+  <li>編集画面で、直したい文章・画像・リンクをサイト上でクリックするか、右側の一覧から選びます。</li>
+  <li>選んだ項目の内容を右側パネルで直接書き換えます。同じ文言が複数箇所にある場合はまとめて反映されます。</li>
+  <li>「編集モード／閲覧モード」を切り替えると、サイトを操作しながら確認できます（閲覧モードでは編集操作は行われません）。</li>
+  <li>直した内容は「下書き保存」でいつでも保存できます。下書き保存の回数に制限はありません。</li>
+  <li>お客様に見える形で反映するには「公開する」を押します。</li>
+ </ul>
+ <div class="note">編集も公開も、回数の制限はありません。どのプランでも何度でも直して公開できます。公開のたびに直前の内容が自動で保存され、「公開履歴」からいつでも以前の内容に戻せます。</div>
+</div>
+
+<div id="pay" class="card">
+ <h3>お支払い</h3>
+ <p class="lead">「お支払い」ページの「お支払い方法を登録・変更する」から、Stripeの安全なお支払いページへ進みます。そこでクレジットカードの登録・変更が行えます。</p>
+</div>
+
+<div id="contact" class="card">
+ <h3>困ったときは</h3>
+ <p class="lead">ご不明点やご要望は「メッセージ」ページからいつでもMusubi運営にご連絡いただけます。やり取りの履歴はそのまま画面に残ります。</p>
+ <div class="contact"><a class="btn pri" href="home.html">メッセージを送る</a><a class="btn gho" href="tel:0900000000">お電話（090-0000-0000）</a></div>
+</div>
+</div>
+</body></html>

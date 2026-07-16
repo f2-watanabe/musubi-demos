@@ -66,7 +66,15 @@ details.logentry>summary:hover{color:var(--acc)}
 <li><strong>Webhook の設定</strong>: <code>STRIPE_WEBHOOK_SECRET</code> は登録済み・稼働中です（2026-07-15）。Stripe ダッシュボードの Webhook エンドポイントは <code>https://admin.musubiweb.com/api/stripe/webhook</code> に設定してあり、署名シークレットを Vercel 環境変数 <code>STRIPE_WEBHOOK_SECRET</code> に登録済みです。入金・失敗ステータスの同期、および初期費用のカード決済（Payment Link）完了時の自動 paid 化が動作します。</li>
 <li><strong>顧客のカード登録（Billing Portal）</strong>: 顧客ポータルの「お支払い」タブ（<code>/pay</code>）は Stripe の Customer Portal（Billing Portal）を使ってカード登録・変更を行う。これを動かすには、<strong>musubi-portal 側の Vercel 環境変数にも <code>STRIPE_SECRET_KEY</code></strong>（admin と同一 Stripe アカウントのキー）を設定し、かつ <strong>Stripe ダッシュボードで Customer Portal を有効化</strong>しておく必要がある。どちらか未構成だと <code>/pay</code> でのセッション作成が失敗する。※本対応は実施済み。</li>
 <li>保管場所: Stripe ダッシュボード、Vercel（musubi-admin・musubi-portal）環境変数。</li>
+<li><strong>【TODO・本番切替（あとでやる）】</strong>（2026-07-16 追加。現在は本番 env もテストキーの疑いが強く、コストモニタの Stripe 費用 $5.94 はテストモードの疑似手数料）:</li>
 </ul>
+<ol>
+<li>Stripe ダッシュボード（本番モード）で Secret key を取得。</li>
+<li><code>cd musubi-admin &amp;&amp; STRIPE_SECRET_KEY=sk_live_... node scripts/stripe_setup.mjs</code> を実行し、本番の price ID 3つを得る。</li>
+<li>Vercel（musubi-admin）の production 環境変数 <code>STRIPE_SECRET_KEY</code>・<code>STRIPE_PRICE_LIGHT/STANDARD/PREMIUM</code> を差し替え（musubi-portal 側の <code>STRIPE_SECRET_KEY</code> も同時に）。</li>
+<li>Stripe 本番モードで webhook <code>https://admin.musubiweb.com/api/stripe/webhook</code> を作成し、署名シークレットを <code>STRIPE_WEBHOOK_SECRET</code> に設定。Customer Portal（Billing Portal）の本番モード有効化も確認。</li>
+<li>admin/portal を redeploy して疎通確認（テスト決済1件→ webhook 反映まで）。</li>
+</ol>
 <h3>A-2. メール（Resend）</h3>
 <ul>
 <li>設定済み（対応不要）。送信ドメイン <code>send.musubiweb.com</code> は検証済み、Supabase 認証メール（招待）も Resend 経由。招待メールが迷惑メール／プロモーションタブに入る場合があるため、顧客には「Musubi からのメールを確認してください」と案内すると親切。</li>
