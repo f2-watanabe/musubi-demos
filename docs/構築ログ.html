@@ -68,7 +68,8 @@ details.logentry>summary:hover{color:var(--acc)}
 <li><strong>Why</strong>: ユーザー指示（縦書き復元・更新対応0/1/3+可能表記・本番差し替え・請求解約ボタン不要・固定費可視化・資料最新化・Stripeは後回し）。</li>
 <li><strong>How</strong>: LP編集は直接編集+git履歴からの復元、admin/portal はテスト駆動で変更（contractTemplate は両リポ複製同期必須のヘッダ規約に従い同時修正）。資料監査はサブエージェントで grep+通読の全数チェック。デプロイは wrangler pages deploy、反映は curl で本番HTML の文字列を実確認。</li>
 <li><strong>Result</strong>: 本番LPが最新版（3つの柱・LINE予約2段・更新対応0/1/3可能・縦書き復元）。admin 451/portal 89 テスト全パス・両ビルド成功。ハブのデモ・手順書・資料が現行仕様と一致。</li>
-<li><strong>証跡</strong>: local-web-sales <code>fc18298</code>・<code>3df9862</code>・<code>966dc44</code>、musubi-admin <code>0ddf5df</code>・<code>bc5ff5a</code>、musubi-portal <code>dc6ce55</code>、musubi-demos <code>7619d50</code>。musubi-www デプロイ <code>5c487aa9</code>/<code>422920c9</code>（apex 実確認済み）。<strong>残</strong>: migration 0033 の本番適用（ユーザー承認待ち）、Stripe 本番切替（A-1 TODO）。</li>
+<li><strong>証跡</strong>: local-web-sales <code>fc18298</code>・<code>3df9862</code>・<code>966dc44</code>、musubi-admin <code>0ddf5df</code>・<code>bc5ff5a</code>、musubi-portal <code>dc6ce55</code>、musubi-demos <code>7619d50</code>。musubi-www デプロイ <code>5c487aa9</code>/<code>422920c9</code>（apex 実確認済み）。<strong>残</strong>: Stripe 本番切替（A-1 TODO）。</li>
+<li><strong>追記（2026-07-16）</strong>: migration <code>0033_fixed_costs</code> をユーザー承認のうえ本番（hsyhiiqrrtrbxexqyixi）へ適用（Supabase MCP 経由）。テーブル存在・RLS有効・ポリシー1件をクエリで実確認。/costs の固定費入力が本番で有効。</li>
 </ul>
 </div></details>
 <details class="logentry"><summary>2026-07-16 ・ エディタ編集体験の全面改善、公開無制限ポリシー、LP調整、business刷新、ポータルマニュアル</summary><div class="logbody">
