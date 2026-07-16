@@ -70,6 +70,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li><strong>Result</strong>: 本番LPが最新版（3つの柱・LINE予約2段・更新対応0/1/3可能・縦書き復元）。admin 451/portal 89 テスト全パス・両ビルド成功。ハブのデモ・手順書・資料が現行仕様と一致。</li>
 <li><strong>証跡</strong>: local-web-sales <code>fc18298</code>・<code>3df9862</code>・<code>966dc44</code>、musubi-admin <code>0ddf5df</code>・<code>bc5ff5a</code>、musubi-portal <code>dc6ce55</code>、musubi-demos <code>7619d50</code>。musubi-www デプロイ <code>5c487aa9</code>/<code>422920c9</code>（apex 実確認済み）。<strong>残</strong>: Stripe 本番切替（A-1 TODO）。</li>
 <li><strong>追記（2026-07-16）</strong>: migration <code>0033_fixed_costs</code> をユーザー承認のうえ本番（hsyhiiqrrtrbxexqyixi）へ適用（Supabase MCP 経由）。テーブル存在・RLS有効・ポリシー1件をクエリで実確認。/costs の固定費入力が本番で有効。</li>
+<li><strong>追記2（2026-07-16）</strong>: (1) コストモニタの「未接続」表示を解消（admin <code>35e6109</code>・未push）— 自動取得は Anthropic/Stripe の2枠に再構成し、バッジを「取得済/キー未設定(env名明示)/取得エラー」へ。Vercel/Supabase/Resend/Cloudflare/GA4 は無料プラン運用のため自動取得対象から外し「有料化したら固定費に登録」の注記に変更。<code>ANTHROPIC_ADMIN_KEY</code> は本番設定済みを確認（名前のみ）。(2) サービス価格表・提案資料を最新化（local-web-sales <code>a0b58f2</code>・demos <code>1bf3b64</code>）— 提案資料の料金スライドに LINEかんたん/自動予約・セルフ編集無制限・0/1/3回更新を反映、価格表の行溢れ修正、pptx+PDF 再生成（pdftotext で新特典の掲載を実確認）、ハブの複製PDFも差し替え。</li>
 </ul>
 </div></details>
 <details class="logentry"><summary>2026-07-16 ・ エディタ編集体験の全面改善、公開無制限ポリシー、LP調整、business刷新、ポータルマニュアル</summary><div class="logbody">
