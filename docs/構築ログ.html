@@ -62,6 +62,20 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-18 ・ 財務機能、LINE公式アカウント連携（通知/顧客連携/メッセージ移行）、パスワード再設定、E2Eデータ削除</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>:</li>
+<li><strong>財務機能</strong>（admin <code>d8ec08f</code>・migration <code>0034_finance</code> 適用済）: /costs を財務ページ化。12ヶ月収支グラフ（収入=請求実績+Stripe入金併記、経費=固定費+スポット+固定給。inline SVG 自作）、月次内訳（月セレクタ）、給料計算（利益×プール%留保→分配%配分+立替精算+固定給。利益マイナス月は分配0）、スポット経費・メンバーCRUD。ダッシュボードにミニグラフ。</li>
+<li><strong>LINE公式アカウント連携 Phase1〜3</strong>（admin <code>c492625</code>〜<code>37e9ca2</code>・portal <code>09985c9</code>/<code>a7d8946</code>・migration <code>0035_line</code>/<code>0036_line_push_log</code>/<code>0037_messages_line_source</code> 適用済）: (P1) 顧客イベント7種（申込/メッセージ/承認/ヒアリング/決済失敗/契約合意/打合せ予約）を運営LINEへ push（/settings でON/OFF・メール併用）。webhook は署名検証+「登録 &lt;合言葉&gt;」でスタッフ登録。(P2) 店舗詳細から8桁連携コード発行→顧客が公式LINEに送信で紐付け。(P3) 連携済み顧客のLINE発言を messages に source=&#x27;line&#x27; で記録+運営転送（画像等はプレースホルダー・未連携者は転送のみ）、スタッフ返信は顧客LINEへ併送（結果を line_push_status に記録）、push使用量 n/200通 を /settings に表示。セキュリティ対応2件=連携コードのCSPRNG化・スタッフ登録の fail-closed 化（timingSafeEqual）。middleware 公開パスに /api/line/webhook・notify-staff を追加（未登録だと307でwebhook不達だった）。LINE公式アカウント作成・env 3件（トークン/シークレット/合言葉）登録・Webhook接続・「登録」疎通はユーザー実施で確認済み。運用設定=チャットON/Webhook ON/応答メッセージOFF。</li>
+<li><strong>ポータルのパスワード忘れセルフ対応</strong>（portal <code>c90e6e9</code>）: /login に導線、/forgot-password（列挙攻撃対策の同一応答）→ 既存の招待用 /auth/confirm を next ホワイトリスト方式で拡張して着地 → /reset-password。/help も更新。「使い方」はナビタブから右上ボタンに変更済（<code>e1bfbe5</code>）。</li>
+<li><strong>本番E2Eデータの完全削除</strong>（2026-07-17）: 店舗4件+関連行+authユーザー3件（DB・残存ゼロ実確認）、Cloudflare Pages 5プロジェクト+DNS 2件、Stripeテスト customer 7件（CLI認証の上で削除・残存0件確認）。</li>
+<li><strong>Why</strong>: 経費・給料・収支の一元管理（ユーザー要望: 毎月/スポット両対応・毎月のグラフと内訳・人数増を見越した分配式給料計算）。顧客接点をLINEに移行し通知の即時性と顧客の返信ハードルを下げるため。パスワード忘れの運営手動対応を無くすため。テストデータの本番残置解消のため。</li>
+<li><strong>How</strong>: 実装は sonnet サブエージェント分担+セキュリティ自動レビュー指摘に即応。テスト駆動（admin 575/portal 114 全パス・両build成功）。migration は都度ユーザー承認→Supabase MCP適用→存在/RLS/行数をクエリ実確認。webhook はデプロイ後に 401（署名なし拒否）を実測して稼働確認。</li>
+<li><strong>Result</strong>: 財務・LINE通知・LINE連携・LINEメッセージ・パスワード再設定がすべて本番デプロイ済み（admin <code>37e9ca2</code>・portal <code>a7d8946</code> push済）。運営LINEへの通知疎通はユーザー確認済み。</li>
+<li><strong>証跡</strong>: 上記コミット群・migration 0034〜0037（本番適用+検証クエリ）・webhook 401実測・vitest/build結果・本エントリ。</li>
+<li><strong>残タスク</strong>: Stripe本番切替（A-1 TODO）。LINEメッセージ移行の実地テスト（連携コード→顧客連携→往復）とパスワード再設定のメール実受信テストはユーザー確認待ち。push無料枠200通/月の運用注意。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-16 ・ LP本番差し替え、更新対応0/1/3回化、請求解約ボタン廃止、固定費モニタ、ハブ資料全面同期</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) <strong>LP本番差し替え</strong>=<code>07_マーケサイト/</code> を Cloudflare Pages <code>musubi-www</code> へ <code>--branch=main</code> でデプロイ（初回 master ブランチ指定は Preview 扱いになる罠を確認。本番は main）。musubiweb.com / /business とも新版配信を実確認。ヒーローの縦書き「口コミで選ばれる店にこそ、公式サイトを。」を復元（<code>fc18298</code>）。(2) <strong>Musubi側更新対応を 0/1/3回に変更</strong>=LP・business・契約書ひな形（admin <code>0ddf5df</code>・portal <code>dc6ce55</code>、複製同期）で ライト0回（更新代行なし・セルフ編集無制限を条項明記）/スタンダード月1回可能/プレミアム月3回可能 に統一。(3) <strong>請求のみ解約ボタン廃止</strong>（admin <code>bc5ff5a</code>）=billing の Stripe サブスク解約だけを行う単独動線を削除、解約は closeProject フローに一本化。(4) <strong>コストモニタに固定費（手動登録・円）</strong>（同コミット）=migration <code>0033_fixed_costs</code>（<strong>本番未適用</strong>）+ /costs の追加/編集/削除UI。未適用時は案内表示。(5) <strong>ハブ資料全面同期</strong>（<code>3df9862</code>・<code>966dc44</code>・demos <code>7619d50</code>）=利益試算・ロードマップ付録B・price_sheet.py・サービス価格表.pptx・adminデモ(billing/costs)・portalデモ（「使い方」タブ+help.html新設）・汎用ライン運用手順書（公開回数無制限に修正）・ハブindexリンク補完。(6) <strong>Stripe本番切替はTODO化</strong>=<code>自社タスク一覧_手動対応事項.md</code> A-1 に切替5手順を追記（コストモニタの $5.94 はテストキーの疑似手数料と特定済み）。</li>
