@@ -71,6 +71,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li><strong>ハブが開けない障害</strong>: 原因 = GitHub Pages のカスタムドメイン（demo.musubiweb.com、CNAME は 7/4 設定）への 301 リダイレクト先が http:// で、ブラウザのHTTPS強制環境（スマホ等）で開けなかった。<code>gh api</code> で Enforce HTTPS を有効化（https_enforced: true。CDN反映に時間がかかる場合あり）。正URLは https://demo.musubiweb.com/ 。</li>
 <li><strong>Result</strong>: admin vitest 674/674・build 成功。LP反映済み。admin はコミットのみ・未push（push 後に /partner が有効化）。</li>
 <li><strong>証跡</strong>: 上記コミット・migration 0041・gh api 実行結果・本エントリ。</li>
+<li><strong>追記（同日・push後のE2Eテスト）</strong>: /partner を本番で実登録テスト。コード即時発行・DB登録・LP <code>?ref=</code> 自動入力はOK。成功画面が Server Component のイベントハンドラ（onFocus）による実行時例外で落ちるバグを発見 → 除去して修正 push（admin <code>以降のコミット</code>）。再デプロイ後に成功画面の正常表示（コード・コピー付きリンク・3ステップ）をスクリーンショットで確認、テストデータは削除済み。HTTPS強制も反映され <code>http→https</code> 301 を実測（ハブ障害クローズ）。</li>
 </ul>
 </div></details>
 <details class="logentry"><summary>2026-07-19 ・ 予約システムマニュアル（画像付き）作成、ポータル体感速度改善</summary><div class="logbody">
