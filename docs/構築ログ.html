@@ -62,6 +62,17 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-20 ・ 説明資料・提案資料をゼロから刷新（HTML→PDF・パートナーガイド掲載）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 従来の pptx 系とは別に、公開配布用の2資料を LP のデザイントークン（墨×生成り×緑・明朝見出し）でゼロから作成。</li>
+<li><strong>Musubi サービス説明資料</strong>（about-musubi.html / .pdf・6ページ）: 表紙→Musubiとは（課題→3つの柱）→できること一覧→料金（飲食3+企業3+カスタム・縛りなし）→選ばれる理由→導入の流れ。</li>
+<li><strong>ご提案資料・飲食店さま向け</strong>（proposal.html / .pdf・7ページ）: 表紙「口コミで選ばれる店にこそ、公式サイトを。」→お悩み4つ→解決3本柱→ネット予約の体験（客側5ステップ/店側4項目）→口コミAI・レポート・セルフ編集→料金+回収試算（月4組・※試算明記）→導入の流れ+FAQ。</li>
+<li>いずれも A4 1セクション=1ページの印刷設計。Chrome headless で PDF 化し、musubiweb.com 直下に HTML/PDF とも公開（LPデプロイ済み）。<strong>実績数値は一切記載しない</strong>方針を維持。</li>
+<li>紹介者向け営業ガイド（md+公開HTML）の「紹介のしかた」に「お店に渡せる資料」としてリンク掲載。</li>
+<li><strong>Result</strong>: 紹介パートナーが渡せる公式資料が公開URLで配布可能に。PDF の全ページを目視検品済み（内部向け文言の混入1件を修正）。</li>
+<li><strong>証跡</strong>: musubiweb.com/about-musubi.html /proposal.html /about-musubi.pdf /proposal.pdf・本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-20 ・ 財務高速化・パートナー募集LP（制度統一）・プレミアム再定義・出し分け・customプラン改善</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>（admin <code>7dbc528</code>〜<code>baf8430</code> の4コミット・local-web-sales 1コミット・LP本番デプロイ済み）:</li>
