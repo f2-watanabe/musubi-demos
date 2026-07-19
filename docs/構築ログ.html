@@ -75,6 +75,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li><strong>Result</strong>: admin vitest 583/583 パス・build 成功、portal build 成功。全変更コミット済み（アプリ2リポの push はユーザー指示待ち）。</li>
 <li><strong>証跡</strong>: 上記コミット群・migration 0038 適用+登録行の実確認・本エントリ。</li>
 <li><strong>補足</strong>: 連携コードは有効期限7日・期限内は同一コードを再利用、期限切れ/使用済み後はポータルのメッセージページ表示時に自動で新コードを発行（仕様確認のみ・変更なし）。</li>
+<li><strong>追記（同日）</strong>: <strong>給料計算に赤字繰越を導入</strong>（admin <code>bd23df3</code>）。赤字月は分配0のまま赤字を累積繰越し、以降の月は「当月利益−繰越赤字」（繰越後利益）がプラスの分だけプール控除→分配する。繰越は最古の実績月（初回入金/スポット経費）から選択月の前月までを全期間自動累積（固定費・固定給は現在値を過去月にも適用する既存の簡略化モデルを踏襲）。給料計算表に「赤字繰越」表示と利益の内訳（当月+繰越）を追加。vitest 590/590・build 成功。</li>
 </ul>
 </div></details>
 <details class="logentry"><summary>2026-07-18 ・ 財務機能、LINE公式アカウント連携（通知/顧客連携/メッセージ移行）、パスワード再設定、E2Eデータ削除</summary><div class="logbody">
