@@ -62,6 +62,18 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-20 ・ 財務高速化・パートナー募集LP（制度統一）・プレミアム再定義・出し分け・customプラン改善</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>（admin <code>7dbc528</code>〜<code>baf8430</code> の4コミット・local-web-sales 1コミット・LP本番デプロイ済み）:</li>
+<li><strong>財務ページ高速化</strong>: 遅さの主因は外部APIの重複取得（Stripe balanceTransactions 全件ページング×3・Anthropic cost_report×2）。統合関数化で 5系列→2系列 に削減し、外部APIに10分キャッシュ（unstable_cache）。DB系は常に最新のまま。769テスト・build成功。</li>
+<li><strong>紹介制度の統一と公開アフィリエイト</strong>: 個人/業者の2本立てを廃止し全員「月額30%×6ヶ月」に統一（規約第5条改定・2026-07-20附則、公開 partner-terms.html も同期）。partner.musubiweb.com を新設（DNS+Vercel+ホスト振分）し /partner を募集LP化（ヒーロー・3ステップ・報酬例27,000〜45,000円/件・FAQ・登録フォーム）。ガイド/提案書/報酬マニュアル/事業拡大方針も統一後に更新。</li>
+<li><strong>プレミアム再定義</strong>: 「公式LINEまるごと導入代行」（開設・応答設定・リッチメニュー・友だち追加QR/POP・LINE自動予約接続）をプレミアムの柱に。LINEかんたん予約はプレミアム専用へ移動し、スタンダードは「ネット予約で完結（自動確定・リマインド・オンラインキャンセル・管理画面）」訴求に。LP・価格表・提案資料PDF再生成（pdftotext で反映確認）。運営向け「公式LINE導入代行手順」新規作成しハブ掲載。LPにセルフ編集訴求とFAQ追加。</li>
+<li><strong>飲食/企業の出し分け</strong>: admin 店舗詳細の LINE自動予約カードと予約管理ページの店舗セレクトを restaurant 店舗限定に（businessLineFromTemplate）。portal は監査の結果、既に全機能分岐済みで差分ゼロ。</li>
+<li><strong>customプラン改善</strong>: 月額入力だけで Stripe price を自動作成（共有Product「Musubi カスタムプラン」で同額再利用・増殖防止）。billing 手動開始と納品（createSubscriptionWithTrial）の両経路に適用。個別見積もり案件の Stripe 手作業が不要に。</li>
+<li><strong>Result</strong>: admin 769/769・build成功。LP/資料は本番反映済み。admin/portal はコミット済み（このあと push）。</li>
+<li><strong>証跡</strong>: 上記コミット・LPデプロイ・DNS/Vercelドメイン追加・本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-19 ・ 顧客サイト死活監視・紹介報酬マニュアル・サンドボックス実績削除・ポータル汎用化</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>:</li>
