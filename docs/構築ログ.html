@@ -62,6 +62,20 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-20 ・ 営業ガイド限定化・LP4本柱・プラン機能マトリクス・LINE活用ガイド・登録メール・営業リスト収集</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>:</li>
+<li><strong>営業ガイドを登録パートナー限定に</strong>（admin <code>2b5c797</code>・776テスト/build成功）: partner.musubiweb.com/guide を新設し紹介コード認証（active照合）で閲覧。musubiweb.com/partner-guide.html は案内ページ化（本文撤去）。<strong>登録完了メール</strong>も実装 — コード・紹介リンク2種・コード付きガイドURL・規約・報酬条件を自動送付（既存メール再登録時も再送）。</li>
+<li><strong>LP 4本柱化</strong>（デプロイ済み）: セルフ編集を4本目の柱に昇格（「支える、4つの柱。」）。FAQの旧文言（更新は全部こちら）とセルフ編集訴求の矛盾も修正。</li>
+<li><strong>プラン機能マトリクス</strong>（内部・ハブ掲載）: コードを正として飲食3+企業3+カスタム×機能を細粒度で網羅。コードとLPの食い違い3件（企業プラン名称表記・LINE自動予約/独自ドメインにプラン強制なし=運用判断)を⚠付きで文書化。</li>
+<li><strong>公式LINE活用ガイド</strong>（プレミアム店舗向け・ハブ掲載）: 導入直後チェックリスト・友だち集め・月1配信の型と文例・リッチメニュー・効果の見方・FAQ。運営LINEと店舗LINEの区別を明記。</li>
+<li><strong>GA4計測の現状回答</strong>: 自動ではない — テンプレは measurement_id 設定時のみタグ出力。店舗ごとのGA4セットアップが必要（現状未設定=未計測）。</li>
+<li><strong>営業リスト（東京）収集開始</strong>: Places API(New) で主要10エリア×飲食6業種を収集中（★4以上・口コミ20+・公式サイト無し）。※APIキーがチャットに貼られたため、<strong>Places APIのみへのキー制限（または再発行）を推奨</strong>。</li>
+<li><strong>グルメサイト予約連携の検討回答</strong>: 公式API・台帳連携は現段階で不可（法人パートナー契約要）。スクレイピングは非推奨。現実解=予約通知メールの自動取込（Cloudflare Email Routing + パーサー→外部予約として登録）を提案、サンプルメール待ち。</li>
+<li><strong>Result</strong>: admin コミット済み（push待ち）。LP・docs反映済み。</li>
+<li><strong>証跡</strong>: 上記コミット・LPデプロイ・本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-20 ・ 説明資料・提案資料をゼロから刷新（HTML→PDF・パートナーガイド掲載）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 従来の pptx 系とは別に、公開配布用の2資料を LP のデザイントークン（墨×生成り×緑・明朝見出し）でゼロから作成。</li>

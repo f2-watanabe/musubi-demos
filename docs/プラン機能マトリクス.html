@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>プラン機能マトリクス（内部・機能×プラン網羅） — Musubi</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22262f;--acc:#127b66;--verm:#b5402e;--gold:#c8893f;--bg:#f6f4ef;--line:#e8e2d6;--sub:#6f6a60;--muted:#8b8578}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.85}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 90px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.top a{font-size:13px;color:var(--acc);text-decoration:none;font-weight:700}
+.brand{display:flex;align-items:center;gap:10px;margin:14px 0 26px}
+.brand .mk{width:40px;height:40px;object-fit:contain;display:block}
+.brand b{font-size:16px;letter-spacing:.03em}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:.16em}
+h1{font-size:27px;margin:6px 0 14px;letter-spacing:.01em}
+h2{font-size:20px;margin:34px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 8px;color:var(--acc)}
+p{margin:10px 0;font-size:14.5px}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}
+li{font-size:14.5px;margin:5px 0}
+ul.task{list-style:none;padding-left:2px}
+ul.task li{display:flex;gap:10px;align-items:flex-start}
+ul.task .bx{flex:none;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--muted);margin-top:3px;display:grid;place-items:center;font-size:12px;color:#fff}
+ul.task li.done .bx{background:var(--acc);border-color:var(--acc)}
+ul.task li.done span{color:var(--sub)}
+strong{font-weight:700}
+code{background:#efece4;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+pre{background:#fbfaf7;border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow:auto;margin:14px 0}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.6;white-space:pre}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+th{background:#eef3f0;font-weight:700}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+a{color:var(--acc)}
+blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px;margin:12px 0;color:var(--sub);font-size:13.5px}
+img.shot{display:block;max-width:100%;height:auto;margin:14px 0 6px;border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+p:has(>img.shot){margin:16px 0}
+details.logentry{border:1px solid var(--line);border-radius:10px;background:#fbfaf7;margin:10px 0;overflow:hidden}
+details.logentry>summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+details.logentry>summary::-webkit-details-marker{display:none}
+details.logentry>summary::before{content:"▶";font-size:10px;color:var(--acc);transition:transform .15s}
+details.logentry[open]>summary::before{transform:rotate(90deg)}
+details.logentry[open]>summary{border-bottom:1px solid var(--line);background:#f2efe7}
+details.logentry>summary:hover{color:var(--acc)}
+.logbody{padding:4px 18px 16px}
+.logbody h2{border-top:none;padding-top:0;margin-top:14px}
+.note{margin-top:46px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+@media print{.top,.brand{display:none}body{background:#fff}.wrap{padding:0}h2{break-after:avoid}}
+</style></head>
+<body><div class="wrap">
+<div class="top"><a href="../index.html">← デモ一覧に戻る</a></div>
+<div class="brand"><img class="mk" src="../assets/musubi-mark.png" alt="Musubi"><span><b>Musubi</b><small>環境構築ドキュメント</small></span></div>
+<h1>プラン機能マトリクス（内部用）</h1>
+<p>「プランごとに何ができるか」が分かりにくいという声を受けて、コード（musubi-admin / musubi-portal）を正の情報源として機能を粒度細かく棚卸しした内部資料。営業・サポート対応時の一次参照に使う。</p>
+<p><strong>読み方の注意</strong>: ○＝コード上ゲートされて確実に使える／使えない。「運用のみ」＝コード上は全プラン共通で技術的に制限されていないが、営業・契約・料金上そのプランの標準として案内している機能（スタッフが手動設定すれば他プランでも技術的には動く）。この違いを区別して書いている。</p>
+<hr>
+<h2>1. 前提：ライン判定とプラン体系</h2>
+<h3>1-1. 飲食／企業の判定（ライン判定）</h3>
+<p><code>musubi-portal/lib/businessLine.ts</code>（<code>musubi-admin/lib/contractTemplate.ts</code> に複製あり・要同期）:</p>
+<pre><code>RESTAURANT_TEMPLATES = [&#x27;restaurant&#x27;, &#x27;sushi&#x27;, &#x27;cafe&#x27;, &#x27;ramen&#x27;]
+テンプレートがこの4つ → restaurant（飲食向け）
+それ以外すべて         → general（企業・その他向け）</code></pre>
+<p>サイトのテンプレート種別（<code>stores.template</code>）で自動判定される。プラン名（light/standard/…と biz_light/biz_standard/…）そのものではなく、<strong>テンプレート種別がラインを決める</strong>。飲食向けプラン契約でも <code>general</code> テンプレートを選べば企業向け扱いになりうる（通常運用ではしないが、コード上の制約ではない）。</p>
+<h3>1-2. プラン体系（<code>musubi-admin/lib/plans.ts</code>）</h3>
+<table><thead><tr><th>plan key</th><th>表示ラベル（コード）</th><th>初期費用</th><th>月額</th></tr></thead><tbody><tr><td><code>light</code></td><td>ライト</td><td>50,000円</td><td>5,000円</td></tr><tr><td><code>standard</code></td><td>スタンダード</td><td>100,000円</td><td>15,000円</td></tr><tr><td><code>premium</code></td><td>プレミアム</td><td>150,000円</td><td>20,000円</td></tr><tr><td><code>biz_light</code></td><td>企業シンプル</td><td>98,000円</td><td>8,000円</td></tr><tr><td><code>biz_standard</code></td><td>企業コーポレート</td><td>248,000円</td><td>15,000円</td></tr><tr><td><code>biz_premium</code></td><td>企業プレミアム</td><td>398,000円</td><td>25,000円</td></tr><tr><td><code>custom</code></td><td>カスタム（個別見積）</td><td>スタッフ手入力</td><td>スタッフ手入力</td></tr></tbody></table>
+<p>⚠要確認: <code>07_マーケサイト/business.html</code>（企業向けLP）は3プランを <strong>「ライト／スタンダード／プレミアム」と、飲食向けと同じプラン名で表示</strong>している（コード上のラベルは「企業シンプル／企業コーポレート／企業プレミアム」）。金額（98,000/8,000・248,000/15,000・398,000/25,000）は完全一致しているため実害はないが、名称は揃っていない。本書では区別のため以降「シンプル／コーポレート／プレミアム」と表記する。</p>
+<hr>
+<h2>2. 飲食向けマトリクス</h2>
+<p>対象: <code>businessLine = restaurant</code>（テンプレート <code>restaurant</code> / <code>sushi</code> / <code>cafe</code> / <code>ramen</code>）。</p>
+<p>判定の中心は <code>musubi-portal/lib/planAccess.ts</code> の <code>PLAN_FEATURES</code>:</p>
+<pre><code>light:    { reviews: false, reports: false, reserve: false }
+standard: { reviews: true,  reports: true,  reserve: true  }
+premium:  { reviews: true,  reports: true,  reserve: true  }</code></pre>
+<p><strong>standard と premium はこの3フラグでは無差別</strong>（コード上は同じ）。両者の差は下表の「更新対応回数」「LINE予約の方式」「独自ドメイン」「LINE導入代行」など、<code>PLAN_FEATURES</code> の外側にある個別ロジック・運用ルールで生まれている。</p>
+<table><thead><tr><th>機能（大分類 → 細目）</th><th>ライト</th><th>スタンダード</th><th>プレミアム</th><th>根拠 / 備考</th></tr></thead><tbody><tr><td><strong>公式サイト制作</strong></td><td>○</td><td>○</td><td>○</td><td>全プラン共通。テンプレートベース制作</td></tr><tr><td><strong>ネット予約 — 空席カレンダー表示（◎/△/×）</strong></td><td>×</td><td>○</td><td>○</td><td><code>planAccess.reserve</code>。<code>reserve.ts</code> <code>dayStatus()</code> で warn/full 判定（7割以上で△）</td></tr><tr><td>ネット予約 — フォームからの自動確定</td><td>×</td><td>○</td><td>○</td><td><code>reserveBook.ts bookReservation()</code>。RPC <code>book_reservation</code> で二重予約防止</td></tr><tr><td>ネット予約 — 確認メール自動送信</td><td>×</td><td>○</td><td>○</td><td><code>bookReservation()</code> 内 <code>customerEmail</code> 送信（メールアドレス入力時のみ）</td></tr><tr><td>ネット予約 — 前日リマインドメール</td><td>×</td><td>○</td><td>○</td><td><code>app/api/cron/reserve-reminder</code>（毎日JST10時、<code>daily</code> cronから直列実行）</td></tr><tr><td>ネット予約 — セルフキャンセル（期限設定）</td><td>×</td><td>○</td><td>○</td><td><code>reserveCancel.ts canSelfCancel()</code>。期限は店舗ごとに <code>prev_day</code>（前日23:59・既定）/<code>same_day_2h</code>/<code>anytime</code> から選択可</td></tr><tr><td>ネット予約 — <code>/yoyaku</code> 予約確認・キャンセルページ</td><td>×</td><td>○</td><td>○</td><td>予約番号＋電話番号（数字のみ正規化して照合）で照会</td></tr><tr><td>ネット予約 — 臨時休業日・特別営業日設定</td><td>×</td><td>○</td><td>○</td><td><code>reserve_special_days</code> テーブル。<code>closed_dow</code> より優先される</td></tr><tr><td>ネット予約 — 席数（平日/週末）変更</td><td>×</td><td>○</td><td>○</td><td><code>reserve.ts slotCapacity()</code>。基本値はスタッフが店舗ごとに個別設定（顧客はポータルからは変更不可・要問い合わせ）</td></tr><tr><td>ネット予約 — ポータル予約管理画面（今日/これから/過去30日、取消・来店済み・無断キャンセル記録）</td><td>×</td><td>○</td><td>○</td><td><code>musubi-portal/app/reservations</code></td></tr><tr><td>ネット予約 — 電話予約の手動登録</td><td>×</td><td>○</td><td>○</td><td><code>musubi-admin/app/reservations/AddReservationForm.tsx</code>（スタッフ側での代理登録）</td></tr><tr><td>ネット予約 — LINEかんたん予約（送信内容を店のLINEトークに用意→店が返信して確定）</td><td>×</td><td>○</td><td>○（下位互換で利用可）</td><td><strong>コード上はプラン非依存</strong>。<code>content.reserve.line_auto</code> が未設定/falseの場合の既定動作（<code>reserve.html</code> の <code>LINE_AUTO</code> フラグ）。運用上はスタンダード以上として案内</td></tr><tr><td>ネット予約 — LINE自動予約（システムが自動確定・自動返信）</td><td>×</td><td>×</td><td>○（運用のみ）</td><td>⚠要確認: <strong>コード上のプラン制約は無い</strong>。<code>content.reserve.line_auto: true</code> をスタッフがJSON編集で手動設定し、<code>store_line_channels</code> にLINE公式アカウントのチャネル情報を登録すれば、どのプランでも同じ経路（<code>app/api/line/store-webhook/[storeId]</code>）で自動確定が動く。管理画面には「プレミアムプラン向け機能」とラベル表示されるのみで、コードによる強制はない</td></tr><tr><td><strong>口コミAI返信 — Google口コミの取得</strong></td><td>×</td><td>○</td><td>○</td><td><code>app/api/cron/sync-reviews</code>（<code>daily</code> cronの一部・GBP連携）</td></tr><tr><td>口コミAI返信 — AIによる返信文の自動下書き</td><td>×</td><td>○</td><td>○</td><td><code>app/api/cron/generate-drafts</code></td></tr><tr><td>口コミAI返信 — 店主承認（承認・書き直し・見送り）</td><td>×</td><td>○</td><td>○</td><td><code>musubi-portal/app/reviews</code>。承認後は「投稿待ち」状態になる</td></tr><tr><td>口コミAI返信 — 承認後のGBP自動投稿</td><td>×</td><td>○</td><td>○</td><td><code>app/api/cron/post-replies</code>（承認済みのみ対象。GBP env未設定時はcronがskip）</td></tr><tr><td>口コミAI返信 — 低評価（★2以下）フラグ表示</td><td>×</td><td>○</td><td>○</td><td><code>ReviewCard</code> の <code>warn</code> 判定（<code>rating &lt;= 2</code> または <code>flagged</code>）</td></tr><tr><td><strong>月次レポート</strong> — サイト訪問数・予約件数・電話タップ・問い合わせ件数</td><td>×</td><td>○</td><td>○</td><td><code>planAccess.reports</code>。<code>musubi-portal/app/report</code></td></tr><tr><td>月次レポート — Google評価・口コミ件数・検索/マップ表示回数・返信率（前月比較付き）</td><td>×</td><td>○</td><td>○</td><td>GBP Insights連携。値が無い項目は「—」表示（捏造しない）</td></tr><tr><td>月次レポート — 当月の更新・保守コメント</td><td>×</td><td>○</td><td>○</td><td><code>reports.comment</code>（スタッフ入力）</td></tr><tr><td><strong>セルフ編集（顧客ポータル）</strong></td><td>○（無制限）</td><td>○（無制限）</td><td>○（無制限）</td><td>プラン非依存。<code>musubi-portal/app/site/edit</code></td></tr><tr><td>セルフ編集 — 公開履歴からの復元（ロールバック）</td><td>○</td><td>○</td><td>○</td><td><code>restoreVersion()</code>（<code>FullScreenEditor.tsx</code> の「公開履歴」モーダル）。planAllows対象外＝全プラン共通</td></tr><tr><td><strong>Musubi側 更新代行（文言・写真差し替え等）</strong></td><td>0回/月</td><td>1回/月</td><td>3回/月</td><td><code>musubi-admin/lib/contractTemplate.ts CONTRACT_DEFAULTS.updatesPerMonthByPlan</code></td></tr><tr><td><strong>公式LINE導入代行</strong>（アカウント開設〜リッチメニュー〜友だち導線〜自動予約接続まで代行）</td><td>×（運用のみ）</td><td>×（運用のみ）</td><td>○（運用のみ）</td><td>⚠コード上のゲートなし。<code>05_業務手順書/公式LINE導入代行手順.md</code> に沿ってスタッフが代行実施。プラン契約と紐付いた自動判定はない</td></tr><tr><td><strong>独自ドメイン</strong></td><td>×（運用のみ・サブドメイン標準）</td><td>×（運用のみ・サブドメイン標準）</td><td>○（標準・運用のみ）</td><td><code>siteDomain.ts</code> の <code>validateCustomDomain()</code> にプラン判定は無い。<code>独自ドメイン運用・移管手順.md</code>: プレミアム標準／他プランはスポット¥15,000〜で対応可</td></tr><tr><td><strong>死活監視（サイトダウン検知）</strong></td><td>○</td><td>○</td><td>○</td><td><code>app/api/cron/site-check</code>。<code>site_domain</code> を持つ公開中の全店舗が対象（プラン・ライン不問）</td></tr><tr><td><strong>通知（メール／LINE）</strong></td><td>○</td><td>○</td><td>○</td><td>新規予約・キャンセル・口コミ等の店舗通知。全プラン共通（<code>notify_email</code> 設定＋LINE連携済みなら両方）</td></tr><tr><td><strong>顧客ポータル自体（メッセージ・請求確認等）</strong></td><td>○</td><td>○</td><td>○</td><td>全プラン共通</td></tr></tbody></table>
+<hr>
+<h2>3. 企業向けマトリクス</h2>
+<p>対象: <code>businessLine = general</code>（テンプレート <code>restaurant</code>/<code>sushi</code>/<code>cafe</code>/<code>ramen</code> 以外すべて）。</p>
+<p><code>PLAN_FEATURES</code> は biz_light / biz_standard / biz_premium いずれも <code>{ reviews: false, reports: false, reserve: false }</code>。<strong>企業向けプランは口コミAI返信・月次レポート・ネット予約のいずれも、プランを問わず対象外</strong>（<code>musubi-portal</code> 側で <code>businessLine(template) !== &#x27;restaurant&#x27;</code> の時点でまず弾かれ、その先の <code>planAllows</code> チェックにすら到達しない二重ガード）。</p>
+<table><thead><tr><th>機能</th><th>シンプル（biz_light）</th><th>コーポレート（biz_standard）</th><th>プレミアム（biz_premium）</th><th>根拠 / 備考</th></tr></thead><tbody><tr><td>公式サイト制作</td><td>○</td><td>○</td><td>○</td><td>全プラン共通</td></tr><tr><td>ネット予約</td><td>対象外（飲食向け機能）</td><td>対象外（飲食向け機能）</td><td>対象外（飲食向け機能）</td><td><code>businessLine !== &#x27;restaurant&#x27;</code> で強制非表示（<code>app/reservations/page.tsx</code> 等）</td></tr><tr><td>口コミAI返信</td><td>対象外（飲食向け機能）</td><td>対象外（飲食向け機能）</td><td>対象外（飲食向け機能）</td><td>同上（<code>app/reviews/page.tsx</code>）</td></tr><tr><td>月次レポート</td><td>対象外（飲食向け機能）</td><td>対象外（飲食向け機能）</td><td>対象外（飲食向け機能）</td><td>同上（<code>app/report/page.tsx</code>）</td></tr><tr><td>セルフ編集（顧客ポータル）</td><td>○（無制限）</td><td>○（無制限）</td><td>○（無制限）</td><td>プラン非依存</td></tr><tr><td>セルフ編集 — 公開履歴からの復元</td><td>○</td><td>○</td><td>○</td><td>同上</td></tr><tr><td>Musubi側 更新代行</td><td>0回/月</td><td>1回/月</td><td>3回/月</td><td><code>updatesPerMonthByPlan.biz_light/biz_standard/biz_premium</code></td></tr><tr><td>独自ドメイン</td><td>×（運用のみ・サブドメイン標準）</td><td>×（運用のみ・サブドメイン標準）</td><td>○（標準・運用のみ）</td><td>コード上のゲートなし。<code>business.html</code> の記載と一致</td></tr><tr><td>死活監視</td><td>○</td><td>○</td><td>○</td><td>プラン・ライン不問</td></tr><tr><td>通知（メール／LINE）</td><td>○</td><td>○</td><td>○</td><td>全プラン共通</td></tr><tr><td>顧客ポータル自体</td><td>○</td><td>○</td><td>○</td><td>全プラン共通</td></tr><tr><td>ページ構成の目安（1P／〜5P／〜10P）</td><td>参考値</td><td>参考値</td><td>参考値</td><td><code>business.html</code> の目安表示。コードで強制される制約ではなく制作範囲の営業目安</td></tr></tbody></table>
+<hr>
+<h2>4. カスタムプランの扱い</h2>
+<ul>
+<li><code>plans.ts</code>: <code>custom</code> は <code>monthly_fee: 0</code> <code>initial_fee: 0</code> が初期値。実額は契約書提示時にスタッフが正整数で個別入力（<code>requirePositiveIntFee()</code>）。Stripe Price IDも都度手入力（<code>resolvePriceId()</code> が <code>price_</code> 始まりを要求）。</li>
+<li>機能面はテンプレートを使わないフルオーダー制作が前提（飲食向けLP「カスタム」／企業向けLP「フルオーダー」）。個別相談で決定するため、本マトリクスの○×は適用されない。</li>
+<li>更新対応回数のみ既定値あり: <code>updatesPerMonthByPlan.custom = 1</code>（契約時に明示指定しなければこの値にフォールバック）。</li>
+</ul>
+<hr>
+<h2>5. 全プラン共通</h2>
+<p>飲食・企業・カスタムを問わず、以下はプラン非依存でコード上ゲートされていない。</p>
+<ul>
+<li>セルフ編集（顧客ポータル）— 利用回数無制限、公開履歴からの復元込み</li>
+<li>縛りなし（契約は1年自動更新・解約は希望月の30日前までに申し出、というのが <code>CONTRACT_DEFAULTS</code> の標準値。中途解約金の定めはひな形上ない）</li>
+<li>死活監視（<code>site_domain</code> を持つ公開中の全店舗が対象）</li>
+<li>顧客ポータル本体（メッセージ・請求確認・LINE連携設定）</li>
+<li>通知（メール／LINE、店舗ごとに設定した <code>notify_email</code> とLINE連携先へ）</li>
+<li>契約書（<code>buildContractDocument()</code> で自動生成。プランに応じて料金・更新回数等が差し込まれる）</li>
+<li>請求（Stripeカード決済 or 銀行振込。月額は自動継続請求）</li>
+</ul>
+<hr>
+<h2>6. 運用系の対応回数まとめ</h2>
+<p><code>musubi-admin/lib/contractTemplate.ts CONTRACT_DEFAULTS.updatesPerMonthByPlan</code>:</p>
+<table><thead><tr><th>プラン</th><th>Musubi側 更新代行</th></tr></thead><tbody><tr><td>ライト / 企業シンプル</td><td>0回/月（更新代行なし・セルフ編集のみ）</td></tr><tr><td>スタンダード / 企業コーポレート</td><td>1回/月</td></tr><tr><td>プレミアム / 企業プレミアム</td><td>3回/月</td></tr><tr><td>カスタム</td><td>1回/月（未指定時の既定値。契約時に個別指定可）</td></tr></tbody></table>
+<p>Musubi側作業の範囲: 文言・写真の差し替え等の軽微な更新（<code>updatesClause()</code> の文言）。プラン範囲を超える更新・構造変更は別途見積り（<code>business.html</code> FAQ・<code>ネット予約システムマニュアル.md</code> と同旨）。回数超過分の扱い（追加課金/翌月繰越等）はコード上定義がなく、都度の営業判断。</p>
+<hr>
+<h2>7. 判定がコード上どこにあるか（ファイル参照表）</h2>
+<table><thead><tr><th>判定内容</th><th>ファイル</th><th>関数／定数</th></tr></thead><tbody><tr><td>プラン定義・価格・Stripe Price環境変数</td><td><code>musubi-admin/lib/plans.ts</code></td><td><code>PLANS</code> <code>PLAN_LIST</code> <code>BIZ_PLAN_LIST</code></td></tr><tr><td>契約条件の既定値・更新回数・契約書生成</td><td><code>musubi-admin/lib/contractTemplate.ts</code></td><td><code>CONTRACT_DEFAULTS</code> <code>buildContractDocument()</code></td></tr><tr><td>初期費用の解決（契約スナップショット優先）</td><td><code>musubi-admin/lib/initialFee.ts</code></td><td><code>resolveInitialFee()</code></td></tr><tr><td>飲食/企業ライン判定</td><td><code>musubi-portal/lib/businessLine.ts</code>（<code>musubi-admin/lib/contractTemplate.ts</code> に複製）</td><td><code>businessLine()</code> / <code>businessLineFromTemplate()</code></td></tr><tr><td>プラン×機能ゲート（reviews/reports/reserve）</td><td><code>musubi-portal/lib/planAccess.ts</code></td><td><code>PLAN_FEATURES</code> <code>planAllows()</code></td></tr><tr><td>予約の空席計算・特別営業日・キャンセル期限</td><td><code>musubi-admin/lib/reserve.ts</code></td><td><code>slotCapacity()</code> <code>dayStatus()</code> <code>canSelfCancel()</code></td></tr><tr><td>予約の確定処理（サイト経由・LINE経由共通）</td><td><code>musubi-admin/lib/reserveBook.ts</code></td><td><code>bookReservation()</code></td></tr><tr><td>予約のセルフキャンセル</td><td><code>musubi-admin/lib/reserveCancel.ts</code></td><td><code>cancelReservation()</code></td></tr><tr><td>LINE自動予約Webhook（店舗別）</td><td><code>musubi-admin/app/api/line/store-webhook/[storeId]/route.ts</code></td><td><code>handleEvent()</code></td></tr><tr><td>LINEかんたん予約⇔自動予約の切替フラグ</td><td><code>local-web-sales/04_サイトテンプレート/{restaurant,sushi,cafe}/reserve.html</code></td><td><code>CFG.line_auto</code>（<code>content.reserve.line_auto</code>）</td></tr><tr><td>日次バッチ（予約リマインド・口コミ同期/下書き/投稿・死活監視等）</td><td><code>musubi-admin/app/api/cron/daily/route.ts</code></td><td><code>STEPS</code></td></tr><tr><td>独自ドメインのバリデーション（プラン非依存）</td><td><code>musubi-admin/lib/siteDomain.ts</code></td><td><code>validateCustomDomain()</code></td></tr><tr><td>セルフ編集・公開履歴の復元</td><td><code>musubi-portal/app/site/edit/actions.ts</code></td><td><code>restoreVersion()</code></td></tr></tbody></table>
+<hr>
+<h2>コードとLPの食い違い一覧</h2>
+<ol>
+<li><strong>企業向けプランの名称</strong>: LP（<code>business.html</code>）は3プランを「ライト／スタンダード／プレミアム」と表示。コード（<code>plans.ts</code>）のラベルは「企業シンプル／企業コーポレート／企業プレミアム」。金額は一致。名称のみ不一致。</li>
+<li><strong>LINE自動予約のプラン制約</strong>: LP・マニュアル類は「プレミアムプラン限定」と案内しているが、コード（<code>content.reserve.line_auto</code> フラグと <code>store_line_channels</code> 登録）にはプラン制約が存在しない。スタッフが手動設定すればライト/スタンダードでも技術的には動作する。運用ルールとしての制限であり、コードのバグではない。</li>
+<li><strong>公式LINE導入代行・独自ドメインのプラン紐付け</strong>: どちらも「プレミアム標準」という案内はLP・手順書・コード上のUIラベルで一致しているが、実装上（<code>siteDomain.ts</code> の検証ロジック、LINE導入代行の手順書）はプランによる強制がなく、運用判断でスタッフが実施する形になっている。機能自体はコードで動くため矛盾ではないが、契約プランと実装の結びつきが「運用ルール」止まりである点は認識しておくべき。</li>
+</ol>
+<p class="note">🗂 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
+</div></body></html>
