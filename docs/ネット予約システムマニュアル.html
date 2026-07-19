@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ネット予約システム マニュアル（店舗さま向け） — Musubi</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22262f;--acc:#127b66;--verm:#b5402e;--gold:#c8893f;--bg:#f6f4ef;--line:#e8e2d6;--sub:#6f6a60;--muted:#8b8578}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.85}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 90px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.top a{font-size:13px;color:var(--acc);text-decoration:none;font-weight:700}
+.brand{display:flex;align-items:center;gap:10px;margin:14px 0 26px}
+.brand .mk{width:40px;height:40px;object-fit:contain;display:block}
+.brand b{font-size:16px;letter-spacing:.03em}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:.16em}
+h1{font-size:27px;margin:6px 0 14px;letter-spacing:.01em}
+h2{font-size:20px;margin:34px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 8px;color:var(--acc)}
+p{margin:10px 0;font-size:14.5px}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}
+li{font-size:14.5px;margin:5px 0}
+ul.task{list-style:none;padding-left:2px}
+ul.task li{display:flex;gap:10px;align-items:flex-start}
+ul.task .bx{flex:none;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--muted);margin-top:3px;display:grid;place-items:center;font-size:12px;color:#fff}
+ul.task li.done .bx{background:var(--acc);border-color:var(--acc)}
+ul.task li.done span{color:var(--sub)}
+strong{font-weight:700}
+code{background:#efece4;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+pre{background:#fbfaf7;border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow:auto;margin:14px 0}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.6;white-space:pre}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+th{background:#eef3f0;font-weight:700}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+a{color:var(--acc)}
+blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px;margin:12px 0;color:var(--sub);font-size:13.5px}
+img.shot{display:block;max-width:100%;height:auto;margin:14px 0 6px;border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+p:has(>img.shot){margin:16px 0}
+details.logentry{border:1px solid var(--line);border-radius:10px;background:#fbfaf7;margin:10px 0;overflow:hidden}
+details.logentry>summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+details.logentry>summary::-webkit-details-marker{display:none}
+details.logentry>summary::before{content:"▶";font-size:10px;color:var(--acc);transition:transform .15s}
+details.logentry[open]>summary::before{transform:rotate(90deg)}
+details.logentry[open]>summary{border-bottom:1px solid var(--line);background:#f2efe7}
+details.logentry>summary:hover{color:var(--acc)}
+.logbody{padding:4px 18px 16px}
+.logbody h2{border-top:none;padding-top:0;margin-top:14px}
+.note{margin-top:46px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+@media print{.top,.brand{display:none}body{background:#fff}.wrap{padding:0}h2{break-after:avoid}}
+</style></head>
+<body><div class="wrap">
+<div class="top"><a href="../index.html">← デモ一覧に戻る</a></div>
+<div class="brand"><img class="mk" src="../assets/musubi-mark.png" alt="Musubi"><span><b>Musubi</b><small>環境構築ドキュメント</small></span></div>
+<h1>ネット予約システム マニュアル（店舗さま向け）</h1>
+<p>Musubi のネット予約は、<strong>お店の公式サイトから24時間予約を受け付け、確認・リマインド・キャンセルまで自動で回す</strong>仕組みです。予約手数料は何件入っても 0円。このマニュアルでは、お客様（来店される方）から見た流れと、店舗さまが行う操作をご説明します。</p>
+<hr>
+<h2>1. お客様からはこう見えます（予約の流れ）</h2>
+<p>お店の公式サイトの「ご予約」ページから、4つのステップで予約が完了します。</p>
+<ol>
+<li><strong>日時を選ぶ</strong> — カレンダーに空き状況が表示されます。</li>
+<li><strong>人数・お席の希望を選ぶ</strong></li>
+<li><strong>コースを選ぶ</strong>（コースなしも選べます）</li>
+<li><strong>お名前・電話番号・メールアドレスを入力して送信</strong></li>
+</ol>
+<p><img class="shot" src="../assets/manual/20-reserve-calendar.png" alt="予約ページのカレンダー。日ごとの空き状況が◎△×で表示される" loading="lazy"></p>
+<p>カレンダーの記号の意味:</p>
+<table><thead><tr><th>表示</th><th>意味</th></tr></thead><tbody><tr><td>◎</td><td>空きあり</td></tr><tr><td>△</td><td>残りわずか（予約が7割以上埋まっている日）</td></tr><tr><td>×</td><td>満席</td></tr><tr><td>休</td><td>定休日・臨時休業日</td></tr></tbody></table>
+<p>日付を選ぶと時間帯ごとの残席数が表示されます。この空き状況は<strong>実際の予約データと連動</strong>しており、予約やキャンセルが入ると自動で変わります。同じ枠に同時に申し込みがあっても、二重予約にならない仕組みになっています。</p>
+<p><img class="shot" src="../assets/manual/21-reserve-times.png" alt="時間帯の選択。時間ごとの残席数が表示される" loading="lazy"></p>
+<p>予約が完了すると、お客様に<strong>確認メールが自動送信</strong>されます。メールには予約内容と、キャンセル用のリンクが記載されています。</p>
+<h2>2. 予約が入ったら（店舗さまへの通知）</h2>
+<p>新しい予約・キャンセルが入ると、店舗さまに自動で通知が届きます。</p>
+<ul>
+<li><strong>メール通知</strong> — ご登録の通知先メールアドレスへ</li>
+<li><strong>LINE通知</strong> — 公式LINE連携がお済みの場合、LINEにも即時に届きます（例: 「新しい予約: 7/25 18:00 山田様 4名 おまかせコース」）</li>
+</ul>
+<h2>3. 予約の管理（顧客ポータル）</h2>
+<p>顧客ポータルの「予約」タブで、予約の確認と管理ができます。</p>
+<p><img class="shot" src="../assets/manual/24-portal-reservations.png" alt="ポータルの予約管理画面。今日の予約が上部に大きく表示される" loading="lazy"></p>
+<ul>
+<li><strong>今日の予約</strong> — 時間順に、人数・お席の希望・コース・お客様のお名前と電話番号（タップで発信）・ご要望を表示</li>
+<li><strong>これからの予約</strong> — 日付ごとにまとめて表示</li>
+<li><strong>過去30日</strong> — 済んだ予約の履歴</li>
+</ul>
+<p>できる操作:</p>
+<ul>
+<li><strong>取消</strong> — 店側都合等で予約を取り消す場合。取消するとお客様へ自動でお知らせメールが送られ、その枠の空きはすぐに復活します。</li>
+<li><strong>来店済み</strong> — 来店されたお客様に記録を付けます。</li>
+<li><strong>無断キャンセル</strong> — 連絡なく来店されなかった場合の記録です。リピート分析や再予約時の参考になります。</li>
+</ul>
+<h2>4. 臨時休業・席数の変更</h2>
+<p>「予約」タブの「臨時休業・特別営業日」から、日にちを指定して設定できます。</p>
+<ul>
+<li><strong>休業にする</strong> — その日はサイトのカレンダーに「休」と表示され、新規予約を受け付けません。</li>
+<li><strong>席数を変える</strong> — 貸切や宴会で一部の席が使えない日などに、その日だけ受け入れ人数を変更できます。</li>
+</ul>
+<p>設定した内容は、お店のサイトの空き表示に<strong>すぐ反映</strong>されます。</p>
+<h2>5. キャンセルのしくみ</h2>
+<ul>
+<li>お客様は、<strong>確認メールのリンクから電話なしでキャンセル</strong>できます（受付は<strong>前日まで</strong>が標準です。ご希望に応じて「当日2時間前まで」等に変更できます）。</li>
+<li>期限を過ぎたキャンセルは、お電話でのご連絡をご案内する画面になります。</li>
+<li>予約番号と電話番号で予約内容を確認できる<strong>予約確認ページ</strong>もあります（メールを紛失した場合など）。</li>
+</ul>
+<p><img class="shot" src="../assets/manual/23-yoyaku-lookup.png" alt="予約確認ページ。予約番号と電話番号で照会できる" loading="lazy"></p>
+<ul>
+<li><strong>前日リマインド</strong> — ご予約の前日午前に、お客様へ自動でリマインドメールが届きます。キャンセルリンク付きのため、「うっかり忘れ」も「無断キャンセル」も減らせます。</li>
+<li>お客様がキャンセルすると、店舗さまへメール・LINEで通知が届き、空き枠は自動で復活します。</li>
+</ul>
+<h2>6. LINE予約 —「かんたん」と「自動」の違い</h2>
+<p>LINEでの予約導線は2種類あり、プランによって異なります。</p>
+<h3>LINEかんたん予約（スタンダードプラン）</h3>
+<p>お客様が予約ページで日時・人数を選ぶと、<strong>その内容が入ったメッセージがお店の公式LINEのトーク画面に自動で用意</strong>されます。お客様は送信ボタンを押すだけ。</p>
+<ul>
+<li>予約の<strong>確定はお店の返信</strong>で行います（トークで「承りました」と返す運用）</li>
+<li>お客様は使い慣れたLINEで完結、お店は普段のLINE対応の延長で受けられます</li>
+<li>特別な設定はほぼ不要（公式LINEアカウントがあれば使えます）</li>
+</ul>
+<h3>LINE自動予約（プレミアムプラン）</h3>
+<p>お客様がLINEでメッセージを送ると、<strong>システムが空き状況を確認して自動で予約を確定し、自動で返信</strong>します。</p>
+<ul>
+<li>お店の対応は不要（深夜の予約希望にも即時に「承りました」）</li>
+<li>空き枠の確認と二重予約の防止も自動</li>
+<li>ご利用には店舗ごとの初期セットアップ（LINE公式アカウントの連携設定）が必要です。導入時に Musubi が代行します</li>
+</ul>
+<h3>比較表</h3>
+<table><thead><tr><th></th><th>LINEかんたん予約</th><th>LINE自動予約</th></tr></thead><tbody><tr><td>プラン</td><td>スタンダード以上</td><td>プレミアム</td></tr><tr><td>予約の確定</td><td>お店がLINEで返信して確定</td><td>自動で即時確定</td></tr><tr><td>お店の手間</td><td>トークに返信する</td><td>なし</td></tr><tr><td>空き状況の確認</td><td>お店が確認して返信</td><td>システムが自動確認</td></tr><tr><td>深夜・営業中の対応</td><td>手が空いてから返信</td><td>即時自動返信</td></tr><tr><td>導入設定</td><td>ほぼ不要</td><td>初期セットアップあり（Musubi代行）</td></tr></tbody></table>
+<blockquote>なお、<strong>サイトの予約フォームからの予約は、どちらのプランでも自動で即時確定</strong>します（空席連動・確認メール自動送信）。LINE予約は「LINEで予約したい」お客様のための追加の入口です。</blockquote>
+<h2>7. よくあるご質問</h2>
+<ul>
+<li><strong>Q. 予約手数料はかかりますか？</strong> — かかりません。何件入っても 0円です（グルメサイトのような送客手数料はありません）。</li>
+<li><strong>Q. 電話で受けた予約はどうなりますか？</strong> — 電話予約は従来どおりお店の台帳でご管理ください。ネット予約の空き枠は「サイト経由の予約」を基準に計算されます。電話予約が多い時間帯は、席数を少なめに設定しておくと安心です。</li>
+<li><strong>Q. 空き状況の元になる席数は変えられますか？</strong> — はい。平日・週末それぞれの受け入れ人数、予約を受ける時間帯、定休日を設定できます。変更は Musubi までご連絡ください。</li>
+<li><strong>Q. お客様の個人情報は安全ですか？</strong> — 予約情報は暗号化された通信で送られ、店舗さまと Musubi 以外は閲覧できません。</li>
+</ul>
+<hr>
+<p>ご不明な点は、顧客ポータルの「メッセージ」または公式LINEからいつでもご連絡ください。</p>
+<p class="note">📅 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
+</div></body></html>
