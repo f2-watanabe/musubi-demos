@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>紹介報酬マニュアル（運営・紹介者向け） — Musubi</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22262f;--acc:#127b66;--verm:#b5402e;--gold:#c8893f;--bg:#f6f4ef;--line:#e8e2d6;--sub:#6f6a60;--muted:#8b8578}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.85}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 90px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.top a{font-size:13px;color:var(--acc);text-decoration:none;font-weight:700}
+.brand{display:flex;align-items:center;gap:10px;margin:14px 0 26px}
+.brand .mk{width:40px;height:40px;object-fit:contain;display:block}
+.brand b{font-size:16px;letter-spacing:.03em}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:.16em}
+h1{font-size:27px;margin:6px 0 14px;letter-spacing:.01em}
+h2{font-size:20px;margin:34px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 8px;color:var(--acc)}
+p{margin:10px 0;font-size:14.5px}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}
+li{font-size:14.5px;margin:5px 0}
+ul.task{list-style:none;padding-left:2px}
+ul.task li{display:flex;gap:10px;align-items:flex-start}
+ul.task .bx{flex:none;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--muted);margin-top:3px;display:grid;place-items:center;font-size:12px;color:#fff}
+ul.task li.done .bx{background:var(--acc);border-color:var(--acc)}
+ul.task li.done span{color:var(--sub)}
+strong{font-weight:700}
+code{background:#efece4;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+pre{background:#fbfaf7;border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow:auto;margin:14px 0}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.6;white-space:pre}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+th{background:#eef3f0;font-weight:700}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+a{color:var(--acc)}
+blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px;margin:12px 0;color:var(--sub);font-size:13.5px}
+img.shot{display:block;max-width:100%;height:auto;margin:14px 0 6px;border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+p:has(>img.shot){margin:16px 0}
+details.logentry{border:1px solid var(--line);border-radius:10px;background:#fbfaf7;margin:10px 0;overflow:hidden}
+details.logentry>summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+details.logentry>summary::-webkit-details-marker{display:none}
+details.logentry>summary::before{content:"▶";font-size:10px;color:var(--acc);transition:transform .15s}
+details.logentry[open]>summary::before{transform:rotate(90deg)}
+details.logentry[open]>summary{border-bottom:1px solid var(--line);background:#f2efe7}
+details.logentry>summary:hover{color:var(--acc)}
+.logbody{padding:4px 18px 16px}
+.logbody h2{border-top:none;padding-top:0;margin-top:14px}
+.note{margin-top:46px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+@media print{.top,.brand{display:none}body{background:#fff}.wrap{padding:0}h2{break-after:avoid}}
+</style></head>
+<body><div class="wrap">
+<div class="top"><a href="../index.html">← デモ一覧に戻る</a></div>
+<div class="brand"><img class="mk" src="../assets/musubi-mark.png" alt="Musubi"><span><b>Musubi</b><small>環境構築ドキュメント</small></span></div>
+<h1>紹介報酬マニュアル（運営向け・紹介者向け）</h1>
+<p>紹介制度の報酬がどう発生し、どう支払うかの実務マニュアル。前半が運営（管理者）向け、後半が紹介者向けの説明。制度の条件は<a href="紹介制度規約.html">紹介制度規約</a>が正。</p>
+<hr>
+<h2>PART A. 運営（管理者）向け — 月次の支払いオペレーション</h2>
+<h3>A-1. 仕組みの全体像</h3>
+<ul>
+<li>紹介者は2通りで登録される: ①セルフ登録（https://admin.musubiweb.com/partner — コード即時発行・運営にLINE/メール通知が届く）②財務ページの「紹介報酬」セクションで運営が手動追加（コードは自動発行）。どちらで登録しても扱いは同じ。</li>
+<li>店舗との紐付けも2通り: ①LP申込フォームの紹介コード欄（<code>?ref=</code> リンクで自動入力）から自動紐付け ②店舗詳細の「紹介者」selectで手動設定。</li>
+<li><strong>報酬は自動計算</strong>: 紐付いた店舗の月額決済（Stripe入金済みの月額invoice）× 30% を、初回決済月から6ヶ月分。初期費用は対象外。財務ページに常に最新の数字が出る（手計算は一切不要）。</li>
+<li>紹介成立時（初回月額決済の検知）は、日次バッチが紹介者へ自動でお知らせメールを送る。</li>
+</ul>
+<h3>A-2. 毎月の作業（月末締め → 翌月末払い）</h3>
+<ol>
+<li>翌月末の支払日前に、財務ページ（/costs）の「紹介報酬」セクションを開く。</li>
+<li>紹介者ごとの<strong>未払残高</strong>を確認する。¥5,000未満は「繰越中」表示 — 支払い不要（翌月に繰り越し）。</li>
+<li>¥5,000以上の紹介者について、表示されている<strong>振込先</strong>へ残高を振り込む（振込手数料は当社負担）。振込先未登録の場合は紹介者に登録を依頼（/partner の「振込先の登録・変更」から本人が登録できる）。</li>
+<li>振り込んだら同セクションの<strong>支払記録</strong>フォームに 金額・支払日 を登録する。登録すると:</li>
+</ol>
+<ul>
+<li>未払残高が自動で減る</li>
+<li>紹介者へ「お振込のお知らせ」メールが自動送信される</li>
+<li>確定報酬は経費として収支・給料計算に自動計上済み（支払記録は現金の動きの記録）</li>
+</ul>
+<ol>
+<li>以上で完了。件数が増えても手順は同じ。</li>
+</ol>
+<h3>A-3. 注意点</h3>
+<ul>
+<li>報酬の計算・確定に手作業はない。<strong>手で行うのは「振込」と「支払記録の登録」だけ</strong>。</li>
+<li>紹介者を削除すると支払記録も消えるため、取引のあった紹介者は無効化（active OFF）で対応する。</li>
+<li>業者パートナー（税理士・卸等、初期10%+月額10%×12ヶ月の個別合意）は現状この自動計算の対象外。締結したら個別に計算して同じ支払記録に載せる（件数が増えたら自動化を検討）。</li>
+</ul>
+<hr>
+<h2>PART B. 紹介者向け — 報酬のしくみ</h2>
+<p>※ 紹介者に説明するときの想定問答。公開ページは <a href="https://musubiweb.com/partner-guide.html">紹介パートナー営業ガイド</a> と <a href="https://musubiweb.com/partner-terms.html">規約</a>。</p>
+<ul>
+<li><strong>いつ報酬が発生する？</strong> — 紹介したお店が契約し、<strong>初回の月額決済が完了した月</strong>から。その月を含む6ヶ月間、月額利用料の30%が毎月発生します（例: スタンダード月15,000円 → 月4,500円×6ヶ月=27,000円）。</li>
+<li><strong>発生したらどう分かる？</strong> — 初回決済のタイミングで、登録メールアドレスに自動でお知らせが届きます。</li>
+<li><strong>いつ振り込まれる？</strong> — 月末締め・<strong>翌月末払い</strong>。振込手数料は当社負担。振込のたびにお知らせメールが届きます。</li>
+<li><strong>5,000円に満たない月は？</strong> — 翌月以降に繰り越して、合計5,000円以上になった月にまとめてお支払いします（消えません）。</li>
+<li><strong>振込先を変えたい／登録し忘れた</strong> — https://admin.musubiweb.com/partner の「登録済みの方: 振込先の登録・変更」から、紹介コード+登録メールアドレスでいつでも変更できます。</li>
+<li><strong>紹介したお店が6ヶ月以内に解約したら？</strong> — 解約月の翌月以降の報酬は発生しません（それまでの分はお支払いします）。</li>
+<li><strong>対象外になるケース</strong> — 自己申込、無料期間中の解約、申込時点で既にMusubiと商談中だったお店（規約第4条・第5条）。</li>
+</ul>
+<p class="note">💸 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
+</div></body></html>

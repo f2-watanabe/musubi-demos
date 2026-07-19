@@ -62,6 +62,17 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-19 ・ 顧客サイト死活監視・紹介報酬マニュアル・サンドボックス実績削除・ポータル汎用化</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>:</li>
+<li><strong>顧客サイトの死活監視</strong>（admin <code>c938d67</code>・747テスト/build成功）: 日次cronに <code>site-check</code> ステップ追加（計8ジョブ）。公開中の全顧客サイト（site_domain あり・最新案件が closed/cancelled 以外）へ日次HTTPSチェック、DOWN時のみ運営LINE+メール通知。監視対象はDB導出のため公開で自動追加・クローズで自動除外。UptimeRobot（アプリ3モニタ・手動）は継続、ランブックに追記。</li>
+<li><strong>紹介報酬マニュアル</strong>を新規作成しハブ掲載（<code>05_業務手順書/紹介報酬マニュアル.md</code>）: PART A=運営向け月次オペ（未払残高確認→振込→支払記録登録のみ。計算・通知は自動）、PART B=紹介者向け想定問答（発生条件・スケジュール・繰越・振込先変更）。紹介者登録は /partner セルフと財務ページ手動の両対応であることも明記。</li>
+<li><strong>サンドボックス実績の削除</strong>: test-20260717.musubiweb.com の店舗・サイトは温存し、旧サンドボックス由来の paid invoice 1件（¥5,000）と契約1件のみDB削除（財務の収入からテスト値が消えた）。</li>
+<li><strong>ポータル文言の汎用化</strong>（portal <code>4cc9999</code>・134テスト/build成功）: 飲食専用機能は既にライン分岐済みのため、共通表示の文言を中立化 — 「店舗オーナー」→「オーナー」・「自店サイト」→「公式サイト」・metadata/ログイン/ヘルプの「お店」前提表現を修正（restaurant向け画面の飲食文言は温存）。</li>
+<li><strong>Result</strong>: admin/portal はコミットのみ・push待ち。マニュアルはハブ反映。</li>
+<li><strong>証跡</strong>: 上記コミット・削除クエリのreturning出力・本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-19 ・ Preview環境のテスト構成復帰、企業向けプラン正式化</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>:</li>
