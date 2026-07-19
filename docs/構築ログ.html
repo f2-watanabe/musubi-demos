@@ -74,6 +74,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li><strong>グルメサイト予約連携の検討回答</strong>: 公式API・台帳連携は現段階で不可（法人パートナー契約要）。スクレイピングは非推奨。現実解=予約通知メールの自動取込（Cloudflare Email Routing + パーサー→外部予約として登録）を提案、サンプルメール待ち。</li>
 <li><strong>Result</strong>: admin コミット済み（push待ち）。LP・docs反映済み。</li>
 <li><strong>証跡</strong>: 上記コミット・LPデプロイ・本エントリ。</li>
+<li><strong>追記（同日）</strong>: <strong>営業リスト東京版の完成と管理アプリ組込</strong>。(1) Places API で10エリア×6業種を収集→統合・重複排除で <strong>1,053件</strong>（ホット396/ウォーム657）。CSV原本は <code>03_営業リスト/営業リスト_東京_2026-07_ranked.csv</code>。(2) migration <code>0045_prospects</code> を本番適用し全件DB投入（件数実確認）。(3) admin に「開拓リスト」ページ新設（admin <code>f9b6fb5</code>・782テスト/build成功）— KPI・優先度/エリア/業種/状態フィルタ・電話/マップリンク・ステータス即時更新（変更時に接触日自動記録）・担当/メモ。CRM（申込済リード）との役割区分を明記。(4) API利用料は概算¥945を渡辺立替のスポット経費に登録（請求確定後修正のメモ付き）。(5) Google Cloud利用料の動的取得は「BigQuery請求エクスポート+SA」で可能と回答（ユーザーのGCP設定2点待ち。当面はセルフ計測の概算登録運用）。※Mapsキーがチャット貼付されたため Places API 限定のキー制限を推奨済み。</li>
 </ul>
 </div></details>
 <details class="logentry"><summary>2026-07-20 ・ 説明資料・提案資料をゼロから刷新（HTML→PDF・パートナーガイド掲載）</summary><div class="logbody">
