@@ -62,6 +62,21 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-19 ・ LINE連携UXの整理、店舗詳細の2ペイン化、経費の支払者管理と立替精算の拡張</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>:</li>
+<li><strong>顧客セルフLINE連携（前回エントリの追記漏れ分）</strong>: portal /messages に「公式LINEを友だち追加」ボタン+QRコード+8桁連携コードの自動表示を実装済み（admin <code>a851ec2</code>=連携コード発行API・portal <code>27e18eb</code>）。友だち追加URL <code>LINE_ADD_FRIEND_URL</code> を admin/portal 両本番 env に登録し再デプロイ済み。</li>
+<li><strong>ポータルのLINEカード折りたたみ化</strong>（portal <code>db13616</code>）: /messages の「LINEでもやり取りできます」カードを details/summary 化。クリックで開閉、既定は閉。</li>
+<li><strong>admin 店舗詳細の整理</strong>（admin <code>f9fd7a8</code>）: LINE連携コード発行ボタンを削除し、連携はポータルのセルフ連携（QR+コード）に一本化（カードは連携状態バッジ+案内文のみ残す）。あわせてページ下部にあったメッセージを右サイドのスティッキーペインへ分離（デスクトップ2ペイン、スレッド部のみスクロールで返信欄常時表示。1100px未満は従来の縦積み）。</li>
+<li><strong>経費の支払者管理</strong>（admin <code>2b707f6</code>・migration <code>0038_fixed_cost_payer</code> 本番適用済）: fixed_costs に member_id（支払者。null=会社支払い）を追加。/costs の固定費・スポット経費フォームに支払者 select、月次内訳の経費テーブルに支払者列を追加。給料計算の立替精算に「支払者付き固定費（毎月）」を加算（従来はスポット経費の当月分のみ）。分配は従来どおり利益からプール控除後の残りを share% で配分するため、「立替を各人に精算してから残りを分配」の要望と整合。</li>
+<li><strong>固定費3件の実登録</strong>（ユーザー金額確認のうえ本番 insert）: Claudeサブスク ¥15,000 / Google Workspace ¥950 / ドメイン利用料 ¥125（いずれも支払者=渡辺）。</li>
+<li><strong>Why</strong>: ユーザー指示（メッセージ画面が下部で使いにくい・発行動線の重複解消・ドメイン/Google/Claude 実費の計上・誰が払った経費か分かるように+立替精算の明確化）。</li>
+<li><strong>How</strong>: sonnet サブエージェント3並列（portal折りたたみ/店舗詳細/財務）+本体で全体検証。migration はユーザー承認→Supabase MCP 適用→insert returning で行を実確認。</li>
+<li><strong>Result</strong>: admin vitest 583/583 パス・build 成功、portal build 成功。全変更コミット済み（アプリ2リポの push はユーザー指示待ち）。</li>
+<li><strong>証跡</strong>: 上記コミット群・migration 0038 適用+登録行の実確認・本エントリ。</li>
+<li><strong>補足</strong>: 連携コードは有効期限7日・期限内は同一コードを再利用、期限切れ/使用済み後はポータルのメッセージページ表示時に自動で新コードを発行（仕様確認のみ・変更なし）。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-18 ・ 財務機能、LINE公式アカウント連携（通知/顧客連携/メッセージ移行）、パスワード再設定、E2Eデータ削除</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>:</li>
