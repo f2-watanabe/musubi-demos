@@ -62,6 +62,16 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-19 ・ Preview環境のテスト構成復帰、企業向けプラン正式化</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>:</li>
+<li><strong>Previewをテスト構成に</strong>: 本番切替でPreviewもライブキーになっていたため、同一Stripeアカウントの<strong>テストモード</strong>に price を新規作成（飲食3+企業3・べき等）し、admin Preview の <code>STRIPE_PRICE_*</code> 6種をテストIDに登録。<code>STRIPE_SECRET_KEY</code>（Preview・admin/portal）の sk_test 差し替えはユーザー実施。以後プレビューでの決済テストは実課金にならない。</li>
+<li><strong>企業向け3プラン正式化</strong>（admin/portal 各1コミット・742/134テスト・両build成功）: biz_light（月8千/初期9.8万/更新0回）・biz_standard（月1.5万/24.8万/1回）・biz_premium（月2.5万/39.8万/3回）。<code>BIZ_PLAN_LIST</code> を飲食向けと別配列にし、LP申込フローへの混入を防止。プラン選択UIは飲食/企業の optgroup、契約書・初期費用・請求は汎用参照で自動対応。portal は planAccess で restaurant 機能（口コミ/レポート/予約）を企業プランで無効化（contractTemplate は複製同期・diff一致確認）。stripe_setup.mjs にも追加。</li>
+<li><strong>ライブ price 登録</strong>: ユーザーがライブキーで setup 再実行 → <code>STRIPE_PRICE_BIZ_*</code> 3件を CLI で livemode=true・8,000/15,000/25,000 と実確認し Production へ登録、admin redeploy 済み。</li>
+<li><strong>Result</strong>: 企業向け契約が custom 手入力なしで正式プランとして納品・課金できる状態（コードは push 待ち）。保留はこれで「公開アフィリエイト（実績20店舗〜）」のみ。</li>
+<li><strong>証跡</strong>: テスト/ライブ price の検証出力・上記コミット・本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-19 ・ Stripe 本番切替 完了</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: A-1 TODO の5手順を完了。①ユーザーが別ターミナルで stripe_setup.mjs をライブキー実行（キー値は会話・ファイルに残さない運用）→ ライブ price 3件発行。②CLI（stripe login 再認証）で3件とも livemode=true・JPY・月額 ¥5,000/¥15,000/¥20,000 を検証し、Vercel（musubi-admin）の <code>STRIPE_PRICE_LIGHT/STANDARD/PREMIUM</code> を Production+Preview に登録。③<code>STRIPE_SECRET_KEY</code> は admin（Production/Preview）・portal ともユーザーがダッシュボードで本番キーに差し替え。④本番 Webhook（https://admin.musubiweb.com/api/stripe/webhook・イベント6種）作成・<code>STRIPE_WEBHOOK_SECRET</code> 差し替え。⑤Customer Portal（本番）有効化確認。両アプリ redeploy 後、署名なしPOST=400 実測・ライブ Webhook enabled+6イベントを CLI で実確認。</li>
