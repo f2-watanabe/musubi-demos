@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>紹介パートナーのご案内（1枚提案書） — Musubi</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22262f;--acc:#127b66;--verm:#b5402e;--gold:#c8893f;--bg:#f6f4ef;--line:#e8e2d6;--sub:#6f6a60;--muted:#8b8578}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.85}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 90px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.top a{font-size:13px;color:var(--acc);text-decoration:none;font-weight:700}
+.brand{display:flex;align-items:center;gap:10px;margin:14px 0 26px}
+.brand .mk{width:40px;height:40px;object-fit:contain;display:block}
+.brand b{font-size:16px;letter-spacing:.03em}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:.16em}
+h1{font-size:27px;margin:6px 0 14px;letter-spacing:.01em}
+h2{font-size:20px;margin:34px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 8px;color:var(--acc)}
+p{margin:10px 0;font-size:14.5px}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}
+li{font-size:14.5px;margin:5px 0}
+ul.task{list-style:none;padding-left:2px}
+ul.task li{display:flex;gap:10px;align-items:flex-start}
+ul.task .bx{flex:none;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--muted);margin-top:3px;display:grid;place-items:center;font-size:12px;color:#fff}
+ul.task li.done .bx{background:var(--acc);border-color:var(--acc)}
+ul.task li.done span{color:var(--sub)}
+strong{font-weight:700}
+code{background:#efece4;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+pre{background:#fbfaf7;border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow:auto;margin:14px 0}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.6;white-space:pre}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+th{background:#eef3f0;font-weight:700}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+a{color:var(--acc)}
+blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px;margin:12px 0;color:var(--sub);font-size:13.5px}
+img.shot{display:block;max-width:100%;height:auto;margin:14px 0 6px;border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+p:has(>img.shot){margin:16px 0}
+details.logentry{border:1px solid var(--line);border-radius:10px;background:#fbfaf7;margin:10px 0;overflow:hidden}
+details.logentry>summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+details.logentry>summary::-webkit-details-marker{display:none}
+details.logentry>summary::before{content:"▶";font-size:10px;color:var(--acc);transition:transform .15s}
+details.logentry[open]>summary::before{transform:rotate(90deg)}
+details.logentry[open]>summary{border-bottom:1px solid var(--line);background:#f2efe7}
+details.logentry>summary:hover{color:var(--acc)}
+.logbody{padding:4px 18px 16px}
+.logbody h2{border-top:none;padding-top:0;margin-top:14px}
+.note{margin-top:46px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+@media print{.top,.brand{display:none}body{background:#fff}.wrap{padding:0}h2{break-after:avoid}}
+</style></head>
+<body><div class="wrap">
+<div class="top"><a href="../index.html">← デモ一覧に戻る</a></div>
+<div class="brand"><img class="mk" src="../assets/musubi-mark.png" alt="Musubi"><span><b>Musubi</b><small>環境構築ドキュメント</small></span></div>
+<h1>紹介パートナーのご案内 — Musubi</h1>
+<p><strong>貴社のお客様に「集客できる公式サイト」を。紹介だけで、継続報酬をお支払いします。</strong></p>
+<h2>Musubi とは</h2>
+<p>飲食店・中小企業向けのWebサイト制作・運用サービスです。制作して終わりではなく、公開後も運用まで一括で支えます。</p>
+<ul>
+<li>公式サイト制作（スマホ最適化・最短2週間）</li>
+<li>ネット予約（手数料0円）・LINE予約</li>
+<li>Google口コミへのAI返信・月次レポート</li>
+<li>顧客自身でのセルフ編集は回数無制限</li>
+</ul>
+<p><strong>料金</strong>: 飲食店向け 初期5万〜15万円+月額5千〜2万円 / 企業向け 初期9.8万〜39.8万円+月額8千〜2.5万円。長期縛り・違約金なし（いつでも解約可能）。</p>
+<h2>紹介いただきたいお客様</h2>
+<ul>
+<li>食べログ等には載っているが、<strong>公式サイトを持っていない</strong>飲食店</li>
+<li>Googleの口コミ評価は高いのに、ネット予約の受け皿がないお店</li>
+<li>ホームページが古いまま放置されている中小企業</li>
+</ul>
+<h2>パートナー報酬</h2>
+<table><thead><tr><th>項目</th><th>内容</th></tr></thead><tbody><tr><td>報酬</td><td><strong>初期費用の10% + 月額利用料の10%を12ヶ月間</strong></td></tr><tr><td>例: 飲食スタンダード（初期10万+月1.5万）</td><td>10,000円 + 1,500円×12ヶ月 = <strong>28,000円/件</strong></td></tr><tr><td>例: 企業コーポレート（初期24.8万+月1.5万）</td><td>24,800円 + 1,500円×12ヶ月 = <strong>42,800円/件</strong></td></tr><tr><td>支払</td><td>月末締め翌月末払い・振込手数料は当社負担</td></tr></tbody></table>
+<h2>パートナーにしていただくこと</h2>
+<p><strong>ご紹介のみ</strong>です。お客様をおつなぎいただければ、商談・ヒアリング・制作・公開後のサポートまで、すべて Musubi が対応します。貴社の業務負担はありません。</p>
+<ol>
+<li>「サイトを作りたい/集客に困っている」お客様に Musubi をご紹介</li>
+<li>お客様の同意を得て、当社へご連絡（お名前と連絡先のみ）</li>
+<li>成約・決済確認後、報酬をお支払い</li>
+</ol>
+<h2>お客様側のメリット</h2>
+<ul>
+<li>グルメサイト1媒体分の掲載料より安い月額で、自前の集客導線（公式サイト+予約+口コミ運用）を持てる</li>
+<li>予約手数料0円 — ネット予約が増えるほど、グルメサイト経由との差額がそのまま利益に</li>
+<li>契約縛りなし。合わなければいつでも解約でき、支払いが止まるだけ</li>
+</ul>
+<hr>
+<p><strong>お問い合わせ</strong>: Musubi（担当: 渡辺） / 電話 080-4345-7171 / https://musubiweb.com</p>
+<blockquote>本資料はドラフトです。報酬条件の正式なお取り決めは、個別のパートナー合意書にて行います。</blockquote>
+<p class="note">📄 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
+</div></body></html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>事業拡大方針（料金と紹介制度） — Musubi</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22262f;--acc:#127b66;--verm:#b5402e;--gold:#c8893f;--bg:#f6f4ef;--line:#e8e2d6;--sub:#6f6a60;--muted:#8b8578}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.85}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 90px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.top a{font-size:13px;color:var(--acc);text-decoration:none;font-weight:700}
+.brand{display:flex;align-items:center;gap:10px;margin:14px 0 26px}
+.brand .mk{width:40px;height:40px;object-fit:contain;display:block}
+.brand b{font-size:16px;letter-spacing:.03em}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:.16em}
+h1{font-size:27px;margin:6px 0 14px;letter-spacing:.01em}
+h2{font-size:20px;margin:34px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 8px;color:var(--acc)}
+p{margin:10px 0;font-size:14.5px}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}
+li{font-size:14.5px;margin:5px 0}
+ul.task{list-style:none;padding-left:2px}
+ul.task li{display:flex;gap:10px;align-items:flex-start}
+ul.task .bx{flex:none;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--muted);margin-top:3px;display:grid;place-items:center;font-size:12px;color:#fff}
+ul.task li.done .bx{background:var(--acc);border-color:var(--acc)}
+ul.task li.done span{color:var(--sub)}
+strong{font-weight:700}
+code{background:#efece4;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+pre{background:#fbfaf7;border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow:auto;margin:14px 0}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.6;white-space:pre}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+th{background:#eef3f0;font-weight:700}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+a{color:var(--acc)}
+blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px;margin:12px 0;color:var(--sub);font-size:13.5px}
+img.shot{display:block;max-width:100%;height:auto;margin:14px 0 6px;border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+p:has(>img.shot){margin:16px 0}
+details.logentry{border:1px solid var(--line);border-radius:10px;background:#fbfaf7;margin:10px 0;overflow:hidden}
+details.logentry>summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+details.logentry>summary::-webkit-details-marker{display:none}
+details.logentry>summary::before{content:"▶";font-size:10px;color:var(--acc);transition:transform .15s}
+details.logentry[open]>summary::before{transform:rotate(90deg)}
+details.logentry[open]>summary{border-bottom:1px solid var(--line);background:#f2efe7}
+details.logentry>summary:hover{color:var(--acc)}
+.logbody{padding:4px 18px 16px}
+.logbody h2{border-top:none;padding-top:0;margin-top:14px}
+.note{margin-top:46px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+@media print{.top,.brand{display:none}body{background:#fff}.wrap{padding:0}h2{break-after:avoid}}
+</style></head>
+<body><div class="wrap">
+<div class="top"><a href="../index.html">← デモ一覧に戻る</a></div>
+<div class="brand"><img class="mk" src="../assets/musubi-mark.png" alt="Musubi"><span><b>Musubi</b><small>環境構築ドキュメント</small></span></div>
+<h1>事業拡大方針 — 料金と紹介制度（2026-07 決定版）</h1>
+<p>現行の「2人で営業して初期費用+月額をとる」モデルから、紹介チャネルで面を広げるフェーズへ移行するための決定事項をまとめる。検討の経緯・他社比較の根拠は末尾に記載。</p>
+<hr>
+<h2>決定事項サマリー</h2>
+<table><thead><tr><th>項目</th><th>決定</th></tr></thead><tbody><tr><td>料金</td><td><strong>現行維持</strong>（値下げしない）。飲食: ライト5万+月5千 / スタンダード10万+月1.5万 / プレミアム15万+月2万。企業向け: 9.8万+月8千 / 24.8万+月1.5万 / 39.8万+月2.5万</td></tr><tr><td>初期費用の柔軟化</td><td>全面値下げはせず、<strong>商談時のみ</strong>2枚のカードを使う: ①初期費用無料キャンペーン（実装済みフラグ）②分割払いオプション（下記）</td></tr><tr><td>分割払いオプション</td><td>初期0円+月額に分割上乗せ×12回（例: スタンダード=月額15,000+分割8,400）。<strong>途中解約は残額一括清算</strong>（制作物は納品済みのため）。プラン表・LPには載せない</td></tr><tr><td>公開紹介制度</td><td><strong>月額の30%×6ヶ月</strong>。終身報酬なし。最低支払額¥5,000（未達分は翌月繰越）・月末締め翌月末払い</td></tr><tr><td>パートナー制度</td><td>税理士・食材卸・POS業者等の法人紹介者向け。<strong>初期費用の10% + 月額の10%×12ヶ月</strong></td></tr><tr><td>縛り</td><td>サブスク自体の最低利用期間・違約金は<strong>設けない</strong>（分割オプションの残額清算は縛りではなく分割払いの清算）</td></tr></tbody></table>
+<hr>
+<h2>パートナーとは</h2>
+<p>飲食店・中小企業と<strong>日常的に接点がある業者</strong>に、顧客を紹介してもらう仕組み。営業を2人から増やさずに営業網だけを増やす手段。</p>
+<ul>
+<li>税理士・会計事務所（顧問先の飲食店・中小企業）</li>
+<li>食材卸・酒販店（担当営業が数十軒の飲食店を巡回している）</li>
+<li>POSレジ・キャッシュレス決済の販売代理店（飲食店に機器を入れている）</li>
+<li>商工会議所・商店街組合</li>
+</ul>
+<p>現時点でパートナーは0。だからこそ「パートナー提案書（1枚）」を持って口説きに行く。1人口説ければその先の数十軒に面で届くのがこのチャネルの強み。</p>
+<h2>紹介制度とパートナー制度の使い分け</h2>
+<table><thead><tr><th></th><th>公開紹介制度</th><th>パートナー制度</th></tr></thead><tbody><tr><td>対象</td><td>既存顧客の店主・個人の紹介者</td><td>業者（法人・事業者）</td></tr><tr><td>報酬</td><td>月額の30%×6ヶ月</td><td>初期の10%+月額の10%×12ヶ月</td></tr><tr><td>スタンダード1件あたり</td><td>¥4,500×6 = <strong>¥27,000</strong></td><td>¥10,000+¥1,500×12 = <strong>¥28,000</strong></td></tr><tr><td>企業向けコーポレート1件</td><td>¥4,500×6 = ¥27,000</td><td>¥24,800+¥1,500×12 = <strong>¥42,800</strong></td></tr><tr><td>狙い</td><td>店主の横のつながり（口コミ）</td><td>面での送客・継続的な紹介</td></tr></tbody></table>
+<p>どちらも顧客生涯収入（スタンダード24ヶ月継続で約46万円）に対して<strong>6〜7%の獲得コスト</strong>。営業人件費より大幅に安い。</p>
+<h2>進める順番（フェーズ）</h2>
+<ol>
+<li><strong>顧客紹介（今すぐ）</strong> — 既存顧客に紹介カードを渡す。報酬は公開紹介制度と同じ30%×6ヶ月。実績と事例を貯める。</li>
+<li><strong>パートナー開拓（並行）</strong> — 1枚提案書を持って税理士・卸・POS業者を回る。まず2〜3社。</li>
+<li><strong>公開アフィリエイト（実績20店舗〜）</strong> — 導入実績の数字が揃ってから制度ページを公開。外部ASPは手数料を取られるため、まず自社ポータルの紹介コードで運用。</li>
+</ol>
+<h2>やらないこと（NGライン）</h2>
+<ul>
+<li><strong>長期縛り（24〜36ヶ月）+解約時データ非引き渡し</strong>。格安競合の常套手段だが、リース商法と同じ見え方になる。「いつでも解約できて支払いが止まるだけ」は Musubi の営業上の差別化資産であり崩さない。</li>
+<li><strong>初月無料の全面導入</strong>。営業して制作するモデルでは成約率をほぼ動かさず月額を捨てるだけ。無料期間はキャンペーンフラグで個別対応。</li>
+<li><strong>終身の少額報酬（月額1%等）</strong>。金額が小さすぎて動機にならず、振込事務だけが永遠に残る。</li>
+</ul>
+<hr>
+<h2>根拠（他社比較・相場の要点）</h2>
+<ul>
+<li>継続レベニューシェアの業界標準は<strong>月額の15〜20%</strong>（Shopifyパートナー20%等）。30%×6ヶ月は期間限定高率型で、総額は一時金相場（月額の2〜3ヶ月分: ペライチ1万円、Shopify $150）を上回る競争力のある水準。</li>
+<li>士業・代理店経由の国内Web制作の実例は「初期の10%+月額の5〜10%継続」レンジ。パートナー報酬はこの上限側に設定。</li>
+<li>格安「初期0円」業者（月額WEB: 24ヶ月解約不可 / できるくん: 36ヶ月未満はデータ提供不可 等）は縛りで回収を担保している。当社は分割払い（残額清算・データは顧客のもの）で同じ心理障壁を解消する。</li>
+<li>支払条件の共通ルール（ペライチ・Wix等）: 課金発生の翌月確定・月次支払・無料期間中の解約は対象外。規約ドラフトに反映済み。</li>
+</ul>
+<p>関連資料: <a href="紹介制度規約.html">紹介制度規約ドラフト</a> / <a href="パートナー提案書.html">パートナー提案書（1枚）</a> / サービス価格表</p>
+<p class="note">📈 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
+</div></body></html>

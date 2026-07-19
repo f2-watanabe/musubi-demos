@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<script src="../auth.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>紹介制度規約（ドラフト） — Musubi</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22262f;--acc:#127b66;--verm:#b5402e;--gold:#c8893f;--bg:#f6f4ef;--line:#e8e2d6;--sub:#6f6a60;--muted:#8b8578}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.85}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 90px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.top a{font-size:13px;color:var(--acc);text-decoration:none;font-weight:700}
+.brand{display:flex;align-items:center;gap:10px;margin:14px 0 26px}
+.brand .mk{width:40px;height:40px;object-fit:contain;display:block}
+.brand b{font-size:16px;letter-spacing:.03em}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:.16em}
+h1{font-size:27px;margin:6px 0 14px;letter-spacing:.01em}
+h2{font-size:20px;margin:34px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:15.5px;margin:20px 0 8px;color:var(--acc)}
+p{margin:10px 0;font-size:14.5px}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}
+li{font-size:14.5px;margin:5px 0}
+ul.task{list-style:none;padding-left:2px}
+ul.task li{display:flex;gap:10px;align-items:flex-start}
+ul.task .bx{flex:none;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--muted);margin-top:3px;display:grid;place-items:center;font-size:12px;color:#fff}
+ul.task li.done .bx{background:var(--acc);border-color:var(--acc)}
+ul.task li.done span{color:var(--sub)}
+strong{font-weight:700}
+code{background:#efece4;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+pre{background:#fbfaf7;border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow:auto;margin:14px 0}
+pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.6;white-space:pre}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+th{background:#eef3f0;font-weight:700}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+a{color:var(--acc)}
+blockquote{border-left:3px solid var(--gold);background:#fbf7ee;padding:8px 14px;margin:12px 0;color:var(--sub);font-size:13.5px}
+img.shot{display:block;max-width:100%;height:auto;margin:14px 0 6px;border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+p:has(>img.shot){margin:16px 0}
+details.logentry{border:1px solid var(--line);border-radius:10px;background:#fbfaf7;margin:10px 0;overflow:hidden}
+details.logentry>summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+details.logentry>summary::-webkit-details-marker{display:none}
+details.logentry>summary::before{content:"▶";font-size:10px;color:var(--acc);transition:transform .15s}
+details.logentry[open]>summary::before{transform:rotate(90deg)}
+details.logentry[open]>summary{border-bottom:1px solid var(--line);background:#f2efe7}
+details.logentry>summary:hover{color:var(--acc)}
+.logbody{padding:4px 18px 16px}
+.logbody h2{border-top:none;padding-top:0;margin-top:14px}
+.note{margin-top:46px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+@media print{.top,.brand{display:none}body{background:#fff}.wrap{padding:0}h2{break-after:avoid}}
+</style></head>
+<body><div class="wrap">
+<div class="top"><a href="../index.html">← デモ一覧に戻る</a></div>
+<div class="brand"><img class="mk" src="../assets/musubi-mark.png" alt="Musubi"><span><b>Musubi</b><small>環境構築ドキュメント</small></span></div>
+<h1>Musubi 紹介制度 利用規約（ドラフト）</h1>
+<blockquote><strong>ドラフト版</strong>（2026-07）。公開前に弁護士等の専門家によるリーガルチェックを行うこと。金額・料率は「事業拡大方針_料金と紹介制度」の決定事項に基づく。</blockquote>
+<h2>第1条（目的）</h2>
+<p>本規約は、Musubi（以下「当社」）が提供するWebサイト制作・運用サービス（以下「本サービス」）の紹介制度（以下「本制度」）について、紹介者と当社の間の条件を定めるものです。</p>
+<h2>第2条（定義）</h2>
+<ol>
+<li>「紹介者」とは、本規約に同意のうえ本制度に参加する個人または法人をいいます。</li>
+<li>「被紹介者」とは、紹介者の紹介により本サービスを申し込む店舗・事業者をいいます。</li>
+<li>「成約」とは、被紹介者が当社と本サービスの契約を締結し、<strong>初回の月額利用料の決済が完了</strong>したことをいいます。</li>
+</ol>
+<h2>第3条（参加資格）</h2>
+<ol>
+<li>本制度には、当社の顧客であるか否かにかかわらず参加できます。</li>
+<li>未成年者、反社会的勢力に該当する者、過去に本規約違反により資格を取り消された者は参加できません。</li>
+</ol>
+<h2>第4条（紹介の成立）</h2>
+<ol>
+<li>紹介は、当社所定の方法（紹介コードの利用、申込時の紹介者名の申告、または当社への事前連絡）により行うものとします。</li>
+<li>次の場合、紹介は成立しません。</li>
+</ol>
+<ul>
+<li>被紹介者が申込時点で既に当社と商談中または契約中の場合</li>
+<li>紹介者自身による申込（自己申込）の場合</li>
+<li>紹介の事実が確認できない場合</li>
+</ul>
+<h2>第5条（報酬）</h2>
+<ol>
+<li>報酬は、<strong>被紹介者の月額利用料（税抜）の30%を、初回決済月から6ヶ月間</strong>支払います。</li>
+<li>被紹介者が6ヶ月以内に解約した場合、解約月の翌月以降の報酬は発生しません。</li>
+<li>無料期間・トライアル期間中の解約、および決済が完了しなかった月は報酬の対象外です。</li>
+<li>初期費用は報酬の対象外です。</li>
+<li>業者向けパートナー契約（別途締結）を締結した紹介者には、本条に代えてパートナー契約の報酬条件（初期費用の10%+月額利用料の10%×12ヶ月）を適用します。</li>
+</ol>
+<h2>第6条（報酬の確定と支払）</h2>
+<ol>
+<li>報酬は、被紹介者の決済完了月の<strong>月末に締め、翌月末</strong>に紹介者の指定口座へ振り込みます。</li>
+<li><strong>最低支払額は5,000円</strong>とし、未達の場合は達するまで翌月以降に繰り越します。</li>
+<li>振込手数料は当社が負担します。</li>
+<li>報酬の受領に伴う税務処理（確定申告等）は紹介者の責任で行うものとします。当社が法令上源泉徴収を要する場合は、源泉徴収後の金額を支払います。</li>
+</ol>
+<h2>第7条（禁止事項）</h2>
+<p>紹介者は次の行為をしてはなりません。違反した場合、当社は報酬の不支給・参加資格の取消しができます。</p>
+<ol>
+<li>虚偽または誇大な説明による勧誘（効果・実績の捏造を含む）</li>
+<li>スパム行為（無差別なメール送信・SNS投稿等）</li>
+<li>当社または第三者になりすます行為</li>
+<li>被紹介者に金銭その他の利益を提供して申込を誘引する行為（当社が公認したキャンペーンを除く）</li>
+<li>当社の信用を毀損する行為</li>
+</ol>
+<h2>第8条（制度の変更・終了）</h2>
+<ol>
+<li>当社は、1ヶ月前までの通知により本制度の内容を変更し、または終了できます。</li>
+<li>変更・終了の時点で既に確定している報酬は、変更後も従前の条件で支払います。</li>
+</ol>
+<h2>第9条（その他）</h2>
+<ol>
+<li>本制度への参加により、当社と紹介者の間に雇用・代理・委任関係は生じません。</li>
+<li>本規約に定めのない事項は、当社と紹介者が誠実に協議して定めます。</li>
+</ol>
+<hr>
+<h3>運用メモ（規約本文には含めない・社内向け）</h3>
+<ul>
+<li>報酬の計算・支払管理は当面スプレッドシートで運用し、件数が月5件を超えたら admin に紹介コード管理機能を実装する。</li>
+<li>個人紹介者への報酬は原則「報酬・料金」に該当しないが、源泉徴収の要否は税理士に確認する。</li>
+<li>紹介カード（店頭配布用）は本規約の公開後に作成する。</li>
+</ul>
+<p class="note">🤝 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
+</div></body></html>
