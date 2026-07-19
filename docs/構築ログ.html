@@ -62,6 +62,21 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-19 ・ 残実装の一括対応（LINE自動予約システム化・電話予約手動登録・紹介者自動通知・SaaS使用量モニタ・エディタ画像追従・yoyakuドメイン・紹介制度の公開ページ化）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>（admin <code>21cf01e</code>〜<code>7042972</code> の6コミット・portal <code>b534373</code>/<code>66de419</code>・local-web-sales 1コミット・migration <code>0042</code>〜<code>0044</code> 本番適用済）:</li>
+<li><strong>LINE自動予約のシステム化</strong>（プレミアム）: 予約ページで選んだ日時・人数・席・コースを予約コード付きLINEメッセージ化（<code>[予約コード:v1:…]</code>）。店舗別webhook <code>/api/line/store-webhook/&lt;storeId&gt;</code> が店舗ごとの channel_secret で署名検証→空き確認→自動確定→自動返信（満席・重複も自動応答）。店舗詳細にチャネル登録UI（0042: store_line_channels）。テンプレ3種は <code>line_auto</code> フラグで切替（sync済み）。手順書は旧GAS方式を全面撤去し新フローに書き換え。コード無しの通常メッセージには一切干渉しない。</li>
+<li><strong>予約URLの独自化</strong>: yoyaku.musubiweb.com を新設（Cloudflare DNS + Vercelドメイン + middlewareホスト振分）。確認メール・リマインド・LINE返信のリンクは <code>yoyaku.musubiweb.com/&lt;token&gt;</code> に短縮。旧 admin.musubiweb.com/yoyaku も併存。</li>
+<li><strong>電話予約の手動登録</strong>: admin予約管理に「予約を追加」（通常はRPC容量チェック・「満席でも登録」オーバーライド可・臨時休業日は常にブロック）。portalにも追加（容量チェック厳密・オーバーライドなし）。0043=オーナーinsertポリシー（保険）。</li>
+<li><strong>紹介者への自動通知</strong>: 紹介店舗の初回月額決済を日次cronが検知し紹介者へメール（店名は伏せて件数・二重送信防止=0044）。振込記録時も即時メール。</li>
+<li><strong>SaaS使用量モニタ</strong>: Supabase DB容量（500MB枠・Management API read-only SQL）と Resend 送信数（3,000通枠・quotaヘッダー）を自動取得し月上限アラートに表示。Vercel/Cloudflare/GA4 はAPI都合で非対応と明記。<strong>要env: <code>SUPABASE_MGMT_TOKEN</code></strong>。</li>
+<li><strong>エディタ画像の並べ替え追従</strong>: 配列項目の並べ替え・途中削除・挿入時に data-img-slot の override を remap（両リポ同期・純関数+テスト）。注意書き運用を解消。</li>
+<li><strong>紹介制度の公開ページ化</strong>: 規約とガイドを musubiweb.com/partner-terms.html・partner-guide.html として公開（ハブはパスワード付き内部用に純化）。/partner のリンク差し替え・<strong>企業向け紹介リンク</strong>（business.html?ref=）併記・<strong>振込先のセルフ変更</strong>（コード+メール照合）追加。business.html も ?ref を取り込み。</li>
+<li>保留継続: 公開アフィリエイト（実績20店舗〜）・企業プラン正式化（Stripe本番後）・Stripe本番切替。営業リストは仕組みのみ（Places APIキー+エリア指定で実行可）。</li>
+<li><strong>Result</strong>: admin vitest 737/737・portal 133/133・両build成功。LP（partner-terms/guide・business ref）は本番デプロイ済み。<strong>admin/portal はコミットのみ・未push</strong>。</li>
+<li><strong>証跡</strong>: 上記コミット群・migration 0042/0043/0044（適用+一致確認）・Cloudflare DNSレコード作成・vercel domains add 結果・本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-19 ・ 財務3改善（ツールチップ/Stripe手数料/固定費期間）、紹介者セルフ登録、営業ガイド、ハブHTTPS障害対応</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>:</li>
