@@ -62,6 +62,19 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-20 ・ グルメサイト予約通知メールの自動取込（食べログ/ホットペッパー→予約台帳へ）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>（admin コミット済・portal <code>edb3e82</code>・migration <code>0046</code> 本番適用済）:</li>
+<li><strong>背景</strong>: グルメサイトの予約在庫APIは台帳事業者限定・スクレイピングは規約違反のため、<strong>予約通知メールの取込</strong>方式を採用（本セッション前半の実態調査どおり、通知メールは全サービス必ず届く）。</li>
+<li><strong>受信基盤</strong>: Cloudflare Email Routing を<strong>サブドメイン <code>in.musubiweb.com</code> に限定して有効化</strong>（apex の Google Workspace MX は不変、dig で実確認）。catch-all → Email Worker <code>musubi-mail-inbox</code>（MIME解析: multipart再帰・QP/base64・RFC2047対応の自作最小実装）→ admin <code>POST /api/reserve/mail-inbox</code>（Bearer 認証・timingSafeEqual）。Worker は API 失敗時 admin@ へ転送するフェイルセーフ（宛先は検証済み）。</li>
+<li><strong>取込ロジック</strong>: 店舗解決は宛先 <code>yoyaku-&lt;site_project&gt;@in.musubiweb.com</code>。差出人/件名からプロバイダ判定（hotpepper.jp / tabelog。件名の実書式はリサーチで確定した範囲のみ使用）。日時・人数・氏名等を寛容パースし、成功時は<strong>外部確定済み予約として直接insert</strong>（容量チェックなし=グルメサイト側で確定済みのため必ず記録。空席計算に即反映）+ 店主LINE通知。<strong>キャンセル/変更/パース失敗は inbound_mails に記録して運営LINE+メールで手動対応依頼</strong>（取りこぼしゼロ設計）。冪等（外部予約番号 or 24h内の同一内容）。</li>
+<li><strong>UI</strong>: admin/portal の予約行にチャネルバッジ（食べログ/ホットペッパー/LINE/手動/外部）。</li>
+<li><strong>手順書</strong>: <code>グルメサイト予約取込手順.md</code> 新規（食べログ=通知先メール3件目に取込アドレス追加が公式に可能 / レストランボード=転送設定の代替手順）・ハブ掲載。</li>
+<li>実メール書式は未入手のため、<strong>初回の実メール受信時にパーサー精度を検証・調整する前提</strong>（失敗しても運営通知に必ず回る）。</li>
+<li><strong>Result</strong>: admin 814/814・portal 134/134・build成功。Worker/ルーティング/DNSは本番設定済み。<strong>残り: ①INBOUND_MAIL_SECRET の投入（ユーザーのターミナルで実施・値を会話に出さないため）②admin の push</strong>。</li>
+<li><strong>証跡</strong>: dig MX 実測（apex=Google維持/in=Cloudflare）・Worker デプロイAPI成功・catch-all 設定成功・本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-20 ・ 営業ガイド限定化・LP4本柱・プラン機能マトリクス・LINE活用ガイド・登録メール・営業リスト収集</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>:</li>
