@@ -62,6 +62,19 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-20 ・ 開拓リスト全3,138件のWeb保有検証（Claude WebSearch方式・完了）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 開拓リスト（prospects）全件について「Google上は『Web状況：無』でも実際は公式サイトを持っている店」をWeb検索で洗い出し、営業対象から除外した。</li>
+<li><strong>背景</strong>: ユーザー指摘「web状況『無』でも実際は自社サイト持ちが多い」。Google Places APIには公式サイト有無の確実なフィールドがなく、APIキー不要の Claude WebSearch 方式を採用。</li>
+<li><strong>方法</strong>: 50件=1チャンク（ホット23・ウォーム41）に分割し、sonnet サブエージェントが店舗ごとに「店名+エリア」で検索して判定。判定は安全側（確信なければ「無」のまま）。チェーン・運営会社サイト内の店舗ページは「有」。グルメポータル・SNS・無料ページビルダー（owst.jp / gorp.jp / wixsite / lit.link 等）・商業施設テナント一覧は「無」扱い。</li>
+<li><strong>DB反映</strong>: 検出店は <code>status=&#x27;見送り&#x27;</code> + <code>website_kind=&#x27;有(検索検出)&#x27;</code> + memo に検出URL。<code>status=&#x27;未着手&#x27;</code> の行のみ更新（手動で動かした行は上書きしない）。</li>
+<li><strong>Result</strong>（DB実測・priority×status集計）:</li>
+<li>ホット: 1,123件中 <strong>158件検出（14%）</strong> → 残り未着手 <strong>965件</strong></li>
+<li>ウォーム: 2,015件中 <strong>271件検出（13%）</strong> → 残り未着手 <strong>1,744件</strong></li>
+<li>合計: 3,138件中 <strong>429件検出</strong> → 真の「Webサイト未保有」見込み店舗 <strong>2,709件</strong></li>
+<li><strong>証跡</strong>: prospects 集計クエリ実測（ホット/未着手965・ホット/見送り158・ウォーム/未着手1744・ウォーム/見送り271）・検証結果JSON 64ファイル（ホット23+ウォーム41、セッション scratchpad）・本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-20 ・ グルメサイト予約通知メールの自動取込（食べログ/ホットペッパー→予約台帳へ）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>（admin コミット済・portal <code>edb3e82</code>・migration <code>0046</code> 本番適用済）:</li>
