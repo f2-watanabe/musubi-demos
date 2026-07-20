@@ -62,6 +62,18 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-20 ・ 微修正5件（LPヒーロー・開拓リストメモ列・Claude経費注記・給料月送り・声かけ日記録）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>:</li>
+<li>LP: H1直下のベネフィット行を削除・ヒーロー3項目のフォント統一（<code>8363593</code>・デプロイ済み）。</li>
+<li>admin 開拓リスト: メモ列が1段浮く問題を修正（td への -webkit-box 直適用が原因。内側 div にクランプを移動）。</li>
+<li>財務: Claudeサブスク行の注記を「経費計上も2026-06開始」に修正（DB直更新。starts_on は元々 2026-06-01 で正）。</li>
+<li>給料計算（/costs 内）: <code>month</code> パラメータ+前月/翌月ナビで過去月も閲覧可能に。</li>
+<li>パートナー担当の手放し時に「声をかけた日」を記録可能に（prospects.partner_contacted_on・migration <code>0048</code> 適用済み）。未担当カードに「◯月◯日 声かけ済み」バッジ・admin 開拓リストにも表示。重複営業の抑止。</li>
+<li><strong>Result</strong>: admin build exit 0・テスト814件通過（コミット <code>d9f7a52</code>・push待ち）。LP は本番反映済み。</li>
+<li><strong>証跡</strong>: コミット local-web-sales <code>8363593</code>・admin <code>d9f7a52</code>・migration 0048 適用成功・本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-20 ・ LP3枚看板再編・資料最新化・3観点レビューと指摘修正・LINE表示名</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>:</li>
