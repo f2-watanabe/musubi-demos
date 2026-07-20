@@ -62,6 +62,17 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-20 ・ LP3枚看板再編・資料最新化・3観点レビューと指摘修正・LINE表示名</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>:</li>
+<li><strong>LP再編</strong>（<code>61eeed8</code>→修正 <code>21ff54e</code>・Cloudflare Pages musubi-www デプロイ済み）: 4本柱→<strong>3枚看板</strong>（Web制作・AI口コミ返信・セルフ編集。前2者を強調カード化）。AI口コミは「手間ゼロ＝AIが下書き、あなたは承認するだけ」訴求。ネット予約・月次レポートはサブ機能へ降格（デモは維持）。</li>
+<li><strong>資料最新化</strong>（<code>d2e1e6d</code>）: 紹介者向け営業ガイド（担当機能の使い方章を新設・声かけ2パターン化）・説明資料・提案資料を3枚看板に統一、PDF再生成。admin のコード認証ガイド（partner.musubiweb.com/guide）も同内容に同期（admin <code>8f8c500</code>）。</li>
+<li><strong>3観点レビュー</strong>（コピー品質12件・整合性7件・表示検証6件）→ <strong>採用22項目を修正</strong>（<code>21ff54e</code>）: スマホでヒーロー訴求文が非表示だった問題・H1直下ベネフィット行追加・技術用語平易化・公開期間を「最短10営業日（約2週間）」に全資材統一・申込APIを admin.musubiweb.com に統一・モバイルで予約デモ日曜列見切れ修正・バッジコントラスト改善・分割払いOKバッジ・proposal.pdf のページ分断解消 等。価格/紹介報酬/担当機能の記述矛盾なし・実績数値の捏造なしをレビューで確認。</li>
+<li><strong>admin 修正</strong>（<code>1308e2f</code>・<code>8f8c500</code>・push済み）: 開拓リストPC表示崩れ（内部スクロール+stickyヘッダーで編集パネルが浮遊する不具合）修正・パートナー担当の管理側解除ボタン・担当パートナーを名前表示（referrers 照合）・LINE受信者の表示名を登録時保存+既存2件バックフィル。</li>
+<li><strong>Result</strong>: LP 390px/1280px 崩れなし実機確認・PDF 7/6ページ収束確認・admin build exit 0+テスト814件通過・全リポ push済み。</li>
+<li><strong>証跡</strong>: コミット local-web-sales <code>d2e1e6d</code> <code>61eeed8</code> <code>21ff54e</code>・admin <code>1308e2f</code> <code>8f8c500</code>・wrangler デプロイ成功・curl/Playwright 実測・本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-20 ・ 開拓リストUI刷新＋紹介先の担当（押さえ）管理</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>（admin コミット <code>b5a7aac</code> / <code>a319cfa</code>・push済・migration <code>0047</code> 本番適用済）:</li>
