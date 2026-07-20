@@ -65,7 +65,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <p>サイトのテンプレート種別（<code>stores.template</code>）で自動判定される。プラン名（light/standard/…と biz_light/biz_standard/…）そのものではなく、<strong>テンプレート種別がラインを決める</strong>。飲食向けプラン契約でも <code>general</code> テンプレートを選べば企業向け扱いになりうる（通常運用ではしないが、コード上の制約ではない）。</p>
 <h3>1-2. プラン体系（<code>musubi-admin/lib/plans.ts</code>）</h3>
 <table><thead><tr><th>plan key</th><th>表示ラベル（コード）</th><th>初期費用</th><th>月額</th></tr></thead><tbody><tr><td><code>light</code></td><td>ライト</td><td>50,000円</td><td>5,000円</td></tr><tr><td><code>standard</code></td><td>スタンダード</td><td>100,000円</td><td>15,000円</td></tr><tr><td><code>premium</code></td><td>プレミアム</td><td>150,000円</td><td>20,000円</td></tr><tr><td><code>biz_light</code></td><td>企業シンプル</td><td>98,000円</td><td>8,000円</td></tr><tr><td><code>biz_standard</code></td><td>企業コーポレート</td><td>248,000円</td><td>15,000円</td></tr><tr><td><code>biz_premium</code></td><td>企業プレミアム</td><td>398,000円</td><td>25,000円</td></tr><tr><td><code>custom</code></td><td>カスタム（個別見積）</td><td>スタッフ手入力</td><td>スタッフ手入力</td></tr></tbody></table>
-<p>⚠要確認: <code>07_マーケサイト/business.html</code>（企業向けLP）は3プランを <strong>「ライト／スタンダード／プレミアム」と、飲食向けと同じプラン名で表示</strong>している（コード上のラベルは「企業シンプル／企業コーポレート／企業プレミアム」）。金額（98,000/8,000・248,000/15,000・398,000/25,000）は完全一致しているため実害はないが、名称は揃っていない。本書では区別のため以降「シンプル／コーポレート／プレミアム」と表記する。</p>
+<p>解消済み（2026-07-20）: 企業向けLPのプラン名を「シンプル／コーポレート／プレミアム」に統一（説明資料・提案資料・パートナーLP・システムのラベルと一致）。本書でも同表記を使う。</p>
 <hr>
 <h2>2. 飲食向けマトリクス</h2>
 <p>対象: <code>businessLine = restaurant</code>（テンプレート <code>restaurant</code> / <code>sushi</code> / <code>cafe</code> / <code>ramen</code>）。</p>
@@ -110,7 +110,7 @@ premium:  { reviews: true,  reports: true,  reserve: true  }</code></pre>
 <hr>
 <h2>コードとLPの食い違い一覧</h2>
 <ol>
-<li><strong>企業向けプランの名称</strong>: LP（<code>business.html</code>）は3プランを「ライト／スタンダード／プレミアム」と表示。コード（<code>plans.ts</code>）のラベルは「企業シンプル／企業コーポレート／企業プレミアム」。金額は一致。名称のみ不一致。</li>
+<li><strong>企業向けプランの名称</strong>: 解消済み（2026-07-20）。LPを「シンプル／コーポレート／プレミアム」に統一（コードの正式ラベルは識別用に「企業」接頭辞付きのまま＝意図的）。</li>
 <li><strong>LINE自動予約のプラン制約</strong>: LP・マニュアル類は「プレミアムプラン限定」と案内しているが、コード（<code>content.reserve.line_auto</code> フラグと <code>store_line_channels</code> 登録）にはプラン制約が存在しない。スタッフが手動設定すればライト/スタンダードでも技術的には動作する。運用ルールとしての制限であり、コードのバグではない。</li>
 <li><strong>公式LINE導入代行・独自ドメインのプラン紐付け</strong>: どちらも「プレミアム標準」という案内はLP・手順書・コード上のUIラベルで一致しているが、実装上（<code>siteDomain.ts</code> の検証ロジック、LINE導入代行の手順書）はプランによる強制がなく、運用判断でスタッフが実施する形になっている。機能自体はコードで動くため矛盾ではないが、契約プランと実装の結びつきが「運用ルール」止まりである点は認識しておくべき。</li>
 </ol>
