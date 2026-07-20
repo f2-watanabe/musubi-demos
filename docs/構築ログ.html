@@ -62,6 +62,16 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-20 ・ 開拓リストUI刷新＋紹介先の担当（押さえ）管理</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>（admin コミット <code>b5a7aac</code> / <code>a319cfa</code>・push済・migration <code>0047</code> 本番適用済）:</li>
+<li><strong>開拓リストUI刷新</strong>（admin /prospects）: KPI4枚（全体/ホット残/ウォーム残/見送り）+ 進捗ファネル（未着手→接触済み→アポ→成約・クリックで絞り込み）。店名検索・並び替え（スコア/評価/口コミ数/接触日）。フィルタpill・エリア/業種セレクトに件数併記、「絞り込み結果: N件」表示。テーブルは店舗2段組・stickyヘッダー・Web状況バッジ色分け（「無」=狙い目強調）・メモ2行クランプ。760px以下でカード表示・電話はタップしやすいボタン。</li>
+<li><strong>紹介先の担当管理</strong>（partner.musubiweb.com/list）: パートナーが「この店を担当する」で押さえ→他パートナーにはグレーアウト「他のパートナーが対応中」（担当者コードは非公開）。「あなたの担当リスト」セクション＋「手放す」ボタン。自動解放なし・同時担当上限なし（ユーザー決定）。押さえは条件付きUPDATE（<code>claimed_by is null</code> の行のみ更新）で同時押しの競合も安全。admin開拓リストの担当セルに「パートナー: コード」バッジ表示（運営の営業との被りも防止）。</li>
+<li><strong>DB</strong>: prospects に <code>claimed_by</code> / <code>claimed_at</code> 追加（migration 0047・追加のみ非破壊・列存在を実確認）。</li>
+<li><strong>Result</strong>: <code>npm run build</code> exit 0・既存テスト22件通過・admin push済（Vercel本番反映）。</li>
+<li><strong>証跡</strong>: コミット <code>b5a7aac</code> <code>a319cfa</code>・migration 0047 適用成功＋information_schema 列確認・本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-20 ・ 開拓リスト全3,138件のWeb保有検証（Claude WebSearch方式・完了）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 開拓リスト（prospects）全件について「Google上は『Web状況：無』でも実際は公式サイトを持っている店」をWeb検索で洗い出し、営業対象から除外した。</li>
