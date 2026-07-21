@@ -53,7 +53,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 /* layout */
 .layout{display:grid;grid-template-columns:1fr 332px;gap:30px;align-items:start;padding:36px 0 90px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 26px 28px;margin-bottom:18px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:26px 26px 28px;margin-bottom:18px}
 .panel-h{display:flex;align-items:center;gap:11px;margin-bottom:4px}
 .panel-h .pn{font-family:var(--font-head);font-size:13px;color:#fff;background:var(--ember);width:28px;height:28px;border-radius:7px;display:grid;place-items:center;flex:none}
 .panel-h h2{font-family:var(--font-head);font-size:20px;font-weight:400;letter-spacing:.02em}
@@ -66,7 +66,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .cal-nav button{width:44px;height:44px;border-radius:7px;border:1px solid var(--line);background:var(--panel2);font-size:15px;color:var(--ink);display:grid;place-items:center;transition:.2s}
 .cal-nav button:hover:not(:disabled){border-color:var(--ember);color:var(--ember-light)}
 .cal-nav button:disabled{opacity:.35;cursor:not-allowed}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
 .cal-grid .dow{text-align:center;font-family:var(--font-lbl);font-size:11px;color:var(--muted);letter-spacing:.06em;padding-bottom:4px}
 .cal-grid .dow.sun{color:var(--ember-light)}.cal-grid .dow.sat{color:#7fa3e0}
 .day{aspect-ratio:1/1;border:1px solid var(--line);border-radius:8px;background:var(--panel2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:.18s;position:relative}
@@ -115,10 +115,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 /* courses */
 .courses{display:flex;flex-direction:column;gap:12px}
-.course{display:flex;gap:16px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:14px;background:var(--panel2);transition:.18s;text-align:left;width:100%}
+.course{display:flex;gap:16px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:14px;background:var(--panel2);transition:.18s;text-align:left;width:100%}
 .course:hover{border-color:var(--ember)}
 .course.sel{border-color:var(--ember);background:rgba(201,58,28,.1);box-shadow:0 0 0 1px var(--ember) inset}
-.course .cimg{width:76px;height:76px;border-radius:8px;background:#2a231d center/cover;flex:none;overflow:hidden}
+.course .cimg{width:76px;height:76px;border-radius:6px;background:#2a231d center/cover;flex:none;overflow:hidden}
 .course .cimg img{width:100%;height:100%;object-fit:cover;display:block}
 .course .ci{flex:1;min-width:0}
 .course .ci h4{font-family:var(--font-head);font-size:17px;font-weight:400;letter-spacing:.01em}
@@ -141,7 +141,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .cust textarea{min-height:74px;resize:vertical}
 
 /* summary */
-.summary{position:sticky;top:84px;background:var(--bg0);color:var(--ink);border-radius:10px;padding:24px;box-shadow:0 18px 40px rgba(0,0,0,.5);border:1px solid var(--line)}
+.summary{position:sticky;top:84px;background:var(--bg0);color:var(--ink);border-radius:8px;padding:24px;box-shadow:0 18px 40px rgba(0,0,0,.5);border:1px solid var(--line)}
 .summary h3{font-family:var(--font-head);font-size:16px;font-weight:400;color:var(--ink);letter-spacing:.04em;padding-bottom:14px;border-bottom:1px solid var(--line)}
 .srow{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}
 .srow .k{color:var(--muted);flex:none;font-family:var(--font-lbl);font-size:11.5px;text-transform:uppercase}
@@ -167,7 +167,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 /* modal */
 .overlay{position:fixed;inset:0;background:rgba(5,4,3,.72);backdrop-filter:blur(3px);z-index:100;display:none;align-items:center;justify-content:center;padding:24px}
 .overlay.on{display:flex}
-.modal{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:440px;width:100%;padding:38px 34px;text-align:center;box-shadow:0 40px 90px rgba(0,0,0,.6);animation:pop .35s cubic-bezier(.2,.9,.3,1.2)}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:10px;max-width:440px;width:100%;padding:38px 34px;text-align:center;box-shadow:0 40px 90px rgba(0,0,0,.6);animation:pop .35s cubic-bezier(.2,.9,.3,1.2)}
 @keyframes pop{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:none}}
 .modal .ok-ic{width:62px;height:62px;border-radius:50%;background:var(--ok);display:grid;place-items:center;margin:0 auto 18px}
 .modal .ok-ic svg{width:30px;height:30px;stroke:#fff;stroke-width:3;fill:none}
@@ -229,7 +229,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .policy .rate.ok{color:var(--ok)}
 .policy .rate.warn{color:var(--warn)}
 .policy .rate.bad{color:var(--ember-light)}
-.agree{display:flex;align-items:flex-start;gap:11px;margin-top:22px;padding:15px 16px;background:rgba(201,58,28,.08);border:1px solid rgba(201,58,28,.3);border-radius:10px;cursor:pointer;font-size:13px;color:#cdc0af;line-height:1.6}
+.agree{display:flex;align-items:flex-start;gap:11px;margin-top:22px;padding:15px 16px;background:rgba(201,58,28,.08);border:1px solid rgba(201,58,28,.3);border-radius:8px;cursor:pointer;font-size:13px;color:#cdc0af;line-height:1.6}
 .agree input{width:19px;height:19px;margin-top:1px;flex:none;accent-color:var(--ember);cursor:pointer}
 .agree b{color:var(--ember-light)}
 .book-inline{width:100%;margin-top:16px;background:var(--ember);color:#fff;font-family:var(--font-lbl);font-size:14.5px;font-weight:600;letter-spacing:.04em;padding:16px;border-radius:9px;transition:.2s;box-shadow:0 8px 20px rgba(201,58,28,.36);text-transform:uppercase}
@@ -269,7 +269,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 </header>
 
 <section class="rhero">
-  <div class="eyebrow">RESERVATION</div>
+  <div class="eyebrow"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c-1 4-5 5-5 10a5 5 0 0 0 10 0c0-2-1-3-1-3s-.5 2-2 2c1-3-1-4-1-6-1 1-1 3-1 3s-2-2 0-6Z"/></svg>RESERVATION</div>
   <h1 class="disp">ネット予約</h1>
   <p>空席状況を見ながら、24時間いつでもご予約いただけます。</p>
   <div class="steps" id="steps">
@@ -454,7 +454,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 <script>
 const DOW = ['日','月','火','水','木','金','土'];
-const CFG = {"lead": "空席状況を見ながら、24時間いつでもご予約いただけます。", "times": ["17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00"], "seats": ["おまかせ", "テーブル", "掘りごたつ", "個室"], "closed_dow": [2], "charge_per": 500, "party_max": 20, "res_prefix": "EZ", "line_id": "", "capacity_weekday": 10, "capacity_weekend": 7, "peak_slots": [3, 4, 5, 6, 7], "courses": [{"id": "tabehoudai", "name": "極み食べ放題コース", "price": 3980, "desc": "厳選部位20種、100分間食べ放題。まずはこちらから。", "img": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?q=80&w=300&auto=format&fit=crop", "count": "全20品 食べ放題（100分）", "note": "", "items": ["特上牛タン塩", "極上カルビ", "炙りハラミ", "上ロース", "豚バラ", "鶏もも", "ミノ・シマチョウ", "焼き野菜盛り合わせ", "自家製キムチ・ナムル", "クッパまたは冷麺", "デザート"]}, {"id": "moriawase", "name": "炎蔵 盛り合わせコース", "price": 5500, "desc": "職人が選ぶ、その日いちばんの部位を盛り合わせで。", "img": "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?q=80&w=300&auto=format&fit=crop", "count": "全9品", "note": "", "items": ["前菜3種盛り", "牛タン塩", "特選カルビ・ハラミ盛り合わせ", "厚切り上ロース", "名物ホルモン塩焼き", "季節の焼き野菜", "自家製キムチ", "〆のクッパ", "本日のデザート"]}, {"id": "enkai", "name": "宴会・記念日コース（個室確約）", "price": 7000, "desc": "個室確約・全10品。大切な集まりのおもてなしに。", "img": "https://images.unsplash.com/photo-1615937691194-97dbd3f3dc29?q=80&w=300&auto=format&fit=crop", "count": "全10品 ・ 個室確約", "note": "記念日のデザートプレートやお祝いの一献もご相談ください。", "items": ["前菜4種盛り", "牛タン塩", "極上カルビ", "炙りハラミ", "厚切り上ロース", "和牛のブロック焼き", "名物ホルモン塩焼き", "季節の焼き野菜", "〆の石焼ビビンバ", "デザート三種盛り"]}, {"id": "none", "name": "コースなし（アラカルト）", "price": 0, "desc": "お好みで単品をお楽しみください。", "img": "https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=300&auto=format&fit=crop", "count": "単品でご注文", "note": "厳選和牛・ホルモン25種ほか、その日のおすすめを単品で。", "items": []}], "notices": ["全席禁煙です（喫煙は店外の喫煙スペースをご利用ください）。", "お席のご利用は120分制、食べ放題コースも120分制です。", "ご予約時間を10分以上過ぎてもご連絡がない場合、お席をお譲りいただくことがあります。", "お子様連れ・アレルギー・苦手な食材は「ご要望」欄にご記入ください。", "10名様以上の宴会・貸切はお電話ください。"], "charges": [{"label": "お通し（チャージ）", "value": "1名様 ¥500"}, {"label": "個室のご利用", "value": "サービス料 10%"}, {"label": "22:00以降のご利用", "value": "深夜料金 10%"}], "cancel_policy": [{"when": "前日まで", "rate": "無料", "level": "ok"}, {"when": "当日のキャンセル", "rate": "コース料金の50%", "level": "warn"}, {"when": "無断キャンセル（ノーショー）", "rate": "コース料金の100%", "level": "bad"}]};
+const CFG = {"lead": "空席状況を見ながら、24時間いつでもご予約いただけます。", "times": ["17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00"], "seats": ["おまかせ", "テーブル", "掘りごたつ", "個室"], "closed_dow": [2], "charge_per": 500, "party_max": 20, "res_prefix": "EZ", "line_id": "", "capacity_weekday": 10, "capacity_weekend": 7, "peak_slots": [3, 4, 5, 6, 7], "courses": [{"id": "tabehoudai", "name": "極み食べ放題コース", "price": 3980, "desc": "厳選部位20種、100分間食べ放題。まずはこちらから。", "img": "https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?q=80&w=300&auto=format&fit=crop", "count": "全20品 食べ放題（100分）", "note": "", "items": ["特上牛タン塩", "極上カルビ", "炙りハラミ", "上ロース", "豚バラ", "鶏もも", "ミノ・シマチョウ", "焼き野菜盛り合わせ", "自家製キムチ・ナムル", "クッパまたは冷麺", "デザート"]}, {"id": "moriawase", "name": "炎蔵 盛り合わせコース", "price": 5500, "desc": "職人が選ぶ、その日いちばんの部位を盛り合わせで。", "img": "https://images.unsplash.com/photo-1546964124-0cce460f38ef?q=80&w=300&auto=format&fit=crop", "count": "全9品", "note": "", "items": ["前菜3種盛り", "牛タン塩", "特選カルビ・ハラミ盛り合わせ", "厚切り上ロース", "名物ホルモン塩焼き", "季節の焼き野菜", "自家製キムチ", "〆のクッパ", "本日のデザート"]}, {"id": "enkai", "name": "宴会・記念日コース（個室確約）", "price": 7000, "desc": "個室確約・全10品。大切な集まりのおもてなしに。", "img": "https://images.unsplash.com/photo-1560781290-7dc94c0f8f4f?q=80&w=300&auto=format&fit=crop", "count": "全10品 ・ 個室確約", "note": "記念日のデザートプレートやお祝いの一献もご相談ください。", "items": ["前菜4種盛り", "牛タン塩", "極上カルビ", "炙りハラミ", "厚切り上ロース", "和牛のブロック焼き", "名物ホルモン塩焼き", "季節の焼き野菜", "〆の石焼ビビンバ", "デザート三種盛り"]}, {"id": "none", "name": "コースなし（アラカルト）", "price": 0, "desc": "お好みで単品をお楽しみください。", "img": "https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=300&auto=format&fit=crop", "count": "単品でご注文", "note": "厳選和牛・ホルモン25種ほか、その日のおすすめを単品で。", "items": []}], "notices": ["全席禁煙です（喫煙は店外の喫煙スペースをご利用ください）。", "お席のご利用は120分制、食べ放題コースも120分制です。", "ご予約時間を10分以上過ぎてもご連絡がない場合、お席をお譲りいただくことがあります。", "お子様連れ・アレルギー・苦手な食材は「ご要望」欄にご記入ください。", "10名様以上の宴会・貸切はお電話ください。"], "charges": [{"label": "お通し（チャージ）", "value": "1名様 ¥500"}, {"label": "個室のご利用", "value": "サービス料 10%"}, {"label": "22:00以降のご利用", "value": "深夜料金 10%"}], "cancel_policy": [{"when": "前日まで", "rate": "無料", "level": "ok"}, {"when": "当日のキャンセル", "rate": "コース料金の50%", "level": "warn"}, {"when": "無断キャンセル（ノーショー）", "rate": "コース料金の100%", "level": "bad"}]};
 const COURSES = CFG.courses;
 const TIMES = CFG.times;
 const SEATS = CFG.seats;

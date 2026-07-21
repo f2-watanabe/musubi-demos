@@ -38,10 +38,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .head a.back:hover{color:var(--ink)}
 
 /* hero */
-.rhero{background:linear-gradient(180deg,var(--white),var(--panna));padding:48px 0 20px;text-align:center}
-.rhero .eyebrow{font-family:var(--font-head);font-style:italic;font-size:16px;letter-spacing:.1em;color:var(--brass);font-weight:600}
-.rhero h1{font-family:var(--font-head);font-style:italic;font-size:clamp(26px,4.2vw,34px);letter-spacing:.02em;margin-top:10px}
-.rhero p{color:var(--muted);font-size:13.5px;margin-top:10px}
+.rhero{background:linear-gradient(180deg,var(--white),var(--panna));padding:52px 0 20px;text-align:center}
+.rhero .eyebrow{font-family:var(--font-head);font-style:italic;font-size:15px;letter-spacing:.16em;color:var(--brass);font-weight:600;display:flex;align-items:center;justify-content:center;gap:12px}
+.rhero .eyebrow::before,.rhero .eyebrow::after{content:"";width:36px;height:1px;background:var(--line)}
+.rhero h1{font-family:var(--font-head);font-style:italic;font-size:clamp(28px,4.6vw,38px);letter-spacing:.02em;margin-top:14px;font-weight:600}
+.rhero p{color:var(--muted);font-size:13.5px;margin-top:12px;max-width:44ch;margin-left:auto;margin-right:auto}
 
 /* steps progress */
 .steps{display:flex;justify-content:center;gap:0;margin:24px 0 0;flex-wrap:wrap}
@@ -55,7 +56,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 /* layout */
 .layout{display:grid;grid-template-columns:1fr 332px;gap:30px;align-items:start;padding:36px 0 90px}
-.panel{background:var(--white);border:1px solid var(--line);border-radius:3px;padding:28px 28px 30px;margin-bottom:18px}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:1px;padding:28px 28px 30px;margin-bottom:18px}
 .panel-h{display:flex;align-items:center;gap:12px;margin-bottom:4px}
 .panel-h .pn{font-family:var(--font-head);font-style:italic;font-size:14px;color:#fff;background:var(--wine);width:28px;height:28px;border-radius:50%;display:grid;place-items:center;flex:none}
 .panel-h h2{font-family:var(--font-head);font-size:19px;font-weight:600;letter-spacing:.02em}
@@ -65,13 +66,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .cal-head .mo{font-family:var(--font-head);font-style:italic;font-size:17px;letter-spacing:.02em}
 .cal-nav{display:flex;gap:8px}
-.cal-nav button{width:44px;height:44px;border-radius:2px;border:1px solid var(--line);background:var(--white);font-size:15px;color:var(--ink);display:grid;place-items:center;transition:.2s}
+.cal-nav button{width:44px;height:44px;border-radius:1px;border:1px solid var(--line);background:var(--white);font-size:15px;color:var(--ink);display:grid;place-items:center;transition:.2s}
 .cal-nav button:hover:not(:disabled){border-color:var(--wine);color:var(--wine)}
 .cal-nav button:disabled{opacity:.35;cursor:not-allowed}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
 .cal-grid .dow{text-align:center;font-size:11px;color:var(--muted);letter-spacing:.06em;padding-bottom:4px}
 .cal-grid .dow.sun{color:var(--wine)}.cal-grid .dow.sat{color:#4d6a8a}
-.day{aspect-ratio:1/1;min-height:44px;border:1px solid var(--line);border-radius:2px;background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:.18s;position:relative}
+.day{aspect-ratio:1/1;min-height:44px;border:1px solid var(--line);border-radius:1px;background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:.18s;position:relative}
 .day .d{font-size:13.5px;font-weight:500}
 .day .av{font-size:13px;line-height:1;font-weight:700}
 .day.empty{border:none;background:transparent}
@@ -89,7 +90,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 /* time slots */
 .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:9px}
-.slot{border:1px solid var(--line);border-radius:2px;padding:11px 8px;text-align:center;background:var(--white);transition:.18s;min-height:44px}
+.slot{border:1px solid var(--line);border-radius:1px;padding:11px 8px;text-align:center;background:var(--white);transition:.18s;min-height:44px}
 .slot .t{font-family:var(--font-head);font-size:16px;letter-spacing:.01em}
 .slot .left{font-size:10.5px;margin-top:2px}
 .slot.ok .left{color:var(--ok)}.slot.warn .left{color:var(--warn)}
@@ -105,22 +106,22 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:4px}
 .fld{margin-top:14px}
 .fld>label{display:block;font-size:12.5px;font-weight:700;letter-spacing:.03em;margin-bottom:9px}
-.stepper{display:flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:2px;width:fit-content;overflow:hidden}
+.stepper{display:flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:1px;width:fit-content;overflow:hidden}
 .stepper button{width:44px;height:44px;font-size:18px;color:var(--wine);background:var(--white);transition:.15s}
 .stepper button:hover{background:#f4e9dc}
 .stepper button:disabled{opacity:.3;cursor:not-allowed}
 .stepper .val{min-width:64px;text-align:center;font-family:var(--font-head);font-size:18px}
 .seats{display:flex;gap:9px;flex-wrap:wrap}
-.seat{border:1px solid var(--line);border-radius:2px;padding:10px 16px;min-height:44px;font-size:13px;background:var(--white);transition:.18s}
+.seat{border:1px solid var(--line);border-radius:1px;padding:10px 16px;min-height:44px;font-size:13px;background:var(--white);transition:.18s}
 .seat:hover{border-color:var(--wine)}
 .seat.sel{background:var(--wine);border-color:var(--wine);color:#fff}
 
 /* courses */
 .courses{display:flex;flex-direction:column;gap:12px}
-.course{display:flex;gap:16px;align-items:center;border:1px solid var(--line);border-radius:2px;padding:14px;background:var(--white);transition:.18s;text-align:left;width:100%}
+.course{display:flex;gap:16px;align-items:center;border:1px solid var(--line);border-radius:1px;padding:14px;background:var(--white);transition:.18s;text-align:left;width:100%}
 .course:hover{border-color:var(--wine)}
 .course.sel{border-color:var(--wine);background:#fbf1ef;box-shadow:0 0 0 1px var(--wine) inset}
-.course .cimg{width:76px;height:76px;border-radius:2px;background:#efe3d1 center/cover;flex:none;overflow:hidden}
+.course .cimg{width:76px;height:76px;border-radius:1px;background:#efe3d1 center/cover;flex:none;overflow:hidden}
 .course .cimg img{width:100%;height:100%;object-fit:cover;display:block}
 .course .ci{flex:1;min-width:0}
 .course .ci h4{font-family:var(--font-head);font-size:16px;letter-spacing:.01em}
@@ -137,12 +138,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .cust .full{grid-column:1/-1}
 .cust label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}
 .cust label .req{color:var(--wine);font-size:11px;margin-left:5px}
-.cust input,.cust textarea,.cust select{width:100%;border:1px solid var(--line);border-radius:2px;padding:12px 13px;min-height:44px;font-family:inherit;font-size:14px;background:var(--white);transition:.15s}
+.cust input,.cust textarea,.cust select{width:100%;border:1px solid var(--line);border-radius:1px;padding:12px 13px;min-height:44px;font-family:inherit;font-size:14px;background:var(--white);transition:.15s}
 .cust input:focus,.cust textarea:focus,.cust select:focus{outline:none;border-color:var(--wine);box-shadow:0 0 0 3px rgba(122,42,55,.1)}
 .cust textarea{min-height:74px;resize:vertical}
 
 /* summary */
-.summary{position:sticky;top:84px;background:var(--notte);color:#f3ece0;border-radius:3px;padding:24px;box-shadow:0 18px 40px rgba(40,26,20,.18)}
+.summary{position:sticky;top:84px;background:var(--notte);color:#f3ece0;border-radius:1px;padding:24px;box-shadow:0 18px 40px rgba(40,26,20,.18)}
 .summary h3{font-family:var(--font-head);font-style:italic;font-size:17px;color:#fff;letter-spacing:.04em;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.14)}
 .srow{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.09);font-size:13px}
 .srow .k{color:#b7a88f;flex:none}
@@ -152,7 +153,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .summary .total .k{font-size:13px;color:#b7a88f}
 .summary .total .v{font-family:var(--font-head);font-style:italic;font-size:22px;color:var(--brass-soft)}
 .summary .total .v small{font-size:11px;color:#9c8f78}
-.book-btn{width:100%;min-height:48px;margin-top:18px;background:var(--wine);color:#fff;font-size:15px;font-weight:700;letter-spacing:.05em;padding:15px;border-radius:2px;transition:.2s;box-shadow:0 8px 20px rgba(122,42,55,.32)}
+.book-btn{width:100%;min-height:48px;margin-top:18px;background:var(--wine);color:#fff;font-size:15px;font-weight:700;letter-spacing:.05em;padding:15px;border-radius:1px;transition:.2s;box-shadow:0 8px 20px rgba(122,42,55,.32)}
 .book-btn:hover:not(:disabled){background:var(--wine-d);transform:translateY(-1px)}
 .book-btn:disabled{background:#5c5349;color:#9c917e;box-shadow:none;cursor:not-allowed}
 .summary .micro{font-size:10.5px;color:#9c8f78;text-align:center;margin-top:11px;line-height:1.6}
@@ -162,13 +163,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   background:var(--notte);color:#fff;padding:12px 18px;box-shadow:0 -6px 24px rgba(0,0,0,.22)}
 .mbar .mb-l small{display:block;font-size:10px;color:#b7a88f;letter-spacing:.06em}
 .mbar .mb-l b{font-family:var(--font-head);font-style:italic;font-size:17px;color:var(--brass-soft)}
-.mbar button{background:var(--wine);color:#fff;font-weight:700;font-size:14px;min-height:44px;padding:0 22px;border-radius:2px}
+.mbar button{background:var(--wine);color:#fff;font-weight:700;font-size:14px;min-height:44px;padding:0 22px;border-radius:1px}
 .mbar button:disabled{background:#5c5349;color:#9c917e}
 
 /* modal */
 .overlay{position:fixed;inset:0;background:rgba(20,14,12,.62);backdrop-filter:blur(3px);z-index:100;display:none;align-items:center;justify-content:center;padding:24px}
 .overlay.on{display:flex}
-.modal{background:var(--panna);border-radius:4px;max-width:440px;width:100%;padding:38px 34px;text-align:center;box-shadow:0 40px 90px rgba(0,0,0,.4);animation:pop .35s cubic-bezier(.2,.9,.3,1.2)}
+.modal{background:var(--panna);border-radius:1px;max-width:440px;width:100%;padding:38px 34px;text-align:center;box-shadow:0 40px 90px rgba(0,0,0,.4);animation:pop .35s cubic-bezier(.2,.9,.3,1.2)}
 @keyframes pop{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){ .modal{animation:none} }
 .modal .ok-ic{width:62px;height:62px;border-radius:50%;background:var(--ok);display:grid;place-items:center;margin:0 auto 18px}
@@ -176,11 +177,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .modal h3{font-family:var(--font-head);font-style:italic;font-size:22px;letter-spacing:.02em}
 .modal .resno{font-size:12px;color:var(--muted);margin-top:8px}
 .modal .resno b{color:var(--ink);font-size:14px;letter-spacing:.08em}
-.modal .msum{text-align:left;background:var(--white);border:1px solid var(--line);border-radius:2px;padding:16px 18px;margin:20px 0;font-size:13px}
+.modal .msum{text-align:left;background:var(--white);border:1px solid var(--line);border-radius:1px;padding:16px 18px;margin:20px 0;font-size:13px}
 .modal .msum .r{display:flex;justify-content:space-between;padding:5px 0}
 .modal .msum .r span:first-child{color:var(--muted)}
 .modal p.note{font-size:12px;color:#5c5346;line-height:1.7}
-.modal .close{margin-top:20px;width:100%;min-height:48px;background:var(--wine);color:#fff;font-weight:700;padding:14px;border-radius:2px}
+.modal .close{margin-top:20px;width:100%;min-height:48px;background:var(--wine);color:#fff;font-weight:700;padding:14px;border-radius:1px}
 
 /* see-menu link */
 .course .ci .seemenu{display:inline-flex;align-items:center;gap:3px;font-size:11.5px;font-weight:700;color:var(--wine);margin-top:7px;padding:3px 0;letter-spacing:.01em}
@@ -202,9 +203,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .mmodal .mm-list li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--brass);margin-top:9px;flex:none}
 .mmodal .mm-list.empty li::before{display:none}
 .mm-acts{display:flex;gap:10px;padding:8px 28px 0}
-.mm-pick{flex:1;min-height:48px;background:var(--wine);color:#fff;font-weight:700;padding:13px;border-radius:2px;transition:.2s}
+.mm-pick{flex:1;min-height:48px;background:var(--wine);color:#fff;font-weight:700;padding:13px;border-radius:1px;transition:.2s}
 .mm-pick:hover{background:var(--wine-d)}
-.mm-close{min-height:48px;background:var(--white);border:1px solid var(--line);color:var(--ink);font-weight:700;padding:13px 20px;border-radius:2px}
+.mm-close{min-height:48px;background:var(--white);border:1px solid var(--line);color:var(--ink);font-weight:700;padding:13px 20px;border-radius:1px}
 .mm-close:hover{border-color:var(--wine);color:var(--wine)}
 .mmodal .mm-foot{font-size:10.5px;color:var(--muted);text-align:center;padding:14px 28px 24px}
 
@@ -231,14 +232,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .policy .rate.ok{color:var(--ok)}
 .policy .rate.warn{color:var(--warn)}
 .policy .rate.bad{color:var(--wine)}
-.agree{display:flex;align-items:flex-start;gap:11px;margin-top:22px;padding:15px 16px;background:#fbf1ef;border:1px solid #ecd4cf;border-radius:2px;cursor:pointer;font-size:13px;color:#4c4438;line-height:1.6}
+.agree{display:flex;align-items:flex-start;gap:11px;margin-top:22px;padding:15px 16px;background:#fbf1ef;border:1px solid #ecd4cf;border-radius:1px;cursor:pointer;font-size:13px;color:#4c4438;line-height:1.6}
 .agree input{width:19px;height:19px;margin-top:1px;flex:none;accent-color:var(--wine);cursor:pointer}
 .agree b{color:var(--wine-d)}
-.book-inline{width:100%;min-height:48px;margin-top:16px;background:var(--wine);color:#fff;font-size:15px;font-weight:700;letter-spacing:.05em;padding:16px;border-radius:2px;transition:.2s;box-shadow:0 8px 20px rgba(122,42,55,.3)}
+.book-inline{width:100%;min-height:48px;margin-top:16px;background:var(--wine);color:#fff;font-size:15px;font-weight:700;letter-spacing:.05em;padding:16px;border-radius:1px;transition:.2s;box-shadow:0 8px 20px rgba(122,42,55,.3)}
 .book-inline:hover:not(:disabled){background:var(--wine-d);transform:translateY(-1px)}
 .book-inline:disabled{background:#d9cdb9;color:#fff;box-shadow:none;cursor:not-allowed}
 .book-inline-note{text-align:center;font-size:11.5px;color:var(--muted);margin-top:9px}
-.line-btn{display:block;width:100%;min-height:48px;margin-top:10px;background:#06c755;color:#fff;text-align:center;font-size:14px;font-weight:700;letter-spacing:.03em;padding:13px;border-radius:2px;transition:.2s}
+.line-btn{display:block;width:100%;min-height:48px;margin-top:10px;background:#06c755;color:#fff;text-align:center;font-size:14px;font-weight:700;letter-spacing:.03em;padding:13px;border-radius:1px;transition:.2s}
 .line-btn:hover{background:#05a648}
 .line-btn.dis{background:#e6dcc9;color:#8a8175;cursor:not-allowed;pointer-events:none}
 .line-auto-note{display:none;text-align:center;font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6}
@@ -267,13 +268,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     <span class="mark">L</span>
     <span><b>Trattoria Lume</b><small>TRATTORIA LUME</small></span>
   </a>
-  <a href="index.html" class="back">← サイトに戻る</a>
+  <a href="index.html" class="back">← 物語に戻る</a>
 </header>
 
 <section class="rhero">
   <div class="eyebrow">Reservation</div>
   <h1>ネット予約</h1>
-  <p>空席状況を見ながら、24時間いつでもご予約いただけます。</p>
+  <p>空席を確かめながら、24時間いつでもご予約いただけます。</p>
   <div class="steps" id="steps">
     <div class="st active" data-step="1"><span class="dot">1</span><span class="lbl">日時</span></div>
     <span class="bar"></span>
@@ -456,7 +457,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 <script>
 const DOW = ['日','月','火','水','木','金','土'];
-const CFG = {"lead": "空席状況を見ながら、24時間いつでもご予約いただけます。", "times": ["12:00", "12:30", "13:00", "13:30", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00"], "seats": ["おまかせ", "テーブル", "カウンター", "テラス"], "closed_dow": [1], "charge_per": 300, "party_max": 10, "res_prefix": "TL", "line_id": "", "capacity_weekday": 8, "capacity_weekend": 5, "peak_slots": [6, 7, 8, 9], "courses": [{"id": "pranzo", "name": "プランツォコース", "price": 2800, "desc": "前菜・パスタ・ドルチェの全3品。平日のご褒美ランチに。", "img": "https://images.unsplash.com/photo-1595295333158-4742f28fbd85?q=80&w=300&auto=format&fit=crop", "count": "全3品", "note": "", "items": ["本日の前菜", "選べるパスタ 2種より", "本日のドルチェ", "食後のコーヒーまたは紅茶"]}, {"id": "cena", "name": "シェフおまかせコース", "price": 6000, "desc": "前菜・パスタ・メイン・ドルチェの全5品。まずはこちらから。", "img": "https://images.unsplash.com/photo-1560624052-449f5ddf0c31?q=80&w=300&auto=format&fit=crop", "count": "全5品", "note": "", "items": ["本日の前菜 二種盛り", "自家製サルーミ", "シェフ厳選パスタ", "魚または肉料理の薪火グリル", "本日のドルチェ"]}, {"id": "anniversario", "name": "アニヴェルサリオコース", "price": 9500, "desc": "全7品＋乾杯のスプマンテ付き。記念日や誕生日に。", "img": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=300&auto=format&fit=crop", "count": "全7品 ＋ 乾杯泡付き", "note": "デザートプレートへのメッセージ入れも承ります（要事前予約）。", "items": ["乾杯のスプマンテ", "本日の前菜 三種盛り", "自家製サルーミと自家製パン", "シェフ厳選パスタ 2種", "魚と肉、二種のメイン", "チーズの盛り合わせ", "記念日のデザートプレート"]}, {"id": "none", "name": "コースなし（アラカルト）", "price": 0, "desc": "お好みで単品をお楽しみください。", "img": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?q=80&w=300&auto=format&fit=crop", "count": "単品でご注文", "note": "パスタ・ピッツァ・グリル料理ほか、その日のおすすめを単品で。", "items": []}], "notices": ["全席禁煙です（喫煙は店外の喫煙スペースをご利用ください）。", "お席のご利用は2時間制です。", "ご予約時間を10分以上過ぎてもご連絡がない場合、お席をお譲りいただくことがあります。", "アレルギー・苦手な食材がございましたら「ご要望」欄にご記入ください。", "7名様以上のご宴会・貸切はお電話にてご相談ください。"], "charges": [{"label": "コペルト（席料）", "value": "1名様 ¥300"}, {"label": "テラス席のご利用", "value": "季節により冷暖房費 ¥200"}, {"label": "21:30以降のご利用", "value": "延長料金 応相談"}], "cancel_policy": [{"when": "前日まで", "rate": "無料", "level": "ok"}, {"when": "当日のキャンセル", "rate": "コース料金の50%", "level": "warn"}, {"when": "無断キャンセル（ノーショー）", "rate": "コース料金の100%", "level": "bad"}]};
+const CFG = {"lead": "空席を確かめながら、24時間いつでもご予約いただけます。", "times": ["12:00", "12:30", "13:00", "13:30", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00"], "seats": ["おまかせ", "テーブル", "カウンター", "テラス"], "closed_dow": [1], "charge_per": 300, "party_max": 10, "res_prefix": "TL", "line_id": "", "capacity_weekday": 8, "capacity_weekend": 5, "peak_slots": [6, 7, 8, 9], "courses": [{"id": "pranzo", "name": "プランツォコース", "price": 2800, "desc": "前菜・パスタ・ドルチェの全3品。平日のご褒美ランチに、小さな物語を。", "img": "https://images.unsplash.com/photo-1595295333158-4742f28fbd85?q=80&w=300&auto=format&fit=crop", "count": "全3品", "note": "", "items": ["本日の前菜", "選べるパスタ 2種より", "本日のドルチェ", "食後のコーヒーまたは紅茶"]}, {"id": "cena", "name": "シェフおまかせコース", "price": 6000, "desc": "前菜・パスタ・メイン・ドルチェの全5品。まずはこの一冊から、物語を読み始めてください。", "img": "https://images.unsplash.com/photo-1560624052-449f5ddf0c31?q=80&w=300&auto=format&fit=crop", "count": "全5品", "note": "", "items": ["本日の前菜 二種盛り", "自家製サルーミ", "シェフ厳選パスタ", "魚または肉料理の薪火グリル", "本日のドルチェ"]}, {"id": "anniversario", "name": "アニヴェルサリオコース", "price": 9500, "desc": "全7品＋乾杯のスプマンテ付き。記念日という特別な一章に、料理で花を添えます。", "img": "https://images.unsplash.com/photo-1574494349420-ecf8ccbff974?q=80&w=300&auto=format&fit=crop", "count": "全7品 ＋ 乾杯泡付き", "note": "デザートプレートへのメッセージ入れも承ります（要事前予約）。", "items": ["乾杯のスプマンテ", "本日の前菜 三種盛り", "自家製サルーミと自家製パン", "シェフ厳選パスタ 2種", "魚と肉、二種のメイン", "チーズの盛り合わせ", "記念日のデザートプレート"]}, {"id": "none", "name": "コースなし（アラカルト）", "price": 0, "desc": "お好みで単品をお楽しみください。", "img": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?q=80&w=300&auto=format&fit=crop", "count": "単品でご注文", "note": "パスタ・ピッツァ・グリル料理ほか、その日のおすすめを単品で。", "items": []}], "notices": ["全席禁煙です（喫煙は店外の喫煙スペースをご利用ください）。", "お席のご利用は2時間制です。", "ご予約時間を10分以上過ぎてもご連絡がない場合、お席をお譲りいただくことがあります。", "アレルギー・苦手な食材がございましたら「ご要望」欄にご記入ください。", "7名様以上のご宴会・貸切はお電話にてご相談ください。"], "charges": [{"label": "コペルト（席料）", "value": "1名様 ¥300"}, {"label": "テラス席のご利用", "value": "季節により冷暖房費 ¥200"}, {"label": "21:30以降のご利用", "value": "延長料金 応相談"}], "cancel_policy": [{"when": "前日まで", "rate": "無料", "level": "ok"}, {"when": "当日のキャンセル", "rate": "コース料金の50%", "level": "warn"}, {"when": "無断キャンセル（ノーショー）", "rate": "コース料金の100%", "level": "bad"}]};
 const COURSES = CFG.courses;
 const TIMES = CFG.times;
 const SEATS = CFG.seats;

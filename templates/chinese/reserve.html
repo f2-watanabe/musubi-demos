@@ -57,7 +57,7 @@ button,a{touch-action:manipulation}
 .layout{display:grid;grid-template-columns:1fr 332px;gap:30px;align-items:start;padding:34px 0 90px}
 .panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:26px 26px 28px;margin-bottom:18px}
 .panel-h{display:flex;align-items:center;gap:11px;margin-bottom:4px}
-.panel-h .pn{font-family:var(--font-head);font-size:13px;color:#fff;background:var(--crimson);width:28px;height:28px;border-radius:7px;display:grid;place-items:center;flex:none}
+.panel-h .pn{font-family:var(--font-cond);font-weight:700;font-size:14px;color:#fff;background:var(--crimson);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:none;box-shadow:0 4px 10px rgba(143,15,38,.3)}
 .panel-h h2{font-family:var(--font-head);font-size:18px;font-weight:900;letter-spacing:.02em}
 .panel .hint{font-size:12px;color:var(--muted);margin:2px 0 18px;padding-left:39px}
 
@@ -68,7 +68,7 @@ button,a{touch-action:manipulation}
 .cal-nav button{width:44px;height:44px;border-radius:8px;border:1px solid var(--line);background:#fff;font-size:15px;color:var(--ink);display:grid;place-items:center;transition:.2s}
 .cal-nav button:hover:not(:disabled){border-color:var(--crimson);color:var(--crimson)}
 .cal-nav button:disabled{opacity:.35;cursor:not-allowed}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
 .cal-grid .dow{text-align:center;font-size:11px;color:var(--muted);letter-spacing:.06em;padding-bottom:4px}
 .cal-grid .dow.sun{color:var(--crimson)}.cal-grid .dow.sat{color:#3a6f8f}
 .day{aspect-ratio:1/1;border:1px solid var(--line);border-radius:8px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:.18s;position:relative}
@@ -118,7 +118,7 @@ button,a{touch-action:manipulation}
 /* courses */
 .courses{display:flex;flex-direction:column;gap:12px}
 .course{display:flex;gap:16px;align-items:center;border:1px solid var(--line);border-radius:11px;padding:14px;background:#fff;transition:.18s;text-align:left;width:100%}
-.course:hover{border-color:var(--crimson)}
+.course:hover{border-color:var(--crimson);transform:translateY(-2px);box-shadow:0 12px 26px rgba(30,20,10,.1)}
 .course.sel{border-color:var(--crimson);background:#fdf5f4;box-shadow:0 0 0 1px var(--crimson) inset}
 .course .cimg{width:76px;height:76px;border-radius:8px;background:#efe4cb center/cover;flex:none;overflow:hidden}
 .course .cimg img{width:100%;height:100%;object-fit:cover;display:block}
@@ -131,6 +131,8 @@ button,a{touch-action:manipulation}
 .course .radio{width:20px;height:20px;border-radius:50%;border:1.6px solid var(--line);flex:none;display:grid;place-items:center;transition:.15s}
 .course.sel .radio{border-color:var(--crimson)}
 .course.sel .radio::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--crimson)}
+.courses .course:nth-child(3){border-color:var(--gold);position:relative}
+.courses .course:nth-child(3)::after{content:"円卓個室";position:absolute;top:-9px;left:14px;background:var(--gold-lt);color:var(--crimson-d);font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:2px 10px;border-radius:999px}
 
 /* customer form */
 .cust{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -272,7 +274,7 @@ button,a{touch-action:manipulation}
 <section class="rhero">
   <div class="eyebrow">RESERVATION</div>
   <h1>ネット予約</h1>
-  <p>空席状況を見ながら、24時間いつでもご予約いただけます。</p>
+  <p>空席状況を見ながら、24時間いつでもご予約いただけます。円卓個室の宴会コースもここから。</p>
   <div class="steps" id="steps">
     <div class="st active" data-step="1"><span class="dot">1</span><span class="lbl">日時</span></div>
     <span class="bar"></span>
@@ -455,7 +457,7 @@ button,a{touch-action:manipulation}
 
 <script>
 const DOW = ['日','月','火','水','木','金','土'];
-const CFG = {"lead": "空席状況を見ながら、24時間いつでもご予約いただけます。", "times": ["11:30", "12:00", "12:30", "13:00", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"], "seats": ["おまかせ", "テーブル", "円卓個室"], "closed_dow": [2], "charge_per": 300, "party_max": 16, "res_prefix": "FR", "line_id": "", "capacity_weekday": 10, "capacity_weekend": 7, "peak_slots": [6, 7, 8, 9], "courses": [{"id": "shokai", "name": "招福コース", "price": 4500, "desc": "点心・炒め物など全8品。まずはこちらから。", "img": "https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=300&auto=format&fit=crop", "count": "全8品", "note": "", "items": ["前菜 三種盛り", "手包み餃子", "海老チリ", "青椒肉絲", "自家製酢豚", "季節野菜炒め", "パラパラ炒飯", "本日のデザート"]}, {"id": "yamucha", "name": "飲茶よくばりコース", "price": 5800, "desc": "点心7品＋強火料理3品。飲茶好きに。", "img": "https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=300&auto=format&fit=crop", "count": "全10品（点心7品）", "note": "焼売・小籠包・春巻きなど、せいろ蒸したての点心をお楽しみいただけます。", "items": ["前菜 三種盛り", "蒸し焼売", "小籠包", "海老蒸し餃子", "春巻き", "名物 麻婆豆腐", "海老チリ", "自家製酢豚", "パラパラ炒飯", "本日のデザート"]}, {"id": "entaku", "name": "円卓宴会コース（個室・飲み放題付）", "price": 6000, "desc": "円卓個室確約・全11品＋2時間飲み放題。宴会に。", "img": "https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=300&auto=format&fit=crop", "count": "全11品 ・ 2時間飲み放題付", "note": "8名様以上での貸切もご相談ください。誕生日プレートのご用意も可能です。", "items": ["前菜 五種盛り合わせ", "蒸し焼売・小籠包", "名物 麻婆豆腐", "海老チリ", "自家製酢豚", "青椒肉絲", "北京ダック風香ばし鴨", "季節野菜炒め", "強火炒麺", "パラパラ炒飯", "本日のデザート三種"]}, {"id": "none", "name": "コースなし（アラカルト）", "price": 0, "desc": "お好みで単品をお楽しみください。", "img": "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=300&auto=format&fit=crop", "count": "単品でご注文", "note": "定番中華40品ほか、その日のおすすめを単品で。", "items": []}], "notices": ["全席禁煙です（喫煙は店外の喫煙スペースをご利用ください）。", "お席のご利用は2時間制、コースの飲み放題は2時間制です。", "ご予約時間を10分以上過ぎてもご連絡がない場合、お席をお譲りいただくことがあります。", "お子様連れ・アレルギー・苦手な食材は「ご要望」欄にご記入ください。", "8名様以上の宴会・円卓個室のご利用はお電話ください。"], "charges": [{"label": "お通し（チャージ）", "value": "1名様 ¥300"}, {"label": "円卓個室のご利用", "value": "サービス料 10%"}, {"label": "21:30以降のご利用", "value": "深夜料金 10%"}], "cancel_policy": [{"when": "前日まで", "rate": "無料", "level": "ok"}, {"when": "当日のキャンセル", "rate": "コース料金の50%", "level": "warn"}, {"when": "無断キャンセル（ノーショー）", "rate": "コース料金の100%", "level": "bad"}]};
+const CFG = {"lead": "空席状況を見ながら、24時間いつでもご予約いただけます。円卓個室の宴会コースもここから。", "times": ["11:30", "12:00", "12:30", "13:00", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"], "seats": ["おまかせ", "テーブル", "円卓個室"], "closed_dow": [2], "charge_per": 300, "party_max": 16, "res_prefix": "FR", "line_id": "", "capacity_weekday": 10, "capacity_weekend": 7, "peak_slots": [6, 7, 8, 9], "courses": [{"id": "shokai", "name": "招福コース", "price": 4500, "desc": "点心・炒め物など全8品。まずはこちらから。", "img": "https://images.unsplash.com/photo-1559667709-eabb5b50117a?q=80&w=300&auto=format&fit=crop", "count": "全8品", "note": "", "items": ["前菜 三種盛り", "手包み餃子", "海老チリ", "青椒肉絲", "自家製酢豚", "季節野菜炒め", "パラパラ炒飯", "本日のデザート"]}, {"id": "yamucha", "name": "飲茶よくばりコース", "price": 5800, "desc": "点心7品＋強火料理3品。飲茶好きに。", "img": "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?q=80&w=300&auto=format&fit=crop", "count": "全10品（点心7品）", "note": "焼売・小籠包・春巻きなど、せいろ蒸したての点心をお楽しみいただけます。", "items": ["前菜 三種盛り", "蒸し焼売", "小籠包", "海老蒸し餃子", "春巻き", "名物 麻婆豆腐", "海老チリ", "自家製酢豚", "パラパラ炒飯", "本日のデザート"]}, {"id": "entaku", "name": "円卓宴会コース（個室・飲み放題付）", "price": 6000, "desc": "円卓個室確約・全11品＋2時間飲み放題。宴会に。", "img": "https://images.unsplash.com/photo-1769065647078-f067eb768035?q=80&w=300&auto=format&fit=crop", "count": "全11品 ・ 2時間飲み放題付", "note": "8名様以上での貸切もご相談ください。誕生日プレートのご用意も可能です。", "items": ["前菜 五種盛り合わせ", "蒸し焼売・小籠包", "名物 麻婆豆腐", "海老チリ", "自家製酢豚", "青椒肉絲", "北京ダック風香ばし鴨", "季節野菜炒め", "強火炒麺", "パラパラ炒飯", "本日のデザート三種"]}, {"id": "none", "name": "コースなし（アラカルト）", "price": 0, "desc": "お好みで単品をお楽しみください。", "img": "https://images.unsplash.com/photo-1604908177453-7462950a6a3b?q=80&w=300&auto=format&fit=crop", "count": "単品でご注文", "note": "定番中華40品ほか、その日のおすすめを単品で。", "items": []}], "notices": ["全席禁煙です（喫煙は店外の喫煙スペースをご利用ください）。", "お席のご利用は2時間制、コースの飲み放題は2時間制です。", "ご予約時間を10分以上過ぎてもご連絡がない場合、お席をお譲りいただくことがあります。", "お子様連れ・アレルギー・苦手な食材は「ご要望」欄にご記入ください。", "8名様以上の宴会・円卓個室のご利用はお電話ください。"], "charges": [{"label": "お通し（チャージ）", "value": "1名様 ¥300"}, {"label": "円卓個室のご利用", "value": "サービス料 10%"}, {"label": "21:30以降のご利用", "value": "深夜料金 10%"}], "cancel_policy": [{"when": "前日まで", "rate": "無料", "level": "ok"}, {"when": "当日のキャンセル", "rate": "コース料金の50%", "level": "warn"}, {"when": "無断キャンセル（ノーショー）", "rate": "コース料金の100%", "level": "bad"}]};
 const COURSES = CFG.courses;
 const TIMES = CFG.times;
 const SEATS = CFG.seats;

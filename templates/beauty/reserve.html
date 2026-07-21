@@ -11,9 +11,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500;600&family=Noto+Serif+JP:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#2c2620; --charcoal:#2a2420; --cream:#f2ece1; --paper:#faf8f4;
-  --gold:#8c632c; --gold-d:#6f4d21; --gold-l:#d9b06e; --line:#e4dccd; --line-d:#d6cbb8;
-  --muted:#726757;
+  --ink:#241f19; --charcoal:#1c1712; --cream:#f6f1e7; --paper:#fffdfa;
+  --gold:#8c632c; --gold-d:#6f4d21; --gold-l:#d6ac6e; --line:#e9e2d3; --line-d:#dcd2bd;
+  --muted:#786d5c;
   --ok:#2f7a52; --warn:#8f5f14; --full:#948b7d;
   --font-head:"Noto Serif JP",serif; --font-body:"Noto Sans JP",sans-serif;
 }
@@ -67,7 +67,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .cal-nav button{width:38px;height:38px;border-radius:9px;border:1px solid var(--line);background:#fff;font-size:15px;color:var(--ink);display:grid;place-items:center;transition:.2s}
 .cal-nav button:hover:not(:disabled){border-color:var(--gold);color:var(--gold-d)}
 .cal-nav button:disabled{opacity:.35;cursor:not-allowed}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
 .cal-grid .dow{text-align:center;font-size:11px;color:var(--muted);letter-spacing:.06em;padding-bottom:4px}
 .cal-grid .dow.sun{color:#a55}.cal-grid .dow.sat{color:#5a7fb5}
 .day{aspect-ratio:1/1;border:1px solid var(--line);border-radius:9px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:.18s;position:relative}
@@ -255,7 +255,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   .course .cr .pr{font-size:16px}
 }
 </style>
-<style>:root{--gold:#8c632c;--gold-d:#6f4d21;--paper:#faf8f4;--ink:#2c2620;--font-head:"Noto Serif JP",serif;--font-body:"Noto Sans JP",sans-serif}</style>
+<style>:root{--gold:#8c632c;--gold-d:#6f4d21;--paper:#fffdfa;--ink:#241f19;--font-head:"Noto Serif JP",serif;--font-body:"Noto Sans JP",sans-serif}</style>
 
 
 </head>
@@ -454,7 +454,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 <script>
 const DOW = ['日','月','火','水','木','金','土'];
-const CFG = {"lead": "空き状況を見ながら、24時間いつでもご予約いただけます。", "times": ["10:00", "10:30", "11:00", "11:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"], "seats": ["指名なし", "中村 美咲", "佐々木 玲奈", "高橋 陽菜"], "closed_dow": [2], "charge_per": 0, "party_max": 4, "res_prefix": "LM", "line_id": "", "capacity_weekday": 5, "capacity_weekend": 3, "peak_slots": [8, 9, 10, 11], "courses": [{"id": "cut", "name": "レディースカット", "price": 5500, "desc": "カウンセリング・シャンプー・ブロー込み。まずはこちらから。", "img": "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?q=80&w=300&auto=format&fit=crop", "count": "所要 約60分", "note": "", "items": ["丁寧なカウンセリング", "シャンプー", "カット", "ブロー仕上げ"]}, {"id": "color", "name": "カット + 艶カラー", "price": 12100, "desc": "髪に優しい薬剤で、透明感のあるカラーに。", "img": "https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=300&auto=format&fit=crop", "count": "所要 約120分", "note": "カラー剤はお肌にやさしい低刺激タイプを使用しています。", "items": ["カウンセリング", "カラー剤の塗布", "放置・スチーム", "シャンプー", "カット", "ブロー仕上げ"]}, {"id": "treatment", "name": "髪質改善 トリートメントコース", "price": 16500, "desc": "うねり・パサつきの根本原因からケアします。", "img": "https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?q=80&w=300&auto=format&fit=crop", "count": "所要 約150分", "note": "3〜4回の集中ケアで効果が持続しやすくなります。", "items": ["カウンセリング・毛髪診断", "酸熱トリートメント", "中間水洗・薬剤調整", "カット（ご希望の方）", "ブロー仕上げ"]}, {"id": "none", "name": "ご相談のみ（メニュー未定）", "price": 0, "desc": "どのメニューが合うか、来店時にご相談ください。", "img": "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?q=80&w=300&auto=format&fit=crop", "count": "カウンセリング 約20分", "note": "当日の髪の状態を見ながら、スタイリストがご提案します。", "items": []}], "notices": ["施術内容により、ご来店からお会計まで前後する場合がございます。", "妊娠中の方・アレルギー・頭皮に傷や炎症がある方は、事前にご相談ください。", "ご予約時間に10分以上遅れる場合、メニュー内容の変更をお願いすることがあります。", "小さなお子様連れのご来店は、事前にご相談ください。", "団体・貸切のご利用はお電話にてご相談ください。"], "charges": [{"label": "指名料", "value": "¥550〜"}, {"label": "ロング料金", "value": "¥1,100〜（毛量・長さにより）"}], "cancel_policy": [{"when": "前日まで", "rate": "無料", "level": "ok"}, {"when": "当日のキャンセル", "rate": "施術料金の50%", "level": "warn"}, {"when": "無断キャンセル（ノーショー）", "rate": "施術料金の100%", "level": "bad"}]};
+const CFG = {"lead": "空き状況を見ながら、24時間いつでもご予約いただけます。", "times": ["10:00", "10:30", "11:00", "11:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"], "seats": ["指名なし", "中村 美咲", "佐々木 玲奈", "高橋 陽菜"], "closed_dow": [2], "charge_per": 0, "party_max": 4, "res_prefix": "LM", "line_id": "", "capacity_weekday": 5, "capacity_weekend": 3, "peak_slots": [8, 9, 10, 11], "courses": [{"id": "cut", "name": "レディースカット", "price": 5500, "desc": "カウンセリング・シャンプー・ブロー込み。まずはこちらから。", "img": "https://images.unsplash.com/photo-1560869713-7d0a29430803?q=80&w=300&auto=format&fit=crop", "count": "所要 約60分", "note": "", "items": ["丁寧なカウンセリング", "シャンプー", "カット", "ブロー仕上げ"]}, {"id": "color", "name": "カット + 艶カラー", "price": 12100, "desc": "髪に優しい薬剤で、透明感のあるカラーに。", "img": "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=300&auto=format&fit=crop", "count": "所要 約120分", "note": "カラー剤はお肌にやさしい低刺激タイプを使用しています。", "items": ["カウンセリング", "カラー剤の塗布", "放置・スチーム", "シャンプー", "カット", "ブロー仕上げ"]}, {"id": "treatment", "name": "髪質改善 トリートメントコース", "price": 16500, "desc": "うねり・パサつきの根本原因からケアします。", "img": "https://images.unsplash.com/photo-1470259078422-826894b933aa?q=80&w=300&auto=format&fit=crop", "count": "所要 約150分", "note": "3〜4回の集中ケアで効果が持続しやすくなります。", "items": ["カウンセリング・毛髪診断", "酸熱トリートメント", "中間水洗・薬剤調整", "カット（ご希望の方）", "ブロー仕上げ"]}, {"id": "none", "name": "ご相談のみ（メニュー未定）", "price": 0, "desc": "どのメニューが合うか、来店時にご相談ください。", "img": "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=300&auto=format&fit=crop", "count": "カウンセリング 約20分", "note": "当日の髪の状態を見ながら、スタイリストがご提案します。", "items": []}], "notices": ["施術内容により、ご来店からお会計まで前後する場合がございます。", "妊娠中の方・アレルギー・頭皮に傷や炎症がある方は、事前にご相談ください。", "ご予約時間に10分以上遅れる場合、メニュー内容の変更をお願いすることがあります。", "小さなお子様連れのご来店は、事前にご相談ください。", "団体・貸切のご利用はお電話にてご相談ください。"], "charges": [{"label": "指名料", "value": "¥550〜"}, {"label": "ロング料金", "value": "¥1,100〜（毛量・長さにより）"}], "cancel_policy": [{"when": "前日まで", "rate": "無料", "level": "ok"}, {"when": "当日のキャンセル", "rate": "施術料金の50%", "level": "warn"}, {"when": "無断キャンセル（ノーショー）", "rate": "施術料金の100%", "level": "bad"}]};
 const COURSES = CFG.courses;
 const TIMES = CFG.times;
 const SEATS = CFG.seats;

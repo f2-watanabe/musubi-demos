@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>株式会社 湊工務店 | 横浜の注文住宅・リフォーム・店舗内装</title>
-<meta name="description" content="横浜市を拠点に注文住宅・リフォーム・店舗内装を手がける工務店「湊工務店」。自社施工と最長20年保証で、住まいと店舗づくりをサポートします。お見積り・ご相談はお電話またはお問い合わせから。">
+<title>株式会社 湊工務店 | 横浜の注文住宅・リフォーム・店舗内装 施工実績</title>
+<meta name="description" content="横浜市を拠点に27年、注文住宅・リフォーム・店舗内装を手がける工務店「湊工務店」。850棟超の施工実績と自社一貫施工・最長20年保証。お見積り・ご相談はお電話またはお問い合わせから。">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500;600;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500;600;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#16233a; --sumi:#0f1a2c; --paper:#f6f7f9;
-  --cream:#dbe2ec; --cream-dim:#aab6c6; --cream-dimmer:#8b96a6;
-  --accent:#8a4a17; --accent-d:#6e3a12; --gold:#d9a45c; --line:#dfe3ea;
+  --paper-dim:#eceef3; --cream:#dbe2ec; --cream-dim:#aab6c6; --cream-dimmer:#8b96a6;
+  --accent:#8a4a17; --accent-d:#6e3a12; --gold:#d9a45c; --line:#dcdfe6; --line-soft:#e7e9ee;
   --muted:#5b6472; --body-ink:#33415a;
   --font-head:"Zen Old Mincho",serif; --font-body:"Noto Sans JP",sans-serif;
 }
@@ -21,174 +21,199 @@
 html{scroll-behavior:smooth}
 body{font-family:var(--font-body);color:var(--ink);background:var(--paper);line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 .mincho{font-family:var(--font-head)}
+.tnum{font-variant-numeric:tabular-nums}
 img{display:block;width:100%;height:100%;object-fit:cover}
 a{color:inherit;text-decoration:none}
-button{cursor:pointer}
-.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
-.section{padding:88px 0}
-.eyebrow{font-size:12px;letter-spacing:.32em;color:var(--accent);font-weight:700;margin-bottom:14px}
-.sec-title{font-size:30px;font-weight:700;letter-spacing:.04em;line-height:1.4;margin-bottom:8px}
-.sec-sub{color:var(--muted);font-size:14px;letter-spacing:.06em}
-.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+button{cursor:pointer;font:inherit}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.section{padding:100px 0}
+.kicker{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.kicker .idx{font-family:var(--font-head);font-size:13px;color:var(--accent);letter-spacing:.1em}
+.kicker .ln{width:36px;height:1px;background:var(--accent)}
+.kicker .lbl{font-size:11.5px;letter-spacing:.32em;color:var(--muted);font-weight:700}
+.sec-title{font-size:30px;font-weight:700;letter-spacing:.04em;line-height:1.45;margin-bottom:10px}
+.sec-sub{color:var(--muted);font-size:14px;letter-spacing:.04em;max-width:56ch}
+.js .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
 .js .reveal.in{opacity:1;transform:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:13.5px;font-weight:700;letter-spacing:.06em;
+  padding:13px 26px;min-height:44px;border-radius:2px;transition:.25s;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-d);transform:translateY(-1px)}
+.btn-line{border:1.4px solid var(--line);color:var(--ink)}
+.btn-line:hover{border-color:var(--accent);color:var(--accent)}
 
 /* header */
 .head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
-  padding:16px 24px;transition:background .4s,padding .4s,box-shadow .4s}
-.head.scrolled{background:rgba(246,247,249,.94);backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line);padding:11px 24px}
+  padding:18px 24px;transition:background .4s,padding .4s,box-shadow .4s}
+.head.scrolled{background:rgba(246,247,249,.94);backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line);padding:12px 24px}
 .brand{display:flex;align-items:center;gap:11px;color:#fff;transition:color .4s}
 .head.scrolled .brand{color:var(--ink)}
-.brand .mark{width:38px;height:38px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-family:var(--font-head);font-weight:700;font-size:19px;flex:none}
-.brand b{font-family:var(--font-head);font-size:19px;font-weight:700;letter-spacing:.08em}
-.brand small{display:block;font-size:9px;letter-spacing:.28em;opacity:.8;font-family:var(--font-body)}
-.head-cta{display:flex;gap:10px;align-items:center}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:13.5px;font-weight:700;letter-spacing:.06em;
-  padding:11px 22px;min-height:44px;border-radius:999px;transition:.25s;white-space:nowrap}
-.btn-primary{background:var(--accent);color:#fff;box-shadow:0 6px 18px rgba(138,74,23,.32)}
-.btn-primary:hover{background:var(--accent-d);transform:translateY(-1px)}
-.btn-ghost{border:1.4px solid rgba(255,255,255,.6);color:#fff}
-.head.scrolled .btn-ghost{border-color:var(--line);color:var(--ink)}
-.btn-ghost:hover{background:rgba(255,255,255,.12)}
-.head.scrolled .btn-ghost:hover{background:#eceef2}
+.brand .mark{width:36px;height:36px;border:1.4px solid currentColor;display:grid;place-items:center;font-family:var(--font-head);font-weight:700;font-size:18px;flex:none}
+.brand b{font-family:var(--font-head);font-size:18px;font-weight:700;letter-spacing:.08em}
+.brand small{display:block;font-size:9px;letter-spacing:.24em;opacity:.8;font-family:var(--font-body)}
+.head-nav{display:flex;gap:26px;align-items:center}
+.head-nav a.hl{font-size:12.5px;letter-spacing:.1em;color:rgba(255,255,255,.86);transition:color .4s}
+.head.scrolled .head-nav a.hl{color:var(--muted)}
+.head-nav a.hl:hover{color:#fff}
+.head.scrolled .head-nav a.hl:hover{color:var(--ink)}
+@media(max-width:900px){.head-nav a.hl{display:none}}
 
 /* hero */
-.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;color:#fff;overflow:hidden}
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;overflow:hidden}
 .hero-bg{position:absolute;inset:0;z-index:-2}
 .hero-bg img{transform:scale(1.06);animation:slowzoom 14s ease-out forwards}
 @keyframes slowzoom{to{transform:scale(1)}}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;
-  background:linear-gradient(180deg,rgba(9,15,26,.6) 0%,rgba(9,15,26,.18) 35%,rgba(9,15,26,.82) 100%)}
-.hero-inner{padding-bottom:70px}
-.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);
-  backdrop-filter:blur(6px);padding:7px 15px;border-radius:999px;font-size:12.5px;font-weight:500;letter-spacing:.04em;margin-bottom:22px}
+  background:linear-gradient(180deg,rgba(9,15,26,.58) 0%,rgba(9,15,26,.2) 38%,rgba(9,15,26,.92) 100%)}
+.hero-inner{padding:0 0 64px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);
+  backdrop-filter:blur(6px);padding:7px 15px;border-radius:2px;font-size:12.5px;font-weight:500;letter-spacing:.05em;margin-bottom:24px}
 .badge .stars{color:var(--gold);letter-spacing:2px}
-.hero h1{font-family:var(--font-head);font-size:clamp(38px,8vw,72px);font-weight:700;line-height:1.28;letter-spacing:.03em;
-  text-shadow:0 2px 30px rgba(0,0,0,.4)}
-.hero p.lead{margin-top:18px;font-size:clamp(15px,2.4vw,18px);font-weight:500;max-width:540px;letter-spacing:.03em;text-shadow:0 1px 10px rgba(0,0,0,.5)}
-.hero-actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
-.scroll-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.3em;opacity:.8;writing-mode:vertical-rl}
+.hero h1{font-family:var(--font-head);font-size:clamp(34px,6.6vw,62px);font-weight:700;line-height:1.36;letter-spacing:.03em;
+  text-shadow:0 2px 30px rgba(0,0,0,.4);max-width:15em}
+.hero p.lead{margin-top:20px;font-size:clamp(14.5px,1.9vw,16.5px);font-weight:500;max-width:520px;letter-spacing:.03em;line-height:1.9;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+.hero-actions{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
 
-/* strip */
-.strip{background:var(--sumi);color:var(--cream);padding:26px 0}
-.strip .wrap{display:flex;gap:14px;justify-content:space-around;flex-wrap:wrap;text-align:center}
-.strip .it b{font-family:var(--font-head);font-size:19px;display:block;color:#fff}
-.strip .it span{font-size:11.5px;letter-spacing:.14em;color:var(--cream-dim)}
+/* hero stat band — floating, bridges hero and page */
+.stat-band{position:relative;z-index:2;margin-top:56px}
+.stat-band .wrap{background:#fff;box-shadow:0 30px 70px rgba(16,26,44,.22);border-radius:2px;
+  display:grid;grid-template-columns:repeat(4,1fr);transform:translateY(46%)}
+.stat-band .it{padding:26px 22px;border-right:1px solid var(--line-soft);text-align:left}
+.stat-band .it:last-child{border-right:none}
+.stat-band .it b{font-family:var(--font-head);font-size:26px;color:var(--ink);display:block;letter-spacing:.02em}
+.stat-band .it span{font-size:11.5px;letter-spacing:.1em;color:var(--muted);display:block;margin-top:6px}
+.hero-spacer{height:calc(46% + 40px)}
+@media(max-width:760px){
+  .stat-band .wrap{grid-template-columns:repeat(2,1fr);transform:translateY(30%)}
+  .stat-band .it{padding:18px 16px}
+  .stat-band .it b{font-size:21px}
+  .hero-spacer{height:calc(30% + 130px)}
+}
 
-/* news */
-.news{background:var(--paper)}
-.news-list{max-width:760px;margin:40px auto 0}
-.news-item{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--line)}
-.news-item:first-child{border-top:1px solid var(--line)}
-.news-item time{font-family:var(--font-head);font-size:13px;color:var(--muted);letter-spacing:.06em;padding-top:2px}
-.news-item h4{font-family:var(--font-head);font-size:16px;font-weight:600;letter-spacing:.03em;margin-bottom:6px}
-.news-item p{font-size:13.5px;color:var(--body-ink);line-height:1.8}
-@media(max-width:520px){.news-item{grid-template-columns:1fr;gap:4px}}
+/* news ticker */
+.news-sec{background:var(--paper);padding:56px 0 0}
+.news-list{margin-top:28px;display:flex;flex-direction:column}
+.news-item{display:grid;grid-template-columns:150px 1fr;gap:24px;padding:18px 0;border-top:1px solid var(--line)}
+.news-list .news-item:last-child{border-bottom:1px solid var(--line)}
+.news-item time{font-family:var(--font-head);font-size:12.5px;color:var(--accent);letter-spacing:.06em;padding-top:2px}
+.news-item h4{font-size:14.5px;font-weight:700;letter-spacing:.02em;margin-bottom:4px}
+.news-item p{font-size:12.5px;color:var(--muted);line-height:1.75}
+@media(max-width:560px){.news-item{grid-template-columns:1fr;gap:4px}}
 
-/* about */
-.about{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
-.about-photos{position:relative;aspect-ratio:1/1}
-.about-photos .p1{position:absolute;width:72%;aspect-ratio:3/4;top:0;left:0;border-radius:6px;overflow:hidden;box-shadow:0 24px 50px rgba(16,26,44,.22)}
-.about-photos .p2{position:absolute;width:54%;aspect-ratio:1/1;bottom:0;right:0;border-radius:6px;overflow:hidden;border:6px solid var(--paper);box-shadow:0 20px 40px rgba(16,26,44,.2)}
-.about p.body{margin-top:20px;color:var(--body-ink);font-size:15px;line-height:2.05}
-.about .sign{margin-top:24px;font-family:var(--font-head);font-size:15px;color:var(--muted)}
-.about .sign b{font-size:21px;color:var(--ink);display:block;letter-spacing:.1em}
+/* case studies (gallery + menu combined) */
+.case-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);margin-top:44px;border:1px solid var(--line);counter-reset:cs}
+.case-card{background:var(--paper);display:flex;flex-direction:column;position:relative;counter-increment:cs}
+.case-photo{position:relative;aspect-ratio:4/3;overflow:hidden}
+.case-photo img{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.case-card:hover .case-photo img{transform:scale(1.06)}
+.case-num{position:absolute;top:12px;left:12px;background:rgba(9,15,26,.72);color:#fff;font-family:var(--font-head);
+  font-size:12px;letter-spacing:.06em;padding:5px 10px;backdrop-filter:blur(3px)}
+.case-num::before{content:"CASE " counter(cs,decimal-leading-zero)}
+.case-body{padding:22px 22px 26px;flex:1;display:flex;flex-direction:column}
+.case-body h4{font-family:var(--font-head);font-size:18px;font-weight:600;letter-spacing:.03em}
+.case-body p{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.8;flex:1}
+.case-price{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);letter-spacing:.06em;display:flex;justify-content:space-between}
+.case-price b{font-family:var(--font-head);color:var(--accent);font-size:14px;font-weight:600}
+@media(max-width:900px){.case-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.case-grid{grid-template-columns:1fr}}
 
-/* features */
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:46px}
-.feat{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:34px 26px;transition:.3s}
-.feat:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(16,26,44,.1);border-color:#cdd4de}
-.feat .no{font-family:var(--font-head);font-size:13px;color:var(--accent);letter-spacing:.2em}
-.feat h3{font-family:var(--font-head);font-size:21px;margin:12px 0 10px;letter-spacing:.04em}
-.feat p{font-size:13.5px;color:var(--muted);line-height:1.95}
+.case-more{margin-top:64px}
+.case-more-head{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.case-more-head .ln{flex:1;height:1px;background:var(--line)}
+.case-more-head span{font-size:11px;letter-spacing:.2em;color:var(--muted);white-space:nowrap}
+.mosaic{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:130px;gap:8px}
+.mosaic div{overflow:hidden}
+.mosaic img{transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.mosaic div:hover img{transform:scale(1.08)}
+.mosaic .tall{grid-row:span 2}.mosaic .wide{grid-column:span 2}
+@media(max-width:760px){.mosaic{grid-template-columns:repeat(3,1fr);grid-auto-rows:96px}}
 
-/* menu / services */
-.menu{background:var(--sumi);color:var(--cream)}
-.menu .sec-title,.menu .eyebrow{color:#fff}.menu .eyebrow{color:var(--gold)}
-.menu .sec-sub{color:var(--cream-dim)}
-.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:46px}
-.mitem{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;overflow:hidden;transition:.3s}
-.mitem:hover{transform:translateY(-4px);border-color:rgba(217,164,92,.5)}
-.mi-photo{aspect-ratio:4/3;overflow:hidden}
-.mi-photo img{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
-.mitem:hover .mi-photo img{transform:scale(1.06)}
-.mi-body{padding:16px 18px 18px}
-.mi-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.mitem h4{font-family:var(--font-head);font-size:17px;font-weight:600;letter-spacing:.03em}
-.mitem .price{font-family:var(--font-head);color:var(--gold);font-size:15px;white-space:nowrap}
-.mitem p{font-size:12.5px;color:var(--cream-dim);margin-top:6px;line-height:1.7}
-.menu-note{text-align:center;margin-top:40px;font-size:12.5px;color:var(--cream-dimmer);letter-spacing:.08em}
+/* reviews — quiet strip */
+.rev-sec{background:var(--sumi);color:var(--cream)}
+.rev-sec .kicker .lbl{color:var(--cream-dim)}
+.rev-sec .kicker .ln{background:var(--gold)}
+.rev-sec .kicker .idx{color:var(--gold)}
+.rev-sec .sec-title{color:#fff}
+.rev-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:44px;border-top:1px solid rgba(255,255,255,.14)}
+.rev-it{padding:28px 26px 0;border-left:1px solid rgba(255,255,255,.14)}
+.rev-stars{color:var(--gold);font-family:var(--font-head);font-size:13px;letter-spacing:2px;font-weight:700}
+.rev-it blockquote{font-size:13.5px;color:var(--cream);line-height:1.95;margin-top:12px;min-height:6.6em}
+.rev-it figcaption{font-size:11.5px;color:var(--cream-dimmer);letter-spacing:.06em;margin-top:14px}
+.rev-note{margin-top:30px;font-size:11px;color:var(--cream-dimmer);letter-spacing:.08em}
+@media(max-width:760px){.rev-strip{grid-template-columns:1fr}.rev-it{border-left:none;border-top:1px solid rgba(255,255,255,.14);padding:24px 0 0}}
 
-/* gallery */
-.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:10px;margin-top:46px}
-.gallery div{overflow:hidden;border-radius:4px}
-.gallery img{transition:transform .8s cubic-bezier(.2,.7,.2,1)}
-.gallery div:hover img{transform:scale(1.08)}
-.gallery .tall{grid-row:span 2}.gallery .wide{grid-column:span 2}
+/* services (menu as diagram) */
+.svc-list{margin-top:44px;border-top:1px solid var(--line);counter-reset:svc}
+.svc-row{display:grid;grid-template-columns:74px 1fr auto;gap:26px;align-items:center;padding:26px 4px;border-bottom:1px solid var(--line);counter-increment:svc}
+.svc-no{font-family:var(--font-head);font-size:30px;color:#7e899d;font-weight:700;line-height:1;transition:color .3s}
+.svc-no::before{content:counter(svc,decimal-leading-zero)}
+.svc-row:hover .svc-no{color:var(--accent)}
+.svc-name{font-family:var(--font-head);font-size:18px;font-weight:600;letter-spacing:.03em}
+.svc-desc{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.8;max-width:56ch}
+.svc-price{font-size:13px;color:var(--accent);font-weight:700;white-space:nowrap;text-align:right}
+@media(max-width:700px){
+  .svc-row{grid-template-columns:44px 1fr;grid-template-areas:"no name" ". price";row-gap:6px}
+  .svc-no{grid-area:no;font-size:22px}.svc-name{grid-area:name}
+  .svc-desc{grid-column:1/-1}
+  .svc-price{grid-area:price;text-align:left}
+}
 
-/* reviews */
-.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:46px}
-.rev-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:26px 24px;display:flex;flex-direction:column;gap:12px}
-.rev-stars{color:var(--accent);font-family:var(--font-head);font-size:14px;letter-spacing:2px;font-weight:700}
-.rev-card blockquote{font-size:13.5px;color:var(--body-ink);line-height:1.95;flex:1}
-.rev-card figcaption{font-size:12px;color:var(--muted);letter-spacing:.06em}
-.rev-note{text-align:center;margin-top:26px;font-size:11.5px;color:var(--muted);letter-spacing:.08em}
+/* about (代表挨拶 + philosophy) */
+.about-grid{display:grid;grid-template-columns:.86fr 1.14fr;gap:64px;align-items:center}
+.about-photo{position:relative;aspect-ratio:3/4;overflow:hidden}
+.about-photo .p2{position:absolute;width:46%;aspect-ratio:1/1;bottom:-28px;right:-28px;overflow:hidden;border:6px solid var(--paper);box-shadow:0 20px 40px rgba(16,26,44,.2)}
+.quote-mark{font-family:var(--font-head);font-size:64px;color:var(--accent);line-height:1;opacity:.5}
+.about p.body{margin-top:8px;color:var(--body-ink);font-size:15px;line-height:2.05}
+.about .sign{margin-top:26px;font-family:var(--font-head);font-size:14px;color:var(--muted)}
+.about .sign b{font-size:20px;color:var(--ink);display:block;letter-spacing:.1em;margin-top:2px}
+.pillars{margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;border-top:1px solid var(--line);padding-top:32px}
+.pillar .no{font-family:var(--font-head);font-size:12px;color:var(--accent);letter-spacing:.16em}
+.pillar h5{font-family:var(--font-head);font-size:15.5px;font-weight:600;margin:8px 0 6px;letter-spacing:.02em}
+.pillar p{font-size:12.5px;color:var(--muted);line-height:1.8}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr;gap:40px}.about-photo{max-width:380px;margin:0 auto}.pillars{grid-template-columns:1fr;gap:22px}}
 
-/* external links */
-.ext-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
-.ext-link{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;letter-spacing:.06em;
-  padding:10px 18px;min-height:44px;border-radius:999px;border:1.4px solid var(--line);color:var(--ink);transition:.25s;background:#fff}
-.ext-link:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+/* company profile (会社概要) */
+.profile-sec{background:var(--paper-dim)}
+.profile-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:0;margin-top:44px;box-shadow:0 24px 60px rgba(16,26,44,.12)}
+.profile-photo{position:relative;min-height:100%}
+.profile-table{background:#fff;padding:8px 40px}
+.profile-table dl{display:grid;grid-template-columns:120px 1fr}
+.profile-table .row{display:contents}
+.profile-table dt{padding:18px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:12.5px;letter-spacing:.1em;align-self:start}
+.profile-table dd{padding:18px 0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.75}
+.profile-table dd a{color:var(--accent);font-weight:700}
+.profile-links{display:flex;gap:10px;flex-wrap:wrap;padding:24px 0 6px}
+.ext-link{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;letter-spacing:.05em;
+  padding:10px 16px;min-height:44px;border-radius:2px;border:1.4px solid var(--line);color:var(--ink);transition:.25s}
+.ext-link:hover{border-color:var(--accent);color:var(--accent)}
 .ext-link svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+@media(max-width:860px){.profile-grid{grid-template-columns:1fr}.profile-photo{aspect-ratio:16/9}.profile-table{padding:8px 24px}.profile-table dl{grid-template-columns:96px 1fr}}
 
-/* hours / info card (formerly reservation) */
-.hours-sec{background:linear-gradient(180deg,#f6f7f9,#eceef3)}
-.hinfo-card{display:grid;grid-template-columns:1.1fr 1fr;gap:0;border-radius:14px;overflow:hidden;
-  box-shadow:0 30px 70px rgba(16,26,44,.16);background:#fff;margin-top:46px}
-.hinfo{padding:46px 44px}
-.hinfo h3{font-family:var(--font-head);font-size:24px;letter-spacing:.04em}
-.hours{margin:24px 0;border-top:1px solid var(--line)}
-.hours .row{display:flex;justify-content:space-between;padding:11px 2px;border-bottom:1px solid var(--line);font-size:14px}
-.hours .row span:first-child{color:var(--muted);letter-spacing:.08em}
-.hours .row b{font-weight:500}
-.tel-big{display:flex;align-items:center;gap:14px;margin-top:6px}
-.tel-big .ic{width:46px;height:46px;border-radius:50%;background:#f0e6db;display:grid;place-items:center;flex:none}
-.tel-big .n{font-family:var(--font-head);font-size:27px;letter-spacing:.04em;line-height:1.1}
-.tel-big small{display:block;font-size:11px;color:var(--muted);letter-spacing:.16em}
-.hphoto{position:relative;min-height:100%}
-.hphoto .ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(9,15,26,.62));display:flex;align-items:flex-end;padding:32px}
-.hphoto .ov a{width:100%;justify-content:center;font-size:15px;padding:16px}
-
-/* contact */
-.contact{background:var(--sumi);color:var(--cream)}
-.contact .eyebrow{color:var(--gold)}.contact .sec-title{color:#fff}
-.contact .lead{text-align:center;color:var(--cream-dim);font-size:14px;margin-top:6px;max-width:560px;margin-left:auto;margin-right:auto}
-.contact-cta{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:720px;margin:34px auto 0}
-.cc-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:32px 24px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);transition:.25s}
-.cc-card:hover{background:rgba(255,255,255,.1);transform:translateY(-4px);border-color:var(--gold)}
-.cc-ic{width:50px;height:50px;border-radius:50%;background:rgba(217,164,92,.16);display:grid;place-items:center;margin-bottom:4px}
-.cc-ic svg{width:24px;height:24px;stroke:var(--gold);fill:none;stroke-width:1.8}
-.cc-label{font-size:12px;color:var(--cream-dim);letter-spacing:.1em}
-.cc-main{font-family:var(--font-head);font-size:22px;color:#fff;letter-spacing:.03em}
-.cc-card.alt .cc-main{color:var(--gold)}
-.cc-sub{font-size:11.5px;color:var(--cream-dimmer);line-height:1.6}
+/* contact / recruit */
+.contact-sec{background:var(--sumi);color:var(--cream)}
+.contact-sec .kicker .lbl{color:var(--cream-dim)}
+.contact-sec .kicker .ln{background:var(--gold)}
+.contact-sec .kicker .idx{color:var(--gold)}
+.contact-sec .sec-title{color:#fff}
+.contact-sec .lead{color:var(--cream-dim);font-size:14px;margin-top:2px;max-width:620px;line-height:1.9}
+.contact-cta{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:760px;margin-top:40px}
+.cc-card{display:flex;flex-direction:column;gap:6px;padding:30px 28px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16);transition:.25s}
+.cc-card:hover{background:rgba(255,255,255,.09);border-color:var(--gold)}
+.cc-label{font-size:11.5px;color:var(--cream-dim);letter-spacing:.12em}
+.cc-main{font-family:var(--font-head);font-size:23px;color:#fff;letter-spacing:.03em;margin-top:2px}
+.cc-card.alt .cc-main{color:var(--gold);font-size:16px;line-height:1.6}
+.cc-sub{font-size:11.5px;color:var(--cream-dimmer);line-height:1.6;margin-top:4px}
 @media(max-width:680px){.contact-cta{grid-template-columns:1fr}}
 
-/* access */
-.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:46px;align-items:center}
-.access dl{display:grid;grid-template-columns:84px 1fr;gap:14px 18px;font-size:14.5px}
-.access dt{color:var(--muted);font-weight:500;letter-spacing:.08em}
-.access dd{line-height:1.7}
-.map{border-radius:10px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:#e4e7ec}
-.map iframe{width:100%;height:100%;border:0;filter:grayscale(.15) contrast(1.02)}
-
 /* footer */
-footer{background:var(--sumi);color:var(--cream-dim);padding:64px 0 120px;text-align:center}
+footer{background:var(--sumi);color:var(--cream-dim);padding:64px 0 120px;text-align:center;border-top:1px solid rgba(255,255,255,.1)}
 footer .fb{display:flex;align-items:center;gap:12px;justify-content:center;color:#fff;margin-bottom:18px}
-footer .fb .mark{width:42px;height:42px;border-radius:50%;border:1.5px solid #fff;display:grid;place-items:center;font-family:var(--font-head);font-size:21px}
-footer .fb b{font-family:var(--font-head);font-size:22px;letter-spacing:.1em}
-footer .fnav{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;font-size:13px;margin:20px 0;letter-spacing:.06em}
+footer .fb .mark{width:40px;height:40px;border:1.4px solid #fff;display:grid;place-items:center;font-family:var(--font-head);font-size:20px}
+footer .fb b{font-family:var(--font-head);font-size:21px;letter-spacing:.1em}
+footer .fnav{display:flex;gap:22px;justify-content:center;flex-wrap:wrap;font-size:12.5px;margin:20px 0;letter-spacing:.06em}
 footer .fnav a:hover{color:#fff}
-footer .cp{font-size:11px;color:var(--cream-dimmer);letter-spacing:.08em;margin-top:24px}
+footer .cp{font-size:11px;color:var(--cream-dimmer);letter-spacing:.06em;margin-top:24px}
 
 /* mobile sticky bar */
 .mbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;gap:0;background:#fff;box-shadow:0 -4px 20px rgba(0,0,0,.12)}
@@ -198,30 +223,17 @@ footer .cp{font-size:11px;color:var(--cream-dimmer);letter-spacing:.08em;margin-
 .mbar svg{width:19px;height:19px}
 
 @media(max-width:860px){
-  .section{padding:64px 0}
-  .head-cta .btn-ghost{display:none}
-  .about,.hinfo-card,.access-grid{grid-template-columns:1fr}
-  .about-photos{aspect-ratio:4/3;width:100%;max-width:420px;margin:0 auto}
-  .feat-grid{grid-template-columns:1fr;gap:16px}
-  .menu-grid{grid-template-columns:repeat(2,1fr);gap:14px}
-  .rev-grid{grid-template-columns:1fr;gap:14px}
-  .gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px}
-  .hphoto{min-height:260px}
-  .sec-title{font-size:25px}
+  .section{padding:72px 0}
+  .sec-title{font-size:24px}
+  .head-nav .btn-line{display:none}
   .mbar{display:flex}
-  body{padding-bottom:0}
-  .head-cta .btn-primary{padding:10px 16px}
-}
-@media(max-width:520px){
-  .gallery .wide{grid-column:span 2}.gallery .tall{grid-row:span 1}
-  .menu-grid{grid-template-columns:1fr}
-  .strip .wrap{gap:18px}
+  body{padding-bottom:56px}
 }
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   .hero-bg img{animation:none;transform:none}
   .js .reveal{transition:none;opacity:1;transform:none}
-  .feat,.mitem,.gallery div img,.cc-card,.btn-primary{transition:none}
+  .case-photo img,.mosaic img,.svc-no,.cc-card,.btn-primary{transition:none}
 }
 </style>
 <style>:root{--accent:#8a4a17;--accent-d:#6e3a12;--paper:#f6f7f9;--ink:#16233a;--font-head:"Zen Old Mincho",serif;--font-body:"Noto Sans JP",sans-serif}</style>
@@ -235,9 +247,11 @@ footer .cp{font-size:11px;color:var(--cream-dimmer);letter-spacing:.08em;margin-
     <span class="mark">湊</span>
     <span><b>湊工務店</b><small>MINATO KOUMUTEN</small></span>
   </a>
-  <nav class="head-cta">
-    <a href="#about" class="btn btn-ghost">会社概要</a>
-    <a href="#contact" class="btn btn-primary">お問い合わせ</a>
+  <nav class="head-nav">
+    <a href="#case" class="hl">施工事例</a>
+    <a href="#service" class="hl">事業内容</a>
+    <a href="#profile" class="hl">会社概要</a>
+    <a href="#contact" class="btn btn-line">お問い合わせ</a>
   </nav>
 </header>
 
@@ -245,184 +259,234 @@ footer .cp{font-size:11px;color:var(--cream-dimmer);letter-spacing:.08em;margin-
   <div class="hero-bg"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1600&auto=format&fit=crop" alt=""></div>
   <div class="wrap hero-inner">
     <div class="badge"><span class="stars">★★★★★</span> Google口コミ 4.8（126件） ・ 横浜市／神奈川県</div>
-    <h1>確かな仕事で、<br>暮らしと商いを支える。</h1>
-    <p class="lead">設計から施工、アフターメンテナンスまで自社で一貫対応。<br>横浜の地で27年、住まいと店舗づくりに真摯に向き合ってきました。</p>
+    <h1 class="mincho">積み上げた棟数が、<br>そのまま信頼になる。</h1>
+    <p class="lead">設計・施工・アフターメンテナンスを自社一貫で。<br>横浜の地で27年、850棟を超える住まいと店舗づくりに向き合ってきました。</p>
     <div class="hero-actions">
       <a href="#contact" class="btn btn-primary">お問い合わせ</a>
-      <a href="#menu" class="btn btn-ghost">事業内容を見る</a>
+      <a href="#case" class="btn btn-line" style="border-color:rgba(255,255,255,.5);color:#fff">施工事例を見る</a>
     </div>
   </div>
-  <div class="scroll-hint">SCROLL</div>
+  <div class="stat-band">
+    <div class="wrap">
+      <div class="it"><b class="tnum">1998</b><span>創業 / 横浜</span></div><div class="it"><b class="tnum">850棟+</b><span>住宅・店舗 施工実績</span></div><div class="it"><b class="tnum">最長20年</b><span>自社施工保証</span></div><div class="it"><b class="tnum">12名</b><span>自社大工・自社施工体制</span></div>
+    </div>
+  </div>
 </section>
+<div class="hero-spacer"></div>
 
-<div class="strip">
+<section class="news-sec" id="news">
   <div class="wrap">
-    <div class="it"><b>1998</b><span>創業 / 横浜</span></div><div class="it"><b>施工実績 850棟+</b><span>住宅・店舗合わせて</span></div><div class="it"><b>保証 最長20年</b><span>自社施工だから安心</span></div><div class="it"><b>自社大工 12名</b><span>外注に頼らない体制</span></div>
-  </div>
-</div>
-
-<section class="section news" id="news" style="padding:56px 0">
-  <div class="wrap">
-    <div class="reveal" style="text-align:center">
-      <div class="eyebrow">NEWS</div>
-      <h2 class="sec-title mincho">お知らせ</h2>
-    </div>
+    <div class="kicker reveal"><span class="idx">00</span><span class="ln"></span><span class="lbl">NEWS</span></div>
     <div class="news-list reveal">
-      <div class="news-item"><time>2026年6月18日</time><div><h4>施工事例を更新しました</h4><p>横浜市内で完成した注文住宅・店舗内装の施工事例を「施工事例」欄に追加しました。</p></div></div><div class="news-item"><time>2026年5月1日</time><div><h4>夏季休業のお知らせ</h4><p>誠に勝手ながら、8月13日（木）〜16日（日）は夏季休業とさせていただきます。</p></div></div>
+      <div class="news-item"><time>2026年6月18日</time><div><h4>施工事例を更新しました</h4><p>横浜市内で完成した注文住宅・店舗内装の施工事例を追加しました。</p></div></div><div class="news-item"><time>2026年5月1日</time><div><h4>夏季休業のお知らせ</h4><p>誠に勝手ながら、8月13日（木）〜16日（日）は夏季休業とさせていただきます。</p></div></div>
     </div>
   </div>
 </section>
 
-<section class="section" id="about">
-  <div class="wrap about">
-    <div class="about-photos reveal">
-      <div class="p1"><img src="https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=900&auto=format&fit=crop" alt=""></div>
-      <div class="p2"><img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?q=80&w=700&auto=format&fit=crop" alt=""></div>
-    </div>
-    <div class="reveal">
-      <div class="eyebrow">ABOUT US</div>
-      <h2 class="sec-title mincho">変わらない誠実さと、<br>その道のプロの手仕事を。</h2>
-      <p class="body">湊工務店は、横浜の地で二十七年。<br>注文住宅からリフォーム、店舗内装まで、設計から施工・アフターメンテナンスまで自社で一貫対応しています。<br>お客様の暮らしや商いに寄り添い、図面だけでは伝わらない「住み心地・使い心地」を大切にしています。</p>
-      <div class="sign">代表取締役<b>湊 誠一郎</b></div>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="padding-top:0" id="feature">
+<section class="section" id="case">
   <div class="wrap">
-    <div class="reveal" style="text-align:center">
-      <div class="eyebrow">WHY US</div>
-      <h2 class="sec-title mincho">湊工務店が選ばれる理由</h2>
+    <div class="case-head reveal">
+      <div>
+        <div class="kicker"><span class="idx">01</span><span class="ln"></span><span class="lbl">CASE STUDIES</span></div>
+        <h2 class="sec-title mincho">施工事例が語る、実績。</h2>
+        <p class="sec-sub">住まいと店舗、850棟を超える現場からの一例。案件種別・価格帯とあわせてご覧ください。</p>
+      </div>
     </div>
-    <div class="feat-grid">
-      <div class="feat reveal"><div class="no">01</div><h3>自社施工で高品質</h3><p>設計士・現場監督・大工がすべて自社所属。下請け任せにしない一貫体制で、品質と工期をしっかり管理します。</p></div><div class="feat reveal"><div class="no">02</div><h3>最長20年の保証体制</h3><p>構造・防水など主要項目を長期保証。定期点検もセットで、建てた後も末永く安心してお付き合いいただけます。</p></div><div class="feat reveal"><div class="no">03</div><h3>地域密着27年の実績</h3><p>横浜エリアの気候・地盤特性を熟知。住宅からリフォーム、店舗内装まで幅広い施工実績でご要望にお応えします。</p></div>
+    <div class="case-grid reveal">
+      <div class="case-card">
+        <div class="case-photo"><img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=600&auto=format&fit=crop" alt="注文住宅の施工事例" loading="lazy" onerror="this.parentElement.style.display='none'"><div class="case-num"></div></div>
+        <div class="case-body">
+          <h4>注文住宅</h4>
+          <p>土地探しから設計・施工まで一貫対応。性能と意匠を両立する、暮らし方に合わせた住まいづくり。</p>
+          <div class="case-price"><span>参考価格</span><b>¥2,800万円〜</b></div>
+        </div>
+      </div><div class="case-card">
+        <div class="case-photo"><img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=600&auto=format&fit=crop" alt="リフォーム・増改築の施工事例" loading="lazy" onerror="this.parentElement.style.display='none'"><div class="case-num"></div></div>
+        <div class="case-body">
+          <h4>リフォーム・増改築</h4>
+          <p>水回りの部分改修から二世帯化、耐震補強まで。ライフステージの変化に寄り添うご提案。</p>
+          <div class="case-price"><span>参考価格</span><b>¥150万円〜</b></div>
+        </div>
+      </div><div class="case-card">
+        <div class="case-photo"><img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?q=80&w=600&auto=format&fit=crop" alt="店舗内装工事の施工事例" loading="lazy" onerror="this.parentElement.style.display='none'"><div class="case-num"></div></div>
+        <div class="case-body">
+          <h4>店舗内装工事</h4>
+          <p>飲食店・美容室・オフィスの内装施工。デザイン設計から什器・サイン工事まで一括対応。</p>
+          <div class="case-price"><span>参考価格</span><b>要お見積り</b></div>
+        </div>
+      </div><div class="case-card">
+        <div class="case-photo"><img src="https://images.unsplash.com/photo-1592595896551-12b371d546d5?q=80&w=600&auto=format&fit=crop" alt="外構・エクステリアの施工事例" loading="lazy" onerror="this.parentElement.style.display='none'"><div class="case-num"></div></div>
+        <div class="case-body">
+          <h4>外構・エクステリア</h4>
+          <p>駐車場・お庭・アプローチの設計と施工。建物との調和を考えたプランをご提案します。</p>
+          <div class="case-price"><span>参考価格</span><b>¥80万円〜</b></div>
+        </div>
+      </div><div class="case-card">
+        <div class="case-photo"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop" alt="耐震・断熱リフォームの施工事例" loading="lazy" onerror="this.parentElement.style.display='none'"><div class="case-num"></div></div>
+        <div class="case-body">
+          <h4>耐震・断熱リフォーム</h4>
+          <p>既存住宅の耐震診断から補強工事、断熱性能の向上まで。補助金活用のご相談も承ります。</p>
+          <div class="case-price"><span>参考価格</span><b>¥120万円〜</b></div>
+        </div>
+      </div><div class="case-card">
+        <div class="case-photo"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=600&auto=format&fit=crop" alt="アフターメンテナンスの施工事例" loading="lazy" onerror="this.parentElement.style.display='none'"><div class="case-num"></div></div>
+        <div class="case-body">
+          <h4>アフターメンテナンス</h4>
+          <p>引き渡し後も定期点検を実施。小さな不具合の早期発見・補修で、住まいを長く良い状態に保ちます。</p>
+          <div class="case-price"><span>参考価格</span><b>点検無料</b></div>
+        </div>
+      </div>
+    </div>
+    <div class="case-more reveal">
+      <div class="case-more-head"><span>その他の施工写真</span><div class="ln"></div></div>
+      <div class="mosaic">
+        <div class="tall"><img src="https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=700&auto=format&fit=crop" alt="" loading="lazy"></div><div class="wide"><img src="https://images.unsplash.com/photo-1541123437800-1bb1317badc2?q=80&w=900&auto=format&fit=crop" alt="" loading="lazy"></div><div class=""><img src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=500&auto=format&fit=crop" alt="" loading="lazy"></div><div class=""><img src="https://images.unsplash.com/photo-1587582423116-ec07293f0395?q=80&w=500&auto=format&fit=crop" alt="" loading="lazy"></div><div class="wide"><img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=900&auto=format&fit=crop" alt="" loading="lazy"></div><div class=""><img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=500&auto=format&fit=crop" alt="" loading="lazy"></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section menu" id="menu">
+<section class="section rev-sec" id="reviews">
   <div class="wrap">
-    <div class="reveal" style="text-align:center">
-      <div class="eyebrow">BUSINESS</div>
-      <h2 class="sec-title mincho">事業内容</h2>
-      <p class="sec-sub">注文住宅・リフォームから店舗内装まで、幅広く対応いたします</p>
-    </div>
-    <div class="menu-grid">
-      <div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=600&auto=format&fit=crop" alt="注文住宅" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>注文住宅</h4><span class="price">¥2,800万円〜</span></div><p>土地探しから設計・施工まで。ご家族の暮らし方に合わせた、性能と意匠を両立する住まいづくり。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=600&auto=format&fit=crop" alt="リフォーム・増改築" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>リフォーム・増改築</h4><span class="price">¥150万円〜</span></div><p>水回りの部分改修から二世帯化、耐震補強まで。ライフステージの変化に合わせたご提案。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?q=80&w=600&auto=format&fit=crop" alt="店舗内装工事" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>店舗内装工事</h4><span class="price">要お見積り</span></div><p>飲食店・美容室・オフィスの内装施工。デザイン設計から什器・サイン工事まで一括対応。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1592595896551-12b371d546d5?q=80&w=600&auto=format&fit=crop" alt="外構・エクステリア" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>外構・エクステリア</h4><span class="price">¥80万円〜</span></div><p>駐車場・お庭・アプローチのご提案。建物との調和を考えた設計と施工。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop" alt="耐震・断熱リフォーム" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>耐震・断熱リフォーム</h4><span class="price">¥120万円〜</span></div><p>既存住宅の耐震診断から補強工事、断熱性能の向上まで。国や自治体の補助金活用もご相談ください。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=600&auto=format&fit=crop" alt="アフターメンテナンス" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>アフターメンテナンス</h4><span class="price">点検無料</span></div><p>引き渡し後も定期点検を実施。小さな不具合の早期発見・補修で、住まいを長く良い状態に保ちます。</p></div></div>
-    </div>
-    <p class="menu-note">表示は税込・延床面積や仕様により変動します ・ お見積りは無料です（詳しくはお問い合わせください）</p>
-  </div>
-</section>
-
-<section class="section" id="gallery">
-  <div class="wrap">
-    <div class="reveal" style="text-align:center">
-      <div class="eyebrow">GALLERY</div>
-      <h2 class="sec-title mincho">施工事例</h2>
-      <p class="sec-sub">手がけた住まいと、お店の一部をご紹介します</p>
-    </div>
-    <div class="gallery reveal">
-      <div class="tall"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=700&auto=format&fit=crop" alt=""></div><div class="wide"><img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=900&auto=format&fit=crop" alt=""></div><div class=""><img src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=500&auto=format&fit=crop" alt=""></div><div class=""><img src="https://images.unsplash.com/photo-1587582423116-ec07293f0395?q=80&w=500&auto=format&fit=crop" alt=""></div><div class="wide"><img src="https://images.unsplash.com/photo-1541123437800-1bb1317badc2?q=80&w=900&auto=format&fit=crop" alt=""></div><div class=""><img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=500&auto=format&fit=crop" alt=""></div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="reviews" style="padding-top:0">
-  <div class="wrap">
-    <div class="reveal" style="text-align:center">
-      <div class="eyebrow">VOICE</div>
-      <h2 class="sec-title mincho">お客さまの声</h2>
-      <p class="sec-sub">Googleの口コミより （2026年6月時点）</p>
-    </div>
-    <div class="rev-grid">
-      <figure class="rev-card reveal">
+    <div class="kicker reveal"><span class="idx">02</span><span class="ln"></span><span class="lbl">VOICE</span></div>
+    <h2 class="sec-title mincho reveal">お客さまの声</h2>
+    <p class="sec-sub reveal" style="color:var(--cream-dim)">Googleの口コミより （2026年6月時点）</p>
+    <div class="rev-strip reveal">
+      <div class="rev-it">
         <div class="rev-stars">★ 5</div>
         <blockquote>注文住宅を建てていただきました。担当の方が最後まで親身に相談に乗ってくれて、細かい要望にも丁寧に対応してくれました。仕上がりにも大満足です。</blockquote>
         <figcaption>H. Kobayashi さん</figcaption>
-      </figure><figure class="rev-card reveal">
+      </div><div class="rev-it">
         <div class="rev-stars">★ 5</div>
         <blockquote>店舗の内装工事でお願いしました。工期も予定通りで、職人さんの仕事も丁寧。オープンに間に合わせていただき感謝しています。</blockquote>
         <figcaption>Y. Sato さん</figcaption>
-      </figure><figure class="rev-card reveal">
+      </div><div class="rev-it">
         <div class="rev-stars">★ 4</div>
         <blockquote>水回りのリフォームを担当いただきました。見積りの説明が分かりやすく、追加費用の相談も事前にしっかりしてもらえて安心でした。</blockquote>
         <figcaption>M. Endo さん</figcaption>
-      </figure>
+      </div>
     </div>
     <p class="rev-note">出典：Google マップの口コミ</p>
   </div>
 </section>
 
-<section class="section hours-sec" id="hours">
+<section class="section" id="service">
   <div class="wrap">
-    <div class="reveal" style="text-align:center">
-      <div class="eyebrow">HOURS</div>
-      <h2 class="sec-title mincho">営業時間・お問い合わせ</h2>
-    </div>
-    <div class="hinfo-card reveal">
-      <div class="hinfo">
-        <h3>営業時間とご相談</h3>
-        <div class="hours">
-          <div class="row"><span>営業時間</span><b>9:00 – 18:00</b></div><div class="row"><span>定休日</span><b>日曜日・祝日</b></div><div class="row"><span>現場対応</span><b>施工中は現場に常駐（要事前連絡）</b></div><div class="row"><span>お見積り</span><b>無料・出張見積り対応</b></div>
+    <div class="kicker reveal"><span class="idx">03</span><span class="ln"></span><span class="lbl">BUSINESS</span></div>
+    <h2 class="sec-title mincho reveal">事業内容</h2>
+    <p class="sec-sub reveal">注文住宅・リフォームから店舗内装まで、住まいと商いのご相談を幅広くお受けしています。</p>
+    <div class="svc-list reveal">
+      <div class="svc-row">
+        <div class="svc-no"></div>
+        <div>
+          <div class="svc-name">注文住宅</div>
+          <p class="svc-desc">土地探しから設計・施工まで一貫対応。性能と意匠を両立する、暮らし方に合わせた住まいづくり。</p>
         </div>
-        <div class="tel-big">
-          <span class="ic">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="stroke:var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          </span>
-          <a href="tel:0450000000"><span class="n">045-000-0000</span><small>お電話でのご相談</small></a>
+        <div class="svc-price">¥2,800万円〜</div>
+      </div><div class="svc-row">
+        <div class="svc-no"></div>
+        <div>
+          <div class="svc-name">リフォーム・増改築</div>
+          <p class="svc-desc">水回りの部分改修から二世帯化、耐震補強まで。ライフステージの変化に寄り添うご提案。</p>
         </div>
-        <a href="#contact" class="btn btn-primary" style="margin-top:22px;width:100%;justify-content:center;padding:15px">お問い合わせフォームへ</a>
+        <div class="svc-price">¥150万円〜</div>
+      </div><div class="svc-row">
+        <div class="svc-no"></div>
+        <div>
+          <div class="svc-name">店舗内装工事</div>
+          <p class="svc-desc">飲食店・美容室・オフィスの内装施工。デザイン設計から什器・サイン工事まで一括対応。</p>
+        </div>
+        <div class="svc-price">要お見積り</div>
+      </div><div class="svc-row">
+        <div class="svc-no"></div>
+        <div>
+          <div class="svc-name">外構・エクステリア</div>
+          <p class="svc-desc">駐車場・お庭・アプローチの設計と施工。建物との調和を考えたプランをご提案します。</p>
+        </div>
+        <div class="svc-price">¥80万円〜</div>
+      </div><div class="svc-row">
+        <div class="svc-no"></div>
+        <div>
+          <div class="svc-name">耐震・断熱リフォーム</div>
+          <p class="svc-desc">既存住宅の耐震診断から補強工事、断熱性能の向上まで。補助金活用のご相談も承ります。</p>
+        </div>
+        <div class="svc-price">¥120万円〜</div>
+      </div><div class="svc-row">
+        <div class="svc-no"></div>
+        <div>
+          <div class="svc-name">アフターメンテナンス</div>
+          <p class="svc-desc">引き渡し後も定期点検を実施。小さな不具合の早期発見・補修で、住まいを長く良い状態に保ちます。</p>
+        </div>
+        <div class="svc-price">点検無料</div>
       </div>
-      <div class="hphoto">
-        <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=800&auto=format&fit=crop" alt="">
-        <div class="ov"><a href="tel:0450000000" class="btn btn-primary">電話でお問い合わせ</a></div>
+    </div>
+    <p class="sec-sub" style="margin-top:24px;font-size:12.5px">価格は延床面積・仕様により変動します（税込） ・ お見積りは無料です（詳しくはお問い合わせください）</p>
+  </div>
+</section>
+
+<section class="section" id="about" style="padding-top:0">
+  <div class="wrap about">
+    <div class="kicker reveal"><span class="idx">04</span><span class="ln"></span><span class="lbl">MESSAGE</span></div>
+    <div class="about-grid">
+      <div class="about-photo reveal">
+        <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=900&auto=format&fit=crop" alt="">
+        <div class="p2"><img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?q=80&w=700&auto=format&fit=crop" alt=""></div>
+      </div>
+      <div class="reveal">
+        <div class="quote-mark">“</div>
+        <h2 class="sec-title mincho">図面に表れない「住み心地」まで、<br>手渡すのが私たちの仕事です。</h2>
+        <p class="body">湊工務店は、横浜の地で二十七年。注文住宅からリフォーム、店舗内装まで、設計から施工・アフターメンテナンスまで自社の人間だけで一貫して手がけています。<br><br>下請けに任せきりにしないのは、図面の外側にある「住み心地・使い心地」まで責任を持ちたいから。850棟を超える現場のひとつひとつに、同じ姿勢で向き合ってきました。<br><br>これからも、規模ではなく一件一件の仕事の質で選ばれる工務店でありたいと考えています。</p>
+        <div class="sign">代表取締役<b>湊 誠一郎</b></div>
+        <div class="pillars">
+          <div class="pillar"><div class="no">01</div><h5>自社一貫施工</h5><p>設計士・現場監督・大工がすべて自社所属。下請け任せにしないから、品質と工期の責任がぶれません。</p></div><div class="pillar"><div class="no">02</div><h5>長期保証と定期点検</h5><p>構造・防水など主要項目を最長20年保証。引き渡し後も定期点検で末永くお付き合いします。</p></div><div class="pillar"><div class="no">03</div><h5>地域密着27年の対応力</h5><p>横浜エリアの気候・地盤特性を熟知。住宅からリフォーム、店舗内装まで幅広くお応えします。</p></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section" id="access" style="padding-top:0">
+<section class="section profile-sec" id="profile">
   <div class="wrap">
-    <div class="access-grid">
-      <div class="access reveal">
-        <div class="eyebrow">ACCESS</div>
-        <h2 class="sec-title mincho">アクセス</h2>
-        <dl style="margin-top:24px">
-          <dt>住所</dt><dd>〒231-0000<br>神奈川県横浜市中区海岸通1-2-3 湊ビル3F</dd>
-          <dt>最寄り</dt><dd>みなとみらい線「日本大通り駅」より徒歩5分</dd>
-          <dt>駐車場</dt><dd>来社用駐車場2台あり（事前にご連絡ください）</dd>
-          <dt>電話</dt><dd><a href="tel:0450000000" style="color:var(--accent);font-weight:700">045-000-0000</a></dd>
+    <div class="kicker reveal"><span class="idx">05</span><span class="ln"></span><span class="lbl">COMPANY PROFILE</span></div>
+    <h2 class="sec-title mincho reveal">会社概要</h2>
+    <div class="profile-grid reveal">
+      <div class="profile-photo"><img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=800&auto=format&fit=crop" alt=""></div>
+      <div class="profile-table">
+        <dl>
+          <div class="row"><dt>商号</dt><dd>湊工務店（MINATO KOUMUTEN）</dd></div>
+          <div class="row"><dt>代表者</dt><dd>代表取締役 湊 誠一郎</dd></div>
+          <div class="row"><dt>所在地</dt><dd>〒231-0000 神奈川県横浜市中区海岸通1-2-3 湊ビル3F<br>みなとみらい線「日本大通り駅」より徒歩5分</dd></div>
+          <div class="row"><dt>電話番号</dt><dd><a href="tel:0450000000">045-000-0000</a></dd></div>
+          <div class="row"><dt>対応エリア</dt><dd>横浜市／神奈川県</dd></div>
+          <div class="row"><dt>営業時間</dt><dd>9:00 – 18:00</dd></div><div class="row"><dt>定休日</dt><dd>日曜日・祝日</dd></div><div class="row"><dt>現場対応</dt><dd>施工中は現場に常駐（要事前連絡）</dd></div><div class="row"><dt>お見積り</dt><dd>無料・出張見積り対応</dd></div>
+          <div class="row"><dt>駐車場</dt><dd>来社用駐車場2台あり（事前にご連絡ください）</dd></div>
         </dl>
-        <div class="ext-links">
+        <div class="profile-links">
           <a class="ext-link" href="https://www.houzz.jp/professionals/general-contractors/minato-koumuten-pfvwjp-pf~0000000000" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/></svg>Houzz</a>
           <a class="ext-link" href="https://www.instagram.com/minato_koumuten_yokohama/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>Instagram</a>
           <a class="ext-link" href="https://www.google.com/maps?q=%E6%A8%AA%E6%B5%9C%E9%A7%85" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Google マップ</a>
         </div>
       </div>
-      <div class="map reveal">
-        <iframe src="https://www.google.com/maps?q=%E6%A8%AA%E6%B5%9C%E9%A7%85&output=embed" loading="lazy" title="地図"></iframe>
-      </div>
+    </div>
+    <div class="reveal" style="margin-top:32px;border-radius:2px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/5">
+      <iframe src="https://www.google.com/maps?q=%E6%A8%AA%E6%B5%9C%E9%A7%85&output=embed" loading="lazy" title="地図" style="width:100%;height:100%;border:0;filter:grayscale(.15) contrast(1.02)"></iframe>
     </div>
   </div>
 </section>
 
-<section class="section contact" id="contact">
+<section class="section contact-sec" id="contact">
   <div class="wrap">
-    <div class="reveal" style="text-align:center">
-      <div class="eyebrow">CONTACT</div>
-      <h2 class="sec-title mincho">お問い合わせ</h2>
-      <p class="lead">お電話、またはショールームへのご来社でお見積り・ご相談を承っております。まずはお気軽にお問い合わせください。</p>
-    </div>
+    <div class="kicker reveal"><span class="idx">06</span><span class="ln"></span><span class="lbl">CONTACT / RECRUIT</span></div>
+    <h2 class="sec-title mincho reveal">お問い合わせ・採用について</h2>
+    <p class="lead reveal">お見積り・ご相談はお電話またはショールームへのご来社で承っております。中途採用・職人募集に関するお問い合わせも、同じお電話番号からお気軽にどうぞ。</p>
     <div class="contact-cta reveal">
       <a href="tel:0450000000" class="cc-card">
-        <span class="cc-ic"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
         <span class="cc-label">お電話でのお問い合わせ</span>
         <span class="cc-main">045-000-0000</span>
         <span class="cc-sub">受付 9:00–18:00 ／ 日曜・祝日休</span>
       </a>
       <a href="https://www.google.com/maps?q=%E6%A8%AA%E6%B5%9C%E9%A7%85" class="cc-card alt" target="_blank" rel="noopener">
-        <span class="cc-ic"><svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
-        <span class="cc-label">お見積り相談</span>
+        <span class="cc-label">お見積り相談・採用のご相談</span>
         <span class="cc-main">ショールームへ来社相談</span>
         <span class="cc-sub">地図で本社所在地を確認する</span>
       </a>
@@ -434,7 +498,7 @@ footer .cp{font-size:11px;color:var(--cream-dimmer);letter-spacing:.08em;margin-
   <div class="wrap">
     <div class="fb"><span class="mark">湊</span><b>湊工務店</b></div>
     <nav class="fnav">
-      <a href="#about">会社概要</a><a href="#menu">事業内容</a><a href="#gallery">施工事例</a><a href="#hours">営業時間</a><a href="#access">アクセス</a><a href="#contact">お問い合わせ</a>
+      <a href="#case">施工事例</a><a href="#service">事業内容</a><a href="#about">会社の考え</a><a href="#profile">会社概要</a><a href="#contact">お問い合わせ</a>
     </nav>
     <p class="cp">© 2026 MINATO KOUMUTEN. ※これは制作デモ用のサンプルサイトです（口コミ・数値もサンプル）。</p>
   </div>

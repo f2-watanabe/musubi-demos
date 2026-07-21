@@ -66,7 +66,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .cal-nav button{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:#fff;font-size:15px;color:var(--ink);display:grid;place-items:center;transition:.2s}
 .cal-nav button:hover:not(:disabled){border-color:var(--vermilion);color:var(--vermilion)}
 .cal-nav button:disabled{opacity:.35;cursor:not-allowed}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
 .cal-grid .dow{text-align:center;font-size:11px;color:var(--muted);letter-spacing:.08em;padding-bottom:4px}
 .cal-grid .dow.sun{color:var(--vermilion)}.cal-grid .dow.sat{color:#5a7fb5}
 .day{aspect-ratio:1/1;border:1px solid var(--line);border-radius:9px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:.18s;position:relative}
