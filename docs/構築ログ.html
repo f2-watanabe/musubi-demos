@@ -62,6 +62,15 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-21 ・ テンプレート10種の抜本再設計・プラン機能再配分・開拓ターゲット業種調査</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: (1) 後発10テンプレート（italian/yakiniku/chinese/soba/bar/bakery/beauty/clinic/school/corporate）を「ほぼさくら亭の色替え」状態から0から再設計。各業種に固有のレイアウトアーキタイプを割り当て、実在の優れたサイトを調査した上で全14業種が互いに異なる構成に: イタリアン=雑誌型 / 焼肉=スプリットスクリーン型 / 中華=人気ランキング型 / 蕎麦=縦書き主体型 / バー=フルスクリーンスナップ型 / ベーカリー=商品タイル型 / 美容=ポートフォリオ型 / 整体=課題解決導線型 / 教室=タイムライン型 / 企業=実績ケーススタディ型。(2) プラン機能再配分: AI月次改善提案とグルメサイト予約メール自動取込をプレミアム限定に、フリーページ・求人はスタンダード以上に（feature: ai_advice/pages/mail_import 新設、customは個別選択）。(3) 開拓ターゲット業種調査: 「Google評価高×予約×サイトなし」の方程式が成立する非飲食業種を実測データ付きで評価。</li>
+<li><strong>Why</strong>: テンプレートの同質化解消（ユーザー指摘）とプレミアムプランの価値階段の再構築、開拓対象の拡大検討のため。</li>
+<li><strong>How</strong>: 再設計はサブエージェント10体並列（各自WebSearchで業種の実サイト事例を調査→設計）。全テンプレでcontent構造・予約エンジン・annotate規約は維持し、見せ方のみ全面刷新。統合フェーズでカレンダーgrid崩れ（repeat(7,1fr)）を12ファイルへ波及修正、pages.json/content.json再同期、demos再レンダー、pptx更新。</li>
+<li><strong>Result</strong>: audit全PASS・実レンダー未解決0件・musubi-adminテスト1124全パス・build exit 0。制作中に誤マッチ画像（別料理・無関係写真）を大量検出し全数差し替え。編集ユニット数の増減も個別確認済み。業種調査の結論: 本命=自動車整備（自社サイト保有率7.6%の実測データ）、次点=整体・パーソナルジム・ハウスクリーニング・ペットサロン。既存開拓パイプラインはtextQuery方式で業種非依存のため、キーワードと除外ポータルの追加だけで転用可能。</li>
+<li><strong>証跡</strong>: local-web-sales 87e6a90〜d981688（再設計10コミット+カレンダー修正2c3c51e+pptx d981688）、musubi-admin 93da63f（プラン再配分）/a742230（再同期）、musubi-portal db444ac、musubi-demos d1f1d0f。成果物: プラン別機能ガイド.pptx（47スライド・新配分+全14業種ギャラリー）、musubi-demos/templates/（再レンダー済）。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-21 ・ 非飲食本格展開（4業種）・多言語4言語化・フリーページ/求人・AI月次改善提案</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) 非飲食テンプレート4業種を新規追加（beauty=美容室Lumière / clinic=整体院みなと整体院 / school=音楽教室ゆずりは / corporate=工務店・問い合わせ型）→ 計16テンプレート。(2) 予約・口コミ・レポートを美容/治療院/教室でもスタンダード以上で利用可に（hasReserveLine 導入。企業・汎用は custom の明示有効のみ）。(3) 外国語ページを4言語に拡張（英語・簡体字中国語・繁体字中国語・韓国語、AI生成+顧客編集可）。(4) フリーページ（季節LP・記事、p/スラッグ/）と求人・採用ページ（recruit/）の顧客セルフ作成（全プラン）。(5) AI月次改善提案（GA4+予約+口コミの実データから来月の提案を自動生成しレポート同梱、migration 0059 適用済み）。(6) generic の顧客編集開放と業種別 JSON-LD（BeautySalon/Organization 等。未知キーが Restaurant 扱いになる欠陥も修正）。(7) プラン別機能ガイド.pptx を47スライドに更新。(8) demos に非飲食4業種のデモ掲載。</li>
