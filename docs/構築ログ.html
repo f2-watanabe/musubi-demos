@@ -62,6 +62,15 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-21 ・ テンプレート全面刷新（飲食10業種）・セルフ編集全開放・SEO/お知らせ/英語ページ・プラン別機能ガイド</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: (1) 飲食テンプレートを4業種→10業種に拡充（新規: italian/yakiniku/chinese/soba/bar/bakery）。(2) 顧客セルフ編集を全開放（メニュー等のリスト追加/削除/並び替え+予約設定まで、10テンプレ全対応）。(3) 負担ゼロSEO（JSON-LD/OGP/sitemap自動注入）とお知らせ機能（news）。(4) 英語ページAI自動生成（プレミアム/カスタム限定・生成後は顧客編集可）。(5) カスタムプランの提供機能を管理画面で店舗ごとに選択できる仕組み（contracts.custom_features、migration 0058 本番適用済み）。(6) 機能有効化を業種非依存に拡張（customの明示有効は非飲食でも有効、英語ページはpremium/biz_premiumで業種不問）。(7) 顧客説明用「プラン別機能ガイド.pptx」（43スライド）作成。(8) musubi-demos に本番テンプレ10業種のレンダー済みデモを掲載。</li>
+<li><strong>Why</strong>: 顧客獲得前にテンプレートの業種カバレッジと「顧客が文字・画像・メニュー・予約設定を全て自分で編集できる」体験を完成させるため。SEO・お知らせ・英語ページは運営の手間が増えない付加価値として同梱。</li>
+<li><strong>How</strong>: サブエージェント並列（既存4テンプレ監査→新6業種制作×6体+SEO実装→統合配線→非飲食開放→pptx）。新テンプレは restaurant と同一 content 構造・ui-ux-pro-max 適用・WCAG AA 実測・audit スクリプト ALL PASS。英語ページは content.en オーバーレイ方式（既存の下書き/公開/版管理が無変更で適用）。</li>
+<li><strong>Result</strong>: 監査で実バグ4件発見・修正（cafe/ramen の class=&quot;ph&quot; による画像編集不能、courses.id 未採番で予約API照合が外れる、charge_per 直書き、about-photos モバイル幅0）。musubi-admin テスト 1022件・musubi-portal 155件 全パス、両リポ build exit 0。全10テンプレのレンダー・編集ユニット抽出・予約CFGのスモークテスト 30/30。</li>
+<li><strong>証跡</strong>: local-web-sales 0fb6912/aa4dd10/6530d2c/faaf824/5409937/0475cb9/b77cdf8/d73c2e5/769b024、musubi-admin c7356fc/2790db5/fd161c3/62dd13a/38b2344、musubi-portal 78583c5/482baae/6db5aa1、musubi-demos cd537cb。成果物: 01_提案・設計資料/プラン別機能ガイド.pptx、musubi-demos/templates/（10業種デモ）。migration: musubi-admin/supabase/migrations/0058_contract_custom_features.sql（apply_migration で本番適用・列実在確認済み）。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-21 ・ 2段階認証（TOTP）導入・ログイン画面汎用化・小修正</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>:</li>
