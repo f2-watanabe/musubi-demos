@@ -197,7 +197,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li class="done"><span class="bx">✓</span><span>初期費の決済リンク ← <code>createInitialFeeLink</code>（one-time Price→Payment Link→リンクへ redirect・<code>invoices</code> open 記録）</span></li>
 <li class="done"><span class="bx">✓</span><span>Webhook 受信（支払い成功/失敗/解約）→ Supabase へ反映 ← <code>app/api/stripe/webhook/route.ts</code>（署名検証＋service-role で <code>invoice.paid|payment_failed</code>・<code>subscription.updated|deleted</code> を同期）。migration <code>0005_billing_sync.sql</code> で <code>contracts</code> に <code>stripe_price_id</code>/<code>current_period_end</code>/<code>last_payment_status</code> 追加</span></li>
 <li class="done"><span class="bx">✓</span><span>カード期限切れ・失敗時のリトライ＆案内（Resend）← <strong>実装済（2026-06-28）</strong>。<code>invoice.payment_failed</code> で <code>notifyPaymentFailed</code>（store→owner_user_id→auth email を取得し <code>lib/resend.ts</code> 経由で送信。Stripe の <code>hosted_invoice_url</code> を案内 URL に同梱）。リトライは Stripe 既定の自動リトライに委譲。<code>RESEND_API_KEY</code> 未設定環境は no-op。<strong>実メール送信のテストは Stripe test 環境＋キー投入時に実施</strong></span></li>
-<li><span class="bx"></span><span>未入金フロー（リマインド→一時停止予告→停止）の自動化 ← 未（停止判定の状態機械は未実装。次段）</span></li>
+<li class="done"><span class="bx">✓</span><span>未入金フロー（リマインド→一時停止予告→停止）の自動化 ← 実装済み。<code>invoice.payment_failed</code> で <code>suspend_at</code>（3日後）をセット→<code>app/api/cron/dunning/route.ts</code>（<code>/api/cron/daily</code> の1ステップ）が期限超過の <code>published</code> project を <code>lib/dunning.ts</code> の <code>suspendDueProject</code> で <code>suspended</code> にし、オーナーへ一時停止通知メール＋in-app通知を送る。<code>invoice.paid</code> 受信で <code>suspend_at</code> は解除される</span></li>
 <li><span class="bx"></span><span>領収書／インボイスの自動発行 ← 未（Stripe 自動インボイス設定＋送付で対応予定）</span></li>
 </ul>
 <p><strong>使用サービス</strong>: Stripe / Vercel（Webhook）/ Supabase / Resend</p>
@@ -266,7 +266,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <li class="done"><span class="bx">✓</span><span><code>gbp-review-reply</code> で <code>npm run auth</code> を実行し OAuth 認可（token.json 取得）← 2026-07-03 ユーザー実施。refresh_token grant での access_token 取得成功（TOKEN_OK）</span></li>
 <li class="done"><span class="bx">✓</span><span>GBP API アクセス申請の提出（2026-07-03）← サポートケース <strong>ID 1-4601000041294</strong>。審査 7〜10 営業日の案内。Cloud Console 実測で Requests per minute=0（調整不可）=承認待ちを確認済</span></li>
 <li><span class="bx"></span><span>GBP API 審査承認（外部・7〜10営業日）→ 承認後: ID確定→live疎通→実投稿E2E</span></li>
-<li><span class="bx"></span><span>ビジネスプロフィールの<strong>オーナー確認</strong>（ヘルプ画面上部バナーで未完表示）← 未完だと審査・投稿反映に影響しうるため完了推奨（ユーザー操作）</span></li>
+<li><span class="bx"></span><span>ビジネスプロフィールの<strong>オーナー確認</strong> ← <strong>API却下・2026-09-12以降に再申請</strong></span></li>
 <li class="done"><span class="bx">✓</span><span>migration 0008（leads.demo_url/demo_project）・0009（reviews.gbp_review_name）を本番適用（2026-07-03）← information_schema で3列の存在を実確認</span></li>
 <li><span class="bx"></span><span>API から <code>GBP_ACCOUNT_ID</code> / <code>GBP_LOCATION_ID</code> を取得し <code>.env</code> に設定 ← <strong>ブロック: accounts.list が RESOURCE_EXHAUSTED（Requests per minute）。初回リクエスト・70秒後再試行とも同エラー＝クォータ0固定＝GBP API 利用申請が未承認</strong>（OAuth は正常）。承認されるとクォータが付与され通る</span></li>
 <li><span class="bx"></span><span><code>GBP_MODE=live</code> で実 location の listReviews 成功を確認 ← 上記待ち</span></li>
@@ -305,7 +305,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <ul class="task">
 <li class="done"><span class="bx">✓</span><span><code>07_マーケサイト/</code> に musubiweb.com 本体LP新設（課題訴求→デモ→料金→FAQ→相談フォーム）← 1280px/390px スクリーンショット検証済</span></li>
 <li class="done"><span class="bx">✓</span><span>LP を Cloudflare Pages <code>musubi-www</code> へ公開（2026-07-03）← Formspree <code>f/xykqlyvw</code> 設定・https://musubi-www.pages.dev HTTP200・フォーム配線を実確認</span></li>
-<li><span class="bx"></span><span>apex/www を LP へ割当 ← <strong>DNS変更のユーザー承認待ち</strong>（apex A×4=Squarespace残骸削除→CNAME musubi-www.pages.dev・www差し替え。メール系レコードは不変更）</span></li>
+<li class="done"><span class="bx">✓</span><span>apex/www を LP へ割当 ← 完了（apex A×4=Squarespace残骸削除→CNAME musubi-www.pages.dev・www差し替え。メール系レコードは不変更）</span></li>
 <li class="done"><span class="bx">✓</span><span>先作りデモパイプライン <code>musubi-admin/scripts/demo-pipeline.ts</code>（Places→AI流し込み→デモ公開→CSV に demo_url 追記。noindex＋デモ注記必須）← --dry-run で実店舗1件の生成実証（Places実データ・noindex・注記バナー確認）。Places の曖昧一致があるため公開前ブラウザ確認を手順書に明記</span></li>
 <li class="done"><span class="bx">✓</span><span>migration <code>0008_leads_demo.sql</code> 作成＋ CRM 画面にデモURL列 ← <strong>本番適用は未</strong>（SUPABASE_ACCESS_TOKEN 必要）。適用まで /crm は demo_url 列不存在でエラーになるため、admin の本番反映（push）前に必ず適用</span></li>
 <li class="done"><span class="bx">✓</span><span><code>05_業務手順書/先作りデモ営業手順.md</code> 新設（商談終了時のデモ削除まで）</span></li>
@@ -383,5 +383,7 @@ details.logentry>summary:hover{color:var(--acc)}
 </ul>
 <p><strong>受け入れ基準</strong>: フィードバック16項目が解消され、admin/portal双方でbuild・vitestが通過している状態。セキュリティ強化・インフラ移行・デザイン刷新が本番相当まで反映されている。</p>
 <p>→ <strong>コード上の受け入れ基準は達成</strong>（各タスクレビュー通過・build/vitest確認済み、migration 0028/0029本番適用確認済み）。<strong>未達（2026-07-13時点）</strong>: 実ブラウザE2Eは今回省略。既知のMinor: 納品フォームのplan selectがcustom案件でlight表示、builder系はvitest未カバー。全リポともpush未実施（ユーザー指示待ち）。</p>
+<hr>
+<p>2026-07-14〜21 の監査・対応はロードマップ外で実施（構築ログ参照）。</p>
 <p class="note">🧭 社内ドキュメント（環境構築の証跡・手順）。Musubi / local-web-sales プロジェクト。</p>
 </div></body></html>

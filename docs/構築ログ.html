@@ -62,6 +62,16 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-21 ・ 監査ループ完走（3〜5巡目）・収束宣言</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 「完全にOKになるまで回す」方針で監査→修正→差分監査のループを実施。3巡目（新規指摘 High4+Medium多数）→修正→4巡目（Critical1: Worker偽装対策の前方一致バイパス、High2）→修正→<strong>5巡目で「収束・出荷可」判定</strong>。</li>
+<li>3巡目対応: 分配丸めを largest remainder 方式に（タイ時マイナス配分の解消・立替側の同種既存バグも修正）、返金月の収入内訳を純額+返金バッジに、<strong>adminログインにレート制限</strong>、owner限定UIの出し分け+error.tsx、StructuredEditor venue 3状態化（admin/portal）、鍵ローテスクリプト新設、env一覧の網羅追記（INBOUND_MAIL_SECRET/GBP/企業プラン価格/WIF/LINE系）、鍵紛失=永久喪失の明記、本番復元手順の具体化、cron記述・ロードマップの実態同期、デモ4サイトの同意チェック同期、typecheck整備（tscエラー0化）、contractTemplateテスト統合。</li>
+<li>4巡目対応: cloudflareAuthSegment を「authserv-id直後の&#x27;;&#x27;までの厳密一致」に修正（<code>\b</code> が <code>.</code> で境界成立し <code>mx.cloudflare.net.attacker.com</code> を通していた）、実脅威テスト5件、確定月のロック後返金の注記表示。Worker は修正版を即時再デプロイ。</li>
+<li>5巡目検証: 正規表現を実データ15パターンで実テスト（偽装7種全拒否・正規形8種全通過）・追加テストの実効性・返金注記の条件・既存挙動無影響を確認し<strong>収束</strong>。</li>
+<li><strong>Result</strong>: admin 919テスト・portal 135テスト全通過・tscエラー0・両ビルド成功。Worker 2回再デプロイ（最終 2026-07-21T02:22Z）。全リポで計5コミット。</li>
+<li><strong>証跡</strong>: コミット admin <code>92382cd</code> <code>10aa438</code>・portal <code>a6cbd14</code>・demos <code>27457b8</code>・local-web-sales <code>f20cdaf</code>・5巡目検証ログ・本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-21 ・ 2巡目内部監査と対応完了（財務・権限・メール偽造対策・RPC完全封鎖）</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: 1巡目対応後の再監査（セキュリティ/財務/法務・インフラの3系統）で新規指摘 約25件を検出し、全て対応。</li>

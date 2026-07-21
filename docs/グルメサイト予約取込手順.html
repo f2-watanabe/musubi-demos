@@ -68,6 +68,8 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>自動登録された予約は、admin/portal の予約一覧で通常予約と区別できるよう「食べログ」「ホットペッパー」等のチャネルバッジが付く。</li>
 <li>本文の書式が変わる・見たことのない書式のメールが来る等でパースに失敗しても、そのメールは <code>inbound_mails</code> に記録され運営へ通知が飛ぶ。<strong>自動反映に失敗しても取りこぼしにはならず、必ず運営が気づいて手動で台帳に反映できる。</strong></li>
 <li>キャンセル・予約変更の通知メールは（書式が未確定なため）自動処理せず、常に運営通知に回して手動対応する。</li>
+<li><strong>送信元認証（SPF/DKIM）ゲート</strong>: Email Worker はメールごとに SPF/DKIM のいずれかが pass したか（<code>auth_pass</code>）を判定して admin API に渡す。<code>auth_pass</code> が false のメール（旧Workerからの未対応リクエストを含む）は、<strong>本文のパースに成功していても自動登録されず</strong>、手動対応キュー（<code>inbound_mails</code> 記録＋運営メール通知、理由「送信元認証に失敗したメール」）に回る。なりすましメールによる不正な予約登録を防ぐための仕様。</li>
+<li>確認方法: admin の <code>inbound_mails</code> テーブル（または管理画面があればそこ）で該当メールの <code>status</code> を見る。<code>unparsed</code> かつ運営への通知メール件名が「グルメサイト予約メール: 手動で台帳反映してください（送信元認証に失敗したメール）」なら SPF/DKIM ゲートで止まったと判別できる。本文が正しく読み取れているのに反映されない場合は、まずここを疑う（食べログ/ホットペッパー側の送信ドメインでSPF/DKIMが正しく通っているかを確認）。</li>
 </ul>
 <hr>
 <h2>2. 店舗ごとのセットアップ</h2>
