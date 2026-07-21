@@ -400,6 +400,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
           <input type="checkbox" id="cAgree">
           <span>上記の<b>注意事項・キャンセルポリシー</b>に同意します（必須）</span>
         </label>
+        <label class="agree">
+          <input type="checkbox" id="cAgreePrivacy">
+          <span><a href="https://musubiweb.com/privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>に基づく<b>個人情報の取扱い</b>に同意します（必須）</span>
+        </label>
 
         <button class="book-inline" id="bookBtn2" disabled>日時を選んでください</button>
         <p class="book-inline-note" id="bookInlineNote">— ・ — ／ —名</p>
@@ -645,7 +649,7 @@ function sync(){
   });
   bars.forEach((b,i)=>b.classList.toggle('done', i < active));
 
-  const agreed = $('cAgree').checked;
+  const agreed = $('cAgree').checked && $('cAgreePrivacy').checked;
   const ready = state.date && state.time && agreed;
   const label = !state.date ? '日時を選んでください' : !state.time ? '時間を選んでください'
     : !agreed ? 'ポリシーに同意してください' : 'この内容で予約する';
@@ -668,6 +672,7 @@ $('seats').addEventListener('click', e=>{
 $('prevMo').addEventListener('click', ()=>{ view=new Date(view.getFullYear(),view.getMonth()-1,1); renderCal(); });
 $('nextMo').addEventListener('click', ()=>{ view=new Date(view.getFullYear(),view.getMonth()+1,1); renderCal(); });
 $('cAgree').addEventListener('change', sync);
+$('cAgreePrivacy').addEventListener('change', sync);
 
 function submit(){
   if (!(state.date && state.time)) return;
@@ -682,8 +687,8 @@ function submit(){
     });
     return;
   }
-  if (!$('cAgree').checked){
-    document.querySelector('.agree').scrollIntoView({behavior:'smooth',block:'center'});
+  if (!$('cAgree').checked || !$('cAgreePrivacy').checked){
+    (!$('cAgree').checked ? $('cAgree') : $('cAgreePrivacy')).closest('.agree').scrollIntoView({behavior:'smooth',block:'center'});
     return;
   }
   const c = courseObj();
