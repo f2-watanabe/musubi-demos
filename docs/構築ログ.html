@@ -62,6 +62,18 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-21 ・ 2巡目内部監査と対応完了（財務・権限・メール偽造対策・RPC完全封鎖）</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: 1巡目対応後の再監査（セキュリティ/財務/法務・インフラの3系統）で新規指摘 約25件を検出し、全て対応。</li>
+<li><strong>Critical対応</strong>: ①book_reservation RPC の匿名実行を剥奪（1巡目の兄弟関数見落とし。move/publish/book の予約系3RPCすべて service_role 限定を本番実査で確認。portal の手動登録は service client 経由に切替後 authenticated も剥奪=migration 0055/0056）②メール取込の予約偽造対策: Worker が Authentication-Results の SPF/DKIM を検証し auth_pass を付与、認証失敗・旧形式は自動insertせず手動キュー行き。detectProvider をドメイン完全一致に（Worker再デプロイ済み）。</li>
+<li><strong>財務</strong>: 紹介報酬が返金を無視して計算・払出可能だったバグ（返金控除後ベースに修正）、二重計上ガードを更新経路・固定費にも適用、分配丸めの原資超過補正、failed請求の¥0記録修正、webhook failed経路の原子化、fx_rates 登録UI新設。</li>
+<li><strong>統制</strong>: 月次確定/解除・紹介者編集/削除・店舗削除・納品(課金開始)を owner 限定+監査ログ化。audit_logs のなりすまし防止（actor_user_id=auth.uid() 強制）。billing生成系・契約提示に証跡追加。</li>
+<li><strong>portal</strong>: ログイン10回/10分・パスワードリセット5回/10分のレート制限追加。</li>
+<li><strong>ドキュメント</strong>: 環境変数一覧に CONTRACT_PARTY_B_ADDRESS / CONTRACT_PARTY_B / BANK_INFO_ENC_KEY を追記。</li>
+<li><strong>Result</strong>: admin 907テスト・portal 135テスト全通過・両ビルド成功・全リポpush済み。migration 0055/0056 本番適用済み（RPC grants を SQL 実査で確認）。</li>
+<li><strong>証跡</strong>: コミット admin <code>20bffb7</code>・portal <code>66769f0</code>・Worker modified 2026-07-21T01:02Z・pg_proc grants 実査結果・本エントリ。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-21 ・ 監査対応の再精査修正・Storageバックアップ・法務ページ実値化・口座暗号化完了</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>:</li>
