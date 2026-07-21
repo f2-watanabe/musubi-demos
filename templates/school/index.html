@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ゆずりは音楽教室 | 藤沢のピアノ・バイオリン教室</title>
+<meta name="description" content="神奈川県藤沢市のピアノ・バイオリン個人教室「ゆずりは音楽教室」。お子さまから大人まで、一人ひとりに合わせたレッスンと年1回の発表会。体験レッスンのご予約はお電話・ネットから。">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#211f1a; --sumi:#1c2418; --cream:#f2ede0; --paper:#f8f4ea;
+  --verdant:#3d6a4a; --verdant-d:#2c4d36; --gold:#ad8440; --line:#e3dcc8;
+  --muted:#6b6656;
+  --font-head:"Noto Serif JP",serif; --font-body:"Noto Sans JP",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--ink);background:var(--paper);line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.mincho{font-family:var(--font-head)}
+img{display:block;width:100%;height:100%;object-fit:cover}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.section{padding:88px 0}
+.eyebrow{font-size:12px;letter-spacing:.32em;color:var(--verdant);font-weight:700;margin-bottom:14px}
+.sec-title{font-size:30px;font-weight:700;letter-spacing:.04em;line-height:1.4;margin-bottom:8px}
+.sec-sub{color:var(--muted);font-size:14px;letter-spacing:.06em}
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+
+/* header */
+.head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:16px 24px;transition:background .4s,padding .4s,box-shadow .4s}
+.head.scrolled{background:rgba(251,248,241,.92);backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line);padding:11px 24px}
+.brand{display:flex;align-items:center;gap:11px;color:#fff;transition:color .4s}
+.head.scrolled .brand{color:var(--ink)}
+.brand .mark{width:38px;height:38px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-family:var(--font-head);font-weight:700;font-size:19px;flex:none}
+.brand b{font-family:var(--font-head);font-size:19px;font-weight:700;letter-spacing:.08em}
+.brand small{display:block;font-size:9px;letter-spacing:.3em;opacity:.8;font-family:var(--font-body)}
+.head-cta{display:flex;gap:10px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:13.5px;font-weight:700;letter-spacing:.06em;
+  min-height:44px;padding:11px 20px;border-radius:999px;transition:.25s;white-space:nowrap}
+.btn-primary{background:var(--verdant);color:#fff;box-shadow:0 6px 18px rgba(61,106,74,.32)}
+.btn-primary:hover{background:var(--verdant-d);transform:translateY(-1px)}
+.btn-ghost{border:1.4px solid rgba(255,255,255,.6);color:#fff}
+.head.scrolled .btn-ghost{border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.head.scrolled .btn-ghost:hover{background:#efe8da}
+
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;color:#fff;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:-2}
+.hero-bg img{transform:scale(1.06);animation:slowzoom 14s ease-out forwards}
+@keyframes slowzoom{to{transform:scale(1)}}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(20,16,12,.55) 0%,rgba(20,16,12,.15) 35%,rgba(20,16,12,.78) 100%)}
+.hero-inner{padding-bottom:70px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);
+  backdrop-filter:blur(6px);padding:7px 15px;border-radius:999px;font-size:12.5px;font-weight:500;letter-spacing:.04em;margin-bottom:22px}
+.badge .stars{color:#ffce54;letter-spacing:2px}
+.hero h1{font-family:var(--font-head);font-size:clamp(38px,8vw,76px);font-weight:700;line-height:1.12;letter-spacing:.03em;
+  text-shadow:0 2px 30px rgba(0,0,0,.4)}
+.hero p.lead{margin-top:18px;font-size:clamp(15px,2.4vw,18px);font-weight:500;max-width:520px;letter-spacing:.04em;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+.hero-actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+.scroll-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.3em;opacity:.8;writing-mode:vertical-rl}
+
+/* strip */
+.strip{background:var(--sumi);color:var(--cream);padding:26px 0}
+.strip .wrap{display:flex;gap:14px;justify-content:space-around;flex-wrap:wrap;text-align:center}
+.strip .it b{font-family:var(--font-head);font-size:19px;display:block;color:#fff}
+.strip .it span{font-size:11.5px;letter-spacing:.14em;color:#bcae97}
+
+/* quick booker */
+.qbook{background:var(--paper);position:relative;z-index:5}
+.qbook .wrap{margin-top:-34px}
+.qb-card{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 22px 50px rgba(40,30,20,.16);
+  display:grid;grid-template-columns:1.25fr 1fr .9fr 1.1fr auto;align-items:stretch;overflow:hidden}
+.qb-f{display:flex;flex-direction:column;justify-content:center;gap:5px;padding:15px 20px;border-right:1px solid var(--line)}
+.qb-f label{font-size:10.5px;letter-spacing:.16em;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:6px}
+.qb-f label svg{width:14px;height:14px;stroke:var(--verdant);fill:none;stroke-width:1.8}
+.qb-f input,.qb-f select{border:none;background:transparent;font-family:var(--font-head);font-size:16px;color:var(--ink);padding:2px 0;width:100%}
+.qb-f input:focus,.qb-f select:focus{outline:none}
+.qb-f select{cursor:pointer}
+.qb-go{background:var(--verdant);color:#fff;border:none;font-size:15px;font-weight:700;letter-spacing:.04em;
+  padding:0 30px;cursor:pointer;transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:8px;justify-content:center}
+.qb-go:hover{background:var(--verdant-d)}
+.qb-note{text-align:center;font-size:11.5px;color:var(--muted);margin-top:12px;letter-spacing:.04em}
+.qb-note b{color:var(--verdant)}
+@media(max-width:820px){
+  .qbook .wrap{margin-top:-22px}
+  .qb-card{grid-template-columns:1fr 1fr}
+  .qb-f{border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .qb-f:nth-child(2n){border-right:none}
+  .qb-go{grid-column:1/-1;padding:15px}
+}
+@media(max-width:460px){
+  .qb-card{grid-template-columns:1fr}
+  .qb-f{border-right:none}
+}
+
+/* news */
+.news{background:var(--paper)}
+.news-list{max-width:760px;margin:40px auto 0}
+.news-item{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--line)}
+.news-item:first-child{border-top:1px solid var(--line)}
+.news-item time{font-family:var(--font-head);font-size:13px;color:var(--muted);letter-spacing:.06em;padding-top:2px}
+.news-item h4{font-family:var(--font-head);font-size:16px;font-weight:600;letter-spacing:.03em;margin-bottom:6px}
+.news-item p{font-size:13.5px;color:#6b6457;line-height:1.8}
+@media(max-width:520px){.news-item{grid-template-columns:1fr;gap:4px}}
+
+/* about */
+.about{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.about-photos{position:relative;aspect-ratio:1/1}
+.about-photos .p1{position:absolute;width:72%;aspect-ratio:3/4;top:0;left:0;border-radius:6px;overflow:hidden;box-shadow:0 24px 50px rgba(40,30,20,.22)}
+.about-photos .p2{position:absolute;width:54%;aspect-ratio:1/1;bottom:0;right:0;border-radius:6px;overflow:hidden;border:6px solid var(--paper);box-shadow:0 20px 40px rgba(40,30,20,.2)}
+.about p.body{margin-top:20px;color:#544c40;font-size:15px;line-height:2.05}
+.about .sign{margin-top:24px;font-family:var(--font-head);font-size:15px;color:var(--muted)}
+.about .sign b{font-size:21px;color:var(--ink);display:block;letter-spacing:.1em}
+
+/* features */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:46px}
+.feat{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:34px 26px;transition:.3s}
+.feat:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(40,30,20,.1);border-color:#d9cdb6}
+.feat .no{font-family:var(--font-head);font-size:13px;color:var(--gold);letter-spacing:.2em}
+.feat h3{font-family:var(--font-head);font-size:21px;margin:12px 0 10px;letter-spacing:.04em}
+.feat p{font-size:13.5px;color:#6b6457;line-height:1.95}
+
+/* menu */
+.menu{background:var(--sumi);color:var(--cream)}
+.menu .sec-title,.menu .eyebrow{color:#fff}.menu .eyebrow{color:#e0a96d}
+.menu .sec-sub{color:#bcae97}
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:46px}
+.mitem{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;overflow:hidden;transition:.3s}
+.mitem:hover{transform:translateY(-4px);border-color:rgba(224,169,109,.5)}
+.mi-photo{aspect-ratio:4/3;overflow:hidden}
+.mi-photo img{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.mitem:hover .mi-photo img{transform:scale(1.06)}
+.mi-body{padding:16px 18px 18px}
+.mi-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.mitem h4{font-family:var(--font-head);font-size:17px;font-weight:600;letter-spacing:.03em}
+.mitem .price{font-family:var(--font-head);color:#e0a96d;font-size:16px;white-space:nowrap}
+.mitem p{font-size:12.5px;color:#a89e8b;margin-top:6px;line-height:1.7}
+.menu-note{text-align:center;margin-top:40px;font-size:12.5px;color:#9c917e;letter-spacing:.08em}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:10px;margin-top:46px}
+.gallery div{overflow:hidden;border-radius:4px}
+.gallery img{transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.gallery div:hover img{transform:scale(1.08)}
+.gallery .tall{grid-row:span 2}.gallery .wide{grid-column:span 2}
+
+/* reviews */
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:46px}
+.rev-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:26px 24px;display:flex;flex-direction:column;gap:12px}
+.rev-stars{color:var(--gold);font-family:var(--font-head);font-size:14px;letter-spacing:2px;font-weight:700}
+.rev-card blockquote{font-size:13.5px;color:#544c40;line-height:1.95;flex:1}
+.rev-card figcaption{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.rev-note{text-align:center;margin-top:26px;font-size:11.5px;color:var(--muted);letter-spacing:.08em}
+
+/* external links */
+.ext-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.ext-link{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;letter-spacing:.06em;
+  padding:10px 18px;border-radius:999px;border:1.4px solid var(--line);color:var(--ink);transition:.25s;background:#fff}
+.ext-link:hover{border-color:var(--verdant);color:var(--verdant);transform:translateY(-1px)}
+.ext-link svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+
+/* reserve */
+.reserve{background:linear-gradient(180deg,#fbf8f1,#f2ead9)}
+.reserve-card{display:grid;grid-template-columns:1.1fr 1fr;gap:0;border-radius:14px;overflow:hidden;
+  box-shadow:0 30px 70px rgba(40,30,20,.16);background:#fff;margin-top:46px}
+.reserve-info{padding:46px 44px}
+.reserve-info h3{font-family:var(--font-head);font-size:24px;letter-spacing:.04em}
+.hours{margin:24px 0;border-top:1px solid var(--line)}
+.hours .row{display:flex;justify-content:space-between;padding:11px 2px;border-bottom:1px solid var(--line);font-size:14px}
+.hours .row span:first-child{color:var(--muted);letter-spacing:.08em}
+.hours .row b{font-weight:500}
+.tel-big{display:flex;align-items:center;gap:14px;margin-top:6px}
+.tel-big .ic{width:46px;height:46px;border-radius:50%;background:#f4ece0;display:grid;place-items:center;flex:none}
+.tel-big .n{font-family:var(--font-head);font-size:27px;letter-spacing:.04em;line-height:1.1}
+.tel-big small{display:block;font-size:11px;color:var(--muted);letter-spacing:.16em}
+.reserve-photo{position:relative}
+.reserve-photo .ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(20,16,12,.6));display:flex;align-items:flex-end;padding:32px}
+.reserve-photo .ov a{width:100%;justify-content:center;font-size:15px;padding:16px}
+
+/* contact form */
+.contact{background:var(--sumi);color:var(--cream)}
+.contact .eyebrow{color:#e0a96d}.contact .sec-title{color:#fff}
+.contact .lead{text-align:center;color:#bcae97;font-size:14px;margin-top:6px}
+.cform{max-width:620px;margin:34px auto 0;display:grid;gap:14px;position:relative}
+.cform .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cform input,.cform textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:14px 16px;color:#fff;font-family:inherit;font-size:14px}
+.cform input::placeholder,.cform textarea::placeholder{color:#9c917e}
+.cform input:focus,.cform textarea:focus{outline:none;border-color:#e0a96d;background:rgba(255,255,255,.1)}
+.cform textarea{min-height:120px;resize:vertical}
+.cform .hp{position:absolute;left:-9999px}
+.cform button{margin-top:4px;width:100%;justify-content:center;padding:16px;font-size:15px}
+.cform .note{text-align:center;font-size:12px;color:#9c917e;margin-top:2px}
+.contact-cta{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:720px;margin:34px auto 0}
+.cc-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:32px 24px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);transition:.25s}
+.cc-card:hover{background:rgba(255,255,255,.1);transform:translateY(-4px);border-color:#e0a96d}
+.cc-ic{width:50px;height:50px;border-radius:50%;background:rgba(224,169,109,.16);display:grid;place-items:center;margin-bottom:4px}
+.cc-ic svg{width:24px;height:24px;stroke:#e7b27e;fill:none;stroke-width:1.8}
+.cc-label{font-size:12px;color:#bcae97;letter-spacing:.1em}
+.cc-main{font-family:var(--font-head);font-size:23px;color:#fff;letter-spacing:.04em}
+.cc-card.alt .cc-main{color:#e0a96d}
+.cc-sub{font-size:11.5px;color:#9c917e;line-height:1.6}
+@media(max-width:680px){.contact-cta{grid-template-columns:1fr}}
+@media(max-width:680px){.cform .row2{grid-template-columns:1fr}}
+
+/* access */
+.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:46px;align-items:center}
+.access dl{display:grid;grid-template-columns:84px 1fr;gap:14px 18px;font-size:14.5px}
+.access dt{color:var(--muted);font-weight:500;letter-spacing:.08em}
+.access dd{line-height:1.7}
+.map{border-radius:10px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:#e9e2d4}
+.map iframe{width:100%;height:100%;border:0;filter:grayscale(.2) contrast(1.02)}
+
+/* footer */
+footer{background:var(--ink);color:#c9bfae;padding:64px 0 120px;text-align:center}
+footer .fb{display:flex;align-items:center;gap:12px;justify-content:center;color:#fff;margin-bottom:18px}
+footer .fb .mark{width:42px;height:42px;border-radius:50%;border:1.5px solid #fff;display:grid;place-items:center;font-family:var(--font-head);font-size:21px}
+footer .fb b{font-family:var(--font-head);font-size:22px;letter-spacing:.1em}
+footer .fnav{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;font-size:13px;margin:20px 0;letter-spacing:.08em}
+footer .fnav a:hover{color:#fff}
+footer .cp{font-size:11px;color:#7d7565;letter-spacing:.1em;margin-top:24px}
+
+/* mobile sticky bar */
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;gap:0;background:#fff;box-shadow:0 -4px 20px rgba(0,0,0,.12)}
+.mbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:11px 0;font-size:12px;font-weight:700;letter-spacing:.06em}
+.mbar a.call{color:var(--ink)}
+.mbar a.book{background:var(--verdant);color:#fff}
+.mbar svg{width:19px;height:19px}
+
+@media(max-width:860px){
+  .section{padding:64px 0}
+  .head-cta .btn-ghost{display:none}
+  .about,.reserve-card,.access-grid{grid-template-columns:1fr}
+  .about-photos{aspect-ratio:4/3;width:100%;max-width:420px;margin:0 auto}
+  .feat-grid{grid-template-columns:1fr;gap:16px}
+  .menu-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .rev-grid{grid-template-columns:1fr;gap:14px}
+  .gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px}
+  .reserve-photo{min-height:260px}
+  .sec-title{font-size:25px}
+  .mbar{display:flex}
+  body{padding-bottom:0}
+  .head-cta .btn-primary{padding:10px 16px}
+}
+@media(max-width:520px){
+  .gallery .wide{grid-column:span 2}.gallery .tall{grid-row:span 1}
+  .menu-grid{grid-template-columns:1fr}
+  .strip .wrap{gap:18px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+  .hero-bg img{animation:none;transform:none}
+}
+</style>
+<style>:root{--verdant:#3d6a4a;--verdant-d:#2c4d36;--paper:#f8f4ea;--ink:#211f1a;--font-head:"Noto Serif JP",serif;--font-body:"Noto Sans JP",sans-serif}</style>
+
+
+</head>
+<body>
+
+<header class="head" id="head">
+  <a href="#top" class="brand">
+    <span class="mark">楪</span>
+    <span><b>ゆずりは音楽教室</b><small>YUZURIHA MUSIC SCHOOL</small></span>
+  </a>
+  <nav class="head-cta">
+    <a href="#reserve" class="btn btn-ghost">教室情報</a>
+    <a href="reserve.html" class="btn btn-primary">体験予約</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-bg"><img src="https://images.unsplash.com/photo-1620942988625-74825774fdda?q=80&w=1600&auto=format&fit=crop" alt=""></div>
+  <div class="wrap hero-inner">
+    <div class="badge"><span class="stars">★★★★★</span> Google口コミ 4.8（58件） ・ 藤沢／辻堂</div>
+    <h1>はじめての一音が、<br>ずっと好きになる。</h1>
+    <p class="lead">藤沢の住宅街にある、ピアノとバイオリンの個人教室。<br>お子さまから大人まで、一人ひとりのペースで音楽を楽しめます。</p>
+    <div class="hero-actions">
+      <a href="reserve.html" class="btn btn-primary">体験レッスンを予約する</a>
+      <a href="#menu" class="btn btn-ghost">コースを見る</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+<div class="strip">
+  <div class="wrap">
+    <div class="it"><b>2015</b><span>開講 / 藤沢</span></div><div class="it"><b>生徒 120名</b><span>3歳〜70代まで</span></div><div class="it"><b>講師 2名</b><span>ピアノ・バイオリン</span></div><div class="it"><b>年1回</b><span>発表会を開催</span></div>
+  </div>
+</div>
+
+<section class="qbook">
+  <div class="wrap">
+    <div class="qb-card">
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>ご希望日</label>
+        <input type="date" id="qbDate">
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>時間</label>
+        <select id="qbTime">
+          <option value="10:00">10:00</option><option value="10:30">10:30</option><option value="11:00">11:00</option><option value="14:00">14:00</option><option value="14:30">14:30</option><option value="15:00">15:00</option><option value="15:30">15:30</option><option value="16:00">16:00</option><option value="16:30">16:30</option><option value="17:00">17:00</option><option value="17:30">17:30</option><option value="18:00">18:00</option><option value="18:30">18:30</option><option value="19:00">19:00</option>
+        </select>
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>体験人数</label>
+        <select id="qbParty">
+          <option value="1" selected>1名</option><option value="2">2名</option><option value="3">3名</option><option value="4">4名</option>
+        </select>
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5 21v-1.6C5 16.6 8.1 14 12 14s7 2.6 7 5.4V21"/></svg>講師</label>
+        <select id="qbSeat">
+          <option>おまかせ（担当講師にお任せ）</option><option>田中 陽子（ピアノ）</option><option>鈴木 亮（バイオリン）</option>
+        </select>
+      </div>
+      <button class="qb-go" id="qbGo">
+        空き状況を見て予約
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+    <p class="qb-note">月曜休講 ・ <b>24時間</b>ネット予約OK ／ 次の画面で空き状況を確認できます</p>
+  </div>
+</section>
+
+<section class="section news" id="news" style="padding:56px 0">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow">NEWS</div>
+      <h2 class="sec-title mincho">お知らせ</h2>
+    </div>
+    <div class="news-list reveal">
+      <div class="news-item"><time>2026年6月20日</time><div><h4>夏の発表会 出演者を募集中です</h4><p>8月開催の発表会にご参加いただける生徒さんを募集しています。詳しくは体験レッスン時にご案内します。</p></div></div><div class="news-item"><time>2026年5月10日</time><div><h4>臨時休講のお知らせ</h4><p>5月15日（金）は施設点検のため終日休講いたします。ご不便をおかけしますがよろしくお願いいたします。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap about">
+    <div class="about-photos reveal">
+      <div class="p1"><img src="https://images.unsplash.com/photo-1607569708758-0270aa4651bd?q=80&w=900&auto=format&fit=crop" alt=""></div>
+      <div class="p2"><img src="https://images.unsplash.com/photo-1624367171718-14026220ee35?q=80&w=700&auto=format&fit=crop" alt=""></div>
+    </div>
+    <div class="reveal">
+      <div class="eyebrow">ABOUT US</div>
+      <h2 class="sec-title mincho">「続けたい」を、<br>ずっと支える教室に。</h2>
+      <p class="body">ゆずりは音楽教室は、藤沢の住宅街で十年あまり。<br>一人ひとりの個性やペースに合わせたレッスンで、楽器を弾く楽しさを大切にしています。<br>発表会や日々のレッスンを通して、音楽が暮らしの一部になるように。お子さまから大人まで、どうぞお気軽にお越しください。</p>
+      <div class="sign">主宰講師<b>小林 遥</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0" id="feature">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow">OUR PROMISE</div>
+      <h2 class="sec-title mincho">ゆずりは音楽教室の、三つの約束</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal"><div class="no">01</div><h3>一人ひとりに合わせた個別カリキュラム</h3><p>年齢や目標、得意・苦手に合わせてカリキュラムを調整。同じ教材でも、進み方は一人ひとり違います。</p></div><div class="feat reveal"><div class="no">02</div><h3>年に一度の発表会</h3><p>地域のホールをお借りして開催。人前で演奏する経験が、大きな自信につながります。</p></div><div class="feat reveal"><div class="no">03</div><h3>ピアノ・バイオリンを一つの教室で</h3><p>きょうだいで別の楽器を習ったり、後から楽器を変えたりも自由。どちらも同じ教室で続けられます。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section menu" id="menu">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow">LESSON COURSE</div>
+      <h2 class="sec-title mincho">コースのご案内</h2>
+      <p class="sec-sub">— 月謝制・回数制からお選びいただけます —</p>
+    </div>
+    <div class="menu-grid">
+      <div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1547931295-64c05303a15b?q=80&w=600&auto=format&fit=crop" alt="ピアノ個人レッスン" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>ピアノ個人レッスン</h4><span class="price">月謝 ¥8,000〜（月3回・30分/回）</span></div><p>導入からコンクール対策まで、レベルに合わせて。基礎をていねいに積み重ねます。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1492563817904-5f1dc687974f?q=80&w=600&auto=format&fit=crop" alt="バイオリン個人レッスン" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>バイオリン個人レッスン</h4><span class="price">月謝 ¥9,000〜（月3回・30分/回）</span></div><p>楽器の構え方から。将来のオーケストラ・室内楽も見据えたレッスンです。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1577877777751-3f1ec20a0715?q=80&w=600&auto=format&fit=crop" alt="幼児リトミックコース" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>幼児リトミックコース</h4><span class="price">月謝 ¥6,000〜（月3回・20分/回）</span></div><p>3〜5歳向け。リズム遊びを通して、音楽への興味と集中力を育みます。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?q=80&w=600&auto=format&fit=crop" alt="大人のピアノコース" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>大人のピアノコース</h4><span class="price">月謝 ¥9,000〜（月2回・40分/回）</span></div><p>初心者から経験者まで。学び直しやブランクのある方も歓迎です。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1479118013749-9f79d55a28d0?q=80&w=600&auto=format&fit=crop" alt="発表会・コンクール対策コース" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>発表会・コンクール対策コース</h4><span class="price">月謝 ¥12,000〜（月4回・45分/回）</span></div><p>本番に向けた仕上げレッスン。表現力と本番での集中力を高めます。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1514119412350-e174d90d280e?q=80&w=600&auto=format&fit=crop" alt="ソルフェージュ・音楽基礎コース" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>ソルフェージュ・音楽基礎コース</h4><span class="price">月謝 ¥5,000〜（月2回・30分/回）</span></div><p>聴く力・読む力・書く力を育てる基礎レッスン。楽器レッスンと並行がおすすめです。</p></div></div>
+    </div>
+    <p class="menu-note">表示は税込月謝です ・ 入会金 ¥5,000（体験レッスン当日のご入会で半額） ・ 楽器レンタルもご相談ください</p>
+  </div>
+</section>
+
+<section class="section" id="gallery">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow">GALLERY</div>
+      <h2 class="sec-title mincho">教室と、音のある日常。</h2>
+    </div>
+    <div class="gallery reveal">
+      <div class="tall"><img src="https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=700&auto=format&fit=crop" alt=""></div><div class="wide"><img src="https://images.unsplash.com/photo-1552422535-c45813c61732?q=80&w=900&auto=format&fit=crop" alt=""></div><div class=""><img src="https://images.unsplash.com/photo-1612225330812-01a9c6b355ec?q=80&w=500&auto=format&fit=crop" alt=""></div><div class=""><img src="https://images.unsplash.com/photo-1561014816-50ce5acb5e73?q=80&w=500&auto=format&fit=crop" alt=""></div><div class="wide"><img src="https://images.unsplash.com/photo-1652181820522-cc76583c9950?q=80&w=900&auto=format&fit=crop" alt=""></div><div class=""><img src="https://images.unsplash.com/photo-1776209572628-b0f61f1b8e38?q=80&w=500&auto=format&fit=crop" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="reviews" style="padding-top:0">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow">VOICE</div>
+      <h2 class="sec-title mincho">お客さまの声</h2>
+      <p class="sec-sub">Googleの口コミより （2026年6月時点）</p>
+    </div>
+    <div class="rev-grid">
+      <figure class="rev-card reveal">
+        <div class="rev-stars">★ 5</div>
+        <blockquote>娘が3歳から通っています。先生がとても丁寧で、無理なく楽しく続けられています。発表会も毎年の楽しみです。</blockquote>
+        <figcaption>M. Suzuki さん</figcaption>
+      </figure><figure class="rev-card reveal">
+        <div class="rev-stars">★ 5</div>
+        <blockquote>大人になってからピアノを再開しました。レッスンのペースを合わせてもらえて、仕事帰りでも無理なく続けられています。</blockquote>
+        <figcaption>K. Yamada さん</figcaption>
+      </figure><figure class="rev-card reveal">
+        <div class="rev-stars">★ 4</div>
+        <blockquote>バイオリンを子どもと一緒に習っています。楽器のレンタルもあり、始めるハードルが低かったのが良かったです。</blockquote>
+        <figcaption>R. Takahashi さん</figcaption>
+      </figure>
+    </div>
+    <p class="rev-note">出典：Google マップの口コミ</p>
+  </div>
+</section>
+
+<section class="section reserve" id="reserve">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow">RESERVATION</div>
+      <h2 class="sec-title mincho">体験レッスン・教室情報</h2>
+    </div>
+    <div class="reserve-card reveal">
+      <div class="reserve-info">
+        <h3>体験レッスンのご予約</h3>
+        <div class="hours">
+          <div class="row"><span>開講時間</span><b>平日 14:00 – 20:00 ／ 土曜 10:00 – 17:00</b></div><div class="row"><span>休講日</span><b>月曜日・祝日</b></div><div class="row"><span>レッスン形態</span><b>個人レッスン（1対1）</b></div><div class="row"><span>お支払い</span><b>口座振替・各種カード可</b></div><div class="row"><span>体験レッスン</span><b>1,000円（幼児コースは500円）</b></div>
+        </div>
+        <div class="tel-big">
+          <span class="ic">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="stroke:var(--verdant)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <a href="tel:0466000000"><span class="n">0466-00-0000</span><small>ご予約・お問い合わせ</small></a>
+        </div>
+        <a href="reserve.html" class="btn btn-primary" style="margin-top:22px;width:100%;justify-content:center;padding:15px">空き状況を見てネット予約</a>
+      </div>
+      <div class="reserve-photo">
+        <img src="https://images.unsplash.com/photo-1611513946244-93dcfd540efb?q=80&w=800&auto=format&fit=crop" alt="">
+        <div class="ov"><a href="tel:0466000000" class="btn btn-primary">お電話で予約する</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="access" style="padding-top:0">
+  <div class="wrap">
+    <div class="access-grid">
+      <div class="access reveal">
+        <div class="eyebrow">ACCESS</div>
+        <h2 class="sec-title mincho">アクセス</h2>
+        <dl style="margin-top:24px">
+          <dt>住所</dt><dd>〒251-0000<br>神奈川県藤沢市藤沢2-3-4 ゆずりはビル3F</dd>
+          <dt>最寄り</dt><dd>小田急・JR・江ノ電「藤沢駅」北口より徒歩6分</dd>
+          <dt>駐車場</dt><dd>近隣にコインパーキングあり（送迎時の一時駐車可）</dd>
+          <dt>電話</dt><dd><a href="tel:0466000000" style="color:var(--verdant);font-weight:700">0466-00-0000</a></dd>
+        </dl>
+        <div class="ext-links">
+          <a class="ext-link" href="https://www.ekiten.jp/shop_0000000000/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/></svg>エキテン</a>
+          <a class="ext-link" href="https://www.instagram.com/yuzuriha_music_fujisawa/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>Instagram</a>
+          <a class="ext-link" href="https://www.google.com/maps?q=%E8%97%A4%E6%B2%A2%E9%A7%85" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Google マップ</a>
+        </div>
+      </div>
+      <div class="map reveal">
+        <iframe src="https://www.google.com/maps?q=%E8%97%A4%E6%B2%A2%E9%A7%85&output=embed" loading="lazy" title="地図"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact" id="contact">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow">CONTACT</div>
+      <h2 class="sec-title mincho">体験予約・お問い合わせ</h2>
+      <p class="lead">体験レッスンのご予約は24時間ネット予約から。ご質問・お月謝コースのご相談はお電話でお気軽にどうぞ。</p>
+    </div>
+    <div class="contact-cta reveal">
+      <a href="tel:0466000000" class="cc-card">
+        <span class="cc-ic"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+        <span class="cc-label">お電話でのお問い合わせ</span>
+        <span class="cc-main">0466-00-0000</span>
+        <span class="cc-sub">受付 14:00–20:00（土曜10:00–17:00）／ 月曜休講</span>
+      </a>
+      <a href="reserve.html" class="cc-card alt">
+        <span class="cc-ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+        <span class="cc-label">ネットでの体験予約</span>
+        <span class="cc-main">24時間 体験予約</span>
+        <span class="cc-sub">空き状況を見ながら、その場で予約完了</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fb"><span class="mark">楪</span><b>ゆずりは音楽教室</b></div>
+    <nav class="fnav">
+      <a href="#about">教室について</a><a href="#menu">コース</a><a href="#gallery">ギャラリー</a><a href="#access">アクセス</a><a href="#contact">お問い合わせ</a>
+    </nav>
+    <p class="cp">© 2026 YUZURIHA MUSIC SCHOOL. ※これは制作デモ用のサンプルサイトです（口コミ・数値もサンプル）。</p>
+  </div>
+</footer>
+
+<nav class="mbar">
+  <a href="tel:0466000000" class="call">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    電話する
+  </a>
+  <a href="reserve.html" class="book">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    体験予約
+  </a>
+</nav>
+
+<script>
+document.documentElement.classList.add('js');
+const head=document.getElementById('head');
+addEventListener('scroll',()=>head.classList.toggle('scrolled',scrollY>40));
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.16});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+const qbDate=document.getElementById('qbDate');
+const now=new Date();
+const local=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);
+qbDate.min=local; qbDate.value=local;
+document.getElementById('qbGo').addEventListener('click',()=>{
+  const p=new URLSearchParams();
+  if(qbDate.value)p.set('date',qbDate.value);
+  p.set('time',document.getElementById('qbTime').value);
+  p.set('party',document.getElementById('qbParty').value);
+  p.set('seat',document.getElementById('qbSeat').value);
+  location.href='reserve.html?'+p.toString();
+});
+</script>
+
+</body>
+</html>
