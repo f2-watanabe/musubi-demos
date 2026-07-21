@@ -128,7 +128,7 @@ details.logentry>summary:hover{color:var(--acc)}
 <p>以下は当初「未実装」だったが実装済み:</p>
 <ul>
 <li><strong>打ち合わせ予約カレンダー</strong>: 管理アプリ <code>/meetings</code> で空き枠を作成、顧客はポータル <code>/meeting</code> から空き枠を選んで予約。二重予約は排他制御で防止、予約RPCはアプリログイン＋DB権限の二重防御。確定時に双方へメール。</li>
-<li><strong>顧客サイトのネット予約（内部データベース）</strong>: 飲食テンプレート（restaurant/cafe/sushi）は予約フォームが内部予約API（/api/reserve）に直結済み。空き枠は管理アプリのサイト制作（builder）の予約設定で編集、予約一覧・キャンセルは <code>/reservations</code>。</li>
+<li><strong>顧客サイトのネット予約（内部データベース）</strong>: 予約対象13業種（飲食10業種＋美容室・整体/治療院・教室）は予約フォームが内部予約API（/api/reserve）に直結済み。空き枠は管理アプリのサイト制作（builder）の予約設定で編集、予約一覧・キャンセルは <code>/reservations</code>。</li>
 <li><strong>未入金時の自動リマインド（dunning）</strong>: 決済失敗で当日リマインドメール＋3日の猶予、猶予超過で日次バッチがサイトを一時停止、入金確認で自動復帰。</li>
 <li><strong>ポータルのプラン別機能ロック</strong>: ライトプランは口コミAI返信・月次レポートを非提供（「スタンダードプラン以上でご利用いただけます」表示）。画面・サーバー両方でロック。</li>
 <li><strong>申込フォームのレート制限</strong>: 同一IPから短時間の連投を制限（隠しフィールド＋IPレート制限の二段）。</li>
