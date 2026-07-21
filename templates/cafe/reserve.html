@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ネット予約｜hinata</title>
+<meta name="description" content="hinataのネット予約。空席状況を見ながら、日時・人数・席・プレートを選んで24時間いつでもご予約。">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@500;600;700&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#fbf6ee; --cream-2:#f3ead9; --paper:#fff;
+  --milk-brown:#7a5640; --milk-brown-d:#5d4030;
+  --matcha:#a7bd8f; --milktea:#d8b88a; --terracotta:#d98c6a;
+  --ink:#4a3b30; --muted:#9a8775; --line:#ece0cf;
+  --ok:#7c9a5e; --warn:#cd9a5b; --full:#c2b1a0;
+  --ease-pop:cubic-bezier(.34,1.56,.64,1);
+  --font-head:"Baloo 2","Noto Sans JP",cursive; --font-body:"Quicksand","Noto Sans JP",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--ink);background:var(--cream);font-weight:500;line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* header */
+.head{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:14px clamp(18px,5vw,40px);background:rgba(251,246,238,.9);backdrop-filter:blur(12px);box-shadow:0 6px 24px rgba(122,86,64,.1)}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .mark{width:38px;height:38px;border-radius:50%;background:var(--terracotta);display:grid;place-items:center;color:#fff;font-size:1.1rem;box-shadow:0 4px 0 rgba(122,86,64,.25);flex:none}
+.brand b{font-family:var(--font-head);font-size:1.3rem;font-weight:800;color:var(--milk-brown-d);display:block;line-height:1.1}
+.brand small{display:block;font-size:9px;letter-spacing:.2em;color:var(--milk-brown);font-weight:600}
+.head a.back{font-size:13px;color:var(--milk-brown);font-weight:700;letter-spacing:.02em;transition:.3s}
+.head a.back:hover{color:var(--terracotta)}
+
+/* hero */
+.rhero{background:linear-gradient(180deg,#fff,var(--cream));padding:50px 0 18px;text-align:center;position:relative;overflow:hidden}
+.rhero .eyebrow{display:inline-block;background:var(--matcha);color:#fff;font-size:12px;letter-spacing:.16em;font-weight:700;padding:6px 16px;border-radius:50px;transform:rotate(-2deg);box-shadow:0 5px 0 rgba(122,86,64,.16)}
+.rhero h1{font-family:var(--font-head);font-weight:800;font-size:clamp(28px,4.6vw,40px);color:var(--milk-brown-d);margin-top:14px}
+.rhero p{color:var(--milk-brown);font-size:13.5px;font-weight:600;margin-top:8px}
+
+/* steps progress */
+.steps{display:flex;justify-content:center;gap:0;margin:24px 0 0;flex-wrap:wrap}
+.steps .st{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--muted);font-weight:700}
+.steps .st .dot{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;background:#fff;transition:.3s var(--ease-pop)}
+.steps .st.done .dot{background:var(--matcha);border-color:var(--matcha);color:#fff}
+.steps .st.active .dot{background:var(--terracotta);border-color:var(--terracotta);color:#fff;transform:scale(1.1)}
+.steps .st.active{color:var(--milk-brown-d)}
+.steps .bar{width:34px;height:2px;background:var(--line);margin:0 8px;border-radius:2px}
+.steps .bar.done{background:var(--matcha)}
+
+/* layout */
+.layout{display:grid;grid-template-columns:1fr 332px;gap:30px;align-items:start;padding:34px 0 90px}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:28px 28px 30px;margin-bottom:20px;box-shadow:0 14px 34px rgba(122,86,64,.08)}
+.panel-h{display:flex;align-items:center;gap:11px;margin-bottom:4px}
+.panel-h .pn{font-family:var(--font-head);font-size:14px;font-weight:800;color:#fff;background:var(--terracotta);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:none;box-shadow:0 4px 0 rgba(122,86,64,.2)}
+.panel-h h2{font-family:var(--font-head);font-weight:800;font-size:20px;color:var(--milk-brown-d)}
+.panel .hint{font-size:12px;color:var(--muted);font-weight:600;margin:2px 0 18px;padding-left:41px}
+
+/* calendar */
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.cal-head .mo{font-family:var(--font-head);font-weight:800;font-size:18px;color:var(--milk-brown-d)}
+.cal-nav{display:flex;gap:8px}
+.cal-nav button{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:16px;color:var(--milk-brown);display:grid;place-items:center;transition:.25s var(--ease-pop)}
+.cal-nav button:hover:not(:disabled){border-color:var(--terracotta);color:var(--terracotta);transform:translateY(-2px)}
+.cal-nav button:disabled{opacity:.35;cursor:not-allowed}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-grid .dow{text-align:center;font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.06em;padding-bottom:4px}
+.cal-grid .dow.sun{color:var(--terracotta)}.cal-grid .dow.sat{color:#7c9bc4}
+.day{aspect-ratio:1/1;border:1px solid var(--line);border-radius:16px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:.2s var(--ease-pop);position:relative}
+.day .d{font-size:13.5px;font-weight:700}
+.day .av{font-size:13px;line-height:1;font-weight:700}
+.day.empty{border:none;background:transparent}
+.day.closed{background:var(--cream-2);color:var(--full);cursor:not-allowed}
+.day.closed .av{font-size:9px;font-weight:600}
+.day.past{opacity:.34;cursor:not-allowed;background:#f7f1e7}
+.day.pickable{cursor:pointer}
+.day.pickable:hover{border-color:var(--terracotta);transform:translateY(-3px);box-shadow:0 10px 18px rgba(122,86,64,.16)}
+.day.sel{background:var(--milk-brown);border-color:var(--milk-brown);color:#fff;box-shadow:0 8px 0 rgba(93,64,48,.3)}
+.day.sel .av{color:#fff !important}
+.av.ok{color:var(--ok)}.av.warn{color:var(--warn)}.av.full{color:var(--full)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px;font-size:11.5px;color:var(--muted);font-weight:600}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend b{font-size:13px}.legend .ok{color:var(--ok)}.legend .warn{color:var(--warn)}.legend .full{color:var(--full)}
+
+/* time slots */
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:9px}
+.slot{border:1px solid var(--line);border-radius:16px;padding:11px 8px;text-align:center;background:#fff;transition:.2s var(--ease-pop)}
+.slot .t{font-family:var(--font-head);font-weight:800;font-size:16px;color:var(--milk-brown-d)}
+.slot .left{font-size:10.5px;margin-top:2px;font-weight:600}
+.slot.ok .left{color:var(--ok)}.slot.warn .left{color:var(--warn)}
+.slot.pickable{cursor:pointer}
+.slot.pickable:hover{border-color:var(--terracotta);transform:translateY(-3px)}
+.slot.full{background:var(--cream-2);color:var(--full);cursor:not-allowed}
+.slot.full .t{color:var(--full)}.slot.full .left{color:var(--full)}
+.slot.sel{background:var(--milk-brown);border-color:var(--milk-brown);color:#fff}
+.slot.sel .t{color:#fff}.slot.sel .left{color:#fff}
+.need{font-size:13px;color:var(--muted);padding:8px 0 2px;font-weight:600}
+
+/* party + seat */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:4px}
+.fld{margin-top:14px}
+.fld>label{display:block;font-size:12.5px;font-weight:700;letter-spacing:.02em;margin-bottom:9px;color:var(--milk-brown-d)}
+.stepper{display:flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:50px;width:fit-content;overflow:hidden;background:#fff}
+.stepper button{width:44px;height:44px;font-size:20px;color:var(--terracotta);background:#fff;transition:.15s}
+.stepper button:hover{background:var(--cream)}
+.stepper button:disabled{opacity:.3;cursor:not-allowed}
+.stepper .val{min-width:64px;text-align:center;font-family:var(--font-head);font-weight:800;font-size:17px;color:var(--milk-brown-d)}
+.seats{display:flex;gap:9px;flex-wrap:wrap}
+.seat{border:1px solid var(--line);border-radius:50px;padding:10px 18px;font-size:13px;font-weight:700;color:var(--milk-brown);background:#fff;transition:.2s var(--ease-pop)}
+.seat:hover{border-color:var(--terracotta);transform:translateY(-2px)}
+.seat.sel{background:var(--milk-brown);border-color:var(--milk-brown);color:#fff}
+
+/* courses */
+.courses{display:flex;flex-direction:column;gap:12px}
+.course{display:flex;gap:16px;align-items:center;border:1px solid var(--line);border-radius:22px;padding:14px;background:#fff;transition:.2s var(--ease-pop);text-align:left;width:100%}
+.course:hover{border-color:var(--terracotta);transform:translateY(-2px)}
+.course.sel{border-color:var(--terracotta);background:#fdf4ee;box-shadow:0 0 0 2px var(--terracotta) inset}
+.course .cimg{width:78px;height:78px;border-radius:16px;background:var(--cream-2) center/cover;flex:none;overflow:hidden}
+.course .cimg img{width:100%;height:100%;object-fit:cover;display:block}
+.course .ci{flex:1;min-width:0}
+.course .ci h4{font-family:var(--font-head);font-weight:800;font-size:16px;color:var(--milk-brown-d)}
+.course .ci p{font-size:11.5px;color:var(--milk-brown);margin-top:3px;line-height:1.6;font-weight:500}
+.course .cr{text-align:right;flex:none}
+.course .cr .pr{font-family:"DM Serif Display",serif;font-size:19px;color:var(--terracotta)}
+.course .cr .pr small{font-size:11px;color:var(--muted);font-family:var(--font-body)}
+.course .radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;transition:.15s}
+.course.sel .radio{border-color:var(--terracotta)}
+.course.sel .radio::after{content:"";width:11px;height:11px;border-radius:50%;background:var(--terracotta)}
+
+/* customer form */
+.cust{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cust .full{grid-column:1/-1}
+.cust label{display:block;font-size:12px;font-weight:700;margin-bottom:6px;color:var(--milk-brown-d)}
+.cust label .req{color:var(--terracotta);font-size:11px;margin-left:5px}
+.cust input,.cust textarea,.cust select{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-family:inherit;font-size:14px;font-weight:500;color:var(--ink);background:#fff;transition:.15s}
+.cust input:focus,.cust textarea:focus,.cust select:focus{outline:none;border-color:var(--terracotta);box-shadow:0 0 0 3px rgba(217,140,106,.16)}
+.cust textarea{min-height:74px;resize:vertical}
+
+/* summary */
+.summary{position:sticky;top:88px;background:var(--milk-brown);color:var(--cream);border-radius:26px;padding:26px;box-shadow:0 22px 46px rgba(122,86,64,.28)}
+.summary h3{font-family:var(--font-head);font-weight:800;font-size:17px;color:#fff;letter-spacing:.02em;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.15)}
+.srow{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:13px}
+.srow .k{color:var(--milktea);flex:none;font-weight:600}
+.srow .v{text-align:right;color:#fff;font-weight:700}
+.srow .v.empty{color:rgba(255,255,255,.45);font-weight:500}
+.summary .total{display:flex;justify-content:space-between;align-items:baseline;padding-top:14px;margin-top:4px}
+.summary .total .k{font-size:13px;color:var(--milktea);font-weight:600}
+.summary .total .v{font-family:"DM Serif Display",serif;font-size:24px;color:#fff}
+.summary .total .v small{font-size:11px;color:var(--milktea);font-family:var(--font-body)}
+.book-btn{width:100%;margin-top:18px;background:var(--terracotta);color:#fff;font-family:var(--font-head);font-size:15px;font-weight:700;letter-spacing:.02em;padding:15px;border-radius:50px;transition:.3s var(--ease-pop);box-shadow:0 8px 0 rgba(93,64,48,.34)}
+.book-btn:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 11px 0 rgba(93,64,48,.3)}
+.book-btn:disabled{background:rgba(255,255,255,.18);color:rgba(255,255,255,.55);box-shadow:none;cursor:not-allowed}
+.summary .micro{font-size:10.5px;color:var(--milktea);text-align:center;margin-top:11px;line-height:1.6;font-weight:500}
+
+/* mobile summary bar */
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--milk-brown);color:#fff;padding:12px 18px;box-shadow:0 -6px 24px rgba(122,86,64,.3)}
+.mbar .mb-l small{display:block;font-size:10px;color:var(--milktea);letter-spacing:.04em;font-weight:600}
+.mbar .mb-l b{font-family:"DM Serif Display",serif;font-size:18px;color:#fff}
+.mbar button{background:var(--terracotta);color:#fff;font-family:var(--font-head);font-weight:700;font-size:14px;padding:12px 22px;border-radius:50px;box-shadow:0 5px 0 rgba(93,64,48,.34)}
+.mbar button:disabled{background:rgba(255,255,255,.18);color:rgba(255,255,255,.55);box-shadow:none}
+
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(74,59,48,.6);backdrop-filter:blur(3px);z-index:100;display:none;align-items:center;justify-content:center;padding:24px}
+.overlay.on{display:flex}
+.modal{background:var(--cream);border-radius:30px;max-width:440px;width:100%;padding:40px 34px;text-align:center;box-shadow:0 40px 90px rgba(74,59,48,.4);animation:pop .4s var(--ease-pop)}
+@keyframes pop{from{opacity:0;transform:translateY(24px) scale(.95)}to{opacity:1;transform:none}}
+.modal .ok-ic{width:64px;height:64px;border-radius:50%;background:var(--matcha);display:grid;place-items:center;margin:0 auto 18px;box-shadow:0 8px 0 rgba(122,86,64,.16)}
+.modal .ok-ic svg{width:30px;height:30px;stroke:#fff;stroke-width:3;fill:none}
+.modal h3{font-family:var(--font-head);font-weight:800;font-size:23px;color:var(--milk-brown-d)}
+.modal .resno{font-size:12px;color:var(--muted);margin-top:8px;font-weight:600}
+.modal .resno b{color:var(--milk-brown-d);font-size:14px;letter-spacing:.08em;font-family:var(--font-head)}
+.modal .msum{text-align:left;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin:20px 0;font-size:13px}
+.modal .msum .r{display:flex;justify-content:space-between;padding:5px 0}
+.modal .msum .r span:first-child{color:var(--muted);font-weight:600}
+.modal .msum .r span:last-child{font-weight:700;color:var(--milk-brown-d)}
+.modal p.note{font-size:12px;color:var(--milk-brown);line-height:1.7;font-weight:500}
+.modal .close{margin-top:20px;width:100%;background:var(--milk-brown);color:#fff;font-family:var(--font-head);font-weight:700;padding:15px;border-radius:50px;box-shadow:0 8px 0 rgba(93,64,48,.3);transition:.3s var(--ease-pop)}
+.modal .close:hover{transform:translateY(-3px)}
+
+/* see-menu link */
+.course .ci .seemenu{display:inline-flex;align-items:center;gap:3px;font-size:11.5px;font-weight:700;color:var(--terracotta);margin-top:7px;padding:3px 0;letter-spacing:.02em}
+.course .ci .seemenu:hover{color:var(--milk-brown-d);text-decoration:underline}
+
+/* course menu modal */
+.mmodal{max-width:460px;text-align:left;padding:0;overflow:hidden}
+.mmodal .mm-img{height:170px;background:var(--cream-2)}
+.mmodal .mm-img img{width:100%;height:100%;object-fit:cover;display:block}
+.mmodal h3{font-family:var(--font-head);font-weight:800;font-size:22px;color:var(--milk-brown-d);padding:22px 28px 0}
+.mmodal .mm-meta{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:6px 28px 0}
+.mmodal .mm-meta>span:first-child{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+.mmodal .mm-pr{font-family:"DM Serif Display",serif;font-size:21px;color:var(--terracotta)}
+.mmodal .mm-pr small{font-size:11px;color:var(--muted);font-family:var(--font-body)}
+.mmodal .mm-note{font-size:12.5px;color:var(--milk-brown);line-height:1.7;padding:12px 28px 0;font-weight:500}
+.mmodal .mm-list{list-style:none;padding:16px 28px 4px;display:flex;flex-direction:column;gap:0}
+.mmodal .mm-list li{display:flex;align-items:flex-start;gap:11px;font-size:13.5px;padding:9px 0;border-bottom:1px dashed var(--line);font-weight:500}
+.mmodal .mm-list li:last-child{border-bottom:none}
+.mmodal .mm-list li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--matcha);margin-top:9px;flex:none}
+.mmodal .mm-list.empty li::before{display:none}
+.mm-acts{display:flex;gap:10px;padding:8px 28px 0}
+.mm-pick{flex:1;background:var(--terracotta);color:#fff;font-family:var(--font-head);font-weight:700;padding:14px;border-radius:50px;transition:.3s var(--ease-pop);box-shadow:0 6px 0 rgba(93,64,48,.28)}
+.mm-pick:hover{transform:translateY(-2px)}
+.mm-close{background:#fff;border:1px solid var(--line);color:var(--milk-brown);font-weight:700;padding:14px 20px;border-radius:50px}
+.mm-close:hover{border-color:var(--terracotta);color:var(--terracotta)}
+.mmodal .mm-foot{font-size:10.5px;color:var(--muted);text-align:center;padding:14px 28px 24px;font-weight:500}
+
+/* notes / charge / policy */
+.panel-h .pn.ginfo{background:var(--milk-brown)}
+.info-block{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+.info-block:first-of-type{border-top:none;padding-top:6px;margin-top:8px}
+.ib-title{font-family:var(--font-head);font-weight:800;font-size:15px;color:var(--milk-brown-d);margin-bottom:11px}
+.ib-note{font-size:11.5px;color:var(--muted);line-height:1.7;margin-top:10px;font-weight:500}
+.ib-note a,.notice a{color:var(--terracotta);font-weight:700}
+.notice{list-style:none;display:flex;flex-direction:column;gap:8px}
+.notice li{position:relative;padding-left:18px;font-size:13px;color:var(--ink);line-height:1.7;font-weight:500}
+.notice li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--matcha)}
+.charge{list-style:none;display:flex;flex-direction:column;gap:0}
+.charge li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+.charge li:last-child{border-bottom:none}
+.charge li span{color:var(--ink);font-weight:500}
+.charge li b{font-family:"DM Serif Display",serif;color:var(--terracotta);white-space:nowrap}
+.policy{list-style:none;display:flex;flex-direction:column;gap:0}
+.policy li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line)}
+.policy li:last-child{border-bottom:none}
+.policy .when{font-size:13.5px;color:var(--ink);font-weight:500}
+.policy .rate{font-family:var(--font-head);font-size:14.5px;font-weight:700;white-space:nowrap}
+.policy .rate.ok{color:var(--ok)}
+.policy .rate.warn{color:var(--warn)}
+.policy .rate.bad{color:var(--terracotta)}
+.agree{display:flex;align-items:flex-start;gap:11px;margin-top:22px;padding:16px 18px;background:#fdf4ee;border:1px solid #f1ddd0;border-radius:18px;cursor:pointer;font-size:13px;color:var(--ink);line-height:1.6;font-weight:500}
+.agree input{width:19px;height:19px;margin-top:1px;flex:none;accent-color:var(--terracotta);cursor:pointer}
+.agree b{color:var(--milk-brown-d);font-weight:700}
+.book-inline{width:100%;margin-top:16px;background:var(--terracotta);color:#fff;font-family:var(--font-head);font-size:15px;font-weight:700;letter-spacing:.02em;padding:16px;border-radius:50px;transition:.3s var(--ease-pop);box-shadow:0 8px 0 rgba(93,64,48,.28)}
+.book-inline:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 11px 0 rgba(93,64,48,.24)}
+.book-inline:disabled{background:#e3d4c6;color:#fff;box-shadow:none;cursor:not-allowed}
+.book-inline-note{text-align:center;font-size:11.5px;color:var(--muted);margin-top:9px;font-weight:600}
+.line-btn{display:block;width:100%;margin-top:10px;background:#06c755;color:#fff;text-align:center;font-family:var(--font-head);font-size:14px;font-weight:700;padding:14px;border-radius:50px;transition:.3s var(--ease-pop);box-shadow:0 6px 0 rgba(3,86,45,.28)}
+.line-btn:hover{transform:translateY(-2px)}
+.line-btn.dis{background:#e3d4c6;color:#fff;box-shadow:none;cursor:not-allowed;pointer-events:none;transform:none}
+.line-auto-note{display:none;text-align:center;font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6;font-weight:500}
+
+@media(max-width:880px){
+  .layout{grid-template-columns:1fr;padding-bottom:96px}
+  .summary{display:none}
+  .mbar{display:flex}
+  .field-row{grid-template-columns:1fr}
+  .steps .st .lbl{display:none}
+  .steps .bar{width:20px;margin:0 5px}
+}
+@media(max-width:520px){
+  .cust{grid-template-columns:1fr}
+  .course .cr .pr{font-size:17px}
+}
+</style>
+<style>:root{--terracotta:#d98c6a;--milk-brown-d:#5d4030;--cream:#fbf6ee;--ink:#4a3b30;--font-head:"Baloo 2","Noto Sans JP",cursive;--font-body:"Quicksand","Noto Sans JP",sans-serif}</style>
+
+
+</head>
+<body>
+
+<header class="head">
+  <a href="index.html" class="brand">
+    <span class="mark">☕</span>
+    <span><b>hinata</b><small>COFFEE & BAKE</small></span>
+  </a>
+  <a href="index.html" class="back">← サイトに戻る</a>
+</header>
+
+<section class="rhero">
+  <div class="eyebrow">RESERVATION</div>
+  <h1>ネット予約</h1>
+  <p>空席状況を見ながら、24時間いつでもご予約いただけます。</p>
+  <div class="steps" id="steps">
+    <div class="st active" data-step="1"><span class="dot">1</span><span class="lbl">日時</span></div>
+    <span class="bar"></span>
+    <div class="st" data-step="2"><span class="dot">2</span><span class="lbl">人数・席</span></div>
+    <span class="bar"></span>
+    <div class="st" data-step="3"><span class="dot">3</span><span class="lbl">プレート</span></div>
+    <span class="bar"></span>
+    <div class="st" data-step="4"><span class="dot">4</span><span class="lbl">お客様情報</span></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="layout">
+    <div class="main">
+
+      <!-- 1. date + time -->
+      <section class="panel">
+        <div class="panel-h"><span class="pn">1</span><h2>日時を選ぶ</h2></div>
+        <div class="hint">ご希望の日付を選ぶと、時間ごとの空席が表示されます。</div>
+
+        <div class="cal-head">
+          <div class="cal-nav"><button id="prevMo" aria-label="前の月">‹</button></div>
+          <div class="mo" id="moLabel">—</div>
+          <div class="cal-nav"><button id="nextMo" aria-label="次の月">›</button></div>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div class="legend">
+          <span><b class="ok">◎</b> 空席あり</span>
+          <span><b class="warn">△</b> 残りわずか</span>
+          <span><b class="full">×</b> 満席</span>
+          <span style="color:var(--full)">■ 定休日</span>
+        </div>
+
+        <div id="timeBlock" style="display:none">
+          <div class="need" style="margin-top:22px;font-weight:700;color:var(--milk-brown-d)" id="timeLabel">時間を選ぶ</div>
+          <div class="slots" id="slots"></div>
+        </div>
+      </section>
+
+      <!-- 2. party + seat -->
+      <section class="panel">
+        <div class="panel-h"><span class="pn">2</span><h2>人数・お席</h2></div>
+        <div class="field-row">
+          <div class="fld">
+            <label>ご来店人数</label>
+            <div class="stepper">
+              <button id="pMinus">−</button>
+              <span class="val" id="pVal">2 名</span>
+              <button id="pPlus">＋</button>
+            </div>
+          </div>
+          <div class="fld">
+            <label>ご希望のお席</label>
+            <div class="seats" id="seats"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. course -->
+      <section class="panel">
+        <div class="panel-h"><span class="pn">3</span><h2>プレートを選ぶ</h2></div>
+        <div class="hint">席のみのご予約も選べます。料金は当日のご注文に応じます。</div>
+        <div class="courses" id="courses"></div>
+      </section>
+
+      <!-- 4. customer -->
+      <section class="panel">
+        <div class="panel-h"><span class="pn">4</span><h2>お客様情報</h2></div>
+        <form class="cust" id="custForm" onsubmit="return false">
+          <div>
+            <label>お名前<span class="req">必須</span></label>
+            <input type="text" id="cName" placeholder="山田 太郎" autocomplete="name">
+          </div>
+          <div>
+            <label>電話番号<span class="req">必須</span></label>
+            <input type="tel" id="cTel" placeholder="090-1234-5678" autocomplete="tel">
+          </div>
+          <div class="full">
+            <label>メールアドレス<span class="req">必須</span></label>
+            <input type="email" id="cMail" placeholder="you@example.com" autocomplete="email">
+          </div>
+          <div class="full">
+            <label>ご要望（アレルギー・記念日など）</label>
+            <textarea id="cNote" placeholder="例）誕生日のお祝いで利用します。プレートにメッセージは可能ですか？"></textarea>
+          </div>
+        </form>
+      </section>
+
+      <!-- 5. notes / charge / cancel policy -->
+      <section class="panel">
+        <div class="panel-h"><span class="pn ginfo">i</span><h2>ご予約にあたって</h2></div>
+
+        <div class="info-block">
+          <div class="ib-title">ご利用の注意事項</div>
+          <ul class="notice"><li>全席禁煙です。テラス席はペット同伴でもご利用いただけます。</li><li>店内のご利用はお一人様ワンドリンクのご注文をお願いしております。</li><li>混雑時はお席のご利用を90分とさせていただく場合があります。</li><li>ご予約時間を15分以上過ぎてもご連絡がない場合、お席をお譲りいただくことがあります。</li><li>お子様連れ・アレルギー・苦手な食材は「ご要望」欄にご記入ください。</li><li>8名様以上のご利用・貸切はお電話ください。</li></ul>
+        </div>
+
+        <div class="info-block">
+          <div class="ib-title">席料・サービス料</div>
+          <ul class="charge"><li><span>お席のチャージ</span><b>無料</b></li><li><span>テラス席のご利用</span><b>無料</b></li><li><span>ドリンク1オーダー制</span><b>お一人様</b></li></ul>
+          <p class="ib-note">概算合計は「プレート料金×人数＋席料」で表示しています。ドリンク等の追加のご注文分は当日精算となります。</p>
+        </div>
+
+        <div class="info-block">
+          <div class="ib-title">キャンセルポリシー</div>
+          <ul class="policy"><li><span class="when">前日まで</span><span class="rate ok">無料</span></li><li><span class="when">当日のキャンセル</span><span class="rate warn">プレート料金の50%</span></li><li><span class="when">無断キャンセル（ノーショー）</span><span class="rate bad">プレート料金の100%</span></li></ul>
+          <p class="ib-note">席のみのご予約はキャンセル料をいただきません。オンラインでのキャンセルは前日まで承ります。当日はお電話にてご連絡ください。キャンセル・人数変更は <a href="tel:0300000000">03-0000-0000</a> へお電話ください。キャンセル料は後日のお振込、または次回ご来店時に申し受けます。</p>
+          <p class="ib-note" id="lookupNote">ご予約後の確認・変更・キャンセルは <a href="javascript:void(0)" id="lookupLink" target="_blank" rel="noopener">こちらの予約確認ページ</a> から行えます。</p>
+        </div>
+
+        <label class="agree">
+          <input type="checkbox" id="cAgree">
+          <span>上記の<b>注意事項・キャンセルポリシー</b>に同意します（必須）</span>
+        </label>
+        <label class="agree">
+          <input type="checkbox" id="cAgreePrivacy">
+          <span><b>個人情報の取扱い</b>に同意します（必須）</span>
+        </label>
+
+        <button class="book-inline" id="bookBtn2" disabled>日時を選んでください</button>
+        <a class="line-btn dis" id="lineBtn" href="javascript:void(0)" target="_blank" rel="noopener">日時を選んでください</a>
+        <p class="line-auto-note" id="lineAutoNote">LINEで送ると自動で予約が確定します（自動返信でお知らせ）</p>
+        <p class="book-inline-note" id="bookInlineNote">— ・ — ／ —名</p>
+      </section>
+
+    </div>
+
+    <!-- summary -->
+    <aside>
+      <div class="summary">
+        <h3>ご予約内容</h3>
+        <div class="srow"><span class="k">日付</span><span class="v empty" id="sDate">未選択</span></div>
+        <div class="srow"><span class="k">時間</span><span class="v empty" id="sTime">未選択</span></div>
+        <div class="srow"><span class="k">人数</span><span class="v" id="sParty">2 名</span></div>
+        <div class="srow"><span class="k">お席</span><span class="v" id="sSeat">おまかせ</span></div>
+        <div class="srow"><span class="k">プレート</span><span class="v empty" id="sCourse">未選択</span></div>
+        <div class="srow"><span class="k">席料</span><span class="v" id="sCharge">無料</span></div>
+        <div class="total"><span class="k">概算合計</span><span class="v" id="sTotal">—</span></div>
+        <button class="book-btn" id="bookBtn" disabled>日時を選んでください</button>
+        <div class="micro">予約確定後、確認メールをお送りします。<br>キャンセルは前日まで無料です。</div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- mobile bar -->
+<div class="mbar">
+  <div class="mb-l"><small id="mbInfo">日時を選択</small><b id="mbTotal">—</b></div>
+  <button id="mbBook" disabled>予約へ進む</button>
+</div>
+
+<!-- confirm modal -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="ok-ic"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+    <h3>ご予約を承りました</h3>
+    <div class="resno">予約番号 <b id="resNo">—</b></div>
+    <div class="msum" id="modalSum"></div>
+    <p class="note">確認メールをお送りしました。確認メールに記載のリンクから、予約内容の確認・キャンセルができます。当日はお気をつけてお越しください。</p>
+    <button class="close" id="modalClose">閉じる</button>
+  </div>
+</div>
+
+<!-- course menu modal -->
+<div class="overlay" id="menuOverlay">
+  <div class="modal mmodal">
+    <div class="mm-img"><img id="mmImg" src="" alt=""></div>
+    <h3 id="mmName">—</h3>
+    <div class="mm-meta"><span id="mmCount"></span><span class="mm-pr" id="mmPrice"></span></div>
+    <p class="mm-note" id="mmNote"></p>
+    <ul class="mm-list" id="mmList"></ul>
+    <div class="mm-acts">
+      <button class="mm-pick" id="mmPick">このプレートを選ぶ</button>
+      <button class="mm-close" id="mmClose">閉じる</button>
+    </div>
+    <p class="mm-foot">※ 内容は仕入れにより変わる場合があります（写真はイメージ）</p>
+  </div>
+</div>
+
+<script>
+const DOW = ['日','月','火','水','木','金','土'];
+const CFG = {"lead": "空席状況を見ながら、24時間いつでもご予約いただけます。", "times": ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"], "seats": ["おまかせ", "テーブル", "カウンター", "テラス"], "closed_dow": [2], "charge_per": 0, "party_max": 10, "res_prefix": "HC", "line_id": "", "capacity_weekday": 10, "capacity_weekend": 7, "peak_slots": [3, 4, 5], "courses": [{"id": "morning", "name": "モーニングプレート", "price": 1200, "desc": "焼きたてパン・卵料理・サラダの朝食セット。開店〜11時限定。", "img": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=300&auto=format&fit=crop", "count": "全4品 ＋ ドリンク", "note": "数量限定。コーヒー・紅茶・本日のジュースから1杯お選びいただけます。", "items": ["本日の焼きたてパン 2種", "ふんわりスクランブルエッグ", "彩り野菜のサラダ", "季節のフルーツ", "お好きなドリンク 1杯"]}, {"id": "lunch", "name": "ランチプレート", "price": 1480, "desc": "自家製パン・スープ・デリ3種の日替わりプレート。ドリンク付き。", "img": "https://images.unsplash.com/photo-1591814468924-caf88d1232e1?q=80&w=300&auto=format&fit=crop", "count": "全5品 ＋ ドリンク", "note": "メインは肉・魚・野菜から日替わりでご用意します。", "items": ["本日のメインデリ", "季節のデリ 2種", "自家製パン", "日替わりスープ", "彩りサラダ", "お好きなドリンク 1杯"]}, {"id": "afternoon", "name": "アフタヌーンティーセット", "price": 2800, "desc": "スコーン・焼き菓子・サンドの3段スタンド。14時〜限定。", "img": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=300&auto=format&fit=crop", "count": "3段スタンド ・ 2名様〜", "note": "紅茶またはコーヒーはポットでおかわり自由。記念日のメッセージプレートもご相談ください。", "items": ["自家製スコーン 2種（クロテッドクリーム添え）", "本日の焼き菓子 3種", "ミニサンドイッチ 2種", "季節のフルーツ", "ポットドリンク おかわり自由"]}, {"id": "none", "name": "席のみ予約（当日オーダー）", "price": 0, "desc": "お好きなドリンク・パンを当日お選びください。", "img": "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?q=80&w=300&auto=format&fit=crop", "count": "当日オーダー", "note": "コーヒー・ラテ・季節のドリンクや、ショーケースの焼きたてパンを当日お選びいただけます。", "items": []}], "notices": ["全席禁煙です。テラス席はペット同伴でもご利用いただけます。", "店内のご利用はお一人様ワンドリンクのご注文をお願いしております。", "混雑時はお席のご利用を90分とさせていただく場合があります。", "ご予約時間を15分以上過ぎてもご連絡がない場合、お席をお譲りいただくことがあります。", "お子様連れ・アレルギー・苦手な食材は「ご要望」欄にご記入ください。", "8名様以上のご利用・貸切はお電話ください。"], "charges": [{"label": "お席のチャージ", "value": "無料"}, {"label": "テラス席のご利用", "value": "無料"}, {"label": "ドリンク1オーダー制", "value": "お一人様"}], "cancel_policy": [{"when": "前日まで", "rate": "無料", "level": "ok"}, {"when": "当日のキャンセル", "rate": "プレート料金の50%", "level": "warn"}, {"when": "無断キャンセル（ノーショー）", "rate": "プレート料金の100%", "level": "bad"}]};
+const COURSES = CFG.courses;
+const TIMES = CFG.times;
+const SEATS = CFG.seats;
+const CLOSED_DOW = CFG.closed_dow || [];
+const PARTY_MAX = CFG.party_max || 10;
+const RES_PREFIX = CFG.res_prefix || "CF";
+const API_BASE = (CFG.api_base && CFG.store) ? CFG.api_base : null;
+const STORE = CFG.store || '';
+const LINE_ID = (CFG.line_id || '').trim();
+const LINE_AUTO = !!CFG.line_auto;
+const monthCache = {}, slotCache = {};
+const AVMAP = {closed:-1, full:2, warn:1, ok:0};
+function ymd(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function ym(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); }
+async function loadMonth(){ if(!API_BASE) return; const k=ym(view); if(monthCache[k]) return; try{ const r=await fetch(API_BASE+'/api/reserve/availability?store='+encodeURIComponent(STORE)+'&month='+k); const j=await r.json(); monthCache[k]=j.days||{}; }catch(e){ monthCache[k]={}; } }
+async function loadSlots(ds){ if(!API_BASE) return; if(slotCache[ds]) return; try{ const r=await fetch(API_BASE+'/api/reserve/availability?store='+encodeURIComponent(STORE)+'&date='+ds); const j=await r.json(); const map={}; (j.slots||[]).forEach(s=>{ map[s.time]=s.left; }); slotCache[ds]=map; }catch(e){ slotCache[ds]={}; } }
+
+// deterministic pseudo-random per date/time -> availability
+function seeded(y,m,d,extra){
+  let h = (y*10000 + (m+1)*100 + d) * 2654435761 + extra*40503;
+  h = (h ^ (h>>>13)) >>> 0;
+  return (h % 1000) / 1000;
+}
+// day-level availability: 0 ok / 1 warn / 2 full ; -1 closed
+function dayAvail(date){
+  if (CLOSED_DOW.includes(date.getDay())) return -1;
+  if (API_BASE){ const m=monthCache[ym(date)]; if(m){ const s=m[ymd(date)]; return s==null?0:(AVMAP[s]!=null?AVMAP[s]:0); } return 0; }
+  const r = seeded(date.getFullYear(), date.getMonth(), date.getDate(), 7);
+  const wkend = date.getDay()===6 || date.getDay()===0;
+  let full = 0.07, warn = 0.28;
+  if (wkend) { full = 0.26; warn = 0.60; }
+  if (r < full) return 2;
+  if (r < warn) return 1;
+  return 0;
+}
+// seats left per time slot
+function slotLeft(date, ti){
+  if (API_BASE){ const m=slotCache[ymd(date)]; if(m){ return m[TIMES[ti]]==null?0:m[TIMES[ti]]; } return 0; }
+  if (dayAvail(date) === 2) return 0;
+  const r = seeded(date.getFullYear(), date.getMonth(), date.getDate(), ti+11);
+  const wkend = date.getDay()===6 || date.getDay()===0;
+  const base = wkend ? (CFG.capacity_weekend||7) : (CFG.capacity_weekday||10);
+  let left = Math.round(r * base);
+  const peak = CFG.peak_slots || [];
+  if (peak.includes(ti)) left = Math.max(0, left - (wkend?3:1));
+  return left;
+}
+
+const state = { date:null, time:null, party:2, seat:'', course:null };
+const today = new Date(); today.setHours(0,0,0,0);
+let view = new Date(today.getFullYear(), today.getMonth(), 1);
+
+const $ = id => document.getElementById(id);
+
+function fmtDate(d){ return `${d.getMonth()+1}月${d.getDate()}日(${DOW[d.getDay()]})`; }
+
+async function renderCal(){
+  await loadMonth();
+  $('moLabel').textContent = `${view.getFullYear()}年 ${view.getMonth()+1}月`;
+  const minMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  $('prevMo').disabled = view <= minMonth;
+  const maxMonth = new Date(today.getFullYear(), today.getMonth()+2, 1);
+  $('nextMo').disabled = view >= maxMonth;
+
+  const grid = $('calGrid');
+  grid.innerHTML = '';
+  DOW.forEach((w,i)=>{
+    const el = document.createElement('div');
+    el.className = 'dow' + (i===0?' sun':i===6?' sat':'');
+    el.textContent = w; grid.appendChild(el);
+  });
+  const first = new Date(view.getFullYear(), view.getMonth(), 1);
+  const days = new Date(view.getFullYear(), view.getMonth()+1, 0).getDate();
+  for (let i=0;i<first.getDay();i++){ const e=document.createElement('div'); e.className='day empty'; grid.appendChild(e); }
+  for (let d=1; d<=days; d++){
+    const date = new Date(view.getFullYear(), view.getMonth(), d);
+    const cell = document.createElement('div');
+    cell.className = 'day';
+    const av = dayAvail(date);
+    const isPast = date < today;
+    const tooFar = (date - today)/86400000 > 60;
+    if (isPast || tooFar){
+      cell.classList.add('past');
+      cell.innerHTML = `<span class="d">${d}</span>`;
+    } else if (av === -1){
+      cell.classList.add('closed');
+      cell.innerHTML = `<span class="d">${d}</span><span class="av">定休</span>`;
+    } else {
+      cell.classList.add('pickable');
+      const mark = av===2 ? '×' : av===1 ? '△' : '◎';
+      const cls = av===2 ? 'full' : av===1 ? 'warn' : 'ok';
+      cell.innerHTML = `<span class="d">${d}</span><span class="av ${cls}">${mark}</span>`;
+      if (av===2){ cell.classList.remove('pickable'); cell.classList.add('closed'); cell.style.cursor='not-allowed'; }
+      else cell.addEventListener('click', ()=>pickDate(date, cell));
+      if (state.date && date.getTime()===state.date.getTime()) cell.classList.add('sel');
+    }
+    grid.appendChild(cell);
+  }
+}
+
+async function pickDate(date, cell){
+  state.date = date; state.time = null;
+  document.querySelectorAll('.day.sel').forEach(e=>e.classList.remove('sel'));
+  cell.classList.add('sel');
+  await loadSlots(ymd(date));
+  renderSlots();
+  sync();
+}
+
+function renderSlots(){
+  if (!state.date){ $('timeBlock').style.display='none'; return; }
+  $('timeBlock').style.display='block';
+  $('timeLabel').textContent = `${fmtDate(state.date)} の空き時間`;
+  const box = $('slots'); box.innerHTML='';
+  TIMES.forEach((t,ti)=>{
+    const left = slotLeft(state.date, ti);
+    const el = document.createElement('div');
+    const status = left===0 ? 'full' : left<=2 ? 'warn' : 'ok';
+    el.className = 'slot ' + status + (left>0?' pickable':'') + (state.time===t?' sel':'');
+    el.innerHTML = `<div class="t">${t}</div><div class="left">${left===0?'満席':'残り'+left+'席'}</div>`;
+    if (left>0) el.addEventListener('click', ()=>{
+      state.time = t;
+      document.querySelectorAll('.slot.sel').forEach(e=>e.classList.remove('sel'));
+      el.classList.add('sel'); sync();
+    });
+    box.appendChild(el);
+  });
+}
+
+function renderCourses(){
+  const box = $('courses'); box.innerHTML='';
+  COURSES.forEach(c=>{
+    const el = document.createElement('button');
+    el.className = 'course' + (state.course===c.id?' sel':'');
+    el.innerHTML = `
+      <span class="radio"></span>
+      <span class="cimg"><img src="${c.img}" alt=""></span>
+      <span class="ci"><h4>${c.name}</h4><p>${c.desc}</p>
+        <span class="seemenu" data-menu="${c.id}">＋ 内容を見る</span></span>
+      <span class="cr"><span class="pr">${c.price?('¥'+c.price.toLocaleString()):'—'}<small>${c.price?'/名':''}</small></span></span>`;
+    el.querySelector('.seemenu').addEventListener('click', ev=>{ ev.stopPropagation(); openMenu(c); });
+    el.addEventListener('click', ()=>{
+      state.course = c.id;
+      document.querySelectorAll('.course.sel').forEach(e=>e.classList.remove('sel'));
+      el.classList.add('sel'); sync();
+    });
+    box.appendChild(el);
+  });
+}
+
+const CHARGE_PER = CFG.charge_per || 0;
+function courseObj(){ return COURSES.find(c=>c.id===state.course) || null; }
+function charge(){ return CHARGE_PER * state.party; }
+function total(){ const c = courseObj(); return (c && c.price ? c.price*state.party : 0) + charge(); }
+function stripParen(s){ return s.replace(/（.*?）/, ''); }
+function lineMsg(){
+  const c = courseObj();
+  let msg = `予約希望です。${fmtDate(state.date)} ${state.time}、${state.party}名、席${state.seat}`;
+  if (c) msg += `、${stripParen(c.name)}`;
+  msg += '。よろしくお願いします。';
+  if (LINE_AUTO) msg += `\n[予約コード:v1:${ymd(state.date)}:${state.time}:${state.party}:${encodeURIComponent(state.seat)}:${state.course ? encodeURIComponent(state.course) : 'none'}]`;
+  return msg;
+}
+function lineUrl(){ return `https://line.me/R/oaMessage/${encodeURIComponent(LINE_ID)}/?${encodeURIComponent(lineMsg())}`; }
+
+function sync(){
+  $('sDate').textContent = state.date ? fmtDate(state.date) : '未選択';
+  $('sDate').classList.toggle('empty', !state.date);
+  $('sTime').textContent = state.time || '未選択';
+  $('sTime').classList.toggle('empty', !state.time);
+  $('sParty').textContent = state.party + ' 名';
+  $('sSeat').textContent = state.seat;
+  const c = courseObj();
+  $('sCourse').textContent = c ? stripParen(c.name) : '未選択';
+  $('sCourse').classList.toggle('empty', !c);
+  $('sCharge').textContent = CHARGE_PER ? `¥${charge().toLocaleString()}（¥${CHARGE_PER.toLocaleString()}×${state.party}）` : '無料';
+  const totalText = (c && c.price) ? '¥'+total().toLocaleString() : (CHARGE_PER ? `¥${charge().toLocaleString()}〜` : '当日精算');
+  $('sTotal').textContent = totalText;
+  $('mbTotal').textContent = totalText;
+
+  // step progress
+  const sts = document.querySelectorAll('#steps .st');
+  const bars = document.querySelectorAll('#steps .bar');
+  let active = 0;
+  if (state.date && state.time) active = 1;
+  if (active===1 && c) active = 3;
+  else if (active===1) active = 2;
+  sts.forEach((s,i)=>{
+    s.classList.remove('active','done');
+    if (i < active) s.classList.add('done');
+    else if (i === active) s.classList.add('active');
+  });
+  bars.forEach((b,i)=>b.classList.toggle('done', i < active));
+
+  const agreed = $('cAgree').checked && $('cAgreePrivacy').checked;
+  const ready = state.date && state.time && agreed;
+  const label = !state.date ? '日時を選んでください' : !state.time ? '時間を選んでください'
+    : !agreed ? 'ポリシーに同意してください' : 'この内容で予約する';
+  [$('bookBtn'), $('bookBtn2')].forEach(b=>{ b.disabled = !ready; b.textContent = label; });
+  $('mbBook').disabled = !ready;
+  const lineReady = !!(state.date && state.time);
+  const lineBtn = $('lineBtn');
+  if (lineBtn){
+    lineBtn.classList.toggle('dis', !lineReady);
+    lineBtn.textContent = lineReady ? (LINE_AUTO ? 'LINEで送ると自動予約' : 'LINEで予約する') : '日時を選んでください';
+    lineBtn.href = lineReady ? lineUrl() : 'javascript:void(0)';
+  }
+  const lineAutoNote = $('lineAutoNote');
+  if (lineAutoNote) lineAutoNote.style.display = LINE_AUTO ? 'block' : 'none';
+  const info = (state.date && state.time) ? `${fmtDate(state.date)} ${state.time} ／ ${state.party}名 ／ ${state.seat}` : '日時を選択';
+  $('mbInfo').textContent = (state.date && state.time) ? `${fmtDate(state.date)} ${state.time} / ${state.party}名` : '日時を選択';
+  $('bookInlineNote').textContent = info;
+}
+
+// party stepper
+$('pMinus').addEventListener('click', ()=>{ if(state.party>1){state.party--;$('pVal').textContent=state.party+' 名';sync();} });
+$('pPlus').addEventListener('click', ()=>{ if(state.party<PARTY_MAX){state.party++;$('pVal').textContent=state.party+' 名';sync();} });
+// seats
+$('seats').addEventListener('click', e=>{
+  const b = e.target.closest('.seat'); if(!b) return;
+  document.querySelectorAll('.seat.sel').forEach(s=>s.classList.remove('sel'));
+  b.classList.add('sel'); state.seat = b.dataset.seat; sync();
+});
+$('prevMo').addEventListener('click', ()=>{ view=new Date(view.getFullYear(),view.getMonth()-1,1); renderCal(); });
+$('nextMo').addEventListener('click', ()=>{ view=new Date(view.getFullYear(),view.getMonth()+1,1); renderCal(); });
+$('cAgree').addEventListener('change', sync);
+$('cAgreePrivacy').addEventListener('change', sync);
+
+function setBtns(dis,label){ [$('bookBtn'),$('bookBtn2'),$('mbBook')].forEach(b=>{ if(!b)return; b.disabled=dis; if(label&&b.id!=='mbBook')b.textContent=label; }); }
+function showConfirm(no, nm){
+  const c = courseObj();
+  $('resNo').textContent = no || '—';
+  $('modalSum').innerHTML = `
+    <div class="r"><span>日時</span><span>${fmtDate(state.date)} ${state.time}</span></div>
+    <div class="r"><span>人数・席</span><span>${state.party}名 / ${state.seat}</span></div>
+    <div class="r"><span>プレート</span><span>${c?stripParen(c.name):'未選択'}</span></div>
+    <div class="r"><span>席料</span><span>${CHARGE_PER?'¥'+charge().toLocaleString():'無料'}</span></div>
+    <div class="r"><span>概算合計</span><span>${(c&&c.price)?'¥'+total().toLocaleString():(CHARGE_PER?'¥'+charge().toLocaleString()+'〜':'当日精算')}</span></div>
+    <div class="r"><span>お名前</span><span>${nm} 様</span></div>`;
+  $('overlay').classList.add('on');
+}
+function submit(){
+  if (!(state.date && state.time)) return;
+  const name = $('cName').value.trim();
+  const tel = $('cTel').value.trim();
+  const mail = $('cMail').value.trim();
+  if (!name || !tel || !mail){
+    $('cName').closest('.panel').scrollIntoView({behavior:'smooth',block:'center'});
+    if(!name) $('cName').focus(); else if(!tel) $('cTel').focus(); else $('cMail').focus();
+    [['cName',name],['cTel',tel],['cMail',mail]].forEach(([id,v])=>{
+      $(id).style.borderColor = v ? '' : 'var(--terracotta)';
+    });
+    return;
+  }
+  if (!$('cAgree').checked || !$('cAgreePrivacy').checked){
+    (!$('cAgree').checked ? $('cAgree') : $('cAgreePrivacy')).closest('.agree').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  if (API_BASE){
+    const ds = ymd(state.date);
+    setBtns(true, '送信中…');
+    fetch(API_BASE+'/api/reserve/book',{method:'POST',headers:{'content-type':'application/json'},
+      body:JSON.stringify({store:STORE,date:ds,time:state.time,party:state.party,seat:state.seat,course_id:state.course,name:name,tel:tel,email:mail,note:$('cNote').value.trim()})})
+    .then(async r=>{ const j=await r.json().catch(()=>({}));
+      if(r.ok){ showConfirm(j.res_no, name); delete slotCache[ds]; delete monthCache[ym(state.date)]; }
+      else { alert(j.error||'予約できませんでした'); if(r.status===409){ delete slotCache[ds]; await loadSlots(ds); renderSlots(); } }
+    }).catch(()=>alert('通信に失敗しました'))
+    .finally(()=>{ setBtns(false); sync(); });
+    return;
+  }
+  const no = RES_PREFIX + '-' + (state.date.getMonth()+1) + String(state.date.getDate()).padStart(2,'0')
+    + '-' + String(Math.floor(seeded(state.date.getFullYear(),state.date.getMonth(),state.date.getDate(), TIMES.indexOf(state.time))*9000+1000));
+  showConfirm(no, name);
+}
+$('bookBtn').addEventListener('click', submit);
+$('bookBtn2').addEventListener('click', submit);
+$('mbBook').addEventListener('click', ()=>{
+  if(!(state.date&&state.time)) return;
+  document.querySelector('.panel:last-of-type').scrollIntoView({behavior:'smooth',block:'start'});
+  setTimeout(submit, 350);
+});
+$('modalClose').addEventListener('click', ()=>$('overlay').classList.remove('on'));
+$('overlay').addEventListener('click', e=>{ if(e.target===$('overlay')) $('overlay').classList.remove('on'); });
+
+// course menu modal
+let menuShown = null;
+function openMenu(c){
+  menuShown = c;
+  $('mmImg').src = c.img;
+  $('mmName').textContent = c.name;
+  $('mmCount').textContent = c.count || '';
+  $('mmPrice').innerHTML = c.price ? '¥'+c.price.toLocaleString()+'<small>/名（税込）</small>' : '当日精算';
+  $('mmNote').textContent = c.note || '';
+  $('mmNote').style.display = c.note ? 'block' : 'none';
+  const list = $('mmList');
+  if (c.items.length){
+    list.classList.remove('empty');
+    list.innerHTML = c.items.map(i=>`<li>${i}</li>`).join('');
+  } else {
+    list.classList.add('empty');
+    list.innerHTML = '<li>メニューページから、その日のおすすめをご覧ください。</li>';
+  }
+  $('menuOverlay').classList.add('on');
+}
+$('mmClose').addEventListener('click', ()=>$('menuOverlay').classList.remove('on'));
+$('menuOverlay').addEventListener('click', e=>{ if(e.target===$('menuOverlay')) $('menuOverlay').classList.remove('on'); });
+$('mmPick').addEventListener('click', ()=>{
+  if (menuShown){
+    state.course = menuShown.id;
+    renderCourses(); sync();
+    document.querySelector('.course.sel')?.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  $('menuOverlay').classList.remove('on');
+});
+
+// apply selections passed from the top-page quick booker (?date=&time=&party=&seat=)
+function applyParams(){
+  const p = new URLSearchParams(location.search);
+  const ds = p.get('date');
+  if (ds && /^\d{4}-\d{2}-\d{2}$/.test(ds)){
+    const [y,m,d] = ds.split('-').map(Number);
+    const date = new Date(y, m-1, d);
+    const ok = date >= today && (date-today)/86400000 <= 60 && dayAvail(date) !== -1 && dayAvail(date) !== 2;
+    if (ok){ view = new Date(y, m-1, 1); state.date = date; }
+  }
+  const party = parseInt(p.get('party'), 10);
+  if (party >= 1 && party <= PARTY_MAX){ state.party = party; $('pVal').textContent = state.party+' 名'; }
+  const seat = p.get('seat');
+  if (seat && [...document.querySelectorAll('.seat')].some(b=>b.dataset.seat===seat)){
+    state.seat = seat;
+    document.querySelectorAll('.seat').forEach(b=>b.classList.toggle('sel', b.dataset.seat===seat));
+  }
+  if (state.date){
+    const ts = p.get('time');
+    const ti = TIMES.indexOf(ts);
+    if (ti >= 0 && slotLeft(state.date, ti) > 0) state.time = ts;
+  }
+}
+
+function renderSeats(){
+  const box=$('seats'); box.innerHTML='';
+  SEATS.forEach((s,i)=>{ const b=document.createElement('button'); b.className='seat'+(i===0?' sel':''); b.dataset.seat=s; b.textContent=s; box.appendChild(b); });
+  state.seat=SEATS[0];
+}
+renderSeats();
+applyParams();
+renderCal(); renderCourses();
+if (state.date) renderSlots();
+if (!LINE_ID && $('lineBtn')) $('lineBtn').style.display = 'none';
+if (API_BASE && $('lookupLink')){ $('lookupLink').href = `${API_BASE}/yoyaku/lookup?store=${encodeURIComponent(STORE)}`; }
+else if ($('lookupNote')){ $('lookupNote').style.display = 'none'; }
+sync();
+</script>
+
+</body>
+</html>

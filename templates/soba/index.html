@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>手打ち蕎麦 玄（げん）| 鎌倉・小町通り近くの手打ち蕎麦と天ぷら</title>
+<meta name="description" content="鎌倉、小町通りにほど近い一軒家の手打ち蕎麦店「玄」。石臼挽きの香り高い十割蕎麦と、注文をうけてから揚げる天ぷらを。ご予約はお電話・ネットから。">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@500;600;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#201d1a; --sumi:#17130f; --kinari:#f7f1e4; --paper:#f7f1e4;
+  --ai:#22405a; --ai-d:#16293a; --gold:#a3773c; --line:#e3d9c6;
+  --muted:#6b6455;
+  --font-head:"Zen Old Mincho",serif; --font-body:"Noto Sans JP",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--ink);background:var(--paper);line-height:1.85;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.mincho{font-family:var(--font-head)}
+img{display:block;width:100%;height:100%;object-fit:cover}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.section{padding:92px 0}
+.eyebrow{font-size:12px;letter-spacing:.34em;color:var(--ai);font-weight:700;margin-bottom:14px}
+.sec-title{font-size:30px;font-weight:700;letter-spacing:.04em;line-height:1.45;margin-bottom:8px}
+.sec-sub{color:var(--muted);font-size:14px;letter-spacing:.06em}
+.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.js .reveal{opacity:1;transform:none}}
+
+/* header */
+.head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:17px 24px;transition:background .4s,padding .4s,box-shadow .4s}
+.head.scrolled{background:rgba(247,241,228,.94);backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line);padding:12px 24px}
+.brand{display:flex;align-items:center;gap:11px;color:#fff;transition:color .4s}
+.head.scrolled .brand{color:var(--ink)}
+.brand .mark{width:38px;height:38px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-family:var(--font-head);font-weight:700;font-size:18px;flex:none}
+.brand b{font-family:var(--font-head);font-size:18px;font-weight:700;letter-spacing:.06em}
+.brand small{display:block;font-size:9px;letter-spacing:.24em;opacity:.8;font-family:var(--font-body)}
+.head-cta{display:flex;gap:10px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700;letter-spacing:.06em;
+  padding:12px 22px;border-radius:3px;transition:.25s;white-space:nowrap;cursor:pointer;min-height:44px}
+.btn-primary{background:var(--ai);color:#fff;box-shadow:0 6px 18px rgba(34,64,90,.34)}
+.btn-primary:hover{background:var(--ai-d);transform:translateY(-1px)}
+.btn-ghost{border:1.4px solid rgba(255,255,255,.6);color:#fff}
+.head.scrolled .btn-ghost{border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.head.scrolled .btn-ghost:hover{background:#ece3d0}
+
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;color:#fff;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:-2}
+.hero-bg img{transform:scale(1.06);animation:slowzoom 15s ease-out forwards}
+@keyframes slowzoom{to{transform:scale(1)}}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(12,14,17,.5) 0%,rgba(12,14,17,.16) 38%,rgba(12,14,17,.82) 100%)}
+.hero-inner{padding-bottom:72px;position:relative}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.3);
+  backdrop-filter:blur(6px);padding:7px 16px;border-radius:3px;font-size:12.5px;font-weight:500;letter-spacing:.04em;margin-bottom:24px}
+.badge .stars{color:#e0bd7e;letter-spacing:2px}
+.hero h1{font-family:var(--font-head);font-size:clamp(36px,7.6vw,72px);font-weight:700;line-height:1.28;letter-spacing:.04em;
+  text-shadow:0 2px 30px rgba(0,0,0,.4)}
+.hero p.lead{margin-top:20px;font-size:clamp(14.5px,2.2vw,17px);font-weight:400;max-width:520px;letter-spacing:.03em;line-height:1.9;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+.hero-actions{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.scroll-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.3em;opacity:.75;writing-mode:vertical-rl}
+
+/* strip */
+.strip{background:var(--sumi);color:#e7ddc9;padding:28px 0}
+.strip .wrap{display:flex;gap:14px;justify-content:space-around;flex-wrap:wrap;text-align:center}
+.strip .it b{font-family:var(--font-head);font-size:19px;display:block;color:#fff}
+.strip .it span{font-size:11.5px;letter-spacing:.14em;color:#9c927e}
+
+/* quick booker */
+.qbook{background:var(--paper);position:relative;z-index:5}
+.qbook .wrap{margin-top:-34px}
+.qb-card{background:#fff;border:1px solid var(--line);border-radius:4px;box-shadow:0 22px 50px rgba(20,18,14,.16);
+  display:grid;grid-template-columns:1.25fr 1fr .9fr 1.1fr auto;align-items:stretch;overflow:hidden}
+.qb-f{display:flex;flex-direction:column;justify-content:center;gap:5px;padding:15px 20px;border-right:1px solid var(--line)}
+.qb-f label{font-size:10.5px;letter-spacing:.16em;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:6px}
+.qb-f label svg{width:14px;height:14px;stroke:var(--ai);fill:none;stroke-width:1.8}
+.qb-f input,.qb-f select{border:none;background:transparent;font-family:var(--font-head);font-size:16px;color:var(--ink);padding:2px 0;width:100%}
+.qb-f input:focus,.qb-f select:focus{outline:none}
+.qb-f select{cursor:pointer}
+.qb-go{background:var(--ai);color:#fff;border:none;font-size:15px;font-weight:700;letter-spacing:.04em;
+  padding:0 30px;cursor:pointer;transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:8px;justify-content:center;min-height:44px}
+.qb-go:hover{background:var(--ai-d)}
+.qb-note{text-align:center;font-size:11.5px;color:var(--muted);margin-top:12px;letter-spacing:.04em}
+.qb-note b{color:var(--ai)}
+@media(max-width:820px){
+  .qbook .wrap{margin-top:-22px}
+  .qb-card{grid-template-columns:1fr 1fr}
+  .qb-f{border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .qb-f:nth-child(2n){border-right:none}
+  .qb-go{grid-column:1/-1;padding:16px}
+}
+@media(max-width:460px){
+  .qb-card{grid-template-columns:1fr}
+  .qb-f{border-right:none}
+}
+
+/* news */
+.news{padding:64px 0 8px}
+.news-head{display:flex;align-items:flex-start;gap:22px}
+.news-vert{writing-mode:vertical-rl;font-family:var(--font-head);font-size:15px;letter-spacing:.4em;color:var(--ai);
+  font-weight:700;flex:none;padding-top:2px}
+.news-list{flex:1;display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+.news-item{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:18px 4px;border-bottom:1px solid var(--line)}
+.news-item time{font-family:var(--font-head);font-size:13px;color:var(--muted);letter-spacing:.04em;padding-top:2px}
+.news-item h4{font-size:14.5px;font-weight:700;letter-spacing:.02em;margin-bottom:5px}
+.news-item p{font-size:13px;color:#5c5548;line-height:1.8}
+@media(max-width:640px){.news-item{grid-template-columns:1fr}.news-item time{padding-top:0}}
+
+/* about */
+.about{display:grid;grid-template-columns:1.05fr .95fr;gap:58px;align-items:center}
+.about-photos{position:relative;aspect-ratio:1/1}
+.about-photos .p1{position:absolute;width:72%;aspect-ratio:3/4;top:0;left:0;border-radius:2px;overflow:hidden;box-shadow:0 24px 50px rgba(20,18,14,.24)}
+.about-photos .p2{position:absolute;width:54%;aspect-ratio:1/1;bottom:0;right:0;border-radius:2px;overflow:hidden;border:6px solid var(--paper);box-shadow:0 20px 40px rgba(20,18,14,.22)}
+.about p.body{margin-top:20px;color:#4c463b;font-size:15px;line-height:2.1}
+.about .sign{margin-top:24px;font-family:var(--font-head);font-size:15px;color:var(--muted)}
+.about .sign b{font-size:21px;color:var(--ink);display:block;letter-spacing:.14em}
+
+/* features */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:46px}
+.feat{background:var(--paper);border:1px solid var(--line);border-radius:2px;padding:34px 26px;transition:.3s}
+.feat:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(20,18,14,.1);border-color:#d5c9ac}
+.feat .no{font-family:var(--font-head);font-size:13px;color:var(--gold);letter-spacing:.2em}
+.feat h3{font-family:var(--font-head);font-size:21px;margin:12px 0 10px;letter-spacing:.04em}
+.feat p{font-size:13.5px;color:#67604f;line-height:1.95}
+
+/* menu */
+.menu{background:var(--sumi);color:#e7ddc9}
+.menu .sec-title,.menu .eyebrow{color:#fff}.menu .eyebrow{color:#c9a468}
+.menu .sec-sub{color:#9c927e}
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:46px}
+.mitem{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:2px;overflow:hidden;transition:.3s}
+.mitem:hover{transform:translateY(-4px);border-color:rgba(201,164,104,.5)}
+.mi-photo{aspect-ratio:4/3;overflow:hidden}
+.mi-photo img{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.mitem:hover .mi-photo img{transform:scale(1.06)}
+.mi-body{padding:16px 18px 18px}
+.mi-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.mitem h4{font-family:var(--font-head);font-size:17px;font-weight:600;letter-spacing:.03em}
+.mitem .price{font-family:var(--font-head);color:#c9a468;font-size:16px;white-space:nowrap}
+.mitem p{font-size:12.5px;color:#a89e8b;margin-top:6px;line-height:1.7}
+.menu-note{text-align:center;margin-top:40px;font-size:12.5px;color:#93896f;letter-spacing:.08em}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:10px;margin-top:46px}
+.gallery div{overflow:hidden;border-radius:2px}
+.gallery img{transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.gallery div:hover img{transform:scale(1.08)}
+.gallery .tall{grid-row:span 2}.gallery .wide{grid-column:span 2}
+
+/* reviews */
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:46px}
+.rev-card{background:#fff;border:1px solid var(--line);border-radius:2px;padding:26px 24px;display:flex;flex-direction:column;gap:12px}
+.rev-stars{color:var(--gold);font-family:var(--font-head);font-size:14px;letter-spacing:2px;font-weight:700}
+.rev-card blockquote{font-size:13.5px;color:#4c463b;line-height:1.95;flex:1}
+.rev-card figcaption{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.rev-note{text-align:center;margin-top:26px;font-size:11.5px;color:var(--muted);letter-spacing:.08em}
+
+/* external links */
+.ext-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.ext-link{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;letter-spacing:.06em;
+  padding:11px 18px;border-radius:3px;border:1.4px solid var(--line);color:var(--ink);transition:.25s;background:#fff;min-height:44px}
+.ext-link:hover{border-color:var(--ai);color:var(--ai);transform:translateY(-1px)}
+.ext-link svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+
+/* reserve */
+.reserve{background:linear-gradient(180deg,#f7f1e4,#efe6d0)}
+.reserve-card{display:grid;grid-template-columns:1.1fr 1fr;gap:0;border-radius:4px;overflow:hidden;
+  box-shadow:0 30px 70px rgba(20,18,14,.16);background:#fff;margin-top:46px}
+.reserve-info{padding:46px 44px}
+.reserve-info h3{font-family:var(--font-head);font-size:24px;letter-spacing:.04em}
+.hours{margin:24px 0;border-top:1px solid var(--line)}
+.hours .row{display:flex;justify-content:space-between;padding:11px 2px;border-bottom:1px solid var(--line);font-size:14px}
+.hours .row span:first-child{color:var(--muted);letter-spacing:.08em}
+.hours .row b{font-weight:500}
+.tel-big{display:flex;align-items:center;gap:14px;margin-top:6px}
+.tel-big .ic{width:46px;height:46px;border-radius:50%;background:#eef1ef;display:grid;place-items:center;flex:none}
+.tel-big .n{font-family:var(--font-head);font-size:27px;letter-spacing:.04em;line-height:1.1}
+.tel-big small{display:block;font-size:11px;color:var(--muted);letter-spacing:.16em}
+.reserve-photo{position:relative}
+.reserve-photo .ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(14,12,10,.62));display:flex;align-items:flex-end;padding:32px}
+.reserve-photo .ov a{width:100%;justify-content:center;font-size:15px;padding:16px}
+
+/* contact */
+.contact{background:var(--sumi);color:#e7ddc9}
+.contact .eyebrow{color:#c9a468}.contact .sec-title{color:#fff}
+.contact .lead{text-align:center;color:#9c927e;font-size:14px;margin-top:6px}
+.contact-cta{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:820px;margin:34px auto 0}
+.cc-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:32px 22px;border-radius:4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);transition:.25s}
+.cc-card:hover{background:rgba(255,255,255,.1);transform:translateY(-4px);border-color:#c9a468}
+.cc-ic{width:50px;height:50px;border-radius:50%;background:rgba(201,164,104,.16);display:grid;place-items:center;margin-bottom:4px}
+.cc-ic svg{width:24px;height:24px;stroke:#d4b483;fill:none;stroke-width:1.8}
+.cc-label{font-size:12px;color:#9c927e;letter-spacing:.1em}
+.cc-main{font-family:var(--font-head);font-size:21px;color:#fff;letter-spacing:.04em}
+.cc-card.alt .cc-main{color:#c9a468}
+.cc-card.line .cc-main{color:#7fd99a}
+.cc-sub{font-size:11.5px;color:#8c8271;line-height:1.6}
+@media(max-width:680px){.contact-cta{grid-template-columns:1fr}}
+
+/* access */
+.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:46px;align-items:center}
+.access dl{display:grid;grid-template-columns:84px 1fr;gap:14px 18px;font-size:14.5px}
+.access dt{color:var(--muted);font-weight:500;letter-spacing:.08em}
+.access dd{line-height:1.7}
+.map{border-radius:2px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:#e6ded0}
+.map iframe{width:100%;height:100%;border:0;filter:grayscale(.25) contrast(1.02)}
+
+/* footer */
+footer{background:var(--ink);color:#c2b9a8;padding:64px 0 120px;text-align:center}
+footer .fb{display:flex;align-items:center;gap:12px;justify-content:center;color:#fff;margin-bottom:18px}
+footer .fb .mark{width:42px;height:42px;border-radius:50%;border:1.5px solid #fff;display:grid;place-items:center;font-family:var(--font-head);font-size:20px}
+footer .fb b{font-family:var(--font-head);font-size:21px;letter-spacing:.1em}
+footer .fnav{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;font-size:13px;margin:20px 0;letter-spacing:.08em}
+footer .fnav a:hover{color:#fff}
+footer .cp{font-size:11px;color:#9c9080;letter-spacing:.1em;margin-top:24px}
+
+/* mobile sticky bar */
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;gap:0;background:#fff;box-shadow:0 -4px 20px rgba(0,0,0,.12)}
+.mbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:12px 0;font-size:12px;font-weight:700;letter-spacing:.06em;min-height:56px}
+.mbar a.call{color:var(--ink)}
+.mbar a.book{background:var(--ai);color:#fff}
+.mbar svg{width:19px;height:19px}
+
+@media(max-width:860px){
+  .section{padding:64px 0}
+  .head-cta .btn-ghost{display:none}
+  .about,.reserve-card,.access-grid{grid-template-columns:1fr}
+  .about-photos{aspect-ratio:4/3;width:100%;max-width:420px;margin:0 auto}
+  .feat-grid{grid-template-columns:1fr;gap:16px}
+  .menu-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .rev-grid{grid-template-columns:1fr;gap:14px}
+  .gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px}
+  .reserve-photo{min-height:260px}
+  .sec-title{font-size:24px}
+  .mbar{display:flex}
+  body{padding-bottom:0}
+  .head-cta .btn-primary{padding:11px 17px}
+  .news-vert{display:none}
+}
+@media(max-width:520px){
+  .gallery .wide{grid-column:span 2}.gallery .tall{grid-row:span 1}
+  .menu-grid{grid-template-columns:1fr}
+  .strip .wrap{gap:18px}
+}
+</style>
+<style>:root{--ai:#22405a;--ai-d:#16293a;--paper:#f7f1e4;--ink:#201d1a;--font-head:"Zen Old Mincho",serif;--font-body:"Noto Sans JP",sans-serif}</style>
+
+
+</head>
+<body>
+
+<header class="head" id="head">
+  <a href="#top" class="brand">
+    <span class="mark">玄</span>
+    <span><b>手打ち蕎麦 玄</b><small>GEN SOBA KAMAKURA</small></span>
+  </a>
+  <nav class="head-cta">
+    <a href="#reserve" class="btn btn-ghost">店舗情報</a>
+    <a href="reserve.html" class="btn btn-primary">ご予約</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-bg"><img src="https://images.unsplash.com/photo-1757822787825-3f213709eea3?q=80&w=1600&auto=format&fit=crop" alt=""></div>
+  <div class="wrap hero-inner">
+    <div class="badge"><span class="stars">★★★★★</span> Google口コミ 4.8（203件） ・ 鎌倉／小町通り</div>
+    <h1>石臼の香り、<br>一杯に込めて。</h1>
+    <p class="lead">毎朝挽く石臼十割蕎麦と、揚げたての天ぷら。<br>鎌倉の路地裏で、静かに蕎麦をたぐるひとときを。</p>
+    <div class="hero-actions">
+      <a href="reserve.html" class="btn btn-primary">ネットで予約する</a>
+      <a href="#menu" class="btn btn-ghost">お品書きを見る</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+<div class="strip">
+  <div class="wrap">
+    <div class="it"><b>1998</b><span>創業 / 鎌倉</span></div><div class="it"><b>石臼十割蕎麦</b><span>毎朝挽きたてを</span></div><div class="it"><b>天ぷら</b><span>注文後に揚げる</span></div><div class="it"><b>昼夜 二部制</b><span>売り切れ次第閉店</span></div>
+  </div>
+</div>
+
+<section class="qbook">
+  <div class="wrap">
+    <div class="qb-card">
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>ご希望日</label>
+        <input type="date" id="qbDate">
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>時間</label>
+        <select id="qbTime">
+          <option value="11:00">11:00</option><option value="11:30">11:30</option><option value="12:00">12:00</option><option value="12:30">12:30</option><option value="13:00">13:00</option><option value="13:30">13:30</option><option value="17:00">17:00</option><option value="17:30">17:30</option><option value="18:00">18:00</option><option value="18:30">18:30</option><option value="19:00">19:00</option><option value="19:30">19:30</option>
+        </select>
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>人数</label>
+        <select id="qbParty">
+          <option value="1">1名</option><option value="2" selected>2名</option><option value="3">3名</option><option value="4">4名</option>
+          <option value="5">5名</option><option value="6">6名</option><option value="7">7名</option><option value="8">8名</option>
+        </select>
+      </div>
+      <div class="qb-f">
+        <label><svg viewBox="0 0 24 24"><path d="M3 10h18M5 10V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3M5 10v8M19 10v8M5 18h14"/></svg>お席</label>
+        <select id="qbSeat">
+          <option>おまかせ</option><option>テーブル</option><option>座敷</option>
+        </select>
+      </div>
+      <button class="qb-go" id="qbGo">
+        空席を見て予約
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+    <p class="qb-note">火・水定休 ・ <b>24時間</b>ネット予約OK ／ 次の画面で空席を確認できます</p>
+  </div>
+</section>
+
+<section class="news">
+  <div class="wrap">
+    <div class="news-head reveal">
+      <span class="news-vert">お知らせ</span>
+      <div class="news-list">
+        <div class="news-item"><time>2026.06.15</time><div><h4>夏季メニュー「冷やし鴨せいろ」始めました</h4><p>合鴨の旨みを効かせた冷たいつけ汁で、夏らしくさっぱりと。数量限定でご用意しております。</p></div></div><div class="news-item"><time>2026.05.01</time><div><h4>ゴールデンウィーク期間中の営業について</h4><p>5月3日〜5月6日は昼夜通し営業（11:00〜20:00、L.O.19:30）とさせていただきます。混雑が予想されますので、ご予約をおすすめします。</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap about">
+    <div class="about-photos reveal">
+      <div class="p1"><img src="https://images.unsplash.com/photo-1632790929202-a79cd10d9076?q=80&w=900&auto=format&fit=crop" alt=""></div>
+      <div class="p2"><img src="https://images.unsplash.com/photo-1698239307081-375b3f3da4c0?q=80&w=700&auto=format&fit=crop" alt=""></div>
+    </div>
+    <div class="reveal">
+      <div class="eyebrow">ABOUT US</div>
+      <h2 class="sec-title mincho">変わらぬ挽きたてと、<br>その日の天ぷらを。</h2>
+      <p class="body">玄は、鎌倉の路地裏で二十八年。<br>毎朝、石臼でゆっくりと挽く蕎麦粉を、その日のうちに打ち切ります。<br>天ぷらはご注文をうけてから、一枚ずつ揚げる。<br>手間を惜しまず、たぐる一杯に向き合う時間を大切にしています。</p>
+      <div class="sign">店主<b>藤原 玄一郎</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0" id="feature">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow">OUR PROMISE</div>
+      <h2 class="sec-title mincho">玄の、三つの約束</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal"><div class="no">— 壱 —</div><h3>石臼挽きの十割蕎麦</h3><p>毎朝、石臼でじっくり挽く蕎麦粉だけで打つ十割蕎麦。香りと喉ごしを、打ちたてでお楽しみください。</p></div><div class="feat reveal"><div class="no">— 弐 —</div><h3>注文後に揚げる天ぷら</h3><p>天ぷらは一枚ずつ、ご注文をうけてから。素材の水分を残したまま、からりと軽く揚げ上げます。</p></div><div class="feat reveal"><div class="no">— 参 —</div><h3>売り切れ次第、店じまい</h3><p>その日打てる量だけをご用意しております。蕎麦がなくなり次第、営業を終えることがございます。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section menu" id="menu">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow">OSHINAGAKI</div>
+      <h2 class="sec-title mincho">お品書き</h2>
+      <p class="sec-sub">— 石臼挽き、打ちたてより —</p>
+    </div>
+    <div class="menu-grid">
+      <div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1753505359066-373689a96793?q=80&w=600&auto=format&fit=crop" alt="せいろ" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>せいろ</h4><span class="price">¥900</span></div><p>石臼挽き十割蕎麦を、辛口の返しでシンプルに。まずは一枚、香りだけで。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1747223695587-35e56c6492f3?q=80&w=600&auto=format&fit=crop" alt="鴨せいろ" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>鴨せいろ</h4><span class="price">¥1,700</span></div><p>合鴨の脂を溶かし込んだ温かいつけ汁で。冬の看板メニューです。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1666599207746-0868c6a556d2?q=80&w=600&auto=format&fit=crop" alt="天せいろ" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>天せいろ</h4><span class="price">¥1,900</span></div><p>海老と季節野菜、揚げたて天ぷら付きの一番人気。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1535924571710-4c6e27716b6d?q=80&w=600&auto=format&fit=crop" alt="天ぷら盛り合わせ" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>天ぷら盛り合わせ</h4><span class="price">¥1,400</span></div><p>海老・キス・季節野菜。塩でも、天つゆでもどうぞ。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1558985212-324add95595a?q=80&w=600&auto=format&fit=crop" alt="きのこおろし肉うどん" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>きのこおろし肉うどん</h4><span class="price">¥1,300</span></div><p>自家製うどんに、きのこと大根おろし、牛肉を添えて。</p></div></div><div class="mitem reveal"><div class="mi-photo"><img src="https://images.unsplash.com/photo-1756260853158-a63f71b4bff6?q=80&w=600&auto=format&fit=crop" alt="蕎麦前 三品と利き酒" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="mi-body"><div class="mi-top"><h4>蕎麦前 三品と利き酒</h4><span class="price">¥1,200</span></div><p>だし巻き・板わさ・季節の一品に、利き酒3種を添えて。</p></div></div>
+    </div>
+    <p class="menu-note">表示は税込価格です ・ 蕎麦がなくなり次第、営業を終了いたします</p>
+  </div>
+</section>
+
+<section class="section" id="gallery">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow">GALLERY</div>
+      <h2 class="sec-title mincho">打ち場と、器と。</h2>
+    </div>
+    <div class="gallery reveal">
+      <div class="tall"><img src="https://images.unsplash.com/photo-1745813083408-efae3cd6c0f3?q=80&w=700&auto=format&fit=crop" alt=""></div><div class="wide"><img src="https://images.unsplash.com/photo-1756831567129-a7f9e6ecb436?q=80&w=900&auto=format&fit=crop" alt=""></div><div class=""><img src="https://images.unsplash.com/photo-1757829316604-cdb3c7980774?q=80&w=500&auto=format&fit=crop" alt=""></div><div class=""><img src="https://images.unsplash.com/photo-1759300633680-4a77409fd5e9?q=80&w=500&auto=format&fit=crop" alt=""></div><div class="wide"><img src="https://images.unsplash.com/photo-1759310707568-c97410615c97?q=80&w=900&auto=format&fit=crop" alt=""></div><div class=""><img src="https://images.unsplash.com/photo-1753164726043-31e583f8a9b8?q=80&w=500&auto=format&fit=crop" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="reviews" style="padding-top:0">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow">VOICE</div>
+      <h2 class="sec-title mincho">お客さまの声</h2>
+      <p class="sec-sub">Googleの口コミより （2026年6月時点）</p>
+    </div>
+    <div class="rev-grid">
+      <figure class="rev-card reveal">
+        <div class="rev-stars">★ 5</div>
+        <blockquote>蕎麦の香りが別格でした。鴨せいろのつけ汁も濃厚で、寒い日にはたまりません。天ぷらも揚げたてでサクサクでした。</blockquote>
+        <figcaption>H. Kondo さん</figcaption>
+      </figure><figure class="rev-card reveal">
+        <div class="rev-stars">★ 5</div>
+        <blockquote>石臼挽きというだけあって香りが強く、そばつゆも辛口で好みでした。鎌倉散策の合間にふらっと寄れる立地も良いです。</blockquote>
+        <figcaption>Y. Nakada さん</figcaption>
+      </figure><figure class="rev-card reveal">
+        <div class="rev-stars">★ 4</div>
+        <blockquote>売り切れ御免なので早めの時間がおすすめです。店内は静かで落ち着いており、一人でも入りやすい雰囲気でした。</blockquote>
+        <figcaption>R. Aoki さん</figcaption>
+      </figure>
+    </div>
+    <p class="rev-note">出典：Google マップの口コミ</p>
+  </div>
+</section>
+
+<section class="section reserve" id="reserve">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow">RESERVATION</div>
+      <h2 class="sec-title mincho">ご予約・店舗情報</h2>
+    </div>
+    <div class="reserve-card reveal">
+      <div class="reserve-info">
+        <h3>お席のご予約</h3>
+        <div class="hours">
+          <div class="row"><span>昼</span><b>11:00 – 15:00（そばがなくなり次第終了）</b></div><div class="row"><span>夜</span><b>17:00 – 20:00（L.O. 19:30）</b></div><div class="row"><span>定休日</span><b>火曜日・水曜日</b></div><div class="row"><span>席数</span><b>テーブル14席 / 座敷8席</b></div><div class="row"><span>ご利用</span><b>各種カード・電子マネー可</b></div>
+        </div>
+        <div class="tel-big">
+          <span class="ic">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="stroke:var(--ai)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <a href="tel:0467000000"><span class="n">0467-00-0000</span><small>ご予約・お問い合わせ</small></a>
+        </div>
+        <a href="reserve.html" class="btn btn-primary" style="margin-top:22px;width:100%;justify-content:center;padding:15px">空席を見てネット予約</a>
+      </div>
+      <div class="reserve-photo">
+        <img src="https://images.unsplash.com/photo-1754394470166-788cd0f2f4b3?q=80&w=800&auto=format&fit=crop" alt="">
+        <div class="ov"><a href="tel:0467000000" class="btn btn-primary">電話で予約する</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="access" style="padding-top:0">
+  <div class="wrap">
+    <div class="access-grid">
+      <div class="access reveal">
+        <div class="eyebrow">ACCESS</div>
+        <h2 class="sec-title mincho">アクセス</h2>
+        <dl style="margin-top:24px">
+          <dt>住所</dt><dd>〒248-0006<br>神奈川県鎌倉市小町2-3-4</dd>
+          <dt>最寄り</dt><dd>JR横須賀線・江ノ電「鎌倉駅」東口より徒歩6分</dd>
+          <dt>駐車場</dt><dd>専用駐車場なし（近隣コインパーキングをご利用ください）</dd>
+          <dt>電話</dt><dd><a href="tel:0467000000" style="color:var(--ai);font-weight:700">0467-00-0000</a></dd>
+        </dl>
+        <div class="ext-links">
+          <a class="ext-link" href="https://tabelog.com/kanagawa/A1404/A140401/00000000/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/></svg>食べログ</a>
+          <a class="ext-link" href="https://www.instagram.com/gen_soba_kamakura/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>Instagram</a>
+          <a class="ext-link" href="https://www.google.com/maps?q=%E9%8E%8C%E5%80%89%E9%A7%85" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Google マップ</a>
+        </div>
+      </div>
+      <div class="map reveal">
+        <iframe src="https://www.google.com/maps?q=%E9%8E%8C%E5%80%89%E9%A7%85&output=embed" loading="lazy" title="地図"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact" id="contact">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow">CONTACT</div>
+      <h2 class="sec-title mincho">ご予約・お問い合わせ</h2>
+      <p class="lead">ご予約は24時間ネット予約から。貸切・お問い合わせはお電話でお気軽にどうぞ。</p>
+    </div>
+    <div class="contact-cta reveal">
+      <a href="tel:0467000000" class="cc-card">
+        <span class="cc-ic"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+        <span class="cc-label">お電話でのお問い合わせ</span>
+        <span class="cc-main">0467-00-0000</span>
+        <span class="cc-sub">受付 11:00–20:00 ／ 火・水定休</span>
+      </a>
+      <a href="reserve.html" class="cc-card alt">
+        <span class="cc-ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+        <span class="cc-label">ネットでのご予約</span>
+        <span class="cc-main">24時間 ネット予約</span>
+        <span class="cc-sub">空席を見ながら、その場で予約完了</span>
+      </a>
+      
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fb"><span class="mark">玄</span><b>手打ち蕎麦 玄</b></div>
+    <nav class="fnav">
+      <a href="#about">店について</a><a href="#menu">お品書き</a><a href="#gallery">ギャラリー</a><a href="#access">アクセス</a><a href="#contact">お問い合わせ</a>
+    </nav>
+    <p class="cp">© 2026 GEN SOBA KAMAKURA. ※これは制作デモ用のサンプルサイトです（口コミ・数値もサンプル）。</p>
+  </div>
+</footer>
+
+<nav class="mbar">
+  <a href="tel:0467000000" class="call">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    電話する
+  </a>
+  <a href="reserve.html" class="book">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    ネット予約
+  </a>
+</nav>
+
+<script>
+document.documentElement.classList.add('js');
+const head=document.getElementById('head');
+addEventListener('scroll',()=>head.classList.toggle('scrolled',scrollY>40));
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.16});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+const qbDate=document.getElementById('qbDate');
+const now=new Date();
+const local=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);
+qbDate.min=local; qbDate.value=local;
+document.getElementById('qbGo').addEventListener('click',()=>{
+  const p=new URLSearchParams();
+  if(qbDate.value)p.set('date',qbDate.value);
+  p.set('time',document.getElementById('qbTime').value);
+  p.set('party',document.getElementById('qbParty').value);
+  p.set('seat',document.getElementById('qbSeat').value);
+  location.href='reserve.html?'+p.toString();
+});
+</script>
+
+</body>
+</html>

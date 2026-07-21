@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>hinata coffee & bake｜蔵前の自家焙煎コーヒーと焼きたてパン</title>
+<meta name="description" content="東京・蔵前の自家焙煎コーヒーと焼きたてパンのカフェ「hinata coffee & bake」。朝8時から、ゆっくり過ごせる席とテイクアウト。ご予約はネット・お電話から。">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@500;600;700&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#fbf6ee; --cream-2:#f3ead9;
+  --milk-brown:#7a5640; --milk-brown-d:#5d4030;
+  --matcha:#a7bd8f; --milktea:#d8b88a; --terracotta:#d98c6a;
+  --ink:#4a3b30; --muted:#9a8775; --line:#ece0cf;
+  --ease-pop:cubic-bezier(.34,1.56,.64,1);
+  --font-head:"Baloo 2","Noto Sans JP",cursive; --font-body:"Quicksand","Noto Sans JP",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;overflow-x:hidden;background:var(--cream);color:var(--ink);
+  font-family:var(--font-body);font-weight:500;line-height:1.8;-webkit-font-smoothing:antialiased}
+img{object-fit:cover;display:block;max-width:100%}
+h1,h2,h3{font-family:var(--font-head);font-weight:800;line-height:1.25;margin:0;color:var(--milk-brown-d)}
+a{color:inherit;text-decoration:none}
+.serif{font-family:"DM Serif Display",serif;font-style:italic}
+.wrap{width:min(1180px,92vw);margin:0 auto}
+section{position:relative}
+
+/* header */
+header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;
+  padding:18px clamp(18px,5vw,54px);transition:background .5s var(--ease-pop),box-shadow .5s,padding .4s}
+header.solid{background:rgba(251,246,238,.86);backdrop-filter:blur(12px);box-shadow:0 8px 30px rgba(122,86,64,.12);padding-top:12px;padding-bottom:12px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--font-head);font-weight:800;font-size:1.35rem;color:var(--milk-brown-d)}
+.logo .dot{width:34px;height:34px;border-radius:50%;background:var(--terracotta);display:grid;place-items:center;color:#fff;font-size:1.1rem;box-shadow:0 4px 0 rgba(122,86,64,.25);flex:none}
+.logo small{display:block;font-size:.6rem;font-weight:600;letter-spacing:.18em;color:var(--milk-brown);font-family:var(--font-body)}
+nav{display:flex;gap:26px;align-items:center}
+nav a{font-weight:700;font-size:.95rem;color:var(--milk-brown);transition:color .3s,transform .3s var(--ease-pop)}
+nav a:hover{color:var(--terracotta);transform:translateY(-2px)}
+.nav-cta{background:var(--milk-brown);color:#fff !important;padding:10px 20px;border-radius:50px;box-shadow:0 6px 0 rgba(93,64,48,.35);transition:transform .35s var(--ease-pop),box-shadow .35s}
+.nav-cta:hover{transform:translateY(-3px) rotate(-2deg);box-shadow:0 10px 0 rgba(93,64,48,.3)}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:0;padding:8px}
+.burger span{width:26px;height:3px;border-radius:3px;background:var(--milk-brown)}
+
+.blob{position:absolute;border-radius:50%;filter:blur(2px);opacity:.55;pointer-events:none;z-index:0}
+@keyframes floaty{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-32px) scale(1.05)}}
+
+/* hero */
+.hero{height:100vh;min-height:620px;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;animation:slowzoom 18s ease-in-out infinite alternate}
+@keyframes slowzoom{0%{transform:scale(1.05)}100%{transform:scale(1.22)}}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,rgba(251,246,238,.94) 0%,rgba(251,246,238,.7) 38%,rgba(251,246,238,.15) 70%,rgba(122,86,64,.1) 100%)}
+.hero .wrap{position:relative;z-index:3}
+.hero-eyebrow{display:inline-block;background:var(--matcha);color:#fff;font-weight:700;font-size:.8rem;letter-spacing:.14em;padding:7px 16px;border-radius:50px;transform:rotate(-2deg);box-shadow:0 5px 0 rgba(122,86,64,.18)}
+.hero h1{font-size:clamp(2.6rem,7vw,5.2rem);margin:18px 0 6px;letter-spacing:-.01em;
+  opacity:0;transform:translateY(40px) rotate(-2deg);animation:bounceIn .8s .15s var(--ease-pop) forwards}
+@keyframes bounceIn{to{opacity:1;transform:none}}
+.hero p.lead{font-size:clamp(1rem,1.6vw,1.2rem);max-width:32ch;color:var(--milk-brown);font-weight:600;margin:14px 0 30px;opacity:0;animation:fadeUp .8s .7s var(--ease-pop) forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;opacity:0;animation:fadeUp .8s .85s var(--ease-pop) forwards}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--font-head);font-weight:700;font-size:1rem;padding:15px 30px;border-radius:50px;cursor:pointer;border:0;transition:transform .4s var(--ease-pop),box-shadow .4s}
+.btn-primary{background:var(--milk-brown);color:#fff;box-shadow:0 8px 0 rgba(93,64,48,.4)}
+.btn-primary:hover{transform:translateY(-4px) rotate(-1.5deg);box-shadow:0 12px 0 rgba(93,64,48,.35)}
+.btn-ghost{background:#fff;color:var(--milk-brown);box-shadow:0 8px 0 rgba(122,86,64,.18)}
+.btn-ghost:hover{transform:translateY(-4px) rotate(1.5deg)}
+
+.stamp{position:absolute;z-index:4;width:130px;height:130px;animation:spin 14s linear infinite}
+.stamp.hero-stamp{right:7vw;bottom:13vh}
+@keyframes spin{to{transform:rotate(360deg)}}
+.stamp svg{width:100%;height:100%}
+.stamp .center{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--font-head);font-weight:800;color:var(--milk-brown-d);font-size:1.5rem;animation:spin 14s linear infinite reverse}
+
+.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;font-size:.75rem;font-weight:700;letter-spacing:.2em;color:var(--milk-brown);display:flex;flex-direction:column;align-items:center;gap:8px}
+.scroll-hint .line{width:2px;height:34px;background:var(--milk-brown);border-radius:2px;animation:floaty 1.8s ease-in-out infinite}
+
+.reveal{opacity:0;transform:translateY(48px) scale(.97);transition:opacity .7s var(--ease-pop),transform .7s var(--ease-pop)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.1s}
+.reveal.d2{transition-delay:.2s}
+
+.tag{display:inline-block;font-family:var(--font-body);font-weight:700;letter-spacing:.18em;font-size:.8rem;color:var(--terracotta);text-transform:uppercase;margin-bottom:10px}
+.sec-title{font-size:clamp(2rem,4.5vw,3.2rem);margin-bottom:14px}
+
+/* quick booker */
+.quickbar{margin-top:-60px;position:relative;z-index:6;padding:0 0 26px}
+.qb-card{background:#fff;border-radius:34px;box-shadow:0 26px 60px rgba(122,86,64,.2);padding:26px clamp(20px,3vw,34px);display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.qb-head{flex:1 1 100%;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.qb-head .tag{margin:0}
+.qb-head b{font-family:var(--font-head);font-weight:800;color:var(--milk-brown-d);font-size:1.05rem}
+.qb-field{display:flex;flex-direction:column;gap:7px;flex:1 1 130px}
+.qb-field label{font-size:.74rem;font-weight:700;letter-spacing:.04em;color:var(--milk-brown)}
+.qb-field input,.qb-field select{font-family:inherit;font-weight:600;font-size:.95rem;color:var(--ink);background:var(--cream);border:1px solid var(--line);border-radius:50px;padding:13px 16px;transition:.2s var(--ease-pop)}
+.qb-field input:focus,.qb-field select:focus{outline:none;border-color:var(--terracotta);box-shadow:0 0 0 3px rgba(217,140,106,.16)}
+.qb-go{flex:1 1 150px;background:var(--terracotta);color:#fff;font-family:var(--font-head);font-weight:700;font-size:1rem;padding:15px 24px;border-radius:50px;border:0;cursor:pointer;box-shadow:0 8px 0 rgba(93,64,48,.3);transition:transform .35s var(--ease-pop),box-shadow .35s}
+.qb-go:hover{transform:translateY(-3px) rotate(-1deg);box-shadow:0 11px 0 rgba(93,64,48,.26)}
+.qb-note{text-align:center;font-size:.75rem;color:var(--muted);font-weight:600;margin:12px 0 0}
+@media(max-width:680px){.quickbar{margin-top:-30px}.qb-field,.qb-go{flex:1 1 100%}}
+
+/* strip */
+.strip{padding:26px 0 0}
+.strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.strip .it{background:#fff;border-radius:22px;padding:18px 14px;text-align:center;box-shadow:0 12px 28px rgba(122,86,64,.1)}
+.strip .it b{font-family:var(--font-head);font-weight:800;font-size:1.25rem;color:var(--terracotta);display:block;line-height:1.3}
+.strip .it span{font-size:.78rem;color:var(--milk-brown);font-weight:700;letter-spacing:.06em}
+@media(max-width:680px){.strip .wrap{grid-template-columns:repeat(2,1fr)}}
+
+/* news */
+.news{padding:90px 0}
+.news-grid{max-width:760px;margin:40px auto 0;display:flex;flex-direction:column;gap:14px}
+.news-card{background:#fff;border-radius:20px;padding:22px 26px;box-shadow:0 10px 26px rgba(122,86,64,.1);display:grid;grid-template-columns:110px 1fr;gap:18px;align-items:baseline}
+.news-card time{font-weight:700;font-size:.82rem;letter-spacing:.1em;color:var(--terracotta)}
+.news-card h4{font-size:1.02rem;margin-bottom:4px}
+.news-card p{font-size:.86rem;color:var(--muted);line-height:1.8}
+@media(max-width:600px){.news-card{grid-template-columns:1fr;gap:4px}}
+
+/* about */
+.about{padding:120px 0}
+.about-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(30px,6vw,80px);align-items:center}
+.about p{color:var(--ink);font-weight:500;max-width:48ch}
+.about .sign{margin-top:22px;font-size:.85rem;color:var(--muted);font-weight:700}
+.about .sign b{display:block;font-family:var(--font-head);font-size:1.25rem;color:var(--milk-brown-d);letter-spacing:.06em}
+.about-imgs{position:relative}
+.about-imgs img{border-radius:34px;box-shadow:0 26px 50px rgba(122,86,64,.22)}
+.about-imgs .a1{width:78%;aspect-ratio:4/5}
+.about-imgs .a2{position:absolute;right:0;bottom:-34px;width:52%;aspect-ratio:1/1;border:8px solid var(--cream)}
+.about-imgs .stamp{position:absolute;left:-26px;top:-26px;width:104px;height:104px}
+.about-imgs .stamp .center{font-size:1.1rem}
+
+/* crafts (features) */
+.crafts{padding:40px 0}
+.craft{min-height:70vh;display:flex;align-items:center;padding:60px 0}
+.craft-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,70px);align-items:center}
+.craft:nth-child(even) .craft-grid{direction:rtl}
+.craft:nth-child(even) .craft-grid>*{direction:ltr}
+.craft .num{font-family:"DM Serif Display";font-style:italic;font-size:5rem;color:var(--milktea);line-height:.8}
+.craft h2{font-size:clamp(1.8rem,4vw,2.8rem);margin:6px 0 14px}
+.craft p{max-width:46ch;color:var(--ink)}
+.craft-img{border-radius:36px;aspect-ratio:5/4;width:100%;box-shadow:0 24px 48px rgba(122,86,64,.2)}
+
+/* menu */
+.menu{padding:60px 0 110px}
+.menu-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:18px;margin-bottom:34px}
+.menu-head .hint{font-weight:700;color:var(--milk-brown);font-size:.85rem;display:flex;align-items:center;gap:8px}
+.carousel{display:flex;gap:24px;overflow-x:auto;padding:18px 4px 34px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.carousel::-webkit-scrollbar{height:8px}
+.carousel::-webkit-scrollbar-thumb{background:var(--milktea);border-radius:10px}
+.carousel::-webkit-scrollbar-track{background:var(--cream-2);border-radius:10px}
+.mcard{scroll-snap-align:center;flex:0 0 300px;background:#fff;border-radius:30px;overflow:hidden;box-shadow:0 16px 36px rgba(122,86,64,.14);transition:transform .5s var(--ease-pop),box-shadow .5s}
+.mcard:hover{transform:translateY(-14px) rotate(-1.5deg);box-shadow:0 30px 56px rgba(122,86,64,.24)}
+.mcard .mphoto{height:200px;position:relative;overflow:hidden}
+.mcard .mphoto img{width:100%;height:100%;transition:transform .7s var(--ease-pop)}
+.mcard:hover .mphoto img{transform:scale(1.1)}
+.mcard .badge{position:absolute;top:12px;left:12px;background:var(--matcha);color:#fff;font-weight:700;font-size:.72rem;padding:5px 12px;border-radius:50px}
+.mcard .badge:empty{display:none}
+.mcard .body{padding:20px 22px 24px}
+.mcard h3{font-size:1.25rem;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.mcard h3 .price{font-family:"DM Serif Display";font-style:normal;color:var(--terracotta);font-size:1.2rem;white-space:nowrap}
+.mcard p{font-size:.88rem;color:var(--milk-brown);margin:8px 0 0;font-weight:500}
+.menu-note{text-align:center;font-size:.8rem;color:var(--muted);font-weight:600;margin-top:6px}
+
+/* gallery */
+.gallery{padding:60px 0 110px}
+.gal-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:170px;gap:16px}
+.gal-grid img{width:100%;height:100%;border-radius:22px;box-shadow:0 12px 28px rgba(122,86,64,.16);transition:transform .5s var(--ease-pop)}
+.gal-grid img:hover{transform:scale(1.04) rotate(1.5deg)}
+.gal-grid .big{grid-column:span 2;grid-row:span 2}
+.gal-grid .tall{grid-row:span 2}
+.gal-grid .wide{grid-column:span 2}
+
+/* reviews */
+.reviews{padding:0 0 110px}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px}
+.rev-card{margin:0;background:#fff;border-radius:26px;padding:28px 26px;display:flex;flex-direction:column;gap:12px;box-shadow:0 14px 32px rgba(122,86,64,.12)}
+.rev-stars{font-family:var(--font-head);font-weight:800;color:var(--terracotta);font-size:.95rem;letter-spacing:.08em}
+.rev-card blockquote{margin:0;font-size:.9rem;line-height:1.9;flex:1;color:var(--ink)}
+.rev-card figcaption{font-size:.78rem;color:var(--muted);font-weight:700;letter-spacing:.04em}
+.rev-note{text-align:center;margin-top:26px;font-size:.75rem;color:var(--muted);font-weight:600}
+
+/* reserve info */
+.reserve{padding:0 0 110px}
+.reserve-card{display:grid;grid-template-columns:1.1fr 1fr;border-radius:34px;overflow:hidden;background:#fff;box-shadow:0 26px 60px rgba(122,86,64,.18);margin-top:40px}
+.reserve-info{padding:44px 42px}
+.reserve-info h3{font-size:1.5rem}
+.rhours{margin:22px 0;border-top:1px solid var(--line)}
+.rhours .row{display:flex;justify-content:space-between;gap:14px;padding:11px 2px;border-bottom:1px solid var(--line);font-size:.9rem}
+.rhours .row span:first-child{color:var(--muted);font-weight:700;letter-spacing:.04em;flex:none}
+.rhours .row b{font-weight:600;color:var(--ink);text-align:right}
+.tel-big{display:flex;align-items:center;gap:14px;margin-top:8px}
+.tel-big .ic{width:48px;height:48px;border-radius:50%;background:var(--cream-2);display:grid;place-items:center;font-size:1.3rem;flex:none}
+.tel-big .n{font-family:"DM Serif Display";font-size:1.7rem;color:var(--milk-brown-d);line-height:1.1;display:block}
+.tel-big small{display:block;font-size:.7rem;color:var(--muted);font-weight:700;letter-spacing:.08em}
+.reserve-photo{position:relative;min-height:280px}
+.reserve-photo img{position:absolute;inset:0;width:100%;height:100%}
+.reserve-photo .ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(74,59,48,.55));display:flex;align-items:flex-end;padding:28px}
+.reserve-photo .ov a{width:100%;justify-content:center}
+
+/* access */
+.access{padding:100px 0;background:var(--milk-brown);color:#fff;border-radius:48px 48px 0 0;position:relative;overflow:hidden}
+.access h2,.access h3{color:#fff}
+.access .tag{color:var(--milktea)}
+.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,70px);align-items:center;position:relative;z-index:2}
+.info-row{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.18)}
+.info-row .ic{font-size:1.4rem;flex:0 0 auto}
+.info-row b{font-family:var(--font-head);font-size:1.05rem}
+.info-row span{display:block;color:rgba(255,255,255,.82);font-size:.92rem;font-weight:500}
+.ext-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.ext-link{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-weight:700;padding:10px 18px;border-radius:50px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.32);color:#fff;transition:.25s var(--ease-pop)}
+.ext-link:hover{background:#fff;color:var(--milk-brown);transform:translateY(-2px)}
+.map-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:30px;padding:30px;backdrop-filter:blur(4px)}
+.map-card .map{margin-top:20px;border-radius:20px;overflow:hidden;height:260px;background:var(--cream-2)}
+.map-card .map iframe{width:100%;height:100%;border:0}
+
+/* contact */
+.contact{padding:110px 0;text-align:center;position:relative;overflow:hidden}
+.contact h2{font-size:clamp(2.2rem,5.5vw,4rem);margin-bottom:10px}
+.contact p{color:var(--milk-brown);font-weight:600;max-width:36ch;margin:0 auto 26px}
+.phone-big{font-family:"DM Serif Display";font-style:normal;font-size:clamp(1.8rem,5vw,2.8rem);color:var(--milk-brown-d);display:inline-flex;align-items:center;gap:14px}
+.tel-hours{display:block;font-size:.8rem;color:var(--muted);font-weight:700;margin-top:8px}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+
+/* footer */
+footer{background:var(--milk-brown-d);color:rgba(255,255,255,.75);padding:60px 0 36px;font-size:.9rem}
+.foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:30px;margin-bottom:34px}
+footer .logo{color:#fff}
+footer .logo small{color:var(--milktea)}
+footer a:hover{color:#fff}
+.foot-links{display:flex;gap:26px;flex-wrap:wrap}
+.copy{border-top:1px solid rgba(255,255,255,.14);padding-top:22px;font-size:.78rem;color:rgba(255,255,255,.55)}
+
+/* mobile sticky bar */
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:90;display:none;background:#fff;box-shadow:0 -6px 24px rgba(122,86,64,.2)}
+.mbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:11px 0;font-family:var(--font-head);font-size:.8rem;font-weight:700;letter-spacing:.04em}
+.mbar a .ic{font-size:1.15rem;line-height:1.2}
+.mbar a.call{color:var(--milk-brown-d)}
+.mbar a.book{background:var(--terracotta);color:#fff}
+
+@media(max-width:860px){
+  #nav{position:fixed;inset:0 0 0 auto;width:74vw;max-width:320px;flex-direction:column;justify-content:center;background:var(--cream);box-shadow:-20px 0 60px rgba(122,86,64,.2);transform:translateX(100%);transition:transform .5s var(--ease-pop);gap:30px;z-index:120}
+  #nav.open{transform:none}
+  #nav a{font-size:1.2rem}
+  .burger{display:flex;z-index:130}
+  .about-grid,.craft-grid,.access-grid,.reserve-card{grid-template-columns:1fr}
+  .craft:nth-child(even) .craft-grid{direction:ltr}
+  .craft{min-height:0}
+  .about-imgs{margin-top:30px}
+  .gal-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:140px}
+  .rev-grid{grid-template-columns:1fr}
+  .hero-stamp{width:100px;height:100px;right:5vw;bottom:9vh}
+  .access{border-radius:34px 34px 0 0}
+  .mbar{display:flex}
+  footer{padding-bottom:100px}
+}
+@media(max-width:520px){
+  .gal-grid .wide{grid-column:span 2}.gal-grid .tall{grid-row:span 1}
+}
+</style>
+<style>:root{--terracotta:#d98c6a;--milk-brown-d:#5d4030;--cream:#fbf6ee;--ink:#4a3b30;--font-head:"Baloo 2","Noto Sans JP",cursive;--font-body:"Quicksand","Noto Sans JP",sans-serif}</style>
+
+
+</head>
+<body>
+
+<header id="header">
+  <a href="#top" class="logo">
+    <span class="dot">☕</span>
+    <span>hinata<small>COFFEE & BAKE</small></span>
+  </a>
+  <nav id="nav">
+    <a href="#about">こだわり</a>
+    <a href="#menu">メニュー</a>
+    <a href="#gallery">ギャラリー</a>
+    <a href="#reserve">店舗情報</a>
+    <a href="#access">アクセス</a>
+    <a href="reserve.html" class="nav-cta">ネット予約</a>
+  </nav>
+  <button class="burger" id="burger" aria-label="メニュー"><span></span><span></span><span></span></button>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=1600&auto=format&fit=crop" alt="">
+  </div>
+  <div class="blob" data-depth="0.5" style="width:280px;height:280px;background:var(--matcha);top:8%;left:6%;animation:floaty 7s ease-in-out infinite"></div>
+  <div class="blob" data-depth="1.1" style="width:200px;height:200px;background:var(--terracotta);bottom:14%;left:42%;animation:floaty 9s ease-in-out infinite .5s"></div>
+  <div class="blob" data-depth="0.8" style="width:150px;height:150px;background:var(--milktea);top:18%;right:24%;animation:floaty 6s ease-in-out infinite 1s"></div>
+
+  <div class="wrap">
+    <span class="hero-eyebrow">★ Google口コミ 4.8（126件） ・ 蔵前</span>
+    <h1>あさのひなたで、<br>ひと息。</h1>
+    <p class="lead">焼きたてのパンと、ていねいに淹れた一杯。朝8時から、ゆっくり過ごせるカフェです。</p>
+    <div class="hero-btns">
+      <a href="reserve.html" class="btn btn-primary">ネットで予約する</a>
+      <a href="#menu" class="btn btn-ghost">メニューを見る</a>
+    </div>
+  </div>
+
+  <div class="stamp hero-stamp">
+    <svg viewBox="0 0 200 200">
+      <defs><path id="circ" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"/></defs>
+      <circle cx="100" cy="100" r="92" fill="#fff"/>
+      <circle cx="100" cy="100" r="92" fill="none" style="stroke:var(--terracotta)" stroke-width="5" stroke-dasharray="3 8"/>
+      <text font-family="Baloo 2" font-weight="700" font-size="17" fill="#7a5640" letter-spacing="2.5">
+        <textPath href="#circ" startOffset="0%">★ COFFEE & BAKE ★ 蔵前 — </textPath>
+      </text>
+    </svg>
+    <span class="center">☕</span>
+  </div>
+
+  <div class="scroll-hint"><span>SCROLL</span><span class="line"></span></div>
+</section>
+
+<!-- ===== QUICK BOOK ===== -->
+<section class="quickbar">
+  <div class="wrap">
+    <div class="qb-card reveal">
+      <div class="qb-head">
+        <span class="tag">Quick Reserve</span>
+        <b>かんたんネット予約 — 空席を見ながら24時間OK</b>
+      </div>
+      <div class="qb-field">
+        <label for="qbDate">日付</label>
+        <input type="date" id="qbDate">
+      </div>
+      <div class="qb-field">
+        <label for="qbTime">時間</label>
+        <select id="qbTime">
+          <option value="">指定なし</option>
+          <option value="08:00">08:00</option><option value="09:00">09:00</option><option value="10:00">10:00</option><option value="11:00">11:00</option><option value="12:00">12:00</option><option value="13:00">13:00</option><option value="14:00">14:00</option><option value="15:00">15:00</option><option value="16:00">16:00</option><option value="17:00">17:00</option>
+        </select>
+      </div>
+      <div class="qb-field">
+        <label for="qbParty">人数</label>
+        <select id="qbParty">
+          <option>1</option><option selected>2</option><option>3</option><option>4</option>
+          <option>5</option><option>6</option><option>7</option><option>8</option>
+        </select>
+      </div>
+      <div class="qb-field">
+        <label for="qbSeat">お席</label>
+        <select id="qbSeat">
+          <option>おまかせ</option><option>テーブル</option><option>カウンター</option><option>テラス</option>
+        </select>
+      </div>
+      <button class="qb-go" id="qbGo">空席を見る →</button>
+    </div>
+    <p class="qb-note">次の画面で空席を確認しながら、そのまま予約できます</p>
+  </div>
+</section>
+
+<!-- ===== STRIP ===== -->
+<div class="strip">
+  <div class="wrap">
+    <div class="it reveal"><b>8:00 OPEN</b><span>モーニングから</span></div><div class="it reveal"><b>自家焙煎</b><span>店内ロースター</span></div><div class="it reveal"><b>毎朝焼きたて</b><span>パンと焼き菓子</span></div><div class="it reveal"><b>テラス席</b><span>ペット同伴OK</span></div>
+  </div>
+</div>
+
+<!-- ===== NEWS ===== -->
+<section class="news" id="news">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <span class="tag">News</span>
+      <h2 class="sec-title">お知らせ</h2>
+    </div>
+    <div class="news-grid reveal d1">
+      <div class="news-card"><time>2026年6月5日</time><div><h4>新作の焼き菓子が入荷しました</h4><p>季節のフルーツを使った焼き菓子を数量限定でご用意しています。テイクアウトも可能です。</p></div></div><div class="news-card"><time>2026年5月1日</time><div><h4>営業時間変更のお知らせ</h4><p>5月より閉店時間を19:00に変更しました。ご来店の際はご注意ください。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="about" id="about">
+  <div class="blob" data-depth="0.6" style="width:240px;height:240px;background:var(--matcha);top:-40px;right:-60px;opacity:.35;animation:floaty 8s ease-in-out infinite"></div>
+  <div class="wrap about-grid">
+    <div class="reveal">
+      <span class="tag">About us</span>
+      <h2 class="sec-title">豆も、粉も、<br>手しごとから。</h2>
+      <p>hinata coffee & bake は、東京・蔵前の路地にある小さなカフェ。店の奥の小型焙煎機で少しずつ焼いた自家焙煎の豆と、毎朝こねて焼き上げるパンが自慢です。<br>木のぬくもりとやわらかな光に包まれた店内で、コーヒー片手にぼんやり過ごす時間を。テイクアウトのカップ片手に、隅田川沿いを散歩するのもおすすめです。</p>
+      <div class="sign">店主<b>日向 あかり</b></div>
+    </div>
+    <div class="about-imgs reveal d1">
+      <img class="a1" src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1600&auto=format&fit=crop" alt="">
+      <img class="a2" src="https://images.unsplash.com/photo-1559496417-e7f25cb247f3?q=80&w=1600&auto=format&fit=crop" alt="">
+      <div class="stamp">
+        <svg viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="92" fill="#a7bd8f"/>
+          <circle cx="100" cy="100" r="92" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="2 7"/>
+          <text font-family="Baloo 2" font-weight="700" font-size="18" fill="#fff" letter-spacing="2">
+            <textPath href="#circ" startOffset="0%">SINCE MORNING · HANDMADE · </textPath>
+          </text>
+        </svg>
+        <span class="center" style="color:#fff">🌱</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES (crafts) ===== -->
+<section class="crafts" id="feature">
+  <div class="craft">
+    <div class="wrap craft-grid">
+      <div class="reveal">
+        <div class="num">01</div>
+        <h2>その日に焼いた、<br>新鮮な豆を。</h2>
+        <p>店内の小型焙煎機で、少量ずつていねいに焙煎。鮮度のいい状態でお届けするため、注文ごとに豆を挽いて抽出しています。豆の販売もしています。</p>
+      </div>
+      <img class="craft-img reveal d1" src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=1600&auto=format&fit=crop" alt="" loading="lazy">
+    </div>
+  </div><div class="craft">
+    <div class="wrap craft-grid">
+      <div class="reveal">
+        <div class="num">02</div>
+        <h2>素材は、<br>シンプルに国産で。</h2>
+        <p>パンに使う小麦はできるかぎり国産を。素材の味が引き立つよう、余計なものは加えず、毎朝こねて焼き上げます。発酵にじっくり時間をかけるのがこだわりです。</p>
+      </div>
+      <img class="craft-img reveal d1" src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?q=80&w=1600&auto=format&fit=crop" alt="" loading="lazy">
+    </div>
+  </div><div class="craft">
+    <div class="wrap craft-grid">
+      <div class="reveal">
+        <div class="num">03</div>
+        <h2>ぜんぶ、<br>手づくりで。</h2>
+        <p>パンも焼き菓子も、デリのソースまで、できるかぎり手づくり。小さなお店だからこそ、ひとつひとつに目が届きます。きょうのおすすめは、ぜひスタッフに聞いてください。</p>
+      </div>
+      <img class="craft-img reveal d1" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1600&auto=format&fit=crop" alt="" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ===== MENU ===== -->
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="menu-head">
+      <div class="reveal">
+        <span class="tag">Our Menu</span>
+        <h2 class="sec-title">きょうの一杯と、ひと口。</h2>
+      </div>
+      <span class="hint reveal d1">← よこにスクロール →</span>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="carousel reveal">
+      <div class="mcard"><div class="mphoto"><span class="badge">人気</span><img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1600&auto=format&fit=crop" alt="ドリップコーヒー" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="body"><h3>ドリップコーヒー<span class="price">¥520</span></h3><p>自家焙煎の豆を一杯ずつハンドドリップ。日替わりの2種から選べます。</p></div></div><div class="mcard"><div class="mphoto"><span class="badge">定番</span><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1600&auto=format&fit=crop" alt="カフェラテ" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="body"><h3>カフェラテ<span class="price">¥580</span></h3><p>深煎りエスプレッソとミルクのバランス。ラテアートはバリスタにおまかせ。</p></div></div><div class="mcard"><div class="mphoto"><span class="badge">季節</span><img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=1600&auto=format&fit=crop" alt="抹茶ラテ" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="body"><h3>抹茶ラテ<span class="price">¥600</span></h3><p>京都産の抹茶をたっぷりと。やさしい甘さでほっとひと息つける一杯。</p></div></div><div class="mcard"><div class="mphoto"><span class="badge">焼きたて</span><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1600&auto=format&fit=crop" alt="クロワッサン" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="body"><h3>クロワッサン<span class="price">¥320</span></h3><p>バターの層がほろほろ。朝いちばんに焼き上がる看板パンです。</p></div></div><div class="mcard"><div class="mphoto"><span class="badge">自家製</span><img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=1600&auto=format&fit=crop" alt="自家製カンパーニュ" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="body"><h3>自家製カンパーニュ<span class="price">¥420</span></h3><p>国産小麦と自家製酵母でじっくり発酵。噛むほど香ばしいハード系。</p></div></div><div class="mcard"><div class="mphoto"><span class="badge">焼き菓子</span><img src="https://images.unsplash.com/photo-1626804475297-41608ea09aeb?q=80&w=1600&auto=format&fit=crop" alt="本日の焼き菓子" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="body"><h3>本日の焼き菓子<span class="price">¥360〜</span></h3><p>スコーンやパウンドケーキなど日替わりで。コーヒーのおともにどうぞ。</p></div></div><div class="mcard"><div class="mphoto"><span class="badge">ランチ</span><img src="https://images.unsplash.com/photo-1591814468924-caf88d1232e1?q=80&w=1600&auto=format&fit=crop" alt="ひなたランチプレート" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="body"><h3>ひなたランチプレート<span class="price">¥1,180</span></h3><p>自家製パン・スープ・デリ3種の日替わりプレート。ドリンク付き。</p></div></div>
+    </div>
+    <p class="menu-note">表示は税込価格です ・ パンと焼き菓子はテイクアウトできます（焼き上がり時間はSNSでお知らせ）</p>
+  </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center;margin-bottom:36px">
+      <span class="tag">Gallery</span>
+      <h2 class="sec-title">なにげない、店の一日。</h2>
+    </div>
+    <div class="gal-grid reveal d1">
+      <img class="big" src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?q=80&w=1600&auto=format&fit=crop" alt="" loading="lazy"><img class="" src="https://images.unsplash.com/photo-1428515613728-6b4607e44363?q=80&w=1600&auto=format&fit=crop" alt="" loading="lazy"><img class="tall" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1600&auto=format&fit=crop" alt="" loading="lazy"><img class="" src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?q=80&w=1600&auto=format&fit=crop" alt="" loading="lazy"><img class="" src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=1600&auto=format&fit=crop" alt="" loading="lazy"><img class="tall" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=1600&auto=format&fit=crop" alt="" loading="lazy"><img class="" src="https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1600&auto=format&fit=crop" alt="" loading="lazy"><img class="" src="https://images.unsplash.com/photo-1611270629569-8b357cb88da9?q=80&w=1600&auto=format&fit=crop" alt="" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ===== REVIEWS ===== -->
+<section class="reviews" id="reviews">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <span class="tag">Voice</span>
+      <h2 class="sec-title">お客さまの声</h2>
+      <p style="color:var(--muted);font-size:.85rem;font-weight:600;margin:0">Googleの口コミより （2026年6月時点）</p>
+    </div>
+    <div class="rev-grid">
+      <figure class="rev-card reveal">
+        <div class="rev-stars">★ 5</div>
+        <blockquote>クロワッサンとドリップコーヒーの組み合わせが最高でした。朝早くから開いているので、散歩の途中に立ち寄れるのがうれしいです。</blockquote>
+        <figcaption>A. Kimura さん</figcaption>
+      </figure><figure class="rev-card reveal">
+        <div class="rev-stars">★ 5</div>
+        <blockquote>ランチプレートのデリがどれも丁寧な味。店内が明るくて、ひとりでもゆっくり過ごせました。</blockquote>
+        <figcaption>S. Tanaka さん</figcaption>
+      </figure><figure class="rev-card reveal">
+        <div class="rev-stars">★ 4</div>
+        <blockquote>テラス席が犬OKなのがありがたい。焙煎したての豆も買えて、家でもお店の味が楽しめます。</blockquote>
+        <figcaption>R. Hasegawa さん</figcaption>
+      </figure>
+    </div>
+    <p class="rev-note">出典：Google マップの口コミ</p>
+  </div>
+</section>
+
+<!-- ===== RESERVE INFO ===== -->
+<section class="reserve" id="reserve">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <span class="tag">Reservation</span>
+      <h2 class="sec-title">ご予約・店舗情報</h2>
+    </div>
+    <div class="reserve-card reveal">
+      <div class="reserve-info">
+        <h3>お席のご予約</h3>
+        <div class="rhours">
+          <div class="row"><span>モーニング</span><b>8:00 – 11:00</b></div><div class="row"><span>ランチ</span><b>11:00 – 14:00</b></div><div class="row"><span>カフェタイム</span><b>14:00 – 18:00（L.O. 17:30）</b></div><div class="row"><span>定休日</span><b>火曜日</b></div><div class="row"><span>席数</span><b>テーブル18席 / カウンター4席 / テラス6席</b></div>
+        </div>
+        <a href="tel:0300000000" class="tel-big">
+          <span class="ic">📞</span>
+          <span><span class="n">03-0000-0000</span><small>ご予約・お問い合わせ</small></span>
+        </a>
+        <a href="reserve.html" class="btn btn-primary" style="margin-top:24px;width:100%;justify-content:center">空席を見てネット予約</a>
+      </div>
+      <div class="reserve-photo">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1200&auto=format&fit=crop" alt="">
+        <div class="ov"><a href="tel:0300000000" class="btn btn-ghost">📞 電話で予約する</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ACCESS ===== -->
+<section class="access" id="access">
+  <div class="blob" data-depth="0.7" style="width:300px;height:300px;background:var(--terracotta);top:-80px;left:-60px;opacity:.3;animation:floaty 9s ease-in-out infinite"></div>
+  <div class="wrap access-grid">
+    <div class="reveal">
+      <span class="tag">Access</span>
+      <h2 class="sec-title">お待ちしています。</h2>
+      <div class="info-row"><span class="ic">📍</span><div><b>住所</b><span>〒111-0051 東京都台東区蔵前0-0-0 ひなたビル 1F</span></div></div>
+      <div class="info-row"><span class="ic">🚃</span><div><b>アクセス</b><span>都営大江戸線・浅草線「蔵前駅」より徒歩4分</span></div></div>
+      <div class="info-row"><span class="ic">🚗</span><div><b>駐車場</b><span>近隣にコインパーキングあり</span></div></div>
+      <div class="info-row"><span class="ic">📞</span><div><b>お電話</b><span><a href="tel:0300000000">03-0000-0000</a></span></div></div>
+      <div class="ext-links">
+        <a class="ext-link" href="https://tabelog.com/tokyo/A1311/A131103/00000000/" target="_blank" rel="noopener">🍽 食べログ</a>
+        <a class="ext-link" href="https://www.instagram.com/hinata_coffee_bake/" target="_blank" rel="noopener">📷 Instagram</a>
+        <a class="ext-link" href="https://www.google.com/maps?q=%E8%94%B5%E5%89%8D%E9%A7%85" target="_blank" rel="noopener">📍 Google マップ</a>
+      </div>
+    </div>
+    <div class="map-card reveal d1">
+      <h3 style="margin-bottom:10px">hinataの場所</h3>
+      <p style="color:rgba(255,255,255,.82);font-size:.92rem;margin:0">テイクアウトや貸切のご相談は、お電話でも承ります。</p>
+      <div class="map"><iframe src="https://www.google.com/maps?q=%E8%94%B5%E5%89%8D%E9%A7%85&output=embed" loading="lazy" title="地図"></iframe></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="contact" id="contact">
+  <div class="blob" data-depth="1" style="width:180px;height:180px;background:var(--matcha);top:10%;left:12%;opacity:.4;animation:floaty 7s ease-in-out infinite"></div>
+  <div class="blob" data-depth="0.6" style="width:140px;height:140px;background:var(--milktea);bottom:8%;right:14%;opacity:.5;animation:floaty 8s ease-in-out infinite .5s"></div>
+  <div class="wrap reveal">
+    <span class="tag">Contact</span>
+    <h2>ご予約・お問い合わせ</h2>
+    <p>お席のご予約は24時間ネット予約から。テイクアウトや貸切のご相談はお電話でお気軽にどうぞ。</p>
+    <a href="tel:0300000000" class="phone-big">📞 03-0000-0000</a>
+    <span class="tel-hours">受付 8:00–18:00 ／ 火曜定休</span>
+    <div class="cta-btns">
+      <a href="reserve.html" class="btn btn-primary">24時間 ネット予約</a>
+      <a href="#menu" class="btn btn-ghost">メニューを見る</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="#top" class="logo"><span class="dot">☕</span><span>hinata<small>COFFEE & BAKE</small></span></a>
+        <p style="max-width:34ch;margin:14px 0 0">東京・蔵前の自家焙煎コーヒーと焼きたてパンのカフェ「hinata coffee & bake」。朝8時から、ゆっくり過ごせる席とテイクアウト。ご予約はネット・お電話から。</p>
+      </div>
+      <div class="foot-links">
+        <a href="#about">こだわり</a>
+        <a href="#menu">メニュー</a>
+        <a href="#gallery">ギャラリー</a>
+        <a href="#access">アクセス</a>
+        <a href="#contact">お問い合わせ</a>
+      </div>
+    </div>
+    <div class="copy">© 2026 hinata coffee & bake. ※これは制作デモ用のサンプルサイトです（口コミ・数値もサンプル）。</div>
+  </div>
+</footer>
+
+<nav class="mbar">
+  <a href="tel:0300000000" class="call"><span class="ic">📞</span>電話する</a>
+  <a href="reserve.html" class="book"><span class="ic">🗓</span>ネット予約</a>
+</nav>
+
+<script>
+const header=document.getElementById('header');
+const burger=document.getElementById('burger'),nav=document.getElementById('nav');
+burger.addEventListener('click',()=>nav.classList.toggle('open'));
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+
+const io=new IntersectionObserver((es)=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+},{threshold:.16,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+const blobs=[...document.querySelectorAll('.blob[data-depth]')];
+let targetY=0,curY=0;
+function onScroll(){targetY=window.scrollY;header.classList.toggle('solid',targetY>40);}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+function loop(){
+  curY+=(targetY-curY)*0.08;
+  blobs.forEach(b=>{
+    const d=parseFloat(b.dataset.depth)||0.5;
+    const off=(curY*d*-0.12);
+    b.style.translate='0 '+off.toFixed(2)+'px';
+  });
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+const qbDate=document.getElementById('qbDate');
+const now=new Date();
+const local=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);
+qbDate.min=local; qbDate.value=local;
+document.getElementById('qbGo').addEventListener('click',()=>{
+  const p=new URLSearchParams();
+  const t=document.getElementById('qbTime').value;
+  if(qbDate.value)p.set('date',qbDate.value);
+  if(t)p.set('time',t);
+  p.set('party',document.getElementById('qbParty').value);
+  p.set('seat',document.getElementById('qbSeat').value);
+  location.href='reserve.html?'+p.toString();
+});
+</script>
+
+</body>
+</html>
