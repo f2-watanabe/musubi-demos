@@ -62,6 +62,15 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-21 ・ 非飲食本格展開（4業種）・多言語4言語化・フリーページ/求人・AI月次改善提案</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: (1) 非飲食テンプレート4業種を新規追加（beauty=美容室Lumière / clinic=整体院みなと整体院 / school=音楽教室ゆずりは / corporate=工務店・問い合わせ型）→ 計16テンプレート。(2) 予約・口コミ・レポートを美容/治療院/教室でもスタンダード以上で利用可に（hasReserveLine 導入。企業・汎用は custom の明示有効のみ）。(3) 外国語ページを4言語に拡張（英語・簡体字中国語・繁体字中国語・韓国語、AI生成+顧客編集可）。(4) フリーページ（季節LP・記事、p/スラッグ/）と求人・採用ページ（recruit/）の顧客セルフ作成（全プラン）。(5) AI月次改善提案（GA4+予約+口コミの実データから来月の提案を自動生成しレポート同梱、migration 0059 適用済み）。(6) generic の顧客編集開放と業種別 JSON-LD（BeautySalon/Organization 等。未知キーが Restaurant 扱いになる欠陥も修正）。(7) プラン別機能ガイド.pptx を47スライドに更新。(8) demos に非飲食4業種のデモ掲載。</li>
+<li><strong>Why</strong>: 飲食で完成した「セルフ編集+予約+AI」の型を非飲食業種へ水平展開し、運営の手が増えない機能（多言語・フリーページ・求人・AI提案）で差別化を厚くするため。</li>
+<li><strong>How</strong>: サブエージェント並列（テンプレ4体+generic/SEO+AIレポート → 配線 → フリーページ/求人 → demos → pptx）。全テンプレ restaurant 同一 content 構造・ui-ux-pro-max 適用・WCAG AA 実測・audit ALL PASS。</li>
+<li><strong>Result</strong>: musubi-admin 1119テスト・musubi-portal 180テスト全パス、両リポ build exit 0。スモークは14テンプレ（reserve 13種+corporate）。clinic は実ブラウザで予約フロー実操作検証済み。</li>
+<li><strong>証跡</strong>: local-web-sales be1670e/31bc04a/d13e7dc/a31c218/9e564d6/c0590c4、musubi-admin 9141ee1/8b02df7/fab6305（+多言語 9efd54d）、musubi-portal c4696b2/04cf1f1/87aebd5（+多言語 9bebb78）、musubi-demos 702f3f2。migration: 0059_report_ai_suggestions.sql（apply_migration 適用・列実在確認済み）。成果物: 01_提案・設計資料/プラン別機能ガイド.pptx（47スライド）、musubi-demos/templates/（16業種デモ）。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-21 ・ テンプレート全面刷新（飲食10業種）・セルフ編集全開放・SEO/お知らせ/英語ページ・プラン別機能ガイド</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) 飲食テンプレートを4業種→10業種に拡充（新規: italian/yakiniku/chinese/soba/bar/bakery）。(2) 顧客セルフ編集を全開放（メニュー等のリスト追加/削除/並び替え+予約設定まで、10テンプレ全対応）。(3) 負担ゼロSEO（JSON-LD/OGP/sitemap自動注入）とお知らせ機能（news）。(4) 英語ページAI自動生成（プレミアム/カスタム限定・生成後は顧客編集可）。(5) カスタムプランの提供機能を管理画面で店舗ごとに選択できる仕組み（contracts.custom_features、migration 0058 本番適用済み）。(6) 機能有効化を業種非依存に拡張（customの明示有効は非飲食でも有効、英語ページはpremium/biz_premiumで業種不問）。(7) 顧客説明用「プラン別機能ガイド.pptx」（43スライド）作成。(8) musubi-demos に本番テンプレ10業種のレンダー済みデモを掲載。</li>
