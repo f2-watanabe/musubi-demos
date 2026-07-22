@@ -62,6 +62,13 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-23 ・ フォント取り込み根治・続きから再開方式・財務2件・LP第2弾</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: (1) 「フォントがいつも取り込めない」の根治: 原因は Storage バケット site-assets の allowed_mime_types が画像4種のみで、フォント/SVG/favicon/CSV が全て 415 で拒否されていたこと（コードは正常だった）。migration 0061 で許可拡張（本番適用済み・即時有効）。preload フォントの検出漏れも修正。(2) URL取り込みに「続きから再開」方式を実装し上限を実質撤廃: 進捗を下書きに保存し「続きを取り込む」で全量取得（1回あたり600ページ/6000アセット/270秒の安全弁のみ）。実サイト（推定700ページ超）で5ラウンド完走・画像2,122点を実証。上限到達時に永久フリーズする不具合も発見修正。(3) 財務: Anthropic コストの100分の1表示バグ（APIのUSD金額をセントと誤解し/100。$6.64→$0.07表示の原因）を実API突合で修正。為替レートを ECB データの無料APIから日次自動取得（手動登録月は上書きしない・出所バッジ表示、migration 0062 適用済み）。(4) LP第2弾デザイン: 全ページ貫通の紐+棒人間のスクロール演出、フォント再設計、「灯をともし〜」の平易化、非ヒーロー全セクションの組版強化、business.html 同水準化（本番反映済み）。</li>
+<li><strong>Result</strong>: musubi-admin テスト1443件全パス・build exit 0。バケット設定は適用済みのため、フォント移設は push 前から本番で有効。</li>
+<li><strong>証跡</strong>: musubi-admin cbfb00d（フォント根治0061）/43a1564（財務・0062）/07521ba（続きから再開）、local-web-sales e3744b7（LP第2弾）。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-22 ・ LPデザイン刷新・URL取り込みのESMバンドル対応と全画面プレビュー</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) LP（musubiweb.com）を「制作会社の実力証明」レベルにデザイン刷新: ヒーローに行灯の光の帯+残り火パーティクル、結び紐風の有機ディバイダー、申込導線を提灯横丁の夜景背景のダークセクションに、制作例ホバー演出・統計カウントアップ・全域スクロールリビール。「お店探しの主役…」横の画像は削除（指示）。prefers-reduced-motion完全対応・AA実測・本番デプロイ済み。(2) URL取り込みをモダンESMバンドル構成に対応: Astro islands（component-url属性）・importmap・modulepreload・JS内相対import・CSV/SVGデータファイルの発見とリライト、フォント上限130件分離（フォントの枠独占防止）。ユーザー指摘の2サイト（t-event.jp/wakuwakust=Astro製、musubi-web.com=WP Interactivity API）で「取り込めない部分」の正体を実査特定し修正・改善実証。(3) 取り込み下書きプレビューを本質改善: content_draftを実配信するdraft-previewルート新設（staff限定・noindex）で相対参照が解決される実物同等プレビューに。iframe高さ拡大+「全画面でプレビュー」ボタン。</li>
