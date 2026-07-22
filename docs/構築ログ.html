@@ -62,6 +62,15 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-22 ・ 既存サイト取り込み機能・運用おまかせプラン新設・www正規化</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: (1) 既存サイト取り込み（URLインポート）: builder でURLを入れるだけで既存の公開サイトをクロール→画像をStorage移設→パス書換→content_draft（customテンプレ）へ入稿。SSRF対策（IP検証・リダイレクト毎再検証）、上限30ページ/15MB/アセット200個。取り込み後はクリック編集が自動で有効。フォーム検出時は差し替え警告。customテンプレの非HTMLページがannotateで破損する既存バグも修正。(2) 新プラン「運用おまかせ（既存サイト引き継ぎ、maintain）」: 初期3万+月額3,000円、ホスティング+ドメイン更新管理+クリック編集+基本SEO+バックアップ+保守+更新代行年2回。機能ゲート全false。契約書に年次の更新代行サイクルを追加。LPに専用セクション+申込対応、本番デプロイ済み。(3) 検索対策の仕上げ: www.musubiweb.com→apexの301リダイレクト（Cloudflareルールテンプレート、ユーザーがダッシュボードで設定）を実測確認。ユーザーがSearch Console登録・sitemap送信・インデックス登録リクエストを実施。</li>
+<li><strong>Why</strong>: 「既にホームページがある店」を新市場として取り込むため（保守専業の他社は月1〜2万円の領域を月3,000円で・作業ほぼゼロの安定収益）。移設は元データ不要・URL のみで完結する差別化。</li>
+<li><strong>How</strong>: サブエージェント実装+実サイトE2E（demos の公開ページで取得・書換を実証）。E2Eでリダイレクト先ホスト追従のバグを検出し修正。</li>
+<li><strong>Result</strong>: musubi-admin 1245テスト・musubi-portal 195テスト全パス、build exit 0。LP本番反映を実確認（エッジキャッシュ切れ待ちのみ）。残ユーザー作業: Stripe ダッシュボードで maintain 用 price（¥3,000/月）作成→Vercel に STRIPE_PRICE_MAINTAIN 登録。</li>
+<li><strong>証跡</strong>: musubi-admin e720106/65ca1ac、musubi-portal 934de4b、local-web-sales a87f4df/d3912ee。手順書: 05_業務手順書/既存サイト移管手順.md。デプロイ: wrangler pages deploy（musubi-www）。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-22 ・ LP汎用化+SEO対策・機能ガイド全画像化・AI自動電話・資料整合</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) マーケサイト(musubiweb.com)を「飲食店向け」から「Google評価が高いお店全般向け」に汎用化（多業種画像・飲食固有機能は「※飲食店の場合」注釈方式・プラン表を新配分に整合）。(2) SEO対策: canonical・JSON-LD 3種（Organization/Service/FAQPage）・sitemap.xml・robots.txt・title/description最適化を実装し、Cloudflare Pages（musubi-www、--branch main）で本番デプロイ・反映を実確認。Search Console はユーザーが登録済みで、残りはトップURLのインデックス登録リクエストと sitemap.xml 送信（手順書: SearchConsole登録手順.md）。(3) プラン別機能ガイド: 「テンプレート」等の内部用語を顧客向け表現に全置換し、機能詳細30スライド全てに実画面またはイメージ図を掲載（4.39MB・PDF検証済）。(4) ハブ掲載資料4点（プラン機能マトリクス・パートナー提案書・運用手順書・自社タスク一覧）を実装事実に整合修正。(5) AI自動電話（最小コール型）を実装: Twilioで開拓リストのホット層に発信し、特商法準拠の名乗り→需要確認→折返し可否の2問のみの固定スクリプト。否定・折返し拒否は do_not_call 自動設定（再勧誘禁止）、録音なし、Twilio未設定時はテストモード。migration 0060 本番適用済み。</li>
