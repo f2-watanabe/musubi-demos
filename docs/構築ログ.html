@@ -62,6 +62,15 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-22 ・ URL取り込みの実戦品質改善ループ（収束）・画像バックアップ・LPプラン正記載</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: (1) URL取り込み機能を実在サイトで鍛える検証ループを収束まで実施。診断5＋R1:18＋R2:13＋R3:12＝計48実在サイト（WordPress各テーマ/手書きShift_JIS/Jimdo/ペライチ/グーペ/とりあえずHP/Crayon/Strikingly/BiNDup/大規模/対象外ビルダー）で取り込み→元サイトと描画比較→修正、を3ラウンド。R3で「SSR型サイトの新規重大問題0件」となり収束。主な修正: 文字コード自動変換（Shift_JIS等）/srcset仕様パーサ/WPサムネイル重複排除/ビルダーCDN許可（eTLD+1判定+許可リスト）/@import・JSローダ・遅延読み込み・iframe・HTML4 background追跡/時間フェーズ分離+並列6フェッチ/拡張子なしCMS画像のContent-Type判定/SVGのparserベース安全判定付き取り込み（実SVG179件でfalse positive 0、危険SVGは拒否）/JS描画型ビルダー（Wix/STUDIO等）の事前検出エラー/外部配信残存・低コンテンツの警告可視化。上限を50ページ/400アセット/120秒に拡大。(2) 日次バックアップに顧客アップロード画像のミラー（backups/assets-mirror、差分コピー・削除非追従）を追加。(3) LPの基本3プランを実装の実態どおり充実記載し、運用おまかせプランを「新しいサイトはつくりません・既存サイトをお持ちの方限定」の別枠に明確化。移設方針を「元データ提供が基本・URL取り込みは実査と代替」に転換（LP+移管手順書）。</li>
+<li><strong>Why</strong>: ユーザー実測で「URL取り込みが役に立たない」と判明したため（当初は自社デモサイトでしか検証しておらず、実サイトの文字コード・CDN構成・ビルダー事情に全く耐えられなかった）。</li>
+<li><strong>How</strong>: 診断（修正なし）→修正→新規サイトのみで再検証、のループをサブエージェントで回し、重大問題ゼロのラウンドで収束。SVGサニタイザはセキュリティレビュー指摘（regex検出のバイパス可能性）を受けhtmlparser2のパーサベースに書き直し。</li>
+<li><strong>Result</strong>: musubi-admin テスト1379件全パス・build exit 0。対応サイト種別で◎〜○、非対応（JS描画型）は明示エラーで誠実に案内。手順書の上限・対応範囲を実装に同期。</li>
+<li><strong>証跡</strong>: musubi-admin 1b482ff（画像ミラー）/1ebe772（R0修正）/bae7ef7（R1）/ee489c3（R2）/90ae285（R3収束）、local-web-sales 4667f31（LP）ほか。検証結果: scratchpad/urlimport-audit/（セッション限り）。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-22 ・ 既存サイト取り込み機能・運用おまかせプラン新設・www正規化</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) 既存サイト取り込み（URLインポート）: builder でURLを入れるだけで既存の公開サイトをクロール→画像をStorage移設→パス書換→content_draft（customテンプレ）へ入稿。SSRF対策（IP検証・リダイレクト毎再検証）、上限30ページ/15MB/アセット200個。取り込み後はクリック編集が自動で有効。フォーム検出時は差し替え警告。customテンプレの非HTMLページがannotateで破損する既存バグも修正。(2) 新プラン「運用おまかせ（既存サイト引き継ぎ、maintain）」: 初期3万+月額3,000円、ホスティング+ドメイン更新管理+クリック編集+基本SEO+バックアップ+保守+更新代行年2回。機能ゲート全false。契約書に年次の更新代行サイクルを追加。LPに専用セクション+申込対応、本番デプロイ済み。(3) 検索対策の仕上げ: www.musubiweb.com→apexの301リダイレクト（Cloudflareルールテンプレート、ユーザーがダッシュボードで設定）を実測確認。ユーザーがSearch Console登録・sitemap送信・インデックス登録リクエストを実施。</li>
