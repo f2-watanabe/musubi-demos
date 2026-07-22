@@ -62,6 +62,13 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-22 ・ LPデザイン刷新・URL取り込みのESMバンドル対応と全画面プレビュー</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: (1) LP（musubiweb.com）を「制作会社の実力証明」レベルにデザイン刷新: ヒーローに行灯の光の帯+残り火パーティクル、結び紐風の有機ディバイダー、申込導線を提灯横丁の夜景背景のダークセクションに、制作例ホバー演出・統計カウントアップ・全域スクロールリビール。「お店探しの主役…」横の画像は削除（指示）。prefers-reduced-motion完全対応・AA実測・本番デプロイ済み。(2) URL取り込みをモダンESMバンドル構成に対応: Astro islands（component-url属性）・importmap・modulepreload・JS内相対import・CSV/SVGデータファイルの発見とリライト、フォント上限130件分離（フォントの枠独占防止）。ユーザー指摘の2サイト（t-event.jp/wakuwakust=Astro製、musubi-web.com=WP Interactivity API）で「取り込めない部分」の正体を実査特定し修正・改善実証。(3) 取り込み下書きプレビューを本質改善: content_draftを実配信するdraft-previewルート新設（staff限定・noindex）で相対参照が解決される実物同等プレビューに。iframe高さ拡大+「全画面でプレビュー」ボタン。</li>
+<li><strong>Result</strong>: musubi-admin テスト1414件全パス・build exit 0（既存48サイト検証への回帰なし）。LP本番反映実確認済み。</li>
+<li><strong>証跡</strong>: local-web-sales 6ef7c8b（LP刷新）、musubi-admin ff85bfc（ESM対応+プレビュー）。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-22 ・ URL取り込みの実戦品質改善ループ（収束）・画像バックアップ・LPプラン正記載</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) URL取り込み機能を実在サイトで鍛える検証ループを収束まで実施。診断5＋R1:18＋R2:13＋R3:12＝計48実在サイト（WordPress各テーマ/手書きShift_JIS/Jimdo/ペライチ/グーペ/とりあえずHP/Crayon/Strikingly/BiNDup/大規模/対象外ビルダー）で取り込み→元サイトと描画比較→修正、を3ラウンド。R3で「SSR型サイトの新規重大問題0件」となり収束。主な修正: 文字コード自動変換（Shift_JIS等）/srcset仕様パーサ/WPサムネイル重複排除/ビルダーCDN許可（eTLD+1判定+許可リスト）/@import・JSローダ・遅延読み込み・iframe・HTML4 background追跡/時間フェーズ分離+並列6フェッチ/拡張子なしCMS画像のContent-Type判定/SVGのparserベース安全判定付き取り込み（実SVG179件でfalse positive 0、危険SVGは拒否）/JS描画型ビルダー（Wix/STUDIO等）の事前検出エラー/外部配信残存・低コンテンツの警告可視化。上限を50ページ/400アセット/120秒に拡大。(2) 日次バックアップに顧客アップロード画像のミラー（backups/assets-mirror、差分コピー・削除非追従）を追加。(3) LPの基本3プランを実装の実態どおり充実記載し、運用おまかせプランを「新しいサイトはつくりません・既存サイトをお持ちの方限定」の別枠に明確化。移設方針を「元データ提供が基本・URL取り込みは実査と代替」に転換（LP+移管手順書）。</li>
