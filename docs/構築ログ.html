@@ -62,6 +62,13 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-07-26 ・ 運用おまかせ実案件検証（おひさまルーム）・maintain DB対応・取込サイト顧客編集の修正</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: (1) 実案件データで運用おまかせ移管を通し検証: 顧客受領の All-in-One WP Migration エクスポート（WordPress 6.2.2 + Snow Monkey、家庭的保育室おひさまルーム）を自前スクリプトで展開し、Wayback の本番レンダリングと突合して完全静的化（404ゼロ・アニメーション動作・フォーム送信は無効化済みで移管後に Musubi フォームへ接続予定。送信先/自動返信文面は DB から採取済み: 管理者通知→代表 Gmail）。Cloudflare Pages 新規プロジェクト <code>ohisama-room</code> に本番デプロイ。(2) ドメイン調査で重大事実: ohisama-room.com は 2026-04-05 に再登録されており（レジストラ Cosmotown・全アクセス WAF ブロック中）、レンタルサーバ失効と併せてドロップキャッチの可能性。顧客のレジストラ管理画面での契約状態確認が次アクション。(3) maintain プランの DB 未対応を発見・修正: plan_type enum と projects_plan_check に maintain が無く契約保存不可だった → migration 0063 本番適用。(4) 静的サイトを URL 取り込み → テスト店舗（maintain 契約+公開運用ステージ+ポータルアカウント）で顧客編集を実機検証し、問題2件を修正: 取り込みサイトのプレビューが CSS 未解決で素 HTML になる → link を style にインライン化する inlinePreviewAssets 新設（@import 再帰・取込 JS はプレビュー除去）。CSS/JS テキストページが編集タブに83個並ぶ → annotated 出力を HTML のみに（公開データ不変・override パス空間は本番と一致維持）。</li>
+<li><strong>Result</strong>: musubi-admin テスト1459件全パス・build exit 0・push 済み。本番 portal.musubiweb.com で修正後の編集画面を実機確認（スタイル付きプレビュー+タブ2つ）。静的サイトは https://ohisama-room.pages.dev で配信中。</li>
+<li><strong>証跡</strong>: musubi-admin 8e2dae1（migration 0063）/ bb59f55（プレビュー修正）。テスト店舗 = stores「おひさまルーム（取込テスト）」。静的サイト実体は local-web-sales/sites/ohisama-room/（git管理外）。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-23 ・ 財務3件・ポータル表示2層分離・多言語根治・AI生成削除・LP微調整</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) 財務: Anthropic費$6.64の内訳を管理APIで特定（7/17のAIサイト生成の検証実行1回。口コミ返信は$0）。KPIカードに円建て経費が未合算のバグ修正・円メイン表示化（¥1,082（$6.64・レート160円）形式）。金額変更エラーの原因（分配%合計の浮動小数点誤差で固定給変更まで拒否）を修正。換算レートを1ドル160円に統一（fx_rates更新・既定フォールバックも160）。(2) ポータル表示の2層分離: 業種対象外（企業・汎用等）はタブ非表示+直URLはhomeへredirect、対象業種のプラン不足は🔒+アップセル表示。customは明示有効な機能のみ表示。判定をreserveLineAccessに一元化。(3) 多言語の翻訳漏れ根治: reserveブロック丸ごと除外が原因で予約系文言が未翻訳だった問題+テンプレ固定文言627種を翻訳AI呼び出しに同梱する_labels辞書方式で解決（追加APIコストゼロ）。言語切替を44pxの地球儀フローティングボタンに刷新。(4) 「AIでゼロから作る」機能を削除（$6.64の誤爆経路排除。ai-fillは維持）。「新エディタで編集」→「直接編集を開く」に文言統一。(5) LP: フォントを元（Shippori Mincho+Noto Sans）に戻し、ヒーロー内棒人間も減速・ゴール停止（本番反映済み）。</li>
