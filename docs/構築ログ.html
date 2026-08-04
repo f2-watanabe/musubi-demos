@@ -62,6 +62,15 @@ details.logentry>summary:hover{color:var(--acc)}
 <li>値そのもの（APIキー・トークン・パスワード）は<strong>書かない</strong>。保管場所だけ記す。</li>
 <li>受け入れ基準を満たしたら、ロードマップ側のチェックを更新する。</li>
 </ul>
+<details class="logentry"><summary>2026-08-04 ・ おひさまルーム案件の中止・全撤去</summary><div class="logbody">
+<ul>
+<li><strong>What</strong>: おひさまルーム移管案件が不成立となったため、関連リソースを全て削除。(1) 本番 Supabase: テスト店舗「おひさまルーム（取込テスト）」（contracts 1件・invoices 0件・stores 本体、projects 等は cascade）とポータルテストユーザー（watanabe.fumiya.pv+ohisama@gmail.com）を service role で削除。(2) Cloudflare Pages プロジェクト <code>ohisama-room</code> を削除（https://ohisama-room.pages.dev 停止）。(3) ローカル: sites/ohisama-room/（静的化サイト実体）と受領 zip（ohisama.local-20260325-*.zip）を削除。</li>
+<li><strong>Why</strong>: 案件不成立。顧客実データ（サイト・連絡先）を保持し続ける理由がなくなったため即時撤去。</li>
+<li><strong>How</strong>: DB は musubi-admin の service role キーを使う使い捨てスクリプト（削除順: invoices → contracts → stores → auth user、残存 projects 0 件を確認）。Pages は <code>wrangler pages project delete</code>。</li>
+<li><strong>Result</strong>: 全削除完了。この検証で完成させた URL 取り込みサイトの顧客編集機能（2026-07-26〜27 のエントリ参照）はプロダクト側の資産としてそのまま残る。</li>
+<li><strong>証跡</strong>: 下記 2026-07-26〜27 エントリ群が経緯の記録。削除対象の store id は旧エントリ参照。</li>
+</ul>
+</div></details>
 <details class="logentry"><summary>2026-07-26 ・ 運用おまかせ実案件検証（おひさまルーム）・maintain DB対応・取込サイト顧客編集の修正</summary><div class="logbody">
 <ul>
 <li><strong>What</strong>: (1) 実案件データで運用おまかせ移管を通し検証: 顧客受領の All-in-One WP Migration エクスポート（WordPress 6.2.2 + Snow Monkey、家庭的保育室おひさまルーム）を自前スクリプトで展開し、Wayback の本番レンダリングと突合して完全静的化（404ゼロ・アニメーション動作・フォーム送信は無効化済みで移管後に Musubi フォームへ接続予定。送信先/自動返信文面は DB から採取済み: 管理者通知→代表 Gmail）。Cloudflare Pages 新規プロジェクト <code>ohisama-room</code> に本番デプロイ。(2) ドメイン調査で重大事実: ohisama-room.com は 2026-04-05 に再登録されており（レジストラ Cosmotown・全アクセス WAF ブロック中）、レンタルサーバ失効と併せてドロップキャッチの可能性。顧客のレジストラ管理画面での契約状態確認が次アクション。(3) maintain プランの DB 未対応を発見・修正: plan_type enum と projects_plan_check に maintain が無く契約保存不可だった → migration 0063 本番適用。(4) 静的サイトを URL 取り込み → テスト店舗（maintain 契約+公開運用ステージ+ポータルアカウント）で顧客編集を実機検証し、問題2件を修正: 取り込みサイトのプレビューが CSS 未解決で素 HTML になる → link を style にインライン化する inlinePreviewAssets 新設（@import 再帰・取込 JS はプレビュー除去）。CSS/JS テキストページが編集タブに83個並ぶ → annotated 出力を HTML のみに（公開データ不変・override パス空間は本番と一致維持）。</li>
